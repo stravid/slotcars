@@ -3,7 +3,6 @@
 
 #= require jquery
 #= require jquery_ujs
-#= require embient/require
 #= require ember-dev
 
 # ------ load testing extras -------
