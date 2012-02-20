@@ -3,7 +3,6 @@
 
 #= require jquery
 #= require jquery_ujs
-#= require embient/require
 #= require ember-dev
 
 # ------ load testing extras -------
@@ -11,9 +10,6 @@
 
 #= require sinon.js
 #= require jasmine-sinon.js
-
-# ------ load all app modules ------
-#= require_tree ../../app/assets/javascripts
 
 # ------ load all specs ------
 #= require_tree ./unit
