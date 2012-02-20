@@ -16,3 +16,9 @@
 
 # Ignore rubymine project files
 .idea
+
+# Native extension for JSON on windows
+/json
+
+# IDE Project Files
+.project
