@@ -13,4 +13,8 @@
 #= require jasmine-sinon.js
 
 # ------ load all app modules ------
-#= require_tree ./app
+#= require_tree ../../app/assets/javascripts
+
+# ------ load all specs ------
+#= require_tree ./unit
+#= require_tree ./functional
