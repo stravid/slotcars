@@ -39,3 +39,5 @@ namespace 'game.controllers'
       mediator: @carMediator
 
     @carController.setTrackPath @trackMediator.trackPath
+    
+  
