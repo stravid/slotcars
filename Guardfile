@@ -3,5 +3,5 @@
 
 guard 'jasmine' do
   watch(%r{app/assets/javascripts/(.+)\.(js\.coffee|js|coffee)$}) { "spec/javascripts" }
-  watch(%r{spec/javascripts/spec\.(js\.coffee|js|coffee)$})       { "spec/javascripts" }
+  watch(%r{spec/javascripts/(.+)\.(js\.coffee|js|coffee)$})       { "spec/javascripts" }
 end
