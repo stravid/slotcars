@@ -43,7 +43,7 @@ describe 'game.controllers.CarController', ->
 
       @car.setTrackPath @path
 
-      expectedPoint = Raphael.getPointAtLength(@path, 0)
+      expectedPoint = Raphael.getPointAtLength @path, 0
 
       (expect @mediatorStub.position.x).toEqual expectedPoint.x
       (expect @mediatorStub.position.y).toEqual expectedPoint.y
@@ -86,10 +86,25 @@ describe 'game.controllers.CarController', ->
       (expect @car.speed).toEqual 0
   
   describe '#drive', ->
-    
+
     beforeEach ->
+      @speedValue = Math.random 1
+      @mediatorStub =
+        position: Ember.Object.create
+          x: 0
+          y: 0
+
       @car = CarController.create
-      speed: 10
+        speed: @speedValue
+        mediator: @mediatorStub
+
+      @path = "M10,20L30,40"
+      @car.setTrackPath @path
     
-    # it 'should update the car position', ->
-    #   
+    it 'should update the car position', ->
+      @car.drive()
+
+      point = Raphael.getPointAtLength @path, @speedValue
+
+      (expect @mediatorStub.position.x).toBe point.x
+      (expect @mediatorStub.position.y).toBe point.y

@@ -8,12 +8,11 @@ namespace 'game.controllers'
 
   speed: 0
   lengthAtTrack: 0
+  path: null
 
-  setTrackPath: (path) ->
+  setTrackPath: (@path) ->
     @lengthAtTrack = 0
-    point = Raphael.getPointAtLength(path, 0)
-    @mediator.position.set 'x', point.x
-    @mediator.position.set 'y', point.y
+    @_updateCarPosition()
 
   accelerate: ->
     @speed += @acceleration
@@ -22,3 +21,14 @@ namespace 'game.controllers'
   slowDown: ->
     @speed -= @deceleration
     if @speed < 0 then @speed = 0
+
+  drive: ->
+    @lengthAtTrack += @speed
+    @_updateCarPosition()
+
+  _updateCarPosition: ->
+    point = Raphael.getPointAtLength(@path, @lengthAtTrack)
+
+    @mediator.position.set 'x', point.x
+    @mediator.position.set 'y', point.y
+
