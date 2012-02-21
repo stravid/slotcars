@@ -10,7 +10,8 @@ namespace 'game.controllers'
   lengthAtTrack: 0
   path: null
 
-  setTrackPath: (@path) ->
+  setTrackPath: (path) ->
+    @set 'path', path
     @lengthAtTrack = 0
     @_updateCarPosition()
 
@@ -26,8 +27,15 @@ namespace 'game.controllers'
     @lengthAtTrack += @speed
     @_updateCarPosition()
 
+    if @lengthAtTrack > @trackLength
+      ($ this).trigger 'crossFinishLine'
+
+  updateTrackLength: ( ->
+    @trackLength = Raphael.getTotalLength @path
+  ).observes 'path'
+
   _updateCarPosition: ->
-    point = Raphael.getPointAtLength(@path, @lengthAtTrack)
+    point = Raphael.getPointAtLength @path, @lengthAtTrack
 
     @mediator.position.set 'x', point.x
     @mediator.position.set 'y', point.y
