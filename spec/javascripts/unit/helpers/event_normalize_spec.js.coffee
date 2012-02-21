@@ -12,26 +12,28 @@ describe 'event_normalize',  ->
   describe 'mouse event normalization', ->
   
     it 'should trigger touchMouseDown event on document when mousedown', ->
-      
       value = 13
       
-      event = jQuery.Event 'mousedown', {pageX: value, pageY: 0}
+      event = jQuery.Event 'mousedown', { pageX: value, pageY: 0 }
       
-      ($ document).bind 'touchMouseDown', @onEventSpy
+      ($ document).on 'touchMouseDown', @onEventSpy
       ($ document).trigger event
       
-      (expect @onEventSpy).toHaveBeenCalled();
-      (expect @onEventSpy.args[0][0]).toBeDefined();
+      (expect @onEventSpy).toHaveBeenCalled()
+      (expect @onEventSpy.args[0][0]).toBeDefined()
       
       receiveEvent = @onEventSpy.args[0][0]
       (expect receiveEvent.pageX).toBe value
       
-    it 'should trigger touchMouseUp event on document when mouseup', ->
+      ($ document).off 'touchMouseDown', @onEventSpy
       
-      ($ document).bind 'touchMouseUp', @onEventSpy
+    it 'should trigger touchMouseUp event on document when mouseup', ->
+      ($ document).on 'touchMouseUp', @onEventSpy
       ($ document).trigger 'mouseup'
       
-      (expect @onEventSpy).toHaveBeenCalled();
+      (expect @onEventSpy).toHaveBeenCalled()
+      
+      ($ document).off 'touchMouseUp', @onEventSpy
       
   describe 'touch event normalization', ->
     
@@ -40,23 +42,24 @@ describe 'event_normalize',  ->
     
       event = jQuery.Event 'touchstart', 
         originalEvent: 
-          touches: [ {pageX: value, pageY: 0} ]
+          touches: [ { pageX: value, pageY: 0 } ]
     
-      ($ document).bind 'touchMouseDown', @onEventSpy
+      ($ document).on 'touchMouseDown', @onEventSpy
       ($ document).trigger event
       
       (expect @onEventSpy).toHaveBeenCalled();
       (expect @onEventSpy.args[0][0]).toBeDefined()
+      
+      ($ document).off 'touchMouseDown', @onEventSpy
       
       receiveEvent = @onEventSpy.args[0][0]
       
       (expect receiveEvent.pageX).toBe value
     
     it 'should trigger touchMouseUp event on document when touchend', ->
-    
-      ($ document).bind 'touchMouseUp', @onEventSpy
+      ($ document).on 'touchMouseUp', @onEventSpy
       ($ document).trigger 'touchend' 
       
-      (expect @onEventSpy).toHaveBeenCalled(); 
-
-
+      (expect @onEventSpy).toHaveBeenCalled()
+      
+      ($ document).off 'touchMouseUp', @onEventSpy
