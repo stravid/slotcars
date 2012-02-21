@@ -1,21 +1,14 @@
 
 #= require helpers/namespace
-#= require vendor/raphael
-
-#= require game/mediators/track
-#= require game/views/track
-
-#= require game/mediators/car_mediator
-#= require game/views/car
-#= require game/controllers/car_controller
+#= require game/controllers/game_controller
 
 namespace 'game.controllers'
 
 @game.controllers.GameApplication = Ember.Application.extend
 
-  paper: null
-
   ready: ->
+    game.controllers.GameController.create
+      rootElement: $(@rootElement)[0]
 
     @paper = Raphael $(@rootElement)[0], 1024, 768
 
