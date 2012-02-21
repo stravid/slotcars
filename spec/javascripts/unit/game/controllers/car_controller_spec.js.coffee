@@ -24,10 +24,11 @@ describe 'game.controllers.CarController', ->
 
     beforeEach ->
       @path = "M10,20L30,40"
-      @mediatorStub = 
-        position: Ember.Object.create
+      @mediatorStub = Ember.Object.create
+        position:
           x: 0
           y: 0
+
       @car = CarController.create
         trackPath: @path
         lengthAtTrack: 5
@@ -89,10 +90,10 @@ describe 'game.controllers.CarController', ->
 
     beforeEach ->
       @speedValue = Math.random 1
-      @mediatorStub =
-        position: Ember.Object.create
-          x: 0
-          y: 0
+      @mediatorStub = Ember.Object.create
+              position:
+                x: 0
+                y: 0
 
       @car = CarController.create
         speed: @speedValue
