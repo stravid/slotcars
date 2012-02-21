@@ -30,6 +30,11 @@ namespace 'game.controllers'
     if @lengthAtTrack > @trackLength
       ($ this).trigger 'crossFinishLine'
 
+  reset: ->
+    @speed = 0
+    @lengthAtTrack = 0
+    @_updateCarPosition()
+
   updateTrackLength: ( ->
     @trackLength = Raphael.getTotalLength @path
   ).observes 'path'

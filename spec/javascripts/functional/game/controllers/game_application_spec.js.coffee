@@ -41,6 +41,7 @@ describe 'game.controllers.GameApplication', ->
 
       @carControllerInstanceStub =
         setTrackPath: sinon.spy()
+        reset: sinon.spy()
 
       @carControllerStub = game.controllers.CarController =
         create: sinon.stub().returns @carControllerInstanceStub
@@ -101,3 +102,12 @@ describe 'game.controllers.GameApplication', ->
         (expect @carControllerStub.create).toHaveBeenCalled()
         (expect @carControllerStub.create.args[0][0]['mediator']).toBe @carMediatorInstanceStub
         (expect @carControllerInstanceStub.setTrackPath).toHaveBeenCalledWith @trackMediatorInstanceStub.trackPath
+
+    describe 'round end', ->
+
+      it 'should call the reset method of the car controller on the crossFinishLine event', ->
+        @application = GameApplication.create()
+
+        ($ @carControllerInstanceStub).trigger 'crossFinishLine'
+
+        (expect @carControllerInstanceStub.reset).toHaveBeenCalled()

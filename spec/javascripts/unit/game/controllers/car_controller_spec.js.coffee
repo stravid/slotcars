@@ -137,3 +137,33 @@ describe 'game.controllers.CarController', ->
         @car.drive()
 
         (expect @spy).toHaveBeenCalledOnce()
+
+  describe '#reset', ->
+
+    beforeEach ->
+      @mediatorStub = Ember.Object.create
+          position:
+            x: 0
+            y: 0
+
+      @car = CarController.create
+        speed: 10
+        mediator: @mediatorStub
+
+      @car._updateCarPosition = sinon.spy()
+
+    it 'should reset speed', ->
+      @car.reset()
+
+      (expect @car.speed).toEqual 0
+
+    it 'should reset lengthAtTrack', ->
+      @car.drive()
+      @car.reset()
+
+      (expect @car.lengthAtTrack).toEqual 0
+
+    it 'should call _updateCarPosition', ->
+      @car.reset()
+
+      (expect @car._updateCarPosition).toHaveBeenCalledOnce()

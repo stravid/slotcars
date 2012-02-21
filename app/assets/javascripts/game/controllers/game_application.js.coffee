@@ -33,3 +33,5 @@ namespace 'game.controllers'
       mediator: carMediator
 
     carController.setTrackPath trackMediator.trackPath
+
+    ($ carController).on 'crossFinishLine', carController.reset
