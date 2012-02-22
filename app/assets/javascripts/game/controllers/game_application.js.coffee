@@ -3,6 +3,10 @@
 #= require game/controllers/game_controller
 #= require game/controllers/game_loop_controller
 
+#= require game/views/car
+#= require game/views/track
+#= require game/views/game_view
+
 namespace 'game.controllers'
 
 @game.controllers.GameApplication = Ember.Application.extend
@@ -37,30 +41,19 @@ namespace 'game.controllers'
       mediator: @carMediator
       acceleration: 0.1
       deceleration: 0.2
-      maxSpeed: 5
+      maxSpeed: 20
 
     @carController.setTrackPath @trackMediator.trackPath
+    ($ @carController).on 'crossFinishLine', @carController.reset
 
   _setupGameController: ->
+    @gameMediator = game.mediators.GameMediator.create()
+    
+    game.views.GameView.create
+      mediator: @gameMediator
+      
     @gameController = game.controllers.GameController.create
+      mediator: @gameMediator
       carController: @carController
       gameLoopController: game.controllers.GameLoopController.create()
 
-    @paper = Raphael ($ @rootElement)[0], 1024, 768
-
-    trackMediator = game.mediators.TrackMediator.create()
-    game.views.TrackView.create
-      mediator: trackMediator
-      paper: @paper
-
-    carMediator = game.mediators.CarMediator.create()
-    game.views.CarView.create
-      mediator: carMediator
-      paper: @paper
-
-    carController = game.controllers.CarController.create
-      mediator: carMediator
-
-    carController.setTrackPath trackMediator.trackPath
-
-    ($ carController).on 'crossFinishLine', carController.reset
