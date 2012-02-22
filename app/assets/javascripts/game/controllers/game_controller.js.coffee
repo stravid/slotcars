@@ -18,12 +18,25 @@ namespace 'game.controllers'
   gameLoopController: null
   isTouchMouseDown: false
 
+  startTime: null
+  endTime: null
+  raceTime: null
+
   init: ->
     ($ document).on 'touchMouseDown', => @onTouchMouseDown()
     ($ document).on 'touchMouseUp', => @onTouchMouseUp()
+    
+    ($ @carController).on 'crossFinishLine', => @finish()
 
   start: ->
+    @raceTime = null
+    @startTime = new Date().getTime()
     @gameLoopController.start => @update()
+
+  finish: ->
+    @endTime = new Date().getTime()
+    @raceTime = @endTime - @startTime
+    @mediator.set 'raceTime', @raceTime
 
   update: ->
     if @isTouchMouseDown
@@ -38,4 +51,3 @@ namespace 'game.controllers'
 
   onTouchMouseUp: ->
     @isTouchMouseDown = false
-
