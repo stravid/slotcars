@@ -31,14 +31,7 @@ Vector = helpers.math.Vector
 
   drive: ->
     unless @crashing
-      if @speed > 0 then @_checkCrashThreshold()
-
-      @lengthAtTrack += @speed
-      @_calculatePositionOnPath()
-      @_updateCarPosition()
-
-      if @lengthAtTrack > @trackLength
-        ($ this).trigger 'crossFinishLine'
+      @_driveOnPath()
 
     else
       @_calculateCrashingDirection()
@@ -48,6 +41,18 @@ Vector = helpers.math.Vector
     @speed = 0
     @lengthAtTrack = 0
     @_updateCarPosition()
+
+  _driveOnPath: ->
+    if @speed > 0 then @_checkCrashThreshold()
+
+    @lengthAtTrack += @speed
+    @_calculatePositionOnPath()
+    @_updateCarPosition()
+    @_checkForFinish()
+
+  _checkForFinish: ->
+    if @lengthAtTrack > @trackLength
+      ($ this).trigger 'crossFinishLine'
 
   _updateTrackLength: ->
     @trackLength = Raphael.getTotalLength @path
@@ -64,7 +69,7 @@ Vector = helpers.math.Vector
       x: @_position.x
       y: @_position.y
 
-  _getNextVectors: ->
+  _getNextPathVectors: ->
     pointA = Raphael.getPointAtLength @path, @lengthAtTrack
     pointB = Raphael.getPointAtLength @path, @lengthAtTrack + @speed
     pointC = Raphael.getPointAtLength @path, @lengthAtTrack + @speed * 2
@@ -75,7 +80,7 @@ Vector = helpers.math.Vector
     }
 
   _checkCrashThreshold: ->
-    vectors = @_getNextVectors()
+    vectors = @_getNextPathVectors()
 
     angle = vectors.first.angleFrom vectors.second
 
