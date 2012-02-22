@@ -11,7 +11,7 @@ describe 'game.views.GameView (functional)', ->
     gameView = GameView.create
       mediator: GameMediator.create() 
 
-    (expect gameView.container).toContain(gameView.timeContainer)
+    (expect gameView.container).toContain gameView.timeContainer
     (expect gameView.timeContainer).not.toBeEmpty()
   
   it 'should update race time when it changes', ->

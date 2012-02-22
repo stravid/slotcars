@@ -10,7 +10,7 @@ namespace 'game.views'
   timeContainer: ($ '<div id="race-time">')
   
   init: ->
-    @body ?= ($ document.body)
+    @body or= ($ document.body)
     
     raceTime = @mediator.get 'raceTime'
     @timeContainer.text raceTime
