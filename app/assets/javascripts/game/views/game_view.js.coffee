@@ -6,11 +6,11 @@ namespace 'game.views'
 
 @game.views.GameView = Ember.Object.extend
   body: null
-  container: ($ '<div>')
-  timeContainer: ($ '<div id="race-time">')
+  container: jQuery '<div>'
+  timeContainer: jQuery '<div id="race-time">'
   
   init: ->
-    @body or= ($ document.body)
+    @body or= jQuery document.body
     
     raceTime = @mediator.get 'raceTime'
     @timeContainer.text raceTime

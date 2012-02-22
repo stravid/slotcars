@@ -19,7 +19,7 @@ describe 'game.views.GameView (functional)', ->
     value = 28
     
     gameView = GameView.create
-      body: $ '<div>'
+      body: jQuery '<div>'
       mediator: gameMediator
     
     gameMediator.set 'raceTime', value
