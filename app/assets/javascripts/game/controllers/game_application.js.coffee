@@ -10,7 +10,7 @@ namespace 'game.controllers'
     game.controllers.GameController.create
       rootElement: $(@rootElement)[0]
 
-    @paper = Raphael $(@rootElement)[0], 1024, 768
+    @paper = Raphael ($ @rootElement)[0], 1024, 768
 
     trackMediator = game.mediators.TrackMediator.create()
     game.views.TrackView.create

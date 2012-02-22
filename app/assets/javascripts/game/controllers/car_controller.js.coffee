@@ -10,10 +10,10 @@ namespace 'game.controllers'
   lengthAtTrack: 0
   path: null
 
-  setTrackPath: (path) ->
-    @set 'path', path
+  setTrackPath: (@path) ->
     @lengthAtTrack = 0
     @_updateCarPosition()
+    @_updateTrackLength()
 
   accelerate: ->
     @speed += @acceleration
@@ -35,9 +35,8 @@ namespace 'game.controllers'
     @lengthAtTrack = 0
     @_updateCarPosition()
 
-  updateTrackLength: ( ->
+  _updateTrackLength: ->
     @trackLength = Raphael.getTotalLength @path
-  ).observes 'path'
 
   _updateCarPosition: ->
     point = Raphael.getPointAtLength @path, @lengthAtTrack
