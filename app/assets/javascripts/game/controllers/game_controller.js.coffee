@@ -14,6 +14,8 @@ namespace 'game.controllers'
 
 @game.controllers.GameController = Ember.Object.extend
 
+  #gameView: null
+  mediator: null
   carController: null
   gameLoopController: null
   isTouchMouseDown: false
@@ -23,12 +25,14 @@ namespace 'game.controllers'
   raceTime: null
 
   init: ->
-    ($ document).on 'touchMouseDown', => @onTouchMouseDown()
-    ($ document).on 'touchMouseUp', => @onTouchMouseUp()
+    (jQuery document).on 'touchMouseDown', => @onTouchMouseDown()
+    (jQuery document).on 'touchMouseUp', => @onTouchMouseUp()
     
-    ($ @carController).on 'crossFinishLine', => @finish()
+    (jQuery @carController).on 'crossFinishLine', => @finish()
+    #(jQuery @gameView).on 'startGame', => @start()
 
   start: ->
+    #@mediator.set 'raceTime', 0
     @raceTime = null
     @startTime = new Date().getTime()
     @gameLoopController.start => @update()

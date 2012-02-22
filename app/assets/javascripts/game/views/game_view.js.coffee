@@ -8,20 +8,29 @@ namespace 'game.views'
   body: null
   container: jQuery '<div>'
   timeContainer: jQuery '<div id="race-time">'
+  restartButton: jQuery '<button id="restart-button">Start</button>'
   
   init: ->
     @body or= jQuery document.body
     
-    raceTime = @mediator.get 'raceTime'
-    @timeContainer.text raceTime
+    @timeContainer.text @mediator.get 'raceTime'
+    @restartButton.on 'click', => @onStartClick()
     
     @mediator.addObserver 'raceTime', => @onRaceTimeChange()
     
+    @buildUI()
+    
+  buildUI: ->
     @container.append @timeContainer
+    @container.append @restartButton
+    
     @body.prepend @container
     
   onRaceTimeChange: ->
     @timeContainer.text @formatTime @mediator.get 'raceTime'
+    
+  onStartClick: ->
+    (jQuery this).trigger 'startGame'
     
   formatTime: (value) ->
     value / 1000 + ' seconds'
