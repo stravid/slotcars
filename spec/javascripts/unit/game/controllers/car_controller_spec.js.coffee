@@ -20,6 +20,10 @@ describe 'game.controllers.CarController (unit)', ->
     it 'should set lengthAtTrack', ->
       (expect @car.lengthAtTrack).toBe 0
 
+    it 'should set crashing to false', ->
+      (expect @car.crashing).toBe false
+
+
   describe '#setTrackPath', ->
 
     beforeEach ->
@@ -138,6 +142,41 @@ describe 'game.controllers.CarController (unit)', ->
 
         (expect @spy).toHaveBeenCalledOnce()
 
+
+    describe 'crashing', ->
+
+      beforeEach ->
+        @getPointAtLengthStub = sinon.stub Raphael, 'getPointAtLength'
+        @car = CarController.create
+          mediator: Ember.Object.create()
+
+        # mocks curve of 90 degrees -> 'curving' = 180 - 90 = 90
+        (@getPointAtLengthStub.withArgs @car.path, 0).returns x: 0, y:0
+        (@getPointAtLengthStub.withArgs @car.path, 1).returns x: 1, y:0
+        (@getPointAtLengthStub.withArgs @car.path, 2).returns x: 1, y:1
+
+      afterEach ->
+        @getPointAtLengthStub.restore()
+
+
+      it 'should set crashing to true when too fast in curve', ->
+        @car.speed = 1
+        @car.traction = 89 # loses vs. speed * curving || 1 * 90 = 90
+
+        @car.drive()
+
+        (expect @car.crashing).toBe true
+
+      it 'should not set crashing when traction is high enough', ->
+        @car.speed = 1
+        @car.traction = 91 # wins vs. speed * curving || 1 * 90 = 90
+
+        @car.drive()
+
+        (expect @car.crashing).toBe false
+
+
+
   describe '#reset', ->
 
     beforeEach ->
@@ -167,3 +206,5 @@ describe 'game.controllers.CarController (unit)', ->
       @car.reset()
 
       (expect @car._updateCarPosition).toHaveBeenCalledOnce()
+
+
