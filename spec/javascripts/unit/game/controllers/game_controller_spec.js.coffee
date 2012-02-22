@@ -1,17 +1,35 @@
 
+#= require game/controllers/game_application
 #= require game/controllers/game_controller
+#= require game/mediators/game_mediator
 #= require game/views/track
 
 describe 'game.controllers.GameController (unit)', ->
 
   GameController = game.controllers.GameController
+  GameMediator = game.mediators.GameMediator
+
+  beforeEach ->
+    @gameController = GameController.create
+      rootElement: document.createElement 'div'
+      mediator: GameMediator.create()
 
   it 'should extend Ember.Object', ->
     (expect Ember.Object.detect GameController).toBe true
 
+  it 'should have a property startTime with default null', ->
+    (expect @gameController.startTime).toBe null
+
+  it 'should have a property endTime with default null', ->
+    (expect @gameController.endTime).toBe null
+
+  it 'should have a property raceTime with default null', ->
+    (expect @gameController.raceTime).toBe null
+
   it 'should set isTouchMouseDown to false by default', ->
     gameController = GameController.create()
     (expect gameController.isTouchMouseDown).toBe false
+
 
   describe '#onTouchMouseDown', ->
 
@@ -87,6 +105,24 @@ describe 'game.controllers.GameController (unit)', ->
 
 
   describe '#start', ->
+      
+    it 'should save timestamp', ->
+      gameController = GameController.create
+        gameLoopController: 
+          start: ->
+        update: ->      
+
+      gameController.start()
+      (expect gameController.startTime).toNotBe null
+
+    it 'should reset race time to null', ->
+      gameController = GameController.create
+        gameLoopController: 
+          start: ->
+        update: ->
+
+      gameController.start()
+      (expect gameController.raceTime).toBe null
 
     it 'should start the game loop with #update method as renderCallback', ->
       @maxCalls = Math.floor(Math.random(1) * 10) + 5
@@ -108,6 +144,26 @@ describe 'game.controllers.GameController (unit)', ->
         update: @gameControllerUpdateStub
 
       @gameController.start()
-
       (expect @gameControllerUpdateStub.callCount).toBe @maxCalls
 
+
+  describe '#finish', ->
+      
+    it 'should save timestamp', ->
+      @gameController.finish()
+      (expect @gameController.endTime).toNotBe null
+    
+    it 'should calculate and update race time', ->
+      @gameController.finish()
+      (expect @gameController.raceTime).toNotBe null
+      
+    it 'should call finish when crossFinishLine event was triggered in CarController', ->
+      carControllerStub = {}
+      finishSpy = sinon.spy()
+      
+      gameController = GameController.create
+        carController: carControllerStub
+        finish: finishSpy
+      
+      ($ carControllerStub).trigger 'crossFinishLine'
+      (expect finishSpy).toHaveBeenCalled()
