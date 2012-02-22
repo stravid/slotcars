@@ -156,4 +156,14 @@ describe 'game.controllers.GameController (unit)', ->
     it 'should calculate and update race time', ->
       @gameController.finish()
       (expect @gameController.raceTime).toNotBe null
-        
+      
+    it 'should call finish when crossFinishLine event was triggered in CarController', ->
+      carControllerStub = {}
+      finishSpy = sinon.spy()
+      
+      gameController = GameController.create
+        carController: carControllerStub
+        finish: finishSpy
+      
+      ($ carControllerStub).trigger 'crossFinishLine'
+      (expect finishSpy).toHaveBeenCalled()

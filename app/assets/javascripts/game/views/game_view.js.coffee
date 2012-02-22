@@ -5,16 +5,24 @@
 namespace 'game.views'
 
 @game.views.GameView = Ember.Object.extend
+  body: null
   container: ($ '<div>')
   timeContainer: ($ '<div id="race-time">')
   
   init: ->
+    @body ?= ($ document.body)
+    
     raceTime = @mediator.get 'raceTime'
     @timeContainer.text raceTime
     
     @mediator.addObserver 'raceTime', => @onRaceTimeChange()
     
-    @container.append(@timeContainer)
+    @container.append @timeContainer
+    @body.prepend @container
     
   onRaceTimeChange: ->
-    @timeContainer.text @mediator.get 'raceTime'
+    @timeContainer.text @formatTime @mediator.get 'raceTime'
+    
+  formatTime: (value) ->
+    value / 1000 + ' seconds'
+    

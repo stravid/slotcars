@@ -25,6 +25,8 @@ namespace 'game.controllers'
   init: ->
     ($ document).on 'touchMouseDown', => @onTouchMouseDown()
     ($ document).on 'touchMouseUp', => @onTouchMouseUp()
+    
+    ($ @carController).on 'crossFinishLine', => @finish()
 
   start: ->
     @raceTime = null

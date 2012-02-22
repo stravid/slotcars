@@ -19,9 +19,10 @@ describe 'game.views.GameView (functional)', ->
     value = 28
     
     gameView = GameView.create
+      body: $ '<div>'
       mediator: gameMediator
     
     gameMediator.set 'raceTime', value
     
-    (expect gameView.timeContainer.text()).toBe value.toString()
+    (expect gameView.timeContainer.text()).toBe gameView.formatTime value
   
