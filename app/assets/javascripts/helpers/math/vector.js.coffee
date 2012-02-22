@@ -22,4 +22,4 @@ class helpers.math.Vector
     if theta < -1 then theta = -1
     if theta > 1 then theta = 1
 
-    Math.acos theta
+    Math.acos(theta) * 180 / Math.PI

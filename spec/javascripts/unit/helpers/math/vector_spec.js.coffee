@@ -31,16 +31,16 @@ describe 'helpers.math.Vector (unit)', ->
 
   describe '#angleFrom', ->
 
-    it 'should return the angle between vectors in radian', ->
+    it 'should return the angle between vectors in degree', ->
       vector1 = new Vector x: 1, y: 0
       vector2 = new Vector x: 1, y: 1
 
-      (expect (vector1.angleFrom vector2).toFixed 5).toBe (45 * Math.PI / 180).toFixed 5
+      (expect Math.floor vector1.angleFrom vector2).toBe 45
 
-    it 'should return angle for orthogonal vectorsr', ->
+    it 'should return correct angle for orthogonal vectors', ->
       vector1 = new Vector x: 0, y: 1
       vector2 = new Vector x: 1, y: 0
 
-      (expect (vector1.angleFrom vector2).toFixed 5).toBe (90 * Math.PI / 180).toFixed 5
+      (expect Math.floor vector1.angleFrom vector2).toBe 90
 
 
