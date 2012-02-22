@@ -2,7 +2,7 @@
 #= require game/controllers/car_controller
 #= require vendor/raphael
 
-describe 'game.controllers.CarController', ->
+describe 'game.controllers.CarController (unit)', ->
 
   CarController = game.controllers.CarController
 
@@ -41,7 +41,6 @@ describe 'game.controllers.CarController', ->
       (expect @car.lengthAtTrack).toBe 0
 
     it 'should reset car position on mediator', ->
-
       @car.setTrackPath @path
 
       expectedPoint = Raphael.getPointAtLength @path, 0
@@ -49,19 +48,23 @@ describe 'game.controllers.CarController', ->
       (expect @mediatorStub.position.x).toEqual expectedPoint.x
       (expect @mediatorStub.position.y).toEqual expectedPoint.y
 
+    it 'should calculate the track length when the path changes', ->
+      @car.setTrackPath @path
+
+      (expect @car.trackLength).toEqual Raphael.getTotalLength @path
+
   describe '#accelerate', ->
-    
+
     beforeEach ->
       @car = CarController.create
         speed: 0
         acceleration: 10
         maxSpeed: 10
-    
+
     it 'should increase speed', ->
-      
       @car.accelerate()
       (expect @car.speed).toEqual 10
-    
+
     it 'should not set speed higher than maxSpeed', ->
       @car.accelerate()
       @car.accelerate()
@@ -76,36 +79,91 @@ describe 'game.controllers.CarController', ->
         deceleration: 10
 
     it 'should decrease speed', ->
+      @car.slowDown()
+      (expect @car.speed).toEqual 0
 
-      @car.slowDown()
-      (expect @car.speed).toEqual 0
-    
     it 'should not set speed < 0', ->
-      
       @car.slowDown()
       @car.slowDown()
       (expect @car.speed).toEqual 0
-  
+
   describe '#drive', ->
 
+    describe 'random speed', ->
+
+      beforeEach ->
+        @speedValue = Math.random 1
+        @mediatorStub = Ember.Object.create
+          position:
+            x: 0
+            y: 0
+
+        @car = CarController.create
+          speed: @speedValue
+          mediator: @mediatorStub
+
+        @path = "M10,20L30,40"
+        @car.setTrackPath @path
+
+      it 'should update the car position', ->
+        @car.drive()
+
+        point = Raphael.getPointAtLength @path, @speedValue
+
+        (expect @mediatorStub.position.x).toBe point.x
+        (expect @mediatorStub.position.y).toBe point.y
+
+    describe 'deterministic speed', ->
+
+      beforeEach ->
+        @speedValue = 10
+        @mediatorStub = Ember.Object.create
+          position:
+            x: 0
+            y: 0
+
+        @car = CarController.create
+          speed: @speedValue
+          mediator: @mediatorStub
+
+        @spy = sinon.spy()
+
+        ($ @car).on 'crossFinishLine', => @spy()
+
+        @path = "M0,0L5,0"
+        @car.setTrackPath @path
+
+      it 'should fire "crossed finish line" event', ->
+        @car.drive()
+
+        (expect @spy).toHaveBeenCalledOnce()
+
+  describe '#reset', ->
+
     beforeEach ->
-      @speedValue = Math.random 1
       @mediatorStub = Ember.Object.create
-              position:
-                x: 0
-                y: 0
+          position:
+            x: 0
+            y: 0
 
       @car = CarController.create
-        speed: @speedValue
+        speed: 10
         mediator: @mediatorStub
 
-      @path = "M10,20L30,40"
-      @car.setTrackPath @path
-    
-    it 'should update the car position', ->
+      @car._updateCarPosition = sinon.spy()
+
+    it 'should reset speed', ->
+      @car.reset()
+
+      (expect @car.speed).toEqual 0
+
+    it 'should reset lengthAtTrack', ->
       @car.drive()
+      @car.reset()
 
-      point = Raphael.getPointAtLength @path, @speedValue
+      (expect @car.lengthAtTrack).toEqual 0
 
-      (expect @mediatorStub.position.x).toBe point.x
-      (expect @mediatorStub.position.y).toBe point.y
+    it 'should call _updateCarPosition', ->
+      @car.reset()
+
+      (expect @car._updateCarPosition).toHaveBeenCalledOnce()

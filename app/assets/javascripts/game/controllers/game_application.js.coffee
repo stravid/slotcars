@@ -17,9 +17,9 @@ namespace 'game.controllers'
     @_setupCar()
     @_setupGameController()
 
-    @start()
+    @_start()
 
-  start: ->
+  _start: ->
     @gameController.start()
 
   _setupRaphael: ->
@@ -56,3 +56,21 @@ namespace 'game.controllers'
       carController: @carController
       gameLoopController: game.controllers.GameLoopController.create()
 
+    @paper = Raphael ($ @rootElement)[0], 1024, 768
+
+    trackMediator = game.mediators.TrackMediator.create()
+    game.views.TrackView.create
+      mediator: trackMediator
+      paper: @paper
+
+    carMediator = game.mediators.CarMediator.create()
+    game.views.CarView.create
+      mediator: carMediator
+      paper: @paper
+
+    carController = game.controllers.CarController.create
+      mediator: carMediator
+
+    carController.setTrackPath trackMediator.trackPath
+
+    ($ carController).on 'crossFinishLine', carController.reset

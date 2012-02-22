@@ -4,7 +4,7 @@
 #= require game/mediators/game_mediator
 #= require game/views/track
 
-describe 'game.controllers.GameController', ->
+describe 'game.controllers.GameController (unit)', ->
 
   GameController = game.controllers.GameController
   GameMediator = game.mediators.GameMediator
@@ -135,7 +135,7 @@ describe 'game.controllers.GameController', ->
           timesCalled++
 
           if timesCalled < @maxCalls
-            @start(renderCallback)
+            @start renderCallback
 
       @gameControllerUpdateStub = sinon.spy()
 
