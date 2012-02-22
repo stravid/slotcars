@@ -7,10 +7,24 @@ describe 'helpers.math.Vector (unit)', ->
 
   describe '#constructor', ->
 
-    it 'should take object literal and set x and y', ->
+    it 'should take object literal with x and y', ->
       vector = new Vector x: 0, y: 1
 
       (expect vector.x).toBe 0
+      (expect vector.y).toBe 1
+
+    it 'should take two points', ->
+      pointA =
+        x: 1
+        y: 0
+
+      pointB =
+        x: 0
+        y: 1
+
+      vector = new Vector pointA, pointB
+
+      (expect vector.x).toBe -1
       (expect vector.y).toBe 1
 
   describe '#length', ->

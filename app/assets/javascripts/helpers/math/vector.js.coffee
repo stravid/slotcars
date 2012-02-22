@@ -5,9 +5,13 @@ namespace 'helpers.math'
 
 class helpers.math.Vector
 
-  constructor: (point) ->
-    @x = point.x
-    @y = point.y
+  constructor: () ->
+    if arguments.length > 1
+      @x = arguments[1].x - arguments[0].x
+      @y = arguments[1].y - arguments[0].y
+    else
+      @x = arguments[0].x
+      @y = arguments[0].y
 
   length: ->
     Math.sqrt (@x*@x) + (@y*@y)
