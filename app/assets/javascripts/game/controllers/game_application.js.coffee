@@ -19,7 +19,7 @@ namespace 'game.controllers'
     @gameController.start()
 
   _setupRaphael: ->
-    @paper = Raphael $(@rootElement)[0], 1024, 768
+    @paper = Raphael ($ @rootElement)[0], 1024, 768
 
   _setupTrack: ->
     @trackMediator = game.mediators.TrackMediator.create()

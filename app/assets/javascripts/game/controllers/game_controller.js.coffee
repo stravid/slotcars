@@ -19,11 +19,11 @@ namespace 'game.controllers'
   isTouchMouseDown: false
 
   init: ->
-    ($ document).on 'touchMouseDown', $.proxy @onTouchMouseDown, this
-    ($ document).on 'touchMouseUp', $.proxy @onTouchMouseUp, this
+    ($ document).on 'touchMouseDown', => @onTouchMouseDown()
+    ($ document).on 'touchMouseUp', => @onTouchMouseUp()
 
   start: ->
-    (@gameLoopController.start $.proxy @update, this)
+    @gameLoopController.start => @update()
 
   update: ->
     if @isTouchMouseDown
