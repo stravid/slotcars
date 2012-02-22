@@ -1,4 +1,4 @@
-
+#= require helpers/request_frame
 #= require helpers/namespace
 
 namespace 'game.controllers'
@@ -7,15 +7,9 @@ namespace 'game.controllers'
 
   renderCallback: null
 
-  # provides _run as always bound to this object
-  _proxyRun: null
-
-  init: ->
-    @_proxyRun = $.proxy @_run, this
-
   start: (@renderCallback) ->
     @_run()
 
   _run: ->
-    window.webkitRequestAnimationFrame(@_proxyRun)
+    window.requestFrame => @_run()
     @renderCallback()
