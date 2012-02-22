@@ -17,4 +17,9 @@ class helpers.math.Vector
 
   # returns angle in radian
   angleFrom: (otherVector) ->
-    (Math.acos @dot(otherVector) / (@length() * otherVector.length()))
+    theta = @dot(otherVector) / (@length() * otherVector.length())
+
+    if theta < -1 then theta = -1
+    if theta > 1 then theta = 1
+
+    Math.acos theta
