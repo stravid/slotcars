@@ -42,6 +42,7 @@ namespace 'game.controllers'
       acceleration: 0.1
       deceleration: 0.2
       maxSpeed: 20
+      traction: 100
 
     @carController.setTrackPath @trackMediator.trackPath
     ($ @carController).on 'crossFinishLine', @carController.reset
