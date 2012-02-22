@@ -3,6 +3,10 @@
 #= require game/controllers/game_controller
 #= require game/controllers/game_loop_controller
 
+#= require game/views/car
+#= require game/views/track
+#= require game/views/game_view
+
 namespace 'game.controllers'
 
 @game.controllers.GameApplication = Ember.Application.extend
@@ -42,7 +46,13 @@ namespace 'game.controllers'
     @carController.setTrackPath @trackMediator.trackPath
 
   _setupGameController: ->
+    @gameMediator = game.mediators.GameMediator.create()
+    
+    game.views.GameView.create
+      mediator: @gameMediator
+      
     @gameController = game.controllers.GameController.create
+      mediator: @gameMediator
       carController: @carController
       gameLoopController: game.controllers.GameLoopController.create()
 
