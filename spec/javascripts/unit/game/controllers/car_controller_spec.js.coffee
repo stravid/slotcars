@@ -2,7 +2,7 @@
 #= require game/controllers/car_controller
 #= require vendor/raphael
 
-describe 'game.controllers.CarController', ->
+describe 'game.controllers.CarController (unit)', ->
 
   CarController = game.controllers.CarController
 

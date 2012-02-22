@@ -9,7 +9,7 @@ namespace 'game.views'
   
   init: ->
     position = @mediator.get 'position'
-    @car = @paper.rect(position.x, position.y, @width, @height)
+    @car = @paper.rect position.x, position.y, @width, @height
     @mediator.addObserver 'position', => @update()
 
   update: ->

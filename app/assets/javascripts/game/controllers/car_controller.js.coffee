@@ -27,7 +27,7 @@ namespace 'game.controllers'
     @_updateCarPosition()
 
   _updateCarPosition: ->
-    point = Raphael.getPointAtLength(@path, @lengthAtTrack)
+    point = Raphael.getPointAtLength @path, @lengthAtTrack
 
     @mediator.set 'position',
       x: point.x

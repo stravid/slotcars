@@ -2,7 +2,7 @@
 #= require game/controllers/game_application
 #= require game/views/track
 
-describe 'game.controllers.GameApplication', ->
+describe 'game.controllers.GameApplication (unit)', ->
 
   GameApplication = game.controllers.GameApplication
 

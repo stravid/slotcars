@@ -1,7 +1,7 @@
 
 #= require game/controllers/game_loop_controller
 
-describe 'game.controllers.GameLoopController', ->
+describe 'game.controllers.GameLoopController (unit)', ->
 
   GameLoopController = game.controllers.GameLoopController
 

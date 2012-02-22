@@ -13,9 +13,9 @@ namespace 'game.controllers'
     @_setupCar()
     @_setupGameController()
 
-    @start()
+    @_start()
 
-  start: ->
+  _start: ->
     @gameController.start()
 
   _setupRaphael: ->

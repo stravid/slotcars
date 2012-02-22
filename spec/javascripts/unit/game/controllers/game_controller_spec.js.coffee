@@ -2,7 +2,7 @@
 #= require game/controllers/game_controller
 #= require game/views/track
 
-describe 'game.controllers.GameController', ->
+describe 'game.controllers.GameController (unit)', ->
 
   GameController = game.controllers.GameController
 
@@ -99,7 +99,7 @@ describe 'game.controllers.GameController', ->
           timesCalled++
 
           if timesCalled < @maxCalls
-            @start(renderCallback)
+            @start renderCallback
 
       @gameControllerUpdateStub = sinon.spy()
 
