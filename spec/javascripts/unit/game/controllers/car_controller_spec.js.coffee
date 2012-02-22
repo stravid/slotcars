@@ -196,6 +196,16 @@ describe 'game.controllers.CarController (unit)', ->
         # drives 2 times in direction x: 1, y: 0
         (expect @mediatorStub.position.x).toBe 2
 
+      it 'should not be possible to accelerate the car when crashing', ->
+        @car.speed = 1
+        @car.traction = 30
+
+        @car.drive() # crash
+
+        @car.accelerate()
+
+        (expect @car.speed).toBe 1
+
 
 
   describe '#reset', ->

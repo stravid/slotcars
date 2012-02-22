@@ -21,8 +21,9 @@ Vector = helpers.math.Vector
     @_updateTrackLength()
 
   accelerate: ->
-    @speed += @acceleration
-    if @speed > @maxSpeed then @speed = @maxSpeed
+    unless @crashing
+      @speed += @acceleration
+      if @speed > @maxSpeed then @speed = @maxSpeed
 
   slowDown: ->
     @speed -= @deceleration
