@@ -1,7 +1,7 @@
 #= require jquery
 #= require jquery_ujs
 #= require ember-dev
-#= require game/controllers/game_application
+#= require community/community_application
 
-game.controllers.GameApplication.create()
+community.CommunityApplication.create()
 

@@ -26,3 +26,7 @@ group :development, :test do
   # for notifications of auto-test results
   gem 'growl'
 end
+
+group :production do
+  gem 'pg'
+end
