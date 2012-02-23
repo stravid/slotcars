@@ -16,7 +16,7 @@ community.Statechart = SC.Statechart.create
 
     enterState: ->
       SC.routes.set 'wantsHistory', true
-      SC.routes.set 'baseURI', 'http://localhost:3000'
+      SC.routes.set 'baseURI', window.location.origin
       @statechart.communityView = community.views.CommunityView.create()
       Ember.run => @statechart.communityView.append()
 
