@@ -75,8 +75,8 @@ Vector = helpers.math.Vector
     pointC = Raphael.getPointAtLength @path, @lengthAtTrack + @speed * 2
 
     {
-      first: (new Vector pointA, pointB)
-      second: (new Vector pointB, pointC)
+      first: (Vector.create from: pointA, to: pointB)
+      second: (Vector.create from: pointB, to: pointC)
     }
 
   _checkCrashThreshold: ->
