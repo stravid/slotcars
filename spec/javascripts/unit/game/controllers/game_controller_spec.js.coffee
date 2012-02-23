@@ -109,7 +109,8 @@ describe 'game.controllers.GameController (unit)', ->
       gameController = GameController.create
         gameLoopController: 
           start: ->
-        update: ->      
+        update: ->
+        mediator: Ember.Object.create()
 
       gameController.start()
       (expect gameController.startTime).toNotBe null
@@ -132,6 +133,7 @@ describe 'game.controllers.GameController (unit)', ->
       @gameController = GameController.create
         gameLoopController: @gameLoopControllerStub
         update: @gameControllerUpdateStub
+        mediator: Ember.Object.create()
 
       @gameController.start()
       (expect @gameControllerUpdateStub.callCount).toBe @maxCalls
@@ -192,7 +194,7 @@ describe 'game.controllers.GameController (unit)', ->
       gameController.mediator.raceTime = 18
       gameController.restartGame()
 
-      (expect gameController.mediator.raceTime).toBe null
+      (expect gameController.mediator.raceTime).toBe 0
 
     it 'should reset car', ->
       gameController = GameController.create
@@ -202,29 +204,3 @@ describe 'game.controllers.GameController (unit)', ->
 
       gameController.restartGame()
       (expect @carResetSpy).toHaveBeenCalled()
-
-    it 'should stop the game loop', ->
-      gameController = GameController.create
-        carController: @carControllerStub
-        gameLoopController: @gameLoopControllerStub
-        mediator: GameMediator.create()
-
-      gameController.restartGame()
-      (expect @stopGameLoopSpy).toHaveBeenCalled()
-
-
-    it 'should call #start', ->
-      
-      startStub = sinon.spy()
-      
-      gameController = GameController.create
-        carController: @carControllerStub
-        gameLoopController: @gameLoopControllerStub
-        mediator: GameMediator.create()
-        start: startStub
-      
-      gameController.restartGame()
-      
-      (expect startStub).toHaveBeenCalled()
-
-

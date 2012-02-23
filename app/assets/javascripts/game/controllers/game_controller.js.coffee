@@ -31,8 +31,7 @@ namespace 'game.controllers'
     (jQuery @gameView).on 'restartGame', => @restartGame()
 
   start: ->
-    #@mediator.set 'raceTime', 0
-    @startTime = new Date().getTime()
+    @_resetTime()
     @gameLoopController.start => @update()
 
   finish: ->
@@ -55,8 +54,9 @@ namespace 'game.controllers'
     @isTouchMouseDown = false
 
   restartGame: ->
-    @mediator.set 'raceTime', null
     @carController.reset()
-    @gameLoopController.stop()
-    @start()
+    @_resetTime()
 
+  _resetTime: ->
+    @mediator.set 'raceTime', 0
+    @startTime = new Date().getTime()

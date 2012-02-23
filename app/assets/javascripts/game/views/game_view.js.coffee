@@ -1,28 +1,22 @@
 
 #= require helpers/namespace
-#= require game/mediators/game_mediator
+#= require game/templates/game_template
 
 namespace 'game.views'
 
-@game.views.GameView = Ember.View.extend
+game.views.GameView = Ember.View.extend
 
+  elementId: 'game-view'
   templateName: 'game_templates_game_template'
-  
-  didInsertElement: ->
-    console.log "test"
-  
-  init: ->
-    @mediator.addObserver 'raceTime', => @onRaceTimeChange()
-
-  onRaceTimeChange: ->
-    @raceTimeInSeconds
 
   onRestartClick: ->
     (jQuery this).trigger 'restartGame'
 
-  raceTimeInSeconds: ( ->
+  raceTimeInSeconds: (Ember.computed ->
     @formatTime @mediator.get 'raceTime'
-  ).property()
+  ).property 'mediator.raceTime'
 
   formatTime: (value) ->
     value / 1000
+
+

@@ -57,8 +57,8 @@ game.GameApplication = Ember.View.extend
 
     gameView = game.views.GameView.create
       mediator: @gameMediator
-    
-    gameView.appendTo $('body')
+
+    gameView.appendTo @$()
     
     @gameController = game.controllers.GameController.create
       mediator: @gameMediator
