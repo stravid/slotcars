@@ -26,7 +26,7 @@ namespace 'game.controllers'
   init: ->
     (jQuery document).on 'touchMouseDown', => @onTouchMouseDown()
     (jQuery document).on 'touchMouseUp', => @onTouchMouseUp()
-    
+
     (jQuery @carController).on 'crossFinishLine', => @finish()
     (jQuery @gameView).on 'restartGame', => @restartGame()
 
