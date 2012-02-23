@@ -5,16 +5,16 @@ describe 'game.controllers.GameLoopController (unit)', ->
 
   GameLoopController = game.controllers.GameLoopController
 
+  beforeEach ->
+    @requestFrameBackup = window.requestFrame
+    @requestFrameStub = window.requestFrame = sinon.spy()
+
+    @gameLoop = GameLoopController.create()
+
+  afterEach ->
+    window.requestFrame = @requestFrameBackup
+
   describe '#start', ->
-
-    beforeEach ->
-      @requestFrameBackup = window.requestFrame
-      @requestFrameStub = window.requestFrame = sinon.spy()
-
-      @gameLoop = GameLoopController.create()
-
-    afterEach ->
-      window.requestFrame = @requestFrameBackup
 
     it 'should call renderCallback when first started', ->
       renderCallbackSpy = sinon.spy()

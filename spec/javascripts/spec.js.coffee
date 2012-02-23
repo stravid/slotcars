@@ -3,7 +3,8 @@
 
 #= require jquery
 #= require jquery_ujs
-#= require ember-dev
+#= require ember
+#= require helpers/sproutcore/define_sc_namespace
 
 # ------ load testing extras -------
 # (jasmine + jasmine-jquery are loaded automatically)

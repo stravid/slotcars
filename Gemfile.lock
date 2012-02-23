@@ -39,10 +39,10 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.2.0)
-    emberjs-rails (2012.1.25)
+    emberjs-rails (2012.2.22)
       hamlbars
       rails (~> 3.1)
-    embient (0.0.2)
+    embient (0.0.3)
       emberjs-rails
       rails (>= 3.1.0)
     erubis (2.7.0)
@@ -59,7 +59,7 @@ GEM
       multi_json
       thor
     haml (3.1.4)
-    hamlbars (2012.1.13)
+    hamlbars (2012.2.22)
       haml
       sprockets
       tilt
