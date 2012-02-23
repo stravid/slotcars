@@ -22,25 +22,23 @@ namespace 'game.controllers'
 
   startTime: null
   endTime: null
-  raceTime: null
 
   init: ->
     (jQuery document).on 'touchMouseDown', => @onTouchMouseDown()
     (jQuery document).on 'touchMouseUp', => @onTouchMouseUp()
     
     (jQuery @carController).on 'crossFinishLine', => @finish()
-    #(jQuery @gameView).on 'startGame', => @start()
+    (jQuery @gameView).on 'restartGame', => @restartGame()
 
   start: ->
     #@mediator.set 'raceTime', 0
-    @raceTime = null
     @startTime = new Date().getTime()
     @gameLoopController.start => @update()
 
   finish: ->
     @endTime = new Date().getTime()
-    @raceTime = @endTime - @startTime
-    @mediator.set 'raceTime', @raceTime
+    raceTime = @endTime - @startTime
+    @mediator.set 'raceTime', raceTime
 
   update: ->
     if @isTouchMouseDown
@@ -55,3 +53,9 @@ namespace 'game.controllers'
 
   onTouchMouseUp: ->
     @isTouchMouseDown = false
+
+  restartGame: ->
+    @mediator.set 'raceTime', null
+    @carController.reset()
+    @gameLoopController.stop()
+

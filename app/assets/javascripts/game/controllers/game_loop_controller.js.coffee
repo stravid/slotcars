@@ -8,8 +8,13 @@ namespace 'game.controllers'
   renderCallback: null
 
   start: (@renderCallback) ->
+    @isRunning = true
     @_run()
 
+  stop: ->
+    @isRunning = false
+
   _run: ->
-    window.requestFrame => @_run()
-    @renderCallback()
+    if @isRunning
+      window.requestFrame => @_run()
+      @renderCallback()
