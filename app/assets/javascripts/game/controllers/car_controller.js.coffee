@@ -54,8 +54,7 @@ Vector = helpers.math.Vector
     if @lengthAtTrack > @trackLength
       ($ this).trigger 'crossFinishLine'
 
-  _updateTrackLength: ->
-    @trackLength = Raphael.getTotalLength @path
+  _updateTrackLength: -> @trackLength = Raphael.getTotalLength @path
 
   _calculateCrashingDirection: ->
     @_position.x += @_crashVector.x / @_crashVector.length() * @speed

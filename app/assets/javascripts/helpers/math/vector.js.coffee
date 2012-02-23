@@ -7,11 +7,9 @@ class helpers.math.Vector
 
   constructor: (@x, @y) ->
 
-  length: ->
-    Math.sqrt (@x*@x) + (@y*@y)
+  length: -> Math.sqrt (@x*@x) + (@y*@y)
 
-  dot: (otherVector) ->
-    @x * otherVector.x + @y * otherVector.y
+  dot: (otherVector) -> @x * otherVector.x + @y * otherVector.y
 
   # returns angle in degrees
   angleFrom: (otherVector) ->
