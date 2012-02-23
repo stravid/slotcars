@@ -143,15 +143,16 @@ describe 'game.controllers.CarController (unit)', ->
         (expect @spy).toHaveBeenCalledOnce()
 
 
-    describe 'crashing', ->
+    describe 'crash & respawn', ->
 
       beforeEach ->
-        @getPointAtLengthStub = sinon.stub Raphael, 'getPointAtLength'
         @mediatorStub = Ember.Object.create
           position: {}
 
         @car = CarController.create
           mediator: @mediatorStub
+
+        @getPointAtLengthStub = sinon.stub Raphael, 'getPointAtLength'
 
         # mocks curve angle of 90 degrees
         (@getPointAtLengthStub.withArgs @car.path, 0).returns x: 0, y:0
@@ -162,49 +163,85 @@ describe 'game.controllers.CarController (unit)', ->
         @getPointAtLengthStub.restore()
 
 
-      it 'should set crashing to true when too fast in curve', ->
-        @car.speed = 1
-        @car.traction = 89 # loses vs. speed * angle || 1 * 90 = 90
+      describe 'crashing', ->
 
-        @car.drive()
+        it 'should set crashing to true when too fast in curve', ->
+          @car.speed = 1
+          @car.traction = 89 # loses vs. speed * angle || 1 * 90 = 90
 
-        (expect @car.crashing).toBe true
+          @car.drive()
 
-      it 'should not set crashing when traction is high enough', ->
-        @car.speed = 1
-        @car.traction = 91 # wins vs. speed * angle || 1 * 90 = 90
+          (expect @car.crashing).toBe true
 
-        @car.drive()
+        it 'should not set crashing when traction is high enough', ->
+          @car.speed = 1
+          @car.traction = 91 # wins vs. speed * angle || 1 * 90 = 90
 
-        (expect @car.crashing).toBe false
+          @car.drive()
 
-      it 'should not update car as normal while crashing', ->
-        @car.speed = 1
-        @car.traction = 30
+          (expect @car.crashing).toBe false
 
-        @car.drive()
+        it 'should not update car as normal while crashing', ->
+          @car.speed = 1
+          @car.traction = 30
 
-        (expect => @car.drive()).not.toThrow()
+          @car.drive()
 
-      it 'should keep driving into direction of last vector', ->
-        @car.speed = 1
-        @car.traction = 30
+          (expect => @car.drive()).not.toThrow()
 
-        @car.drive()
-        @car.drive()
+        it 'should keep driving into direction of last vector', ->
+          @car.speed = 1
+          @car.traction = 30
 
-        # drives 2 times in direction x: 1, y: 0
-        (expect @mediatorStub.position.x).toBe 2
+          @car.drive()
+          @car.drive()
 
-      it 'should not be possible to accelerate the car when crashing', ->
-        @car.speed = 1
-        @car.traction = 30
+          # drives 2 times in direction x: 1, y: 0
+          (expect @mediatorStub.position.x).toBe 2
 
-        @car.drive() # crash
+        it 'should not be possible to accelerate the car when crashing', ->
+          @car.speed = 1
+          @car.traction = 30
 
-        @car.accelerate()
+          @car.drive() # crash
 
-        (expect @car.speed).toBe 1
+          @car.accelerate()
+
+          (expect @car.speed).toBe 1
+
+
+      describe 'respawning', ->
+
+        beforeEach ->
+          # let car crash
+          @car.speed = 1
+          @car.traction = 30
+          @car.drive()
+
+          (@getPointAtLengthStub.withArgs @car.path, 3).returns x: 2, y:2
+
+
+        it 'should set crashing to false when car stopped moving', ->
+          @car.speed = 0
+
+          @car.drive()
+
+          (expect @car.crashing).toBe false
+
+        it 'should set car on last position on track', ->
+          @car.drive() # drive into crash direction
+          @car.drive() # drive into crash direction
+
+          @car.speed = 0 # slow car down
+
+          @car.drive() # sets crashing to false
+
+          @car.speed = 1 # simulate acceleration
+
+          @car.drive() # drive on path again
+
+          (expect @mediatorStub.position.x).toBe 1
+          (expect @mediatorStub.position.y).toBe 1
 
 
 

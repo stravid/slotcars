@@ -29,13 +29,7 @@ Vector = helpers.math.Vector
     @speed -= @deceleration
     if @speed < 0 then @speed = 0
 
-  drive: ->
-    unless @crashing
-      @_driveOnPath()
-
-    else
-      @_calculateCrashingDirection()
-      @_updateCarPosition()
+  drive: -> unless @crashing then @_driveOnPath() else @_crash()
 
   reset: ->
     @speed = 0
@@ -49,6 +43,13 @@ Vector = helpers.math.Vector
     @_calculatePositionOnPath()
     @_updateCarPosition()
     @_checkForFinish()
+
+  _crash: ->
+    if @speed <= 0
+      @crashing = false
+    else
+      @_calculateCrashingDirection()
+      @_updateCarPosition()
 
   _checkForFinish: ->
     if @lengthAtTrack > @trackLength
