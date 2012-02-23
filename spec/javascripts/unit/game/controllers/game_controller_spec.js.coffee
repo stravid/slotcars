@@ -1,5 +1,4 @@
 
-#= require game/controllers/game_application
 #= require game/controllers/game_controller
 #= require game/mediators/game_mediator
 #= require game/views/track
