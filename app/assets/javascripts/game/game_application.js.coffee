@@ -7,9 +7,9 @@
 #= require game/views/track
 #= require game/views/game_view
 
-namespace 'game.controllers'
+namespace 'game'
 
-@game.controllers.GameApplication = Ember.Application.extend
+@game.GameApplication = Ember.Application.extend
 
   ready: ->
     @_setupRaphael()
