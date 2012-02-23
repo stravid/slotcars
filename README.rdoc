@@ -1,3 +1,0 @@
-== Slotcars
-
-Slotcars is an open source racing game for iPad.

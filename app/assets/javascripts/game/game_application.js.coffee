@@ -1,5 +1,6 @@
 
 #= require helpers/namespace
+
 #= require game/controllers/game_controller
 #= require game/controllers/game_loop_controller
 
@@ -9,11 +10,13 @@
 
 #= require game/mediators/game_mediator
 
-namespace 'game.controllers'
+namespace 'game'
 
-@game.controllers.GameApplication = Ember.Application.extend
+game.GameApplication = Ember.View.extend
 
-  ready: ->
+  elementId: 'game-application'
+
+  didInsertElement: ->
     @_setupRaphael()
     @_setupTrack()
     @_setupCar()
@@ -25,7 +28,7 @@ namespace 'game.controllers'
     @gameController.start()
 
   _setupRaphael: ->
-    @paper = Raphael ($ @rootElement)[0], 1024, 768
+    @paper = Raphael @$()[0], 1024, 768
 
   _setupTrack: ->
     @trackMediator = game.mediators.TrackMediator.create()
@@ -44,6 +47,7 @@ namespace 'game.controllers'
       acceleration: 0.1
       deceleration: 0.2
       maxSpeed: 20
+      traction: 100
 
     @carController.setTrackPath @trackMediator.trackPath
     ($ @carController).on 'crossFinishLine', @carController.reset
