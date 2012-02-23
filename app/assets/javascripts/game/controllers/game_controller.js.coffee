@@ -58,4 +58,5 @@ namespace 'game.controllers'
     @mediator.set 'raceTime', null
     @carController.reset()
     @gameLoopController.stop()
+    @start()
 

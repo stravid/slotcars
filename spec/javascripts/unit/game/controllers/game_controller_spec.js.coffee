@@ -170,6 +170,7 @@ describe 'game.controllers.GameController (unit)', ->
       @stopGameLoopSpy = sinon.spy()
       @gameLoopControllerStub =
         stop: @stopGameLoopSpy
+        start: ->
 
 
     it 'should call restartGame when restartGame event was triggered', ->
@@ -212,5 +213,19 @@ describe 'game.controllers.GameController (unit)', ->
       gameController.restartGame()
       (expect @stopGameLoopSpy).toHaveBeenCalled()
 
+
+    it 'should call #start', ->
+      
+      startStub = sinon.spy()
+      
+      gameController = GameController.create
+        carController: @carControllerStub
+        gameLoopController: @gameLoopControllerStub
+        mediator: GameMediator.create()
+        start: startStub
+      
+      gameController.restartGame()
+      
+      (expect startStub).toHaveBeenCalled()
 
 

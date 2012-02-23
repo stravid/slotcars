@@ -18,12 +18,12 @@ namespace 'game.controllers'
     @_setupTrack()
     @_setupCar()
     @_setupGame()
-    
+
     @_start()
 
   _start: ->
     @gameController.start()
-    
+
   _setupRaphael: ->
     @paper = Raphael ($ @rootElement)[0], 1024, 768
 
@@ -50,10 +50,12 @@ namespace 'game.controllers'
 
   _setupGame: ->
     @gameMediator = game.mediators.GameMediator.create()
-    
+
     gameView = game.views.GameView.create
       mediator: @gameMediator
-      
+    
+    gameView.appendTo $('body')
+    
     @gameController = game.controllers.GameController.create
       mediator: @gameMediator
       carController: @carController
