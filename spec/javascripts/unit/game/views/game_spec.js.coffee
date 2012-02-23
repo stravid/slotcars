@@ -5,5 +5,5 @@ describe 'game.views.GameView (unit)', ->
 
   GameView = game.views.GameView
   
-  it 'should extend Ember.Object', ->
-    (expect Ember.Object.detect GameView).toBe true
+  it 'should extend Ember.View', ->
+    (expect Ember.View.detect GameView).toBe true

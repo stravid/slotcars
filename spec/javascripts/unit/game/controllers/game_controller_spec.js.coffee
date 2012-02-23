@@ -2,10 +2,13 @@
 #= require game/controllers/game_controller
 #= require game/mediators/game_mediator
 #= require game/views/track
+#= require game/views/game_view
+
 
 describe 'game.controllers.GameController (unit)', ->
 
   GameController = game.controllers.GameController
+  GameView = game.views.GameView
   GameMediator = game.mediators.GameMediator
 
   beforeEach ->
@@ -21,9 +24,6 @@ describe 'game.controllers.GameController (unit)', ->
 
   it 'should have a property endTime with default null', ->
     (expect @gameController.endTime).toBe null
-
-  it 'should have a property raceTime with default null', ->
-    (expect @gameController.raceTime).toBe null
 
   it 'should set isTouchMouseDown to false by default', ->
     gameController = GameController.create()
@@ -109,19 +109,11 @@ describe 'game.controllers.GameController (unit)', ->
       gameController = GameController.create
         gameLoopController: 
           start: ->
-        update: ->      
+        update: ->
+        mediator: Ember.Object.create()
 
       gameController.start()
       (expect gameController.startTime).toNotBe null
-
-    it 'should reset race time to null', ->
-      gameController = GameController.create
-        gameLoopController: 
-          start: ->
-        update: ->
-
-      gameController.start()
-      (expect gameController.raceTime).toBe null
 
     it 'should start the game loop with #update method as renderCallback', ->
       @maxCalls = Math.floor(Math.random(1) * 10) + 5
@@ -141,6 +133,7 @@ describe 'game.controllers.GameController (unit)', ->
       @gameController = GameController.create
         gameLoopController: @gameLoopControllerStub
         update: @gameControllerUpdateStub
+        mediator: Ember.Object.create()
 
       @gameController.start()
       (expect @gameControllerUpdateStub.callCount).toBe @maxCalls
@@ -166,3 +159,48 @@ describe 'game.controllers.GameController (unit)', ->
       
       ($ carControllerStub).trigger 'crossFinishLine'
       (expect finishSpy).toHaveBeenCalled()
+
+
+  describe '#restartGame', ->
+
+    beforeEach ->
+      @carResetSpy = sinon.spy()
+      @carControllerStub = 
+        reset: @carResetSpy
+
+      @stopGameLoopSpy = sinon.spy()
+      @gameLoopControllerStub =
+        stop: @stopGameLoopSpy
+        start: ->
+
+
+    it 'should call restartGame when restartGame event was triggered', ->
+      restartGameSpy = sinon.spy()
+
+      gameController = GameController.create
+        gameView: GameView.create
+          mediator: GameMediator.create()
+        restartGame: restartGameSpy
+  
+      ($ gameController.gameView).trigger 'restartGame'
+      (expect restartGameSpy).toHaveBeenCalledOnce()
+
+    it 'should reset raceTime', ->
+      gameController = GameController.create
+        carController: @carControllerStub        
+        gameLoopController: @gameLoopControllerStub
+        mediator: GameMediator.create()
+
+      gameController.mediator.raceTime = 18
+      gameController.restartGame()
+
+      (expect gameController.mediator.raceTime).toBe 0
+
+    it 'should reset car', ->
+      gameController = GameController.create
+        carController: @carControllerStub
+        gameLoopController: @gameLoopControllerStub
+        mediator: GameMediator.create()
+
+      gameController.restartGame()
+      (expect @carResetSpy).toHaveBeenCalled()

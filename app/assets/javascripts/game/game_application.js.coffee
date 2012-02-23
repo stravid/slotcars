@@ -8,6 +8,8 @@
 #= require game/views/track
 #= require game/views/game_view
 
+#= require game/mediators/game_mediator
+
 namespace 'game'
 
 game.GameApplication = Ember.View.extend
@@ -18,7 +20,7 @@ game.GameApplication = Ember.View.extend
     @_setupRaphael()
     @_setupTrack()
     @_setupCar()
-    @_setupGameController()
+    @_setupGame()
 
     @_start()
 
@@ -50,14 +52,17 @@ game.GameApplication = Ember.View.extend
     @carController.setTrackPath @trackMediator.trackPath
     ($ @carController).on 'crossFinishLine', @carController.reset
 
-  _setupGameController: ->
+  _setupGame: ->
     @gameMediator = game.mediators.GameMediator.create()
-    
-    game.views.GameView.create
+
+    gameView = game.views.GameView.create
       mediator: @gameMediator
-      
+
+    gameView.appendTo @$()
+    
     @gameController = game.controllers.GameController.create
       mediator: @gameMediator
       carController: @carController
       gameLoopController: game.controllers.GameLoopController.create()
+      gameView: gameView
 

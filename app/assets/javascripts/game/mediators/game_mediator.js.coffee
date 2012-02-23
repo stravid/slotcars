@@ -3,5 +3,5 @@
 
 namespace 'game.mediators'
 
-@game.mediators.GameMediator = Ember.Object.extend
-  raceTime: 0
+game.mediators.GameMediator = Ember.Object.extend
+  raceTime: null
