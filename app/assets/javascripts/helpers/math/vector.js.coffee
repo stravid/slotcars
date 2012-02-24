@@ -20,6 +20,9 @@ class helpers.math.Vector
 
     Math.acos(theta) * 180 / Math.PI
 
+  center: ->
+    new Vector @x/2, @y/2
+
   @create: (parameters) ->
     if parameters.x? and parameters.y?
       x = parameters.x
