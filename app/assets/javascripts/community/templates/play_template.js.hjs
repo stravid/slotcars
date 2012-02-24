@@ -1,6 +1,4 @@
 
-<button id="build-button" type="button" {{action "buildButtonClicked"}}>
-  Builder
-</button>
+<a href="tracks/new">Builder</a>
 
 {{view gameApplication}}

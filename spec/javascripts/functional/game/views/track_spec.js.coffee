@@ -7,13 +7,12 @@ describe 'game.views.TrackView (functional)', ->
   TrackModel = game.models.TrackModel
   
   beforeEach ->
-    @store = DS.Store.create()
     @trackPath = 'random path ' + (Math.floor (Math.random 1) * 100) 
-    @trackModel = @store.createRecord TrackModel,
+    @trackModel = TrackModel._create
       path: @trackPath
 
     @mediatorStub = Ember.Object.create
-      currentTrack: @store.find TrackModel, 1
+      currentTrack: @trackModel
 
     @paperStub =
       path: sinon.spy()

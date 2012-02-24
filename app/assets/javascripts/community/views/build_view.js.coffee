@@ -7,8 +7,3 @@ community.views.BuildView = Ember.View.extend
 
   elementId: 'build-view'
   templateName: 'community_templates_build_template'
-
-  coordinator: null
-
-  playButtonClicked: ->
-    @coordinator.sendAction 'play'

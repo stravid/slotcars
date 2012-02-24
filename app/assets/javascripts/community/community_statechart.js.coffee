@@ -1,8 +1,7 @@
 
-#= require embient/addons/sproutcore-statechart
-
 #= require helpers/namespace
-#= require helpers/statechart/state_to_string
+#= require embient/ember-layout
+#= require embient/ember-routemanager
 
 #= require community/states/play_state
 #= require community/states/build_state
@@ -10,17 +9,17 @@
 
 namespace 'community'
 
-community.Statechart = SC.Statechart.create
+community.CommunityStateManager = Ember.RouteManager.extend
 
-  rootState: SC.State.extend
+  rootElement: null
+  wantsHistory: true
+  baseURI: window.location.origin
 
-    enterState: ->
-      SC.routes.set 'wantsHistory', true
-      SC.routes.set 'baseURI', window.location.origin
-      @statechart.communityView = community.views.CommunityView.create()
-      Ember.run => @statechart.communityView.append()
+  start: Ember.LayoutState.create
 
-    initialSubstate: 'Play'
+    viewClass: community.views.CommunityView
+
+    initialState: 'Play'
 
     Play: community.states.PlayState
     Build: community.states.BuildState

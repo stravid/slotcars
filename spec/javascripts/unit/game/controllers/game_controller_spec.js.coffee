@@ -3,6 +3,8 @@
 #= require game/mediators/game_mediator
 #= require game/views/track
 #= require game/views/game_view
+#= require game/models/track_model
+#= require game/controllers/car_controller
 
 
 describe 'game.controllers.GameController (unit)', ->
@@ -10,6 +12,7 @@ describe 'game.controllers.GameController (unit)', ->
   GameController = game.controllers.GameController
   GameView = game.views.GameView
   GameMediator = game.mediators.GameMediator
+  TrackModel = game.models.TrackModel
 
   beforeEach ->
     @gameController = GameController.create
@@ -68,7 +71,15 @@ describe 'game.controllers.GameController (unit)', ->
   describe '#update', ->
 
     beforeEach ->
-      @carController = game.controllers.CarController.create()
+      trackMediatorStub = Ember.Object.create
+        currentTrack: TrackModel._create
+          path: "M10,20L30,40"
+
+      carMediatorStub = Ember.Object.create position: {}
+
+      @carController = game.controllers.CarController.create
+        carMediator: carMediatorStub
+        trackMediator: trackMediatorStub
 
       @accelerateStub = sinon.stub @carController, 'accelerate'
       @slowDownStub = sinon.stub @carController, 'slowDown'
