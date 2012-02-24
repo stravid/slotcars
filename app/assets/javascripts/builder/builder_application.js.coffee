@@ -8,12 +8,19 @@ namespace 'builder'
 
 builder.BuilderApplication = Ember.View.extend
 
-  ready: ->
+  elementId: 'builder-application'
+
+  didInsertElement: ->
+    @paper = Raphael @$()[0], 1024, 768
+
     @trackMediator = builder.mediators.TrackMediator.create()
 
     @builderController = builder.controllers.BuilderController.create
       mediator: @trackMediator
 
-    @builderView = builder.views.BuilderViews.create
+    @builderView = builder.views.BuilderView.create
       mediator: @trackMediator
-      controller: @trackController
+      controller: @builderController
+      paper: @paper
+
+    @builderView.appendTo @$()

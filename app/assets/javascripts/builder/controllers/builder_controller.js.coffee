@@ -6,10 +6,12 @@ namespace 'builder.controllers'
 Vector = helpers.math.Vector
 
 builder.controllers.BuilderController = Ember.Object.extend
+
   mediator: null
+
   onTouchMouseMove: (point) ->
     point.angle = null
-    @mediator.points.addObject point
+    @mediator.points.push point
 
     @_checkIfAnglesNeedToBeRecalculated()
 

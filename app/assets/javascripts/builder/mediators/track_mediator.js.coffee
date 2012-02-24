@@ -3,4 +3,5 @@
 
 namespace 'builder.mediators'
 
-@builder.mediators.TrackMediator = Ember.Object.extend()
+builder.mediators.TrackMediator = Ember.Object.extend
+  points: []
