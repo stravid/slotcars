@@ -42,7 +42,7 @@ describe 'game.controllers.GameController (unit)', ->
     it 'should be called when touchMouseDown is triggered on document', ->
       gameController = GameController.create()
 
-      ($ document).trigger 'touchMouseDown'
+      (jQuery document).trigger 'touchMouseDown'
 
       (expect gameController.isTouchMouseDown).toBe true
 
@@ -60,7 +60,7 @@ describe 'game.controllers.GameController (unit)', ->
       gameController = GameController.create
         isTouchMouseDown: true
 
-      ($ document).trigger 'touchMouseUp'
+      (jQuery document).trigger 'touchMouseUp'
 
       (expect gameController.isTouchMouseDown).toBe false
 
@@ -157,7 +157,7 @@ describe 'game.controllers.GameController (unit)', ->
         carController: carControllerStub
         finish: finishSpy
       
-      ($ carControllerStub).trigger 'crossFinishLine'
+      (jQuery carControllerStub).trigger 'crossFinishLine'
       (expect finishSpy).toHaveBeenCalled()
 
 
@@ -182,7 +182,7 @@ describe 'game.controllers.GameController (unit)', ->
           mediator: GameMediator.create()
         restartGame: restartGameSpy
   
-      ($ gameController.gameView).trigger 'restartGame'
+      (jQuery gameController.gameView).trigger 'restartGame'
       (expect restartGameSpy).toHaveBeenCalledOnce()
 
     it 'should reset raceTime', ->
