@@ -59,7 +59,7 @@ Vector = helpers.math.Vector
   
   _checkForFinish: ->
     if @lengthAtTrack > @trackLength
-      ($ this).trigger 'crossFinishLine'
+      (jQuery this).trigger 'crossFinishLine'
 
   _updateTrackLength: -> @trackLength = Raphael.getTotalLength @path
 

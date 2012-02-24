@@ -51,7 +51,7 @@ game.GameApplication = Ember.View.extend
       traction: 100
 
     @carController.setTrackPath @trackMediator.trackPath
-    ($ @carController).on 'crossFinishLine', @carController.reset
+    (jQuery @carController).on 'crossFinishLine', @carController.reset
 
   _setupGame: ->
     @gameMediator = game.mediators.GameMediator.create()
