@@ -1,6 +1,5 @@
 #= require builder/controllers/builder_controller
 
-
 describe 'builder.controllers.BuilderController (unit)', ->
 
   BuilderController = builder.controllers.BuilderController
@@ -24,17 +23,24 @@ describe 'builder.controllers.BuilderController (unit)', ->
 
       (expect @trackMediatorStub.points.length).toEqual 1
 
-    # it 'should calculate the correct angle', ->
-    #   @builderController.onTouchMouseMove
-    #     x: 0
-    #     y: 0
-    # 
-    #   @builderController.onTouchMouseMove
-    #     x: 10
-    #     y: 10
-    # 
-    #   @builderController.onTouchMouseMove
-    #     x: 10
-    #     y: 10
-    # 
-    #   (expect @trackMediatorStub.points[0].angle).toEqual
+    it 'should calculate the correct angle', ->
+      @builderController.onTouchMouseMove
+        x: 0
+        y: 0
+
+      @builderController.onTouchMouseMove
+        x: 2
+        y: 0
+
+      @builderController.onTouchMouseMove
+        x: 2
+        y: 2
+
+      @builderController.onTouchMouseMove
+        x: 1
+        y: 1
+
+      (expect @trackMediatorStub.points[0].angle).toBeApproximatelyEqual 45
+      (expect @trackMediatorStub.points[1].angle).toBeApproximatelyEqual 90
+      (expect @trackMediatorStub.points[2].angle).toBeApproximatelyEqual 45
+      (expect @trackMediatorStub.points[3].angle).toBeApproximatelyZeroDegree()
