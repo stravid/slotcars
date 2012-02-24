@@ -26,8 +26,9 @@ Vector = helpers.math.Vector
       if @speed > @maxSpeed then @speed = @maxSpeed
 
   slowDown: ->
-    @speed -= @deceleration
-    if @speed < 0 then @speed = 0
+    unless @crashing
+      @speed -= @deceleration
+      if @speed < 0 then @speed = 0
 
   drive: -> unless @crashing then @_driveOnPath() else @_crash()
 
@@ -48,9 +49,14 @@ Vector = helpers.math.Vector
     if @speed <= 0
       @crashing = false
     else
+      @_slowDownOffRoad()
       @_calculateCrashingDirection()
       @_updateCarPosition()
 
+  _slowDownOffRoad: ->
+    @speed -= @offRoadDeceleration
+    if @speed < 0 then @speed = 0
+  
   _checkForFinish: ->
     if @lengthAtTrack > @trackLength
       ($ this).trigger 'crossFinishLine'

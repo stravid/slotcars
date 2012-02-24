@@ -46,6 +46,7 @@ game.GameApplication = Ember.View.extend
       mediator: @carMediator
       acceleration: 0.1
       deceleration: 0.2
+      offRoadDeceleration: 0.15
       maxSpeed: 20
       traction: 100
 

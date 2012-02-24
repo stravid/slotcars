@@ -192,6 +192,7 @@ describe 'game.controllers.CarController (unit)', ->
         it 'should keep driving into direction of last vector', ->
           @car.speed = 1
           @car.traction = 30
+          @car.offRoadDeceleration = 0
 
           @car.drive()
           @car.drive()
