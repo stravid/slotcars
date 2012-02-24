@@ -8,6 +8,9 @@ builder.views.BuilderView = Ember.View.extend
 
   elementId: 'builder-view'
   lastPointIndex: 0
+  builderController: null
+  intervalId: null
+  paper: null
 
   didInsertElement: ->
     (jQuery document).on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
@@ -15,7 +18,7 @@ builder.views.BuilderView = Ember.View.extend
     @intervalId = setInterval (=> @_draw()), 1000 / 20
 
   _onTouchMouseMove: (event) ->
-    @controller.onTouchMouseMove { x: event.pageX, y: event.pageY }
+    @builderController.onTouchMouseMove { x: event.pageX, y: event.pageY }
 
   _draw: ->
     length = @mediator.points.length
