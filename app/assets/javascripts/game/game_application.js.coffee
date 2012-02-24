@@ -9,6 +9,7 @@
 #= require game/views/game_view
 
 #= require game/mediators/game_mediator
+#= require game/mediators/track_mediator
 
 namespace 'game'
 

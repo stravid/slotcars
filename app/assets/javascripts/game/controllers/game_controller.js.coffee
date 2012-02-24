@@ -1,7 +1,7 @@
 
 #= require vendor/raphael
 
-#= require game/mediators/track
+#= require game/mediators/track_mediator
 #= require game/views/track
 
 #= require game/mediators/car_mediator

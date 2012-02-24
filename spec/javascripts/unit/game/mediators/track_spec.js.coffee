@@ -1,5 +1,5 @@
 
-#= require game/mediators/track
+#= require game/mediators/track_mediator
 
 describe 'game.mediators.TrackMediator', ->
   
