@@ -1,6 +1,6 @@
 
 #= require helpers/namespace
-#= require embient/addons/ember-data
+#= require embient/ember-data
 #= require vendor/raphael
 
 namespace 'game.models'

@@ -11,7 +11,3 @@ community.views.PlayView = Ember.View.extend
   templateName: 'community_templates_play_template'
 
   gameApplication: game.GameApplication
-  coordinator: null
-
-  buildButtonClicked: ->
-    @coordinator.sendAction 'build'

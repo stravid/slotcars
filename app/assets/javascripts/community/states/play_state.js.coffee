@@ -1,27 +1,15 @@
 
-#= require embient/addons/sproutcore-routing
-#= require embient/addons/sproutcore-statechart
-
 #= require helpers/namespace
+#= require embient/ember-layout
 #= require community/views/play_view
 
 namespace 'community.states'
 
-community.states.PlayState = SC.State.extend
+community.states.PlayState = Ember.LayoutState.create
 
-  representRoute: 'tracks'
+  route: 'tracks'
+  viewClass: community.views.PlayView
 
-  enterState: ->
-    SC.routes.set 'location', 'tracks'
-
-    playView = @statechart.playView = community.views.PlayView.create
-      coordinator: @statechart
-
-    playView.appendTo @statechart.communityView.$()
-
-  exitState: ->
-    @statechart.playView.remove()
-
-
-  build: ->
-    @gotoState 'Build'
+  enter: (manager) ->
+    manager.set 'location', 'tracks'
+    @_super.apply(this, arguments)

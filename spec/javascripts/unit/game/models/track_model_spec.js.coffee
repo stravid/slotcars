@@ -9,9 +9,8 @@ describe 'game.models.TrackModel', ->
     (expect DS.Model.detect TrackModel).toBe true
 
   beforeEach ->
-    @store = DS.Store.create()
     @trackPath = 'M10,20L30,40'
-    @trackModel = @store.createRecord TrackModel,
+    @trackModel = TrackModel._create
       path: @trackPath
   
   describe '#getTotalLength', ->

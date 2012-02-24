@@ -3,7 +3,7 @@
 
 namespace 'game.views'
   
-@game.views.TrackView = Ember.Object.extend
+game.views.TrackView = Ember.Object.extend
 
   init: ->
-    @paper.path @mediator.trackPath
+    @paper.path @mediator.currentTrack.get 'path'
