@@ -4,16 +4,24 @@
 describe 'game.views.TrackView (functional)', ->
   
   TrackView = game.views.TrackView
+  TrackModel = game.models.TrackModel
   
-  it 'should call paper.path with mediator.trackPath when created', ->
-    mediatorStub = 
-      trackPath: "random path " + (Math.floor (Math.random 1) * 100) 
-    
-    paperStub =
+  beforeEach ->
+    @store = DS.Store.create()
+    @trackPath = 'random path ' + (Math.floor (Math.random 1) * 100) 
+    @trackModel = @store.createRecord TrackModel,
+      path: @trackPath
+
+    @mediatorStub = Ember.Object.create
+      currentTrack: @store.find TrackModel, 1
+
+    @paperStub =
       path: sinon.spy()
+
+  it 'should call paper.path when created', ->    
     
     TrackView.create
-      mediator: mediatorStub
-      paper: paperStub
+      mediator: @mediatorStub
+      paper: @paperStub
     
-    (expect paperStub.path).toHaveBeenCalledWith mediatorStub.trackPath
+    (expect @paperStub.path).toHaveBeenCalledWith @mediatorStub.currentTrack.get 'path'

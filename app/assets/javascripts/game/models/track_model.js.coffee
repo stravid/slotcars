@@ -14,5 +14,4 @@ game.models.TrackModel = DS.Model.extend
   ).property 'path'
 
   getPointAtLength: (length) ->
-    console.log length, @get 'path'
     Raphael.getPointAtLength (@get 'path'), length
