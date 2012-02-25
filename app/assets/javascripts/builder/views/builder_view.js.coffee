@@ -49,7 +49,7 @@ builder.views.BuilderView = Ember.View.extend
 
   _clear: ->
     @paper.clear()
-    @mediator.points = []
+    @trackMediator.points = []
 
   _redraw: ->
     @paper.clear()
@@ -65,7 +65,7 @@ builder.views.BuilderView = Ember.View.extend
   _drawPath: ->
     pathString = "M"
 
-    for point in @mediator.points
+    for point in @trackMediator.points
       pathString += "#{point.x},#{point.y}L"
 
     pathString = pathString.substr 0, pathString.length - 1
