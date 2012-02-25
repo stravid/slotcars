@@ -15,8 +15,7 @@ builder.views.BuilderView = Ember.View.extend
   trackMediator: null
 
   didInsertElement: ->
-    (jQuery '#builder-application').on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
-    (jQuery '#builder-application').on 'touchMouseUp', (event) => @_onTouchMouseUp(event)
+    @_setupDrawEventListeners()
 
   _onTouchMouseMove: (event) ->
     event.originalEvent.preventDefault()
@@ -27,8 +26,7 @@ builder.views.BuilderView = Ember.View.extend
     @_drawPoint point
 
   _onTouchMouseUp: (event) ->
-    (jQuery '#builder-application').off 'touchMouseMove'
-    (jQuery '#builder-application').off 'touchMouseUp'
+    @_removeDrawEventListeners()
 
     (jQuery '#builder-delete-button').on 'touchMouseUp', (event) => @_onBuilderDeleteButtonTouchMouseUp(event)
 
@@ -42,14 +40,12 @@ builder.views.BuilderView = Ember.View.extend
 
     (jQuery '#builder-delete-button').off 'touchMouseUp'
 
+    @builderController.resetPath()
     @_clear()
-
-    (jQuery '#builder-application').on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
-    (jQuery '#builder-application').on 'touchMouseUp', (event) => @_onTouchMouseUp(event)
+    @_setupDrawEventListeners()
 
   _clear: ->
     @paper.clear()
-    @trackMediator.points = []
 
   _redraw: ->
     @paper.clear()
@@ -81,3 +77,11 @@ builder.views.BuilderView = Ember.View.extend
       point.y -= offset.top
 
     point
+
+  _setupDrawEventListeners: ->
+    (jQuery '#builder-application').on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
+    (jQuery '#builder-application').on 'touchMouseUp', (event) => @_onTouchMouseUp(event)
+
+  _removeDrawEventListeners: ->
+    (jQuery '#builder-application').off 'touchMouseMove'
+    (jQuery '#builder-application').off 'touchMouseUp'
