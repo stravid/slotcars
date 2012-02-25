@@ -19,11 +19,11 @@ builder.controllers.BuilderController = Ember.Object.extend
     @pointsPath.push point, true
 
   onTouchMouseUp: (event) ->
-    @pointsPath.clean minAngle: 6, minLength: 20, maxLength: 40
-    @pointsPath.smooth 45
-    @pointsPath.clean minAngle: 6, minLength: 20, maxLength: 40
+    @pointsPath.clean minAngle: 6, minLength: 30, maxLength: 50
+    @pointsPath.smooth 30
 
     @trackMediator.points = @pointsPath.asPointArray()
 
   resetPath: ->
     @pointsPath.clear()
+    @trackMediator.points = []
