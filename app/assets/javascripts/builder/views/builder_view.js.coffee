@@ -32,7 +32,6 @@ builder.views.BuilderView = Ember.View.extend
 
     @builderController.onTouchMouseUp event
 
-    @_redraw()
     @_drawPath()
 
   _onBuilderDeleteButtonTouchMouseUp: (event) ->
@@ -47,18 +46,12 @@ builder.views.BuilderView = Ember.View.extend
   _clear: ->
     @paper.clear()
 
-  _redraw: ->
-    @paper.clear()
-
-    points = @trackMediator.points
-
-    for point in points
-      @_drawPoint point.x, point.y
-
   _drawPoint: (point)->
     @paper.circle point.x, point.y, 0.5
 
   _drawPath: ->
+    @_clear()
+
     pathString = "M"
 
     for point in @trackMediator.points
