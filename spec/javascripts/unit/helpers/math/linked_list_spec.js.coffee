@@ -22,6 +22,9 @@ describe 'helpers.math.LinkedList', ->
     it 'should have property tail set to null', ->
       (expect @list.tail).toBe null
 
+    it 'should set length to zero', ->
+      (expect @list.length).toBe 0
+
 
   describe '#push', ->
 
@@ -73,6 +76,13 @@ describe 'helpers.math.LinkedList', ->
       (expect @list.tail.previous).toBe second
       (expect @list.tail).toBe third
 
+    it 'should increase length property', ->
+      @list.push {}
+      (expect @list.length).toBe 1
+
+      @list.push {}
+      (expect @list.length).toBe 2
+
 
   describe '#remove', ->
 
@@ -104,6 +114,14 @@ describe 'helpers.math.LinkedList', ->
       (expect first.next).toBe third
       (expect third.previous).toBe first
 
+    it 'should decrease length property', ->
+      @element = {}
+      @list.push @element
+
+      @list.remove @element
+
+      (expect @list.length).toBe 0
+
 
   describe '#insertBefore', ->
 
@@ -133,3 +151,9 @@ describe 'helpers.math.LinkedList', ->
       (expect @second.previous).toBe inserted
       (expect inserted.previous).toBe @first
       (expect inserted.next).toBe @second
+
+    it 'should increase length property', ->
+      length = @list.length
+      @list.insertBefore @third, {}
+
+      (expect @list.length).toBe 4

@@ -11,6 +11,7 @@ builder.views.BuilderView = Ember.View.extend
   builderController: null
   intervalId: null
   paper: null
+  trackMediator: null
 
   didInsertElement: ->
     (jQuery document).on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
@@ -32,8 +33,7 @@ builder.views.BuilderView = Ember.View.extend
   _redraw: ->
     @paper.clear()
 
-    length = @mediator.points.length
-    points = @mediator.points
+    points = @trackMediator.points
 
     for point in points
       @_drawPoint point.x, point.y
