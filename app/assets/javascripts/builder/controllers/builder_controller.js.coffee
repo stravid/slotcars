@@ -1,9 +1,11 @@
 #= require helpers/namespace
 #= require helpers/math/vector
+#= require helpers/math/path
 
 namespace 'builder.controllers'
 
 Vector = helpers.math.Vector
+Path = helpers.math.Path
 
 builder.controllers.BuilderController = Ember.Object.extend
 
@@ -15,6 +17,17 @@ builder.controllers.BuilderController = Ember.Object.extend
 
     @_checkIfAnglesNeedToBeRecalculated()
 
+  onTouchMouseUp: (event) ->
+
+    path = Path.create points: @mediator.points
+    path.clean minAngle: 6, minLength: 10, maxLength: 40
+
+    @mediator.points = path.asPointArray()
+
+    for point in @mediator.points
+      console.log point.angle
+
+
   _calculateAngle: (previous, current, next) ->
     vectorA = Vector.create
       from: current
@@ -24,7 +37,7 @@ builder.controllers.BuilderController = Ember.Object.extend
       from: current
       to: next
 
-    vectorA.angleFrom vectorB
+    180 - vectorA.angleFrom vectorB
 
   _checkIfAnglesNeedToBeRecalculated: ->
     @_recalculateAngles() if @mediator.points.length > 2

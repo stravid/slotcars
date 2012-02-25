@@ -50,3 +50,11 @@ describe 'helpers.math.Vector (unit)', ->
       vector2 = Vector.create x: 1, y: 0
 
       (expect Math.floor vector1.angleFrom vector2).toBe 90
+
+  describe '#center', ->
+
+    it 'should return the center point of the vector', ->
+      vector = Vector.create x: 4, y: 4
+
+      (expect vector.center()).toEqual Vector.create x: 2, y: 2
+
