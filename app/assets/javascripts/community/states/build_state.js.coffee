@@ -1,25 +1,14 @@
 
-#= require embient/addons/sproutcore-statechart
 #= require helpers/namespace
 #= require community/views/build_view
 
 namespace 'community.states'
 
-community.states.BuildState = SC.State.extend
+community.states.BuildState = Ember.LayoutState.create
 
-  representRoute: 'tracks/new'
+  route: 'tracks/new'
+  viewClass: community.views.BuildView
 
-  enterState: ->
-    SC.routes.set 'location', 'tracks/new'
-
-    buildView = @statechart.buildView = community.views.BuildView.create
-      coordinator: @statechart
-
-    buildView.appendTo @statechart.communityView.$()
-
-  exitState: ->
-    @statechart.buildView.remove()
-
-
-  play: ->
-    @gotoState 'Play'
+  enter: (manager) ->
+    manager.set 'location', 'tracks/new'
+    @_super.apply(this, arguments)

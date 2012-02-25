@@ -3,6 +3,8 @@
 #= require game/mediators/game_mediator
 #= require game/views/track
 #= require game/views/game_view
+#= require game/models/track_model
+#= require game/controllers/car_controller
 
 
 describe 'game.controllers.GameController (unit)', ->
@@ -10,6 +12,7 @@ describe 'game.controllers.GameController (unit)', ->
   GameController = game.controllers.GameController
   GameView = game.views.GameView
   GameMediator = game.mediators.GameMediator
+  TrackModel = game.models.TrackModel
 
   beforeEach ->
     @gameController = GameController.create
@@ -34,15 +37,18 @@ describe 'game.controllers.GameController (unit)', ->
 
     it 'should set isTouchMouseDown to true', ->
       gameController = GameController.create()
+      eventStub = originalEvent:
+          preventDefault: ->
 
-      gameController.onTouchMouseDown()
+      gameController.onTouchMouseDown eventStub
 
       (expect gameController.isTouchMouseDown).toBe true
 
-    it 'should be called when touchMouseDown is triggered on document', ->
+    it 'should be called when isTouchMouseDown is triggered on document', ->
       gameController = GameController.create()
 
-      ($ document).trigger 'touchMouseDown'
+      # necessary to trigger 'mousedown' because of 'originalEvent' property which is added through event normalization
+      (jQuery document).trigger 'mousedown'
 
       (expect gameController.isTouchMouseDown).toBe true
 
@@ -50,8 +56,10 @@ describe 'game.controllers.GameController (unit)', ->
 
     it 'should set isTouchMouseDown to false', ->
       gameController = GameController.create()
+      eventStub = originalEvent:
+          preventDefault: ->
 
-      gameController.onTouchMouseUp()
+      gameController.onTouchMouseUp eventStub
 
       (expect gameController.isTouchMouseDown).toBe false
 
@@ -60,7 +68,8 @@ describe 'game.controllers.GameController (unit)', ->
       gameController = GameController.create
         isTouchMouseDown: true
 
-      ($ document).trigger 'touchMouseUp'
+      # necessary to trigger 'mouseup' because of 'originalEvent' property which is added through event normalization
+      (jQuery document).trigger 'mouseup'
 
       (expect gameController.isTouchMouseDown).toBe false
 
@@ -68,7 +77,15 @@ describe 'game.controllers.GameController (unit)', ->
   describe '#update', ->
 
     beforeEach ->
-      @carController = game.controllers.CarController.create()
+      trackMediatorStub = Ember.Object.create
+        currentTrack: TrackModel._create
+          path: "M10,20L30,40"
+
+      carMediatorStub = Ember.Object.create position: {}
+
+      @carController = game.controllers.CarController.create
+        carMediator: carMediatorStub
+        trackMediator: trackMediatorStub
 
       @accelerateStub = sinon.stub @carController, 'accelerate'
       @slowDownStub = sinon.stub @carController, 'slowDown'
@@ -157,7 +174,7 @@ describe 'game.controllers.GameController (unit)', ->
         carController: carControllerStub
         finish: finishSpy
       
-      ($ carControllerStub).trigger 'crossFinishLine'
+      (jQuery carControllerStub).trigger 'crossFinishLine'
       (expect finishSpy).toHaveBeenCalled()
 
 
@@ -182,7 +199,7 @@ describe 'game.controllers.GameController (unit)', ->
           mediator: GameMediator.create()
         restartGame: restartGameSpy
   
-      ($ gameController.gameView).trigger 'restartGame'
+      (jQuery gameController.gameView).trigger 'restartGame'
       (expect restartGameSpy).toHaveBeenCalledOnce()
 
     it 'should reset raceTime', ->

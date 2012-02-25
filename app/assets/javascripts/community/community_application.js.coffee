@@ -1,10 +1,14 @@
 
 #= require helpers/namespace
 #= require community/community_statechart
+#= require helpers/routing/route_local_links
 
 namespace 'community'
 
 community.CommunityApplication = Ember.Application.extend
 
   ready: ->
-    community.Statechart.initStatechart()
+    communityStateManager = community.CommunityStateManager.create
+      rootElement: @rootElement
+
+    helpers.routing.routeLocalLinks communityStateManager

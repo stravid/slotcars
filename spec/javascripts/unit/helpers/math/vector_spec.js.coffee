@@ -50,5 +50,3 @@ describe 'helpers.math.Vector (unit)', ->
       vector2 = Vector.create x: 1, y: 0
 
       (expect Math.floor vector1.angleFrom vector2).toBe 90
-
-

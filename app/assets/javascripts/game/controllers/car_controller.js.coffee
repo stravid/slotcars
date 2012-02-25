@@ -10,12 +10,18 @@ Vector = helpers.math.Vector
 @game.controllers.CarController = Ember.Object.extend
 
   speed: 0
+  acceleration: 0
+  deceleration: 0
+
+  trackLength: 0
   lengthAtTrack: 0
-  path: null
+
   crashing: false
 
-  setTrackPath: (@path) ->
-    @lengthAtTrack = 0
+  carMediator: null
+  trackMediator: null
+
+  init: ->
     @_calculatePositionOnPath()
     @_updateCarPosition()
     @_updateTrackLength()
@@ -59,26 +65,29 @@ Vector = helpers.math.Vector
   
   _checkForFinish: ->
     if @lengthAtTrack > @trackLength
-      ($ this).trigger 'crossFinishLine'
+      (jQuery this).trigger 'crossFinishLine'
 
-  _updateTrackLength: -> @trackLength = Raphael.getTotalLength @path
+  _updateTrackLength: -> @trackLength = @trackMediator.currentTrack.get 'totalLength'
 
   _calculateCrashingDirection: ->
     @_position.x += @_crashVector.x / @_crashVector.length() * @speed
     @_position.y += @_crashVector.y / @_crashVector.length() * @speed
 
   _calculatePositionOnPath: ->
-    @_position = Raphael.getPointAtLength @path, @lengthAtTrack
+    @_position = @_getPointAtLength @lengthAtTrack
+
+  _getPointAtLength: (length) ->
+    @trackMediator.currentTrack.getPointAtLength length
 
   _updateCarPosition: ->
-    @mediator.set 'position',
+    @carMediator.set 'position',
       x: @_position.x
       y: @_position.y
 
   _getNextPathVectors: ->
-    pointA = Raphael.getPointAtLength @path, @lengthAtTrack
-    pointB = Raphael.getPointAtLength @path, @lengthAtTrack + @speed
-    pointC = Raphael.getPointAtLength @path, @lengthAtTrack + @speed * 2
+    pointA = @_getPointAtLength @lengthAtTrack
+    pointB = @_getPointAtLength @lengthAtTrack + @speed
+    pointC = @_getPointAtLength @lengthAtTrack + @speed * 2
 
     {
       first: (Vector.create from: pointA, to: pointB)
