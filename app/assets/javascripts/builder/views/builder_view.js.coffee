@@ -37,4 +37,7 @@ builder.views.BuilderView = Ember.View.extend
       @_drawPoint point.x, point.y
 
   _drawPoint: (x, y)->
+    offset = (jQuery '#builder-application').offset()
+    x -= offset.left
+    y -= offset.top
     @paper.circle x, y, 0.5
