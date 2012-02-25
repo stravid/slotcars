@@ -15,6 +15,7 @@ builder.views.BuilderView = Ember.View.extend
     @intervalId = setInterval (=> @_draw()), 1000 / 20
 
   _onTouchMouseMove: (event) ->
+    event.originalEvent.preventDefault()
     @controller.onTouchMouseMove { x: event.pageX, y: event.pageY }
 
   _draw: ->

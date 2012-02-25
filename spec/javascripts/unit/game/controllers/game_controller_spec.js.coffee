@@ -37,15 +37,18 @@ describe 'game.controllers.GameController (unit)', ->
 
     it 'should set isTouchMouseDown to true', ->
       gameController = GameController.create()
+      eventStub = originalEvent:
+          preventDefault: ->
 
-      gameController.onTouchMouseDown()
+      gameController.onTouchMouseDown eventStub
 
       (expect gameController.isTouchMouseDown).toBe true
 
-    it 'should be called when touchMouseDown is triggered on document', ->
+    it 'should be called when isTouchMouseDown is triggered on document', ->
       gameController = GameController.create()
 
-      (jQuery document).trigger 'touchMouseDown'
+      # necessary to trigger 'mousedown' because of 'originalEvent' property which is added through event normalization
+      (jQuery document).trigger 'mousedown'
 
       (expect gameController.isTouchMouseDown).toBe true
 
@@ -53,8 +56,10 @@ describe 'game.controllers.GameController (unit)', ->
 
     it 'should set isTouchMouseDown to false', ->
       gameController = GameController.create()
+      eventStub = originalEvent:
+          preventDefault: ->
 
-      gameController.onTouchMouseUp()
+      gameController.onTouchMouseUp eventStub
 
       (expect gameController.isTouchMouseDown).toBe false
 
@@ -63,7 +68,8 @@ describe 'game.controllers.GameController (unit)', ->
       gameController = GameController.create
         isTouchMouseDown: true
 
-      (jQuery document).trigger 'touchMouseUp'
+      # necessary to trigger 'mouseup' because of 'originalEvent' property which is added through event normalization
+      (jQuery document).trigger 'mouseup'
 
       (expect gameController.isTouchMouseDown).toBe false
 
