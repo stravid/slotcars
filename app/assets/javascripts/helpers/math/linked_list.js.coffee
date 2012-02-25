@@ -7,6 +7,7 @@ class helpers.math.LinkedList
 
   head: null
   tail: null
+  length: 0
 
   push: (element) ->
 
@@ -22,7 +23,11 @@ class helpers.math.LinkedList
       @head = element
       @head.previous = null
 
+    @length += 1
+
   remove: (element) ->
+
+    @length -= 1
 
     # last element is special case
     if element is @head and element is @tail
@@ -43,6 +48,7 @@ class helpers.math.LinkedList
         element.previous.next = null
         @tail = element.previous
 
+
   insertBefore: (before, element) ->
     if before is @head
       @head = element
@@ -53,6 +59,8 @@ class helpers.math.LinkedList
     element.previous = before.previous
 
     before.previous = element
+
+    @length += 1
 
   @create: ->
     new LinkedList()

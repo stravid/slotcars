@@ -1,4 +1,5 @@
 #= require builder/controllers/builder_controller
+#= require helpers/math/path
 
 describe 'builder.controllers.BuilderController (unit)', ->
 
@@ -7,40 +8,50 @@ describe 'builder.controllers.BuilderController (unit)', ->
   it 'should extend Ember.Object', ->
     (expect Ember.Object.detect BuilderController).toBe true
 
+  beforeEach ->
+    @trackMediatorStub = Ember.Object.create
+    @builderController = BuilderController.create
+      trackMediator: @trackMediatorStub
+
+    @points = [
+      { x:0, y:0, angle:20}
+      { x:10, y:0, angle:20}
+    ]
+
+    @cleanStub = sinon.stub @builderController.pointsPath, 'clean'
+    @smoothStub = sinon.stub @builderController.pointsPath, 'smooth'
+    @asPointArrayStub = (sinon.stub @builderController.pointsPath, 'asPointArray').returns @points
+
+  afterEach ->
+    @cleanStub.restore()
+    @asPointArrayStub.restore()
+    @smoothStub.restore()
+
   describe '#onTouchMouseMove', ->
 
     beforeEach ->
-      @trackMediatorStub =
-        points: []
+      @pushStub = sinon.stub @builderController.pointsPath, 'push'
 
-      @builderController = BuilderController.create
-        mediator: @trackMediatorStub
+    afterEach ->
+      @pushStub.restore()
 
-    it 'should add a point to the track mediator', ->
-      @builderController.onTouchMouseMove
-        x: 10
-        y: 10
+    it 'should add points to path and ask for angle calculation', ->
+      point = x: 10, y: 10
+      @builderController.onTouchMouseMove point
 
-      (expect @trackMediatorStub.points.length).toEqual 1
+      (expect @pushStub).toHaveBeenCalledWith point, true
 
-    it 'should calculate the correct angle', ->
-      @builderController.onTouchMouseMove
-        x: 0
-        y: 0
 
-      @builderController.onTouchMouseMove
-        x: 2
-        y: 0
+  describe '#onTouchMouseUp', ->
 
-      @builderController.onTouchMouseMove
-        x: 2
-        y: 2
+    it 'should clean points', ->
+      @builderController.onTouchMouseUp()
 
-      @builderController.onTouchMouseMove
-        x: 1
-        y: 1
+      (expect @cleanStub).toHaveBeenCalled()
+      (expect @asPointArrayStub).toHaveBeenCalled()
+      (expect @trackMediatorStub.points).toBe @points
 
-      (expect @trackMediatorStub.points[0].angle).toBeApproximatelyEqual 135
-      (expect @trackMediatorStub.points[1].angle).toBeApproximatelyEqual 90
-      (expect @trackMediatorStub.points[2].angle).toBeApproximatelyEqual 135
-      (expect @trackMediatorStub.points[3].angle).toBeApproximatelyZeroDegree()
+    it 'should smooth points', ->
+      @builderController.onTouchMouseUp()
+
+      (expect @smoothStub).toHaveBeenCalled()

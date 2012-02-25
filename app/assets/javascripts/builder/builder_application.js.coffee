@@ -16,10 +16,10 @@ builder.BuilderApplication = Ember.View.extend
     @trackMediator = builder.mediators.TrackMediator.create()
 
     @builderController = builder.controllers.BuilderController.create
-      mediator: @trackMediator
+      trackMediator: @trackMediator
 
     @builderView = builder.views.BuilderView.create
-      mediator: @trackMediator
+      trackMediator: @trackMediator
       builderController: @builderController
       paper: @paper
 
