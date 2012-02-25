@@ -14,19 +14,27 @@ builder.views.BuilderView = Ember.View.extend
 
   didInsertElement: ->
     (jQuery document).on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
-
-    @intervalId = setInterval (=> @_draw()), 1000 / 20
+    (jQuery document).on 'touchMouseUp', (event) => @_onTouchMouseUp(event)
 
   _onTouchMouseMove: (event) ->
-    @builderController.onTouchMouseMove { x: event.pageX, y: event.pageY }
+    x = event.pageX
+    y = event.pageY
 
-  _draw: ->
+    @builderController.onTouchMouseMove { x: x, y: y }
+    @_drawPoint x, y
+
+  _onTouchMouseUp: (event) ->
+    @builderController.onTouchMouseUp event
+    @_redraw()
+
+  _redraw: ->
+    @paper.clear()
+
     length = @mediator.points.length
     points = @mediator.points
 
-    return if @lastPointIndex is length
+    for point in points
+      @_drawPoint point.x, point.y
 
-    for i in [@lastPointIndex...length]
-      @paper.circle points[i].x, points[i].y, 0.5
-
-    @lastPointIndex = length - 1
+  _drawPoint: (x, y)->
+    @paper.circle x, y, 0.5

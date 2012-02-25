@@ -40,7 +40,7 @@ describe 'builder.controllers.BuilderController (unit)', ->
         x: 1
         y: 1
 
-      (expect @trackMediatorStub.points[0].angle).toBeApproximatelyEqual 45
+      (expect @trackMediatorStub.points[0].angle).toBeApproximatelyEqual 135
       (expect @trackMediatorStub.points[1].angle).toBeApproximatelyEqual 90
-      (expect @trackMediatorStub.points[2].angle).toBeApproximatelyEqual 45
+      (expect @trackMediatorStub.points[2].angle).toBeApproximatelyEqual 135
       (expect @trackMediatorStub.points[3].angle).toBeApproximatelyZeroDegree()

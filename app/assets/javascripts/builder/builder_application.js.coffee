@@ -20,7 +20,7 @@ builder.BuilderApplication = Ember.View.extend
 
     @builderView = builder.views.BuilderView.create
       mediator: @trackMediator
-      controller: @builderController
+      builderController: @builderController
       paper: @paper
 
     @builderView.appendTo @$()
