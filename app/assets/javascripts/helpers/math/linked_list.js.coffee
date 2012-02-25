@@ -62,5 +62,10 @@ class helpers.math.LinkedList
 
     @length += 1
 
+  clear: ->
+    @head = null
+    @tail = null
+    @length = 0
+
   @create: ->
     new LinkedList()

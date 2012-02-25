@@ -157,3 +157,20 @@ describe 'helpers.math.LinkedList', ->
       @list.insertBefore @third, {}
 
       (expect @list.length).toBe 4
+
+
+  describe '#clear', ->
+
+    beforeEach ->
+      @list = LinkedList.create()
+
+      @list.push {}
+      @list.push {}
+
+    it 'should set head and tail to null and length to zero', ->
+      @list.clear()
+
+      (expect @list.head).toBe null
+      (expect @list.tail).toBe null
+      (expect @list.length).toBe 0
+
