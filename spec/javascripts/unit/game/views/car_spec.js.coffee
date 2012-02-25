@@ -1,5 +1,6 @@
 
 #= require game/views/car
+#= require vendor/raphael
 
 describe 'game.views.CarView (unit)', ->
 
@@ -16,8 +17,7 @@ describe 'game.views.CarView (unit)', ->
     
     carView = CarView.create
       mediator: mediatorStub
-      paper: 
-        rect: ->
+      paper: Raphael 0, 0, 10 , 10
         
     (expect carView.get 'width').toNotBe undefined
     (expect carView.get 'height').toNotBe undefined

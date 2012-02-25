@@ -1,7 +1,7 @@
 
 #= require game/controllers/game_controller
 #= require game/mediators/game_mediator
-#= require game/views/track
+#= require game/views/track_view
 #= require game/views/game_view
 #= require game/models/track_model
 #= require game/controllers/car_controller
