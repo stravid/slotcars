@@ -1,5 +1,5 @@
 
-#= require game/views/track
+#= require game/views/track_view
 
 describe 'game.views.TrackView', ->
   

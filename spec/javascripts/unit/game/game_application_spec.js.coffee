@@ -1,6 +1,6 @@
 
 #= require game/game_application
-#= require game/views/track
+#= require game/views/track_view
 
 describe 'game.GameApplication (unit)', ->
 
