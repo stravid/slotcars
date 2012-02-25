@@ -55,3 +55,17 @@ describe 'builder.controllers.BuilderController (unit)', ->
       @builderController.onTouchMouseUp()
 
       (expect @smoothStub).toHaveBeenCalled()
+
+
+  describe '#resetPath', ->
+
+    beforeEach ->
+      @clearStub = sinon.stub @builderController.pointsPath, 'clear'
+
+    afterEach ->
+      @clearStub.restore()
+
+    it 'should call reset on pointsPath', ->
+      @builderController.resetPath()
+
+      (expect @clearStub).toHaveBeenCalled()

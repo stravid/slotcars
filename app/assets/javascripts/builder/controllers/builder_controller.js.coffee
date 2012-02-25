@@ -24,3 +24,6 @@ builder.controllers.BuilderController = Ember.Object.extend
     @pointsPath.clean minAngle: 6, minLength: 20, maxLength: 40
 
     @trackMediator.points = @pointsPath.asPointArray()
+
+  resetPath: ->
+    @pointsPath.clear()
