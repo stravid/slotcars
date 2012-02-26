@@ -1,0 +1,4 @@
+
+<a {{bindAttr href="linkToCreateTrack"}}>Create Track</a>
+
+{{dynamicView gameApplication}}

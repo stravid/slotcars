@@ -1,21 +1,21 @@
 
 #= require vendor/raphael
 
-#= require game/mediators/track_mediator
 #= require game/views/track_view
 
 #= require game/mediators/car_mediator
-#= require game/views/car
 #= require game/controllers/car_controller
 
 #= require helpers/event_normalize
+
+#= require game/mediators/game_mediator
 
 namespace 'game.controllers'
 
 game.controllers.GameController = Ember.Object.extend
 
   gameView: null
-  mediator: null
+  gameMediator: game.mediators.gameMediator
   carController: null
   gameLoopController: null
   isTouchMouseDown: false
@@ -37,7 +37,7 @@ game.controllers.GameController = Ember.Object.extend
   finish: ->
     @endTime = new Date().getTime()
     raceTime = @endTime - @startTime
-    @mediator.set 'raceTime', raceTime
+    @gameMediator.set 'raceTime', raceTime
 
   update: ->
     if @isTouchMouseDown
@@ -60,5 +60,5 @@ game.controllers.GameController = Ember.Object.extend
     @_resetTime()
 
   _resetTime: ->
-    @mediator.set 'raceTime', 0
+    @gameMediator.set 'raceTime', 0
     @startTime = new Date().getTime()

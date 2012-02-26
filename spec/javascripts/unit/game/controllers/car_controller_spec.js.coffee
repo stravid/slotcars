@@ -1,12 +1,12 @@
 
 #= require game/controllers/car_controller
 #= require vendor/raphael
-#= require game/models/track_model
+#= require shared/models/track_model
 
 describe 'game.controllers.CarController (unit)', ->
 
   CarController = game.controllers.CarController
-  TrackModel = game.models.TrackModel
+  TrackModel = shared.models.TrackModel
 
   it 'should extend Ember.Object', ->
     (expect Ember.Object.detect CarController).toBe true

@@ -1,38 +1,33 @@
 
 #= require helpers/namespace
-#= require embient/ember-layout
 #= require embient/ember-routemanager
 
-#= require community/views/play_view
-#= require community/views/build_view
 #= require community/views/community_view
+#= require community/states/tracks/tracks_new_state
+#= require community/states/tracks/tracks_show_state
 
 namespace 'community'
 
 community.CommunityStateManager = Ember.RouteManager.extend
 
-  rootElement: null
   wantsHistory: true
   baseURI: window.location.origin
+  application: null
 
-  locationInitialized: (->
-    if (Ember.empty @get 'location') then (@set 'location', 'tracks/new')
+  # builder is default state
+  redirectToRootState: (->
+    if (Ember.empty @get 'location') then (@set 'location', community.states.tracks.TracksNewState.route)
   ).observes 'location'
 
-  start: Ember.LayoutState.create
+  start: Ember.State.create
 
-    viewClass: community.views.CommunityView
+    enter: (manager) ->
+      manager.communityView = community.views.CommunityView.create()
+      manager.communityView.appendTo (jQuery manager.application.rootElement)
 
     Tracks: Ember.State.create
 
       route: 'tracks'
 
-      New: Ember.LayoutState.create
-        route: 'new'
-
-        viewClass: community.views.BuildView
-
-      Show: Ember.LayoutState.create
-        route: ':id'
-
-        viewClass: community.views.PlayView
+      New: community.states.tracks.TracksNewState
+      Show: community.states.tracks.TracksShowState

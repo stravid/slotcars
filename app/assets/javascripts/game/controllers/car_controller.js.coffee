@@ -3,6 +3,9 @@
 #= require vendor/raphael
 #= require helpers/math/vector
 
+#= require game/mediators/car_mediator
+#= require shared/mediators/current_track_mediator
+
 namespace 'game.controllers'
 
 Vector = helpers.math.Vector
@@ -10,6 +13,7 @@ Vector = helpers.math.Vector
 game.controllers.CarController = Ember.Object.extend
 
   speed: 0
+  maxSpeed: 1
   acceleration: 0
   deceleration: 0
 
@@ -18,14 +22,13 @@ game.controllers.CarController = Ember.Object.extend
 
   crashing: false
 
-  carMediator: null
-  trackMediator: null
+  carMediator: game.mediators.carMediator
+  trackMediator: shared.mediators.currentTrackMediator
 
-  currentTrackChanged: (->
+  init: ->
     @_calculatePositionOnPath()
     @_updateCarPosition()
     @_updateTrackLength()
-  ).observes 'trackMediator.currentTrack'
 
   accelerate: ->
     unless @crashing

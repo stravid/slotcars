@@ -1,9 +1,9 @@
 
-#= require game/models/track_model
+#= require shared/models/track_model
 
-describe 'game.models.TrackModel', ->
+describe 'shared.models.TrackModel', ->
 
-  TrackModel = game.models.TrackModel
+  TrackModel = shared.models.TrackModel
 
   it 'should be a model', ->
     (expect DS.Model.detect TrackModel).toBe true

@@ -1,17 +1,20 @@
 
 #= require helpers/namespace
+#= require shared/mediators/current_track_mediator
 
 namespace 'game.views'
   
 game.views.TrackView = Ember.Object.extend
 
-  trackMediator: null
+  trackMediator: shared.mediators.currentTrackMediator
   
   ROAD_WIDTH: 70
   SIDE_WIDTH: 10
   DASH_WIDTH: 2
   SIDE_DASH_WIDTH: 3
   SIDE_WIDTH: 5
+
+  init: -> @redrawTrack()
 
   redrawTrack: (->
     @path = @trackMediator.currentTrack.get 'path'

@@ -3,6 +3,9 @@
 
 #= require builder/templates/builder_template
 
+#= require shared/mediators/current_track_mediator
+#= require builder/mediators/builder_mediator
+
 namespace 'builder.views'
 
 builder.views.BuilderView = Ember.View.extend
@@ -10,15 +13,13 @@ builder.views.BuilderView = Ember.View.extend
   elementId: 'builder-view'
   templateName: 'builder_templates_builder_template'
 
+  currentTrackMediator: shared.mediators.currentTrackMediator
+  builderMediator: builder.mediators.builderMediator
   builderController: null
   paper: null
-  trackMediator: null
 
-  builtTrackBinding: 'trackMediator.builtTrack'
-  linkToBuiltTrack: (Ember.computed ->
-    builtTrack = (@get 'builtTrack')
-    if builtTrack then "tracks/#{(builtTrack.get 'clientId')}"
-  ).property 'builtTrack'
+  currentTrackBinding: 'currentTrackMediator.currentTrack'
+  linkToBuiltTrackBinding: 'currentTrackMediator.showRoute'
 
   didInsertElement: ->
     @_setupDrawEventListeners()
@@ -60,7 +61,7 @@ builder.views.BuilderView = Ember.View.extend
 
     pathString = "M"
 
-    for point in @trackMediator.points
+    for point in @builderMediator.points
       pathString += "#{point.x},#{point.y}L"
 
     pathString = pathString.substr 0, pathString.length - 1

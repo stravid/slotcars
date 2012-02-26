@@ -9,6 +9,6 @@ community.CommunityApplication = Ember.Application.extend
 
   ready: ->
     communityStateManager = community.CommunityStateManager.create
-      rootElement: @rootElement
+      application: this
 
     helpers.routing.routeLocalLinks communityStateManager

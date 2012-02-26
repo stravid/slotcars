@@ -1,6 +1,7 @@
 
 #= require helpers/namespace
 #= require helpers/graphic/exhaust
+#= require game/mediators/car_mediator
 
 namespace 'game.views'
 
@@ -13,7 +14,7 @@ game.views.CarView = Ember.Object.extend
   exhaust: null
   puffInterval: 2
   puffStep: 0
-  carMediator: null
+  carMediator: game.mediators.carMediator
   
   init: ->
     @exhaust = helpers.graphic.Exhaust.create(@paper)

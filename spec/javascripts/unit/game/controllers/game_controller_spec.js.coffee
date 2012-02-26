@@ -3,7 +3,7 @@
 #= require game/mediators/game_mediator
 #= require game/views/track_view
 #= require game/views/game_view
-#= require game/models/track_model
+#= require shared/models/track_model
 #= require game/controllers/car_controller
 
 
@@ -12,7 +12,7 @@ describe 'game.controllers.GameController (unit)', ->
   GameController = game.controllers.GameController
   GameView = game.views.GameView
   GameMediator = game.mediators.GameMediator
-  TrackModel = game.models.TrackModel
+  TrackModel = shared.models.TrackModel
 
   beforeEach ->
     @gameController = GameController.create

@@ -5,13 +5,17 @@
 #= require shared/model_store
 #= require shared/models/track_model
 
+#= require builder/mediators/builder_mediator
+#= require shared/mediators/current_track_mediator
+
 namespace 'builder.controllers'
 
 Vector = helpers.math.Vector
 
 builder.controllers.BuilderController = Ember.Object.extend
 
-  trackMediator: null
+  builderMediator: builder.mediators.builderMediator
+  currentTrackMediator: shared.mediators.currentTrackMediator
   pointsPath: null
 
   init: ->
@@ -25,13 +29,12 @@ builder.controllers.BuilderController = Ember.Object.extend
     @pointsPath.clean minAngle: 3, minLength: 10, maxLength: 20
     @pointsPath.smooth 25
 
-    @trackMediator.points = @pointsPath.asPointArray()
+    @builderMediator.points = @pointsPath.asPointArray()
     track = shared.ModelStore.createRecord shared.models.TrackModel
-    track.setPointArray @trackMediator.points
+    track.setPointArray @builderMediator.points
 
-    @trackMediator.set 'builtTrack', track
-
+    @currentTrackMediator.set 'currentTrack', track
 
   resetPath: ->
     @pointsPath.clear()
-    @trackMediator.points = []
+    @builderMediator.points = []
