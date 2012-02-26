@@ -14,6 +14,12 @@ builder.views.BuilderView = Ember.View.extend
   paper: null
   trackMediator: null
 
+  builtTrackBinding: 'trackMediator.builtTrack'
+  linkToBuiltTrack: (Ember.computed ->
+    builtTrack = (@get 'builtTrack')
+    if builtTrack then "tracks/#{(builtTrack.get 'clientId')}"
+  ).property 'builtTrack'
+
   didInsertElement: ->
     @_setupDrawEventListeners()
 

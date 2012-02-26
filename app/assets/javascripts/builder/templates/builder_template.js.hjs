@@ -1,1 +1,4 @@
+{{#if builtTrack}}
+  <a {{bindAttr href="linkToBuiltTrack"}}>play built track!</a>
+{{/if}}
 <button id="builder-delete-button">Delete</button>

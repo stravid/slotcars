@@ -4,7 +4,7 @@
 
 namespace 'game.views'
 
-@game.views.CarView = Ember.Object.extend
+game.views.CarView = Ember.Object.extend
 
   paper: null
   width: 27
@@ -13,27 +13,29 @@ namespace 'game.views'
   exhaust: null
   puffInterval: 2
   puffStep: 0
+  carMediator: null
   
   init: ->
     @exhaust = helpers.graphic.Exhaust.create(@paper)
     @_buildCar()
-    @mediator.addObserver 'position', => @update()
 
-  update: ->
-    position = @mediator.get 'position'
+  update: (->
+    position = @carMediator.get 'position'
     position.x -= @width / 2
     position.y -= @height / 4 * 1
     
     @car.attr position
+    @car.toFront()
     
     #@puffStep = ++@puffStep % @puffInterval
     #@exhaust.puff(position.x + @width - 6, position.y + @height) unless @puffStep > 0
     
     #@exhaust.update()
+  ).observes 'carMediator.position'
   
   _buildCar: ->
-    position = @mediator.get 'position'
+    position = @carMediator.get 'position'
     
     @car = @paper.rect position.x, position.y, @width, @height
-    @car.attr 'fill', 'url(assets/car/car-red.png)'
+    @car.attr 'fill', 'url(/assets/car/car-red.png)'
     @car.attr 'stroke', 'none'

@@ -12,7 +12,7 @@
 
 namespace 'game.controllers'
 
-@game.controllers.GameController = Ember.Object.extend
+game.controllers.GameController = Ember.Object.extend
 
   gameView: null
   mediator: null

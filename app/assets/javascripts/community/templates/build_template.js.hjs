@@ -1,4 +1,2 @@
-
-<a href="tracks">play!</a>
-
+<h1>Builder</h1>
 {{view builderApplication}}

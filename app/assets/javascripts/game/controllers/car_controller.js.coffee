@@ -7,7 +7,7 @@ namespace 'game.controllers'
 
 Vector = helpers.math.Vector
 
-@game.controllers.CarController = Ember.Object.extend
+game.controllers.CarController = Ember.Object.extend
 
   speed: 0
   acceleration: 0
@@ -21,10 +21,11 @@ Vector = helpers.math.Vector
   carMediator: null
   trackMediator: null
 
-  init: ->
+  currentTrackChanged: (->
     @_calculatePositionOnPath()
     @_updateCarPosition()
     @_updateTrackLength()
+  ).observes 'trackMediator.currentTrack'
 
   accelerate: ->
     unless @crashing
