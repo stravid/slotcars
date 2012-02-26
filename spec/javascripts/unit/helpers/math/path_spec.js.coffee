@@ -152,3 +152,54 @@ describe 'helpers.math.Path', ->
         { x: 0.75, y: 0, angle: 18}
         { x: 1, y: 0, angle: 0}
       ]
+
+
+  describe '#getTotalLength', ->
+
+    beforeEach ->
+      @path = Path.create()
+
+
+    it 'should have total length of zero without points', ->
+      (expect @path.getTotalLength()).toBe 0
+
+    it 'should calculate total length of path in pixels when created', ->
+      points = [
+        { x: 0, y: 0, angle: 0}
+        { x: 1, y: 0, angle: 0}
+        { x: 1, y: 1, angle: 0}
+        { x: 0, y: 1, angle: 0}
+      ]
+
+      path = Path.create points: points
+
+      (expect path.getTotalLength()).toBe 4
+
+    it 'should update total length when points are inserted', ->
+      points = [
+        { x: 0, y: 0, angle: 0}
+        { x: 1, y: 0, angle: 0}
+      ]
+
+      path = Path.create points: points
+      (expect path.getTotalLength()).toBe 2
+
+      path.insertBefore path.tail, {x: 2, y:0, angle:0}
+
+      (expect path.getTotalLength()).toBe 4
+
+    it 'should update total length when points are removed', ->
+      points = [
+        { x: 0, y: 0, angle: 0}
+        { x: 0.5, y: 0, angle: 0}
+        { x: 1, y: 0, angle: 0}
+        { x: 1, y: 1, angle: 0}
+        { x: 0, y: 1, angle: 0}
+      ]
+
+      path = Path.create points: points
+      (expect path.getTotalLength()).toBe 4
+
+      path.remove path.head.next
+
+      (expect path.getTotalLength()).toBe 4

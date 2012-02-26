@@ -10,6 +10,13 @@ LinkedList = helpers.math.LinkedList
 
 class helpers.math.Path extends LinkedList
 
+  totalLength: 0
+  _totalLengthDirty: false
+
+  @create: (parameters) ->
+    parameters ?= { points: [] }
+    new Path parameters.points
+
   constructor: (points) ->
     for point in points
       @push x: point.x, y: point.y, angle: point.angle
@@ -44,8 +51,28 @@ class helpers.math.Path extends LinkedList
 
   push: (point, shouldCalculateAngles) ->
     super point
+
+    @_updateLengthFor point
+    if @length > 1 then @_updateLengthFor (@_getCircularNextOf point)
+    @_totalLengthDirty = true
+
     if shouldCalculateAngles then @_calculateAnglesAroundPoint point
 
+  insertBefore: (next, point) ->
+    super next, point
+
+    @_updateLengthFor point
+    @_updateLengthFor next
+
+    @_totalLengthDirty = true
+
+  remove: (point) ->
+    next = point.next
+    super point
+
+    @_updateLengthFor next
+
+    @_totalLengthDirty = true
 
   smooth: (angleThreshold) ->
     next = @head
@@ -60,6 +87,27 @@ class helpers.math.Path extends LinkedList
         dirty = true
 
     if dirty then @smooth angleThreshold
+
+  getTotalLength: ->
+    if @_totalLengthDirty then @_updateTotalLength()
+    @_totalLengthDirty = false
+    @totalLength
+
+  _updateTotalLength: ->
+    current = @head
+    length = 0
+
+    while current?
+      length += current.length
+      current = current.next
+
+    @totalLength = length
+
+  _updateLengthFor: (point) ->
+    previous = @_getCircularPreviousOf point
+
+    vector = Vector.create from: previous, to: point
+    point.length = vector.length()
 
   _smoothPoint: (point) ->
     previous = @_getCircularPreviousOf point
@@ -139,7 +187,3 @@ class helpers.math.Path extends LinkedList
       @_calculateAngleFor @_getCircularPreviousOf point
       @_calculateAngleFor point
       @_calculateAngleFor @_getCircularNextOf point
-
-  @create: (parameters) ->
-    parameters ?= { points: [] }
-    new Path parameters.points
