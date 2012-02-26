@@ -16,7 +16,7 @@ community.CommunityStateManager = Ember.RouteManager.extend
 
   # builder is default state
   redirectToRootState: (->
-    if (Ember.empty @get 'location') then (@set 'location', community.states.tracks.TracksNewState.route)
+    if (Ember.empty @get 'location') then (@set 'location', 'tracks/new')
   ).observes 'location'
 
   start: Ember.State.create

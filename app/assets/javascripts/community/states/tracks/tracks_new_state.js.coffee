@@ -5,7 +5,7 @@
 
 namespace 'community.states.tracks'
 
-community.states.tracks.TracksNewState = Ember.State.extend
+community.states.tracks.TracksNewState = Ember.State.create
 
   route: 'new'
 
