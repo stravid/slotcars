@@ -1,4 +1,6 @@
 #= require builder/controllers/builder_controller
+#= require builder/mediators/builder_mediator
+#= require shared/mediators/current_track_mediator
 #= require helpers/math/path
 
 describe 'builder.controllers.BuilderController (unit)', ->
@@ -9,9 +11,7 @@ describe 'builder.controllers.BuilderController (unit)', ->
     (expect Ember.Object.detect BuilderController).toBe true
 
   beforeEach ->
-    @trackMediatorStub = Ember.Object.create
-    @builderController = BuilderController.create
-      trackMediator: @trackMediatorStub
+    @builderController = BuilderController.create()
 
     @points = [
       { x:0, y:0, angle:20}
@@ -26,6 +26,9 @@ describe 'builder.controllers.BuilderController (unit)', ->
     @cleanStub.restore()
     @asPointArrayStub.restore()
     @smoothStub.restore()
+    builder.mediators.builderMediator.points = []
+    shared.mediators.currentTrackMediator.set 'currentTrack', null
+
 
   describe '#onTouchMouseMove', ->
 
@@ -49,7 +52,7 @@ describe 'builder.controllers.BuilderController (unit)', ->
 
       (expect @cleanStub).toHaveBeenCalled()
       (expect @asPointArrayStub).toHaveBeenCalled()
-      (expect @trackMediatorStub.points).toBe @points
+      (expect builder.mediators.builderMediator.points).toBe @points
 
     it 'should smooth points', ->
       @builderController.onTouchMouseUp()

@@ -11,13 +11,10 @@ describe 'game.controllers.GameController (unit)', ->
 
   GameController = game.controllers.GameController
   GameView = game.views.GameView
-  GameMediator = game.mediators.GameMediator
   TrackModel = shared.models.TrackModel
 
   beforeEach ->
-    @gameController = GameController.create
-      rootElement: document.createElement 'div'
-      mediator: GameMediator.create()
+    @gameController = GameController.create()
 
   it 'should extend Ember.Object', ->
     (expect Ember.Object.detect GameController).toBe true
@@ -37,8 +34,7 @@ describe 'game.controllers.GameController (unit)', ->
 
     it 'should set isTouchMouseDown to true', ->
       gameController = GameController.create()
-      eventStub = originalEvent:
-          preventDefault: ->
+      eventStub = originalEvent: preventDefault: ->
 
       gameController.onTouchMouseDown eventStub
 
@@ -77,15 +73,7 @@ describe 'game.controllers.GameController (unit)', ->
   describe '#update', ->
 
     beforeEach ->
-      trackMediatorStub = Ember.Object.create
-        currentTrack: TrackModel._create
-          path: "M10,20L30,40"
-
-      carMediatorStub = Ember.Object.create position: {}
-
-      @carController = game.controllers.CarController.create
-        carMediator: carMediatorStub
-        trackMediator: trackMediatorStub
+      @carController = game.controllers.CarController.create()
 
       @accelerateStub = sinon.stub @carController, 'accelerate'
       @slowDownStub = sinon.stub @carController, 'slowDown'
@@ -121,16 +109,20 @@ describe 'game.controllers.GameController (unit)', ->
 
 
   describe '#start', ->
-      
-    it 'should save timestamp', ->
-      gameController = GameController.create
-        gameLoopController: 
+
+    beforeEach ->
+      @carControllerStub =
+        setup: sinon.spy()
+
+      @gameController = GameController.create
+        gameLoopController:
           start: ->
         update: ->
-        mediator: Ember.Object.create()
+        carController: @carControllerStub
 
-      gameController.start()
-      (expect gameController.startTime).toNotBe null
+    it 'should save timestamp', ->
+      @gameController.start()
+      (expect @gameController.startTime).toNotBe null
 
     it 'should start the game loop with #update method as renderCallback', ->
       @maxCalls = Math.floor(Math.random(1) * 10) + 5
@@ -147,13 +139,16 @@ describe 'game.controllers.GameController (unit)', ->
 
       @gameControllerUpdateStub = sinon.spy()
 
-      @gameController = GameController.create
-        gameLoopController: @gameLoopControllerStub
-        update: @gameControllerUpdateStub
-        mediator: Ember.Object.create()
+      @gameController.gameLoopController = @gameLoopControllerStub
+      @gameController.update = @gameControllerUpdateStub
 
       @gameController.start()
+
       (expect @gameControllerUpdateStub.callCount).toBe @maxCalls
+
+    it 'should call setup method on carController', ->
+      @gameController.start()
+      (expect @carControllerStub.setup).toHaveBeenCalled()
 
 
   describe '#finish', ->
@@ -195,8 +190,7 @@ describe 'game.controllers.GameController (unit)', ->
       restartGameSpy = sinon.spy()
 
       gameController = GameController.create
-        gameView: GameView.create
-          mediator: GameMediator.create()
+        gameView: GameView.create()
         restartGame: restartGameSpy
   
       (jQuery gameController.gameView).trigger 'restartGame'
@@ -206,18 +200,16 @@ describe 'game.controllers.GameController (unit)', ->
       gameController = GameController.create
         carController: @carControllerStub        
         gameLoopController: @gameLoopControllerStub
-        mediator: GameMediator.create()
 
-      gameController.mediator.raceTime = 18
+      gameController.gameMediator.raceTime = 18
       gameController.restartGame()
 
-      (expect gameController.mediator.raceTime).toBe 0
+      (expect gameController.gameMediator.raceTime).toBe 0
 
     it 'should reset car', ->
       gameController = GameController.create
         carController: @carControllerStub
         gameLoopController: @gameLoopControllerStub
-        mediator: GameMediator.create()
 
       gameController.restartGame()
       (expect @carResetSpy).toHaveBeenCalled()

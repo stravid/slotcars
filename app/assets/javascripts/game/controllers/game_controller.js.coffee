@@ -1,13 +1,6 @@
 
-#= require vendor/raphael
-
-#= require game/views/track_view
-
-#= require game/mediators/car_mediator
 #= require game/controllers/car_controller
-
 #= require helpers/event_normalize
-
 #= require game/mediators/game_mediator
 
 namespace 'game.controllers'
@@ -32,6 +25,7 @@ game.controllers.GameController = Ember.Object.extend
 
   start: ->
     @_resetTime()
+    @carController.setup()
     @gameLoopController.start => @update()
 
   finish: ->

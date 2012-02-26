@@ -1,5 +1,5 @@
 
-#= require game/views/car
+#= require game/views/car_view
 
 describe 'game.views.CarView (functional)', ->
 
@@ -12,10 +12,11 @@ describe 'game.views.CarView (functional)', ->
         y: 0
 
     @paperStub =
-      rect: sinon.stub().returns { attr: sinon.spy() }
+      rect: sinon.stub().returns
+        attr: sinon.spy()
 
     @carView = CarView.create
-      mediator: @carMediatorStub
+      carMediator: @carMediatorStub
       paper: @paperStub
 
   it 'should create a car rectangle with a given position when created', ->

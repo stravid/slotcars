@@ -2,11 +2,15 @@
 #= require game/controllers/car_controller
 #= require vendor/raphael
 #= require shared/models/track_model
+#= require shared/mediators/current_track_mediator
+#= require game/mediators/car_mediator
 
 describe 'game.controllers.CarController (unit)', ->
 
   CarController = game.controllers.CarController
   TrackModel = shared.models.TrackModel
+  currentTrackMediator = shared.mediators.currentTrackMediator
+  carMediator = game.mediators.carMediator
 
   it 'should extend Ember.Object', ->
     (expect Ember.Object.detect CarController).toBe true
@@ -14,18 +18,14 @@ describe 'game.controllers.CarController (unit)', ->
   beforeEach ->
     @path = "M10,20L30,40"
 
-    @trackMediatorStub = Ember.Object.create
-      currentTrack: TrackModel._create
-        path: @path
+    currentTrackMediator.set 'currentTrack', TrackModel._create
+      path: @path
 
-    @carMediatorStub = Ember.Object.create
-      position:
-        x: 0
-        y: 0
+    @car = CarController.create()
 
-    @car = CarController.create
-      carMediator: @carMediatorStub
-      trackMediator: @trackMediatorStub
+  afterEach ->
+    currentTrackMediator.set 'currentTrack', null
+    carMediator.set 'position', (Ember.Object.create x:0, y:0)
 
   describe 'defaults on creation', ->
 
@@ -39,13 +39,15 @@ describe 'game.controllers.CarController (unit)', ->
       (expect @car.crashing).toBe false
 
 
-  describe '#init', ->
+  describe '#setup', ->
 
     it 'should set car position on mediator', ->
-      expectedPoint = @trackMediatorStub.currentTrack.getPointAtLength 0
+      expectedPoint = currentTrackMediator.currentTrack.getPointAtLength 0
 
-      (expect @carMediatorStub.position.x).toEqual expectedPoint.x
-      (expect @carMediatorStub.position.y).toEqual expectedPoint.y
+      @car.setup()
+
+      (expect carMediator.position.x).toEqual expectedPoint.x
+      (expect carMediator.position.y).toEqual expectedPoint.y
 
 
   describe '#accelerate', ->
@@ -91,10 +93,10 @@ describe 'game.controllers.CarController (unit)', ->
       it 'should update the car position', ->
         @car.drive()
 
-        point = @trackMediatorStub.currentTrack.getPointAtLength @speedValue
+        point = currentTrackMediator.currentTrack.getPointAtLength @speedValue
 
-        (expect @carMediatorStub.position.x).toBe point.x
-        (expect @carMediatorStub.position.y).toBe point.y
+        (expect carMediator.position.x).toBe point.x
+        (expect carMediator.position.y).toBe point.y
 
     describe 'deterministic speed', ->
 
@@ -113,7 +115,7 @@ describe 'game.controllers.CarController (unit)', ->
     describe 'crash & respawn', ->
 
       beforeEach ->
-        @getPointAtLengthStub = sinon.stub @trackMediatorStub.currentTrack, 'getPointAtLength'
+        @getPointAtLengthStub = sinon.stub currentTrackMediator.currentTrack, 'getPointAtLength'
 
         # mocks curve angle of 90 degrees
         (@getPointAtLengthStub.withArgs 0).returns x: 0, y:0
@@ -159,7 +161,7 @@ describe 'game.controllers.CarController (unit)', ->
           @car.drive()
 
           # drives 2 times in direction x: 1, y: 0
-          (expect @carMediatorStub.position.x).toBe 2
+          (expect carMediator.position.x).toBe 2
 
         it 'should not be possible to accelerate the car when crashing', ->
           @car.speed = 1
@@ -202,8 +204,8 @@ describe 'game.controllers.CarController (unit)', ->
 
           @car.drive() # drive on path again
 
-          (expect @carMediatorStub.position.x).toBe 1
-          (expect @carMediatorStub.position.y).toBe 1
+          (expect carMediator.position.x).toBe 1
+          (expect carMediator.position.y).toBe 1
 
 
 

@@ -17,7 +17,7 @@ game.views.CarView = Ember.Object.extend
   carMediator: game.mediators.carMediator
   
   init: ->
-    @exhaust = helpers.graphic.Exhaust.create(@paper)
+    #@exhaust = helpers.graphic.Exhaust.create(@paper)
     @_buildCar()
 
   update: (->
@@ -26,7 +26,6 @@ game.views.CarView = Ember.Object.extend
     position.y -= @height / 4 * 1
     
     @car.attr position
-    @car.toFront()
     
     #@puffStep = ++@puffStep % @puffInterval
     #@exhaust.puff(position.x + @width - 6, position.y + @height) unless @puffStep > 0

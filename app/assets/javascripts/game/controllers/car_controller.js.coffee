@@ -25,7 +25,7 @@ game.controllers.CarController = Ember.Object.extend
   carMediator: game.mediators.carMediator
   trackMediator: shared.mediators.currentTrackMediator
 
-  init: ->
+  setup: ->
     @_calculatePositionOnPath()
     @_updateCarPosition()
     @_updateTrackLength()
