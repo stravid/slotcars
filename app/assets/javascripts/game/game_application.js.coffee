@@ -35,7 +35,7 @@ game.GameApplication = Ember.View.extend
     @gameController.start()
 
   _setupRaphael: ->
-    @paper = Raphael @$()[0], 1024, 768
+    @paper = Raphael @$()[0], 1024, 650
 
   _setupTrack: ->
     @trackView = game.views.TrackView.create

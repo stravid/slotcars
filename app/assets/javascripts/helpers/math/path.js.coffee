@@ -93,6 +93,9 @@ class helpers.math.Path extends LinkedList
     @totalLength
 
   getPointAtLength: (searchedLength) ->
+    unless @length > 1
+      return x: 0, y: 0, angle:0
+
     if @_lengthDirty then @_updateLength()
     searchedLength = searchedLength % @getTotalLength()
     current = @head.next

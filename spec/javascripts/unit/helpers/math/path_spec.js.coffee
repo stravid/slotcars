@@ -217,6 +217,10 @@ describe 'helpers.math.Path', ->
 
       @path = Path.create points: @points
 
+    it 'should return zero point if no points in path', ->
+      path = Path.create()
+      (expect path.getPointAtLength 1).toEqual x: 0, y: 0, angle: 0
+
     it 'should return defined points at length', ->
       (expect @path.getPointAtLength 2).toEqual x:1 , y: 1, angle: 3
 

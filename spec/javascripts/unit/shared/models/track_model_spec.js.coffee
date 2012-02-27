@@ -1,5 +1,6 @@
 
 #= require shared/models/track_model
+#= require helpers/math/path
 
 describe 'shared.models.TrackModel', ->
 
@@ -9,17 +10,23 @@ describe 'shared.models.TrackModel', ->
     (expect DS.Model.detect TrackModel).toBe true
 
   beforeEach ->
-    @trackPath = 'M10,20L30,40'
-    @trackModel = TrackModel._create
-      path: @trackPath
+    @path = helpers.math.Path.create points: [
+      {x: 0, y:0, angle: 0}
+      {x: 1, y:0, angle: 0}
+      {x: 1, y:1, angle: 0}
+      {x: 0, y:1, angle: 0}
+    ]
+
+    @trackModel = TrackModel.createRecord()
+    @trackModel.setPointPath @path
   
   describe '#getTotalLength', ->
 
     it 'should calculate total length of path', ->
-      (expect @trackModel.get 'totalLength').toBe Raphael.getTotalLength @trackPath
+      (expect @trackModel.get 'totalLength').toBe @path.getTotalLength()
 
   describe '#getPointAtLength', ->
 
     it 'should calculate point at certain length of path', ->
       length = 5
-      (expect @trackModel.getPointAtLength length).toEqual Raphael.getPointAtLength @trackPath, length
+      (expect @trackModel.getPointAtLength length).toEqual @path.getPointAtLength length

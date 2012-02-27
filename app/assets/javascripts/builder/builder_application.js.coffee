@@ -16,7 +16,7 @@ builder.BuilderApplication = Ember.View.extend
   builderMediator: builder.mediators.builderMediator
 
   didInsertElement: ->
-    @paper = Raphael @$()[0], 1024, 768
+    @paper = Raphael @$()[0], 1024, 650
 
     @builderController = builder.controllers.BuilderController.create()
 

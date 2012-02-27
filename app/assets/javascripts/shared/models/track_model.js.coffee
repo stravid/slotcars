@@ -2,6 +2,7 @@
 #= require helpers/namespace
 #= require embient/ember-data
 #= require vendor/raphael
+#= require helpers/math/path
 
 namespace 'shared.models'
 
@@ -9,7 +10,7 @@ shared.models.TrackModel = DS.Model.extend
 
   path: DS.attr 'string'
 
-  pointsPath: null
+  pointsPath: helpers.math.Path.create()
 
   setPointPath: (path) ->
     @set 'pointsPath', path
