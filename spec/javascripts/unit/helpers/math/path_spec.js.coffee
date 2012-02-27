@@ -203,3 +203,25 @@ describe 'helpers.math.Path', ->
       path.remove path.head.next
 
       (expect path.getTotalLength()).toBe 4
+
+
+  describe '#getPointAtLength', ->
+
+    beforeEach ->
+      @points = [
+        { x: 0, y: 0, angle: 1}
+        { x: 1, y: 0, angle: 2}
+        { x: 1, y: 1, angle: 3}
+        { x: 0, y: 1, angle: 4}
+      ]
+
+      @path = Path.create points: @points
+
+    it 'should return defined points at length', ->
+      (expect @path.getPointAtLength 2).toEqual x:1 , y: 1, angle: 3
+
+    it 'should calculate intermediate points for any length', ->
+      (expect @path.getPointAtLength 1.5).toEqual x: 1, y: 0.5, angle: 0
+
+    it 'should return correct point when searched length > total length', ->
+      (expect @path.getPointAtLength 5).toEqual x: 1, y: 0, angle: 2

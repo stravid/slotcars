@@ -11,7 +11,7 @@ LinkedList = helpers.math.LinkedList
 class helpers.math.Path extends LinkedList
 
   totalLength: 0
-  _totalLengthDirty: false
+  _lengthDirty: false
 
   @create: (parameters) ->
     parameters ?= { points: [] }
@@ -44,7 +44,7 @@ class helpers.math.Path extends LinkedList
 
     while next?
       current = next
-      elements.push x: current.x, y: current.y, angle: current.angle
+      elements.push (@_getCleanPointFor current)
       next = current.next
 
     return elements
@@ -54,7 +54,7 @@ class helpers.math.Path extends LinkedList
 
     @_updateLengthFor point
     if @length > 1 then @_updateLengthFor (@_getCircularNextOf point)
-    @_totalLengthDirty = true
+    @_lengthDirty = true
 
     if shouldCalculateAngles then @_calculateAnglesAroundPoint point
 
@@ -64,7 +64,7 @@ class helpers.math.Path extends LinkedList
     @_updateLengthFor point
     @_updateLengthFor next
 
-    @_totalLengthDirty = true
+    @_lengthDirty = true
 
   remove: (point) ->
     next = point.next
@@ -72,7 +72,7 @@ class helpers.math.Path extends LinkedList
 
     @_updateLengthFor next
 
-    @_totalLengthDirty = true
+    @_lengthDirty = true
 
   smooth: (angleThreshold) ->
     next = @head
@@ -89,9 +89,45 @@ class helpers.math.Path extends LinkedList
     if dirty then @smooth angleThreshold
 
   getTotalLength: ->
-    if @_totalLengthDirty then @_updateTotalLength()
-    @_totalLengthDirty = false
+    if @_lengthDirty then @_updateLength()
     @totalLength
+
+  getPointAtLength: (searchedLength) ->
+    if @_lengthDirty then @_updateLength()
+    current = @head.next
+    currentTotalLength = 0
+    point = null
+
+    while current?
+      nextTotalLength = currentTotalLength + current.length
+
+      if searchedLength is nextTotalLength
+        point = @_getCleanPointFor current
+        break
+      else if searchedLength < nextTotalLength
+        point = @_calculateIntermediatePointFor current, searchedLength - currentTotalLength
+        break
+      else
+        currentTotalLength = nextTotalLength
+        current = @_getCircularNextOf current
+
+    return point
+
+  _getCleanPointFor: (point) ->
+    x: point.x, y: point.y, angle: point.angle
+
+  _calculateIntermediatePointFor: (point, factor) ->
+    vector = Vector.create from: point.previous, to: point
+    length = vector.length()
+    {
+      x: point.previous.x + (vector.x / length * factor)
+      y: point.previous.y + (vector.y / length * factor)
+      angle: 0
+    }
+
+  _updateLength: ->
+    @_updateTotalLength()
+    @_lengthDirty = false
 
   _updateTotalLength: ->
     current = @head
