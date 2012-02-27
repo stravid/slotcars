@@ -53,7 +53,7 @@ class helpers.math.Path extends LinkedList
     super point
 
     @_updateLengthFor point
-    if @length > 1 then @_updateLengthFor (@_getCircularNextOf point)
+    if @length > 1 then @_updateLengthFor (@getCircularNextOf point)
     @_lengthDirty = true
 
     if shouldCalculateAngles then @_calculateAnglesAroundPoint point
@@ -67,7 +67,7 @@ class helpers.math.Path extends LinkedList
     @_lengthDirty = true
 
   remove: (point) ->
-    next = @_getCircularNextOf point
+    next = @getCircularNextOf point
     super point
 
     @_updateLengthFor next
@@ -113,7 +113,7 @@ class helpers.math.Path extends LinkedList
         break
       else
         currentTotalLength = nextTotalLength
-        current = @_getCircularNextOf current
+        current = @getCircularNextOf current
 
     return point
 
@@ -121,7 +121,7 @@ class helpers.math.Path extends LinkedList
     x: point.x, y: point.y, angle: point.angle
 
   _calculateIntermediatePointFor: (point, factor) ->
-    previous = (@_getCircularPreviousOf point)
+    previous = (@getCircularPreviousOf point)
     vector = Vector.create from: previous, to: point
     length = vector.length()
     {
@@ -145,14 +145,14 @@ class helpers.math.Path extends LinkedList
     @totalLength = length
 
   _updateLengthFor: (point) ->
-    previous = @_getCircularPreviousOf point
+    previous = @getCircularPreviousOf point
 
     vector = Vector.create from: previous, to: point
     point.length = vector.length()
 
   _smoothPoint: (point) ->
-    previous = @_getCircularPreviousOf point
-    next = @_getCircularNextOf point
+    previous = @getCircularPreviousOf point
+    next = @getCircularNextOf point
 
     vectorA = Vector.create from: previous, to: point
     vectorB = Vector.create from: point, to: next
@@ -173,13 +173,13 @@ class helpers.math.Path extends LinkedList
     @_calculateAngleFor interpolatedB
 
   _pointShouldBeSplit: (point, parameters) ->
-    next = @_getCircularNextOf point
+    next = @getCircularNextOf point
     currentVector = Vector.create from: point, to: next
     currentVector.length() > parameters.maxLength
 
   _pointShouldBeRemoved: (point, parameters) ->
-    previous = @_getCircularPreviousOf point
-    next = @_getCircularNextOf point
+    previous = @getCircularPreviousOf point
+    next = @getCircularNextOf point
 
     currentVector = Vector.create from: previous, to: point
 
@@ -199,8 +199,8 @@ class helpers.math.Path extends LinkedList
     return false
 
   _calculateAngleFor: (point) ->
-    previous = @_getCircularPreviousOf point
-    next = @_getCircularNextOf point
+    previous = @getCircularPreviousOf point
+    next = @getCircularNextOf point
 
     fromPrevious = Vector.create from: previous, to: point
     toNext = Vector.create from: point, to: next
@@ -208,7 +208,7 @@ class helpers.math.Path extends LinkedList
     point.angle = fromPrevious.angleFrom toNext
 
   _splitPoint: (point) ->
-    next = @_getCircularNextOf point
+    next = @getCircularNextOf point
     vector = Vector.create from: point, to: next
 
     @insertBefore next,
@@ -216,15 +216,9 @@ class helpers.math.Path extends LinkedList
       y: point.y + vector.center().y
       angle: 0
 
-  _getCircularPreviousOf: (point) ->
-    if point is @head then @tail else point.previous
-
-  _getCircularNextOf: (point) ->
-    if point is @tail then @head else point.next
-
   _calculateAnglesAroundPoint: (point) ->
     # only calculate angle if there are at least 3 points
     if @length > 2
-      @_calculateAngleFor @_getCircularPreviousOf point
+      @_calculateAngleFor @getCircularPreviousOf point
       @_calculateAngleFor point
-      @_calculateAngleFor @_getCircularNextOf point
+      @_calculateAngleFor @getCircularNextOf point
