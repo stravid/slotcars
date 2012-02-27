@@ -31,7 +31,7 @@ builder.controllers.BuilderController = Ember.Object.extend
 
     @builderMediator.points = @pointsPath.asPointArray()
     track = shared.ModelStore.createRecord shared.models.TrackModel
-    track.setPointArray @builderMediator.points
+    track.setPointPath @pointsPath
 
     @currentTrackMediator.set 'currentTrack', track
 

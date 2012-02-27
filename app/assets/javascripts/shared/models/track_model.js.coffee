@@ -9,10 +9,14 @@ shared.models.TrackModel = DS.Model.extend
 
   path: DS.attr 'string'
 
-  setPointArray: (points) ->
+  pointsPath: null
+
+  setPointPath: (path) ->
+    @set 'pointsPath', path
+
     pathString = "M"
 
-    for point in points
+    for point in path.asPointArray()
       pathString += "#{point.x},#{point.y}L"
 
     pathString = pathString.substr 0, pathString.length - 1
@@ -21,8 +25,8 @@ shared.models.TrackModel = DS.Model.extend
     @set 'path', pathString
   
   totalLength: (Ember.computed ->
-    Raphael.getTotalLength @get 'path'
-  ).property 'path'
+    (@get 'pointsPath').getTotalLength()
+  ).property 'pointsPath'
 
   getPointAtLength: (length) ->
-    Raphael.getPointAtLength (@get 'path'), length
+    (@get 'pointsPath').getPointAtLength length

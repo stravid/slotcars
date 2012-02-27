@@ -67,7 +67,7 @@ class helpers.math.Path extends LinkedList
     @_lengthDirty = true
 
   remove: (point) ->
-    next = point.next
+    next = @_getCircularNextOf point
     super point
 
     @_updateLengthFor next
@@ -94,6 +94,7 @@ class helpers.math.Path extends LinkedList
 
   getPointAtLength: (searchedLength) ->
     if @_lengthDirty then @_updateLength()
+    searchedLength = searchedLength % @getTotalLength()
     current = @head.next
     currentTotalLength = 0
     point = null
@@ -117,11 +118,12 @@ class helpers.math.Path extends LinkedList
     x: point.x, y: point.y, angle: point.angle
 
   _calculateIntermediatePointFor: (point, factor) ->
-    vector = Vector.create from: point.previous, to: point
+    previous = (@_getCircularPreviousOf point)
+    vector = Vector.create from: previous, to: point
     length = vector.length()
     {
-      x: point.previous.x + (vector.x / length * factor)
-      y: point.previous.y + (vector.y / length * factor)
+      x: previous.x + (vector.x / length * factor)
+      y: previous.y + (vector.y / length * factor)
       angle: 0
     }
 
