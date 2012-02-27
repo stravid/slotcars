@@ -67,5 +67,11 @@ class helpers.math.LinkedList
     @tail = null
     @length = 0
 
+  getCircularNextOf: (element) ->
+    if element is @tail then @head else element.next
+
+  getCircularPreviousOf: (element) ->
+    if element is @head then @tail else element.previous
+
   @create: ->
     new LinkedList()

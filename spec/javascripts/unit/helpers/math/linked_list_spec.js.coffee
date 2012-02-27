@@ -10,11 +10,14 @@ describe 'helpers.math.LinkedList', ->
     it 'should create instance of linked list', ->
       (expect LinkedList.create()).toEqual new LinkedList()
 
+  beforeEach ->
+    @list = LinkedList.create()
+
+    @first = {}
+    @second = {}
+    @third = {}
 
   describe 'defaults', ->
-
-    beforeEach ->
-      @list = LinkedList.create()
 
     it 'should have property head set to null', ->
       (expect @list.head).toBe null
@@ -28,53 +31,38 @@ describe 'helpers.math.LinkedList', ->
 
   describe '#push', ->
 
-    beforeEach ->
-      @list = LinkedList.create()
-
     it 'should add element to the end of the list and set head and tail', ->
-      element = {}
+      @list.push @first
 
-      @list.push element
-
-      (expect @list.head).toBe element
-      (expect @list.tail).toBe element
+      (expect @list.head).toBe @first
+      (expect @list.tail).toBe @first
 
     it 'should append element to the existing last element and update tail', ->
-      first = {}
-      second = {}
+      @list.push @first
+      @list.push @second
 
-      @list.push first
-      @list.push second
-
-      (expect @list.head).toBe first
-      (expect @list.tail).toBe second
+      (expect @list.head).toBe @first
+      (expect @list.tail).toBe @second
 
     it 'should link the current tail to new element', ->
-      first = {}
-      second = {}
+      @list.push @first
+      @list.push @second
 
-      @list.push first
-      @list.push second
+      (expect @first.next).toBe @second
+      (expect @first.previous).toBe null
 
-      (expect first.next).toBe second
-      (expect first.previous).toBe null
-
-      (expect second.previous).toBe first
-      (expect second.next).toBe null
+      (expect @second.previous).toBe @first
+      (expect @second.next).toBe null
 
     it 'should link together multiple elements', ->
-      first = {}
-      second = {}
-      third = {}
+      @list.push @first
+      @list.push @second
+      @list.push @third
 
-      @list.push first
-      @list.push second
-      @list.push third
-
-      (expect @list.head).toBe first
-      (expect @list.head.next).toBe second
-      (expect @list.tail.previous).toBe second
-      (expect @list.tail).toBe third
+      (expect @list.head).toBe @first
+      (expect @list.head.next).toBe @second
+      (expect @list.tail.previous).toBe @second
+      (expect @list.tail).toBe @third
 
     it 'should increase length property', ->
       @list.push {}
@@ -86,39 +74,30 @@ describe 'helpers.math.LinkedList', ->
 
   describe '#remove', ->
 
-    beforeEach ->
-      @list = LinkedList.create()
-
     it 'should remove the last element and update head and tail', ->
-      first = {}
-      @list.push first
+      @list.push @first
 
-      @list.remove first
+      @list.remove @first
 
       (expect @list.head).toBe null
       (expect @list.tail).toBe null
 
     it 'should remove element between others and update links', ->
-      first = {}
-      second = {}
-      third = {}
+      @list.push @first
+      @list.push @second
+      @list.push @third
 
-      @list.push first
-      @list.push second
-      @list.push third
+      @list.remove @second
 
-      @list.remove second
-
-      (expect @list.head).toBe first
-      (expect @list.tail).toBe third
-      (expect first.next).toBe third
-      (expect third.previous).toBe first
+      (expect @list.head).toBe @first
+      (expect @list.tail).toBe @third
+      (expect @first.next).toBe @third
+      (expect @third.previous).toBe @first
 
     it 'should decrease length property', ->
-      @element = {}
-      @list.push @element
+      @list.push @first
 
-      @list.remove @element
+      @list.remove @first
 
       (expect @list.length).toBe 0
 
@@ -126,12 +105,6 @@ describe 'helpers.math.LinkedList', ->
   describe '#insertBefore', ->
 
     beforeEach ->
-      @list = LinkedList.create()
-
-      @first = {}
-      @second = {}
-      @third = {}
-
       @list.push @first
       @list.push @second
       @list.push @third
@@ -161,16 +134,40 @@ describe 'helpers.math.LinkedList', ->
 
   describe '#clear', ->
 
-    beforeEach ->
-      @list = LinkedList.create()
-
-      @list.push {}
-      @list.push {}
-
     it 'should set head and tail to null and length to zero', ->
+      @list.push {}
+      @list.push {}
+
       @list.clear()
 
       (expect @list.head).toBe null
       (expect @list.tail).toBe null
       (expect @list.length).toBe 0
 
+
+  describe '#getCircularNextOf', ->
+
+    beforeEach ->
+      @list.push @first
+      @list.push @second
+      @list.push @third
+
+    it 'should return the next element', ->
+      (expect @list.getCircularNextOf @second).toBe @third
+
+    it 'should return head element for tail', ->
+      (expect @list.getCircularNextOf @third).toBe @first
+
+
+  describe '#getCircularPreviousOf', ->
+
+    beforeEach ->
+      @list.push @first
+      @list.push @second
+      @list.push @third
+
+    it 'should return the previous element', ->
+      (expect @list.getCircularPreviousOf @second).toBe @first
+
+    it 'should return tail element for head', ->
+      (expect @list.getCircularPreviousOf @first).toBe @third
