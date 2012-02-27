@@ -3,7 +3,7 @@
 
 namespace 'game.mediators'
 
-@game.mediators.CarMediator = Ember.Object.extend
+game.mediators.carMediator = Ember.Object.create
 
   position: Ember.Object.create
     x: 0
