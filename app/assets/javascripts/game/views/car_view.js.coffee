@@ -2,10 +2,14 @@
 #= require helpers/namespace
 #= require helpers/graphic/exhaust
 #= require game/mediators/car_mediator
+#= require game/templates/car_template
 
 namespace 'game.views'
 
-game.views.CarView = Ember.Object.extend
+game.views.CarView = Ember.View.extend
+
+  templateName: 'game_templates_car_template'
+  tagName: ''
 
   paper: null
   width: 27
@@ -15,27 +19,28 @@ game.views.CarView = Ember.Object.extend
   puffInterval: 2
   puffStep: 0
   carMediator: game.mediators.carMediator
+  gameApplication: null
   
   init: ->
-    #@exhaust = helpers.graphic.Exhaust.create(@paper)
-    @_buildCar()
+    @_super()
 
-  update: (->
+  didInsertElement: ->
+    #@exhaust = helpers.graphic.Exhaust.create(@paper)
+    offset = (jQuery @gameApplication.$()).offset()
+
+    (jQuery @$()).css 'top', offset.top
+    (jQuery @$()).css 'left', offset.left
+
+  onPositionChange: (-> @update()).observes 'carMediator.position'
+
+  update: ->
     position = @carMediator.get 'position'
     position.x -= @width / 2
     position.y -= @height / 4 * 1
-    
-    @car.attr position
+
+    (jQuery '#car').css '-webkit-transform', "translate3d(#{position.x}px,#{position.y}px,0)"
     
     #@puffStep = ++@puffStep % @puffInterval
     #@exhaust.puff(position.x + @width - 6, position.y + @height) unless @puffStep > 0
     
     #@exhaust.update()
-  ).observes 'carMediator.position'
-  
-  _buildCar: ->
-    position = @carMediator.get 'position'
-    
-    @car = @paper.rect position.x, position.y, @width, @height
-    @car.attr 'fill', 'url(/assets/car/car-red.png)'
-    @car.attr 'stroke', 'none'
