@@ -43,35 +43,35 @@ describe 'helpers.math.Vector (unit)', ->
       vector1 = Vector.create x: 1, y: 0
       vector2 = Vector.create x: 1, y: 1
 
-      (expect Math.floor vector1.angleFrom vector2).toBe 45
+      (expect vector1.angleFrom vector2).toBeApproximatelyEqual 45
 
     it 'should return correct angle for orthogonal vectors', ->
       vector1 = Vector.create x: 0, y: 1
       vector2 = Vector.create x: 1, y: 0
 
-      (expect Math.floor vector1.angleFrom vector2).toBe 90
+      (expect vector1.angleFrom vector2).toBeApproximatelyEqual 90
 
   describe '#clockwiseAngle', ->
 
     it 'should return correct angles for first quadrant', ->
       vector = Vector.create x: 1, y: -1
 
-      (expect Math.floor vector.clockwiseAngle()).toBe 45
+      (expect vector.clockwiseAngle()).toBeApproximatelyEqual 45
 
     it 'should return correct angles for second quadrant', ->
       vector = Vector.create x: 1, y: 1
 
-      (expect Math.floor vector.clockwiseAngle()).toBe 135
+      (expect vector.clockwiseAngle()).toBeApproximatelyEqual 135
 
     it 'should return correct angles for second quadrant', ->
       vector = Vector.create x: -1, y: 1
 
-      (expect Math.floor vector.clockwiseAngle()).toBe 225
+      (expect vector.clockwiseAngle()).toBeApproximatelyEqual 225
 
     it 'should return correct angles for second quadrant', ->
       vector = Vector.create x: -1, y: -1
 
-      (expect Math.floor vector.clockwiseAngle()).toBe 315
+      (expect vector.clockwiseAngle()).toBeApproximatelyEqual 315
 
   describe '#center', ->
 

@@ -8,9 +8,9 @@ Vector = helpers.math.Vector
 
 game.lib.Movable = Ember.Object.extend
 
-  position: x:0, y:0
+  position: x: 0, y: 0
   rotation: 0
-  direction: (Vector.create x:0, y:0)
+  direction: (Vector.create x: 0, y: 0)
 
   speed: 0
   maxSpeed: 0

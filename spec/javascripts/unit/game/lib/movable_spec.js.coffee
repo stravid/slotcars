@@ -15,19 +15,19 @@ describe 'game.lib.Movable', ->
         speed: 1
 
     it 'should move object into direction with current speed', ->
-      @movable.direction = Vector.create x:1, y:0
+      @movable.direction = Vector.create x: 1, y: 0
       @movable.update()
 
-      (expect @movable.position).toEqual x:1, y:0
+      (expect @movable.position).toEqual x: 1, y: 0
 
     it 'should calculate rotation of object', ->
-      @movable.direction = Vector.create x:0.5, y:0.5
+      @movable.direction = Vector.create x: 0.5, y: 0.5
       @movable.update()
 
       (expect @movable.rotation).toBe 135
 
     it 'should calculate rotation of object', ->
-      @movable.direction = Vector.create x:-0.5, y:0.5
+      @movable.direction = Vector.create x: -0.5, y: 0.5
       @movable.update()
 
       (expect @movable.rotation).toBe 225
