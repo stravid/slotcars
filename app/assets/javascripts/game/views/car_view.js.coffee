@@ -19,14 +19,13 @@ game.views.CarView = Ember.View.extend
   puffInterval: 2
   puffStep: 0
   carMediator: game.mediators.carMediator
-  gameApplication: null
+  offset: null
 
   didInsertElement: ->
     #@exhaust = helpers.graphic.Exhaust.create(@paper)
-    offset = (jQuery @gameApplication.$()).offset()
 
-    (jQuery @$()).css 'top', offset.top
-    (jQuery @$()).css 'left', offset.left
+    (jQuery @$()).css 'top', @offset.top
+    (jQuery @$()).css 'left', @offset.left
 
   onPositionChange: (-> @update()).observes 'carMediator.position'
 

@@ -44,7 +44,7 @@ game.GameApplication = Ember.View.extend
   _setupCar: ->
     @carView = game.views.CarView.create
       paper: @paper
-      gameApplication: this
+      offset: (jQuery @$()).offset()
 
     @carView.appendTo @$()
 
