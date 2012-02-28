@@ -88,10 +88,9 @@ game.controllers.CarController = Ember.Object.extend
     currentPosition = @_getPointAtLength @lengthAtTrack
     nextPosition = @_getPointAtLength @lengthAtTrack + @speed
 
-    upVector = Vector.create x:0, y:-1
     carVector = (Vector.create from: currentPosition, to: nextPosition)
 
-    carAngle = upVector.angleFrom carVector
+    carAngle = carVector.clockwiseAngle() 
 
     unless isNaN(carAngle)
       @carMediator.set 'rotation', carAngle
