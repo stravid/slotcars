@@ -26,6 +26,11 @@ describe 'game.lib.Movable', ->
 
       (expect @movable.rotation).toBe 135
 
+    it 'should calculate rotation of object', ->
+      @movable.direction = Vector.create x:-0.5, y:0.5
+      @movable.update()
+
+      (expect @movable.rotation).toBe 225
 
   describe '#accelerate', ->
 

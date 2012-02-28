@@ -51,6 +51,28 @@ describe 'helpers.math.Vector (unit)', ->
 
       (expect Math.floor vector1.angleFrom vector2).toBe 90
 
+  describe '#clockwiseAngle', ->
+
+    it 'should return correct angles for first quadrant', ->
+      vector = Vector.create x: 1, y: -1
+
+      (expect Math.floor vector.clockwiseAngle()).toBe 45
+
+    it 'should return correct angles for second quadrant', ->
+      vector = Vector.create x: 1, y: 1
+
+      (expect Math.floor vector.clockwiseAngle()).toBe 135
+
+    it 'should return correct angles for second quadrant', ->
+      vector = Vector.create x: -1, y: 1
+
+      (expect Math.floor vector.clockwiseAngle()).toBe 225
+
+    it 'should return correct angles for second quadrant', ->
+      vector = Vector.create x: -1, y: -1
+
+      (expect Math.floor vector.clockwiseAngle()).toBe 315
+
   describe '#center', ->
 
     it 'should return the center point of the vector', ->

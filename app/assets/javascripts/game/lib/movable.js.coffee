@@ -23,10 +23,7 @@ game.lib.Movable = Ember.Object.extend
       x: @direction.x * @speed
       y: @direction.y * @speed
 
-    # calculate rotation in relation to up-vector
-    rootVector = Vector.create x: 0, y: -1
-
-    @rotation = rootVector.angleFrom @direction
+    @rotation = @direction.clockwiseAngle()
 
   accelerate: ->
     @speed += @acceleration

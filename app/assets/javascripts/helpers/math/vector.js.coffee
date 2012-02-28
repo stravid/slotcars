@@ -20,6 +20,12 @@ class helpers.math.Vector
 
     degrees = Math.acos(theta) * 180 / Math.PI
 
+  clockwiseAngle: ->
+    upVector = Vector.create x:0, y:-1
+    angle = upVector.angleFrom this
+
+    if @x < 0 then 360 - angle else angle
+
   center: ->
     new Vector @x/2, @y/2
 
