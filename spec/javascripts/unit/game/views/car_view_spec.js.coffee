@@ -1,5 +1,5 @@
 
-#= require game/views/car
+#= require game/views/car_view
 #= require vendor/raphael
 
 describe 'game.views.CarView (unit)', ->
@@ -10,14 +10,10 @@ describe 'game.views.CarView (unit)', ->
     (expect Ember.Object.detect CarView).toBe true
     
   it 'should use a default width and height when created if none is given', ->
-    mediatorStub = Ember.Object.create
-      position:
-        x: 0
-        y: 0
-    
     carView = CarView.create
-      mediator: mediatorStub
-      paper: Raphael 0, 0, 10 , 10
+      paper: Ember.Object.create
+        rect: sinon.stub().returns
+          attr: ->
         
     (expect carView.get 'width').toNotBe undefined
     (expect carView.get 'height').toNotBe undefined

@@ -1,30 +1,37 @@
 
 BEGIN_EVENT = 'touchMouseDown'
 END_EVENT = 'touchMouseUp'
+MOVE_EVENT = 'touchMouseMove'
 
-jQueryDocument = $ document
+jQueryDocument = jQuery document
 
 onMouseDown = (event) ->
-  event.preventDefault()
-  jQueryDocument.trigger createEvent(BEGIN_EVENT, event.pageX, event.pageY) 
+  jQueryDocument.on 'mousemove', onMouseMove
+
+  (jQuery event.target).trigger (createEvent BEGIN_EVENT, event.pageX, event.pageY, event)
   
 onMouseUp = (event) ->
-  event.preventDefault()
-  jQueryDocument.trigger createEvent(END_EVENT, null, null)
+  jQueryDocument.off 'mousemove', onMouseMove
+
+  (jQuery event.target).trigger (createEvent END_EVENT, null, null, event)
+
+onMouseMove = (event) ->
+  (jQuery event.target).trigger (createEvent MOVE_EVENT, event.pageX, event.pageY, event)
   
 onTouchStart = (event) ->
-  event.preventDefault()
-  
   touch = event.originalEvent.touches[0]
-  jQueryDocument.trigger createEvent(BEGIN_EVENT, touch.pageX, touch.pageY)
+  (jQuery event.target).trigger (createEvent BEGIN_EVENT, touch.pageX, touch.pageY, event)
   
 onTouchEnd = (event) ->
-  event.preventDefault()
-  jQueryDocument.trigger createEvent(END_EVENT, null, null)
+  (jQuery event.target).trigger (createEvent END_EVENT, null, null, event)
 
-createEvent = (type, x, y) ->
+onTouchMove = (event) ->
+  touch = event.originalEvent.touches[0]
+  (jQuery event.target).trigger (createEvent MOVE_EVENT, touch.pageX, touch.pageY, event)
+
+createEvent = (type, x, y, originalEvent) ->
   jQuery.Event type, 
-    target: document
+    originalEvent: originalEvent
     pageX: x
     pageY: y
 
@@ -32,3 +39,4 @@ jQueryDocument.on 'mousedown', onMouseDown
 jQueryDocument.on 'mouseup', onMouseUp
 jQueryDocument.on 'touchstart', onTouchStart
 jQueryDocument.on 'touchend', onTouchEnd
+jQueryDocument.on 'touchmove', onTouchMove

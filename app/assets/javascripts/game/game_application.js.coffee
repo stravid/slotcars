@@ -4,18 +4,27 @@
 #= require game/controllers/game_controller
 #= require game/controllers/game_loop_controller
 
-#= require game/views/car
+#= require game/views/car_view
 #= require game/views/track_view
 #= require game/views/game_view
 
-#= require game/mediators/game_mediator
-#= require game/mediators/track_mediator
-
 namespace 'game'
+
+TrackModel = shared.models.TrackModel
 
 game.GameApplication = Ember.View.extend
 
   elementId: 'game-application'
+
+  trackView: null
+
+  carView: null
+  carController: null
+
+  gameView: null
+  gameController: null
+
+  paper: null
 
   didInsertElement: ->
     @_setupRaphael()
@@ -23,48 +32,34 @@ game.GameApplication = Ember.View.extend
     @_setupCar()
     @_setupGame()
 
-    @_start()
-
-  _start: ->
     @gameController.start()
 
   _setupRaphael: ->
-    @paper = Raphael @$()[0], 1024, 768
+    @paper = Raphael @$()[0], 1024, 650
 
   _setupTrack: ->
-    @trackMediator = game.mediators.TrackMediator.create()
-    game.views.TrackView.create
-      mediator: @trackMediator
+    @trackView = game.views.TrackView.create
       paper: @paper
 
   _setupCar: ->
-    @carMediator = game.mediators.CarMediator.create()
-    game.views.CarView.create
-      mediator: @carMediator
+    @carView = game.views.CarView.create
       paper: @paper
 
     @carController = game.controllers.CarController.create
-      mediator: @carMediator
       acceleration: 0.1
       deceleration: 0.2
       offRoadDeceleration: 0.15
       maxSpeed: 20
       traction: 100
 
-    @carController.setTrackPath @trackMediator.trackPath
-    ($ @carController).on 'crossFinishLine', @carController.reset
+    (jQuery @carController).on 'crossFinishLine', @carController.reset
 
   _setupGame: ->
-    @gameMediator = game.mediators.GameMediator.create()
-
-    gameView = game.views.GameView.create
-      mediator: @gameMediator
-
-    gameView.appendTo @$()
+    @gameView = game.views.GameView.create()
+    @gameView.appendTo @$()
     
     @gameController = game.controllers.GameController.create
-      mediator: @gameMediator
       carController: @carController
       gameLoopController: game.controllers.GameLoopController.create()
-      gameView: gameView
+      gameView: @gameView
 

@@ -1,6 +1,0 @@
-
-<button id="build-button" type="button" {{action "buildButtonClicked"}}>
-  Builder
-</button>
-
-{{view gameApplication}}

@@ -3,18 +3,18 @@
 #= require game/mediators/game_mediator
 #= require game/views/track_view
 #= require game/views/game_view
+#= require shared/models/track_model
+#= require game/controllers/car_controller
 
 
 describe 'game.controllers.GameController (unit)', ->
 
   GameController = game.controllers.GameController
   GameView = game.views.GameView
-  GameMediator = game.mediators.GameMediator
+  TrackModel = shared.models.TrackModel
 
   beforeEach ->
-    @gameController = GameController.create
-      rootElement: document.createElement 'div'
-      mediator: GameMediator.create()
+    @gameController = GameController.create()
 
   it 'should extend Ember.Object', ->
     (expect Ember.Object.detect GameController).toBe true
@@ -34,15 +34,17 @@ describe 'game.controllers.GameController (unit)', ->
 
     it 'should set isTouchMouseDown to true', ->
       gameController = GameController.create()
+      eventStub = originalEvent: preventDefault: ->
 
-      gameController.onTouchMouseDown()
+      gameController.onTouchMouseDown eventStub
 
       (expect gameController.isTouchMouseDown).toBe true
 
-    it 'should be called when touchMouseDown is triggered on document', ->
+    it 'should be called when isTouchMouseDown is triggered on document', ->
       gameController = GameController.create()
 
-      ($ document).trigger 'touchMouseDown'
+      # necessary to trigger 'mousedown' because of 'originalEvent' property which is added through event normalization
+      (jQuery document).trigger 'mousedown'
 
       (expect gameController.isTouchMouseDown).toBe true
 
@@ -50,8 +52,10 @@ describe 'game.controllers.GameController (unit)', ->
 
     it 'should set isTouchMouseDown to false', ->
       gameController = GameController.create()
+      eventStub = originalEvent:
+          preventDefault: ->
 
-      gameController.onTouchMouseUp()
+      gameController.onTouchMouseUp eventStub
 
       (expect gameController.isTouchMouseDown).toBe false
 
@@ -60,7 +64,8 @@ describe 'game.controllers.GameController (unit)', ->
       gameController = GameController.create
         isTouchMouseDown: true
 
-      ($ document).trigger 'touchMouseUp'
+      # necessary to trigger 'mouseup' because of 'originalEvent' property which is added through event normalization
+      (jQuery document).trigger 'mouseup'
 
       (expect gameController.isTouchMouseDown).toBe false
 
@@ -104,16 +109,20 @@ describe 'game.controllers.GameController (unit)', ->
 
 
   describe '#start', ->
-      
-    it 'should save timestamp', ->
-      gameController = GameController.create
-        gameLoopController: 
+
+    beforeEach ->
+      @carControllerStub =
+        setup: sinon.spy()
+
+      @gameController = GameController.create
+        gameLoopController:
           start: ->
         update: ->
-        mediator: Ember.Object.create()
+        carController: @carControllerStub
 
-      gameController.start()
-      (expect gameController.startTime).toNotBe null
+    it 'should save timestamp', ->
+      @gameController.start()
+      (expect @gameController.startTime).toNotBe null
 
     it 'should start the game loop with #update method as renderCallback', ->
       @maxCalls = Math.floor(Math.random(1) * 10) + 5
@@ -130,13 +139,16 @@ describe 'game.controllers.GameController (unit)', ->
 
       @gameControllerUpdateStub = sinon.spy()
 
-      @gameController = GameController.create
-        gameLoopController: @gameLoopControllerStub
-        update: @gameControllerUpdateStub
-        mediator: Ember.Object.create()
+      @gameController.gameLoopController = @gameLoopControllerStub
+      @gameController.update = @gameControllerUpdateStub
 
       @gameController.start()
+
       (expect @gameControllerUpdateStub.callCount).toBe @maxCalls
+
+    it 'should call setup method on carController', ->
+      @gameController.start()
+      (expect @carControllerStub.setup).toHaveBeenCalled()
 
 
   describe '#finish', ->
@@ -157,7 +169,7 @@ describe 'game.controllers.GameController (unit)', ->
         carController: carControllerStub
         finish: finishSpy
       
-      ($ carControllerStub).trigger 'crossFinishLine'
+      (jQuery carControllerStub).trigger 'crossFinishLine'
       (expect finishSpy).toHaveBeenCalled()
 
 
@@ -178,29 +190,26 @@ describe 'game.controllers.GameController (unit)', ->
       restartGameSpy = sinon.spy()
 
       gameController = GameController.create
-        gameView: GameView.create
-          mediator: GameMediator.create()
+        gameView: GameView.create()
         restartGame: restartGameSpy
   
-      ($ gameController.gameView).trigger 'restartGame'
+      (jQuery gameController.gameView).trigger 'restartGame'
       (expect restartGameSpy).toHaveBeenCalledOnce()
 
     it 'should reset raceTime', ->
       gameController = GameController.create
         carController: @carControllerStub        
         gameLoopController: @gameLoopControllerStub
-        mediator: GameMediator.create()
 
-      gameController.mediator.raceTime = 18
+      gameController.gameMediator.raceTime = 18
       gameController.restartGame()
 
-      (expect gameController.mediator.raceTime).toBe 0
+      (expect gameController.gameMediator.raceTime).toBe 0
 
     it 'should reset car', ->
       gameController = GameController.create
         carController: @carControllerStub
         gameLoopController: @gameLoopControllerStub
-        mediator: GameMediator.create()
 
       gameController.restartGame()
       (expect @carResetSpy).toHaveBeenCalled()

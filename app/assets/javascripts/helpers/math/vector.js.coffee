@@ -18,7 +18,10 @@ class helpers.math.Vector
     if theta < -1 then theta = -1
     if theta > 1 then theta = 1
 
-    Math.acos(theta) * 180 / Math.PI
+    degrees = Math.acos(theta) * 180 / Math.PI
+
+  center: ->
+    new Vector @x/2, @y/2
 
   @create: (parameters) ->
     if parameters.x? and parameters.y?

@@ -1,4 +1,0 @@
-
-<button id="play-button" type="button" {{action "playButtonClicked"}}>
-  play!
-</button>

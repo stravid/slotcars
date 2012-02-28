@@ -1,26 +1,33 @@
 
-#= require embient/addons/sproutcore-statechart
-
 #= require helpers/namespace
-#= require helpers/statechart/state_to_string
+#= require embient/ember-routemanager
 
-#= require community/states/play_state
-#= require community/states/build_state
 #= require community/views/community_view
+#= require community/states/tracks/tracks_new_state
+#= require community/states/tracks/tracks_show_state
 
 namespace 'community'
 
-community.Statechart = SC.Statechart.create
+community.CommunityStateManager = Ember.RouteManager.extend
 
-  rootState: SC.State.extend
+  wantsHistory: true
+  baseURI: window.location.origin
+  application: null
 
-    enterState: ->
-      SC.routes.set 'wantsHistory', true
-      SC.routes.set 'baseURI', window.location.origin
-      @statechart.communityView = community.views.CommunityView.create()
-      Ember.run => @statechart.communityView.append()
+  # builder is default state
+  redirectToRootState: (->
+    if (Ember.empty @get 'location') then (@set 'location', 'tracks/new')
+  ).observes 'location'
 
-    initialSubstate: 'Play'
+  start: Ember.State.create
 
-    Play: community.states.PlayState
-    Build: community.states.BuildState
+    enter: (manager) ->
+      manager.communityView = community.views.CommunityView.create()
+      manager.communityView.appendTo (jQuery manager.application.rootElement)
+
+    Tracks: Ember.State.create
+
+      route: 'tracks'
+
+      New: community.states.tracks.TracksNewState
+      Show: community.states.tracks.TracksShowState
