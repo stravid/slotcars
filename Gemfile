@@ -11,6 +11,8 @@ end
 gem 'jquery-rails'
 gem 'embient'
 
+gem 'clearance'
+
 group :development, :test do
   gem 'sqlite3'
 

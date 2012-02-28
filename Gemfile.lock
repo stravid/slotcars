@@ -32,6 +32,9 @@ GEM
     builder (3.0.0)
     childprocess (0.3.0)
       ffi (~> 1.0.6)
+    clearance (0.15.0)
+      diesel (~> 0.1.5)
+      rails (>= 3.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -39,6 +42,8 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.2.0)
+    diesel (0.1.5)
+      railties
     emberjs-rails (2012.2.22)
       hamlbars
       rails (~> 3.1)
@@ -132,6 +137,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  clearance
   coffee-rails (~> 3.2.1)
   emberjs-rails
   embient
