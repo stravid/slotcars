@@ -53,6 +53,7 @@ game.controllers.CarController = Ember.Object.extend
     @lengthAtTrack += @speed
     @_calculatePositionOnPath()
     @_updateCarPosition()
+    @_calculateRotation()
     @_checkForFinish()
 
   _crash: ->
@@ -66,7 +67,7 @@ game.controllers.CarController = Ember.Object.extend
   _slowDownOffRoad: ->
     @speed -= @offRoadDeceleration
     if @speed < 0 then @speed = 0
-  
+
   _checkForFinish: ->
     if @lengthAtTrack > @trackLength
       (jQuery this).trigger 'crossFinishLine'
@@ -82,6 +83,18 @@ game.controllers.CarController = Ember.Object.extend
 
   _getPointAtLength: (length) ->
     @trackMediator.currentTrack.getPointAtLength length
+
+  _calculateRotation: ->
+    currentPosition = @_getPointAtLength @lengthAtTrack
+    nextPosition = @_getPointAtLength @lengthAtTrack + @speed
+
+    upVector = Vector.create x:0, y:-1
+    carVector = (Vector.create from: currentPosition, to: nextPosition)
+
+    carAngle = upVector.angleFrom carVector
+
+    unless isNaN(carAngle)
+      @carMediator.set 'rotation', carAngle
 
   _updateCarPosition: ->
     @carMediator.set 'position',
