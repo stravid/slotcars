@@ -20,9 +20,6 @@ game.views.CarView = Ember.View.extend
   puffStep: 0
   carMediator: game.mediators.carMediator
   gameApplication: null
-  
-  init: ->
-    @_super()
 
   didInsertElement: ->
     #@exhaust = helpers.graphic.Exhaust.create(@paper)
@@ -39,8 +36,8 @@ game.views.CarView = Ember.View.extend
     position.y -= @height / 4 * 1
 
     (jQuery '#car').css '-webkit-transform', "translate3d(#{position.x}px,#{position.y}px,0)"
-    
+
     #@puffStep = ++@puffStep % @puffInterval
     #@exhaust.puff(position.x + @width - 6, position.y + @height) unless @puffStep > 0
-    
+
     #@exhaust.update()
