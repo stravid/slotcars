@@ -68,3 +68,65 @@ describe 'game.lib.Car', ->
 
     it 'should set the current direction to given direction', ->
       (expect @car.direction).toEqual @newDirection
+
+
+  describe '#crash', ->
+
+    beforeEach ->
+      @updateStub = sinon.spy()
+      @decelerateStub = sinon.spy()
+
+      @car = Car.create
+        update: @updateStub
+        decelerate: @decelerateStub
+
+    it 'should end crashing when speed is zero', ->
+      @car.isCrashing = true
+      @car.speed = 0
+      @car.crash()
+
+      (expect @car.isCrashing).toBe false
+
+    it 'should continue crashing as long as speed is bigger than zero', ->
+      @car.isCrashing = true
+      @car.speed = 1
+      @car.crash()
+
+      (expect @car.isCrashing).toBe true
+
+    it 'should call #decelerate', ->
+      @car.crash()
+
+      (expect @decelerateStub).toHaveBeenCalled()
+
+    it 'should call #update', ->
+      @car.crash()
+
+      (expect @updateStub).toHaveBeenCalled()
+
+
+  describe '#decelerate', ->
+
+    beforeEach ->
+      @car = Car.create
+        offRoadDeceleration: 3
+        deceleration: 4
+        speed: 5
+
+    it 'should decelerate with standard deceleration when car is on track', ->
+      @car.decelerate()
+
+      (expect @car.speed).toBe 1
+
+    it 'should decelerate with offRoadDeceleration when car is crashing', ->
+      @car.isCrashing = true
+      @car.decelerate()
+
+      (expect @car.speed).toBe 2
+
+    it 'should not let speed get below zero after crashing', ->
+      @car.isCrashing = true
+      @car.offRoadDeceleration = 8
+      @car.decelerate()
+
+      (expect @car.speed).toBe 0
