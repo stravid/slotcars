@@ -10,8 +10,13 @@ game.lib.Movable = Ember.Object.extend
 
   position: x:0, y:0
   rotation: 0
-  speed: 0
+  direction: (Vector.create x:0, y:0)
 
+  speed: 0
+  maxSpeed: 0
+
+  acceleration: 0
+  deceleration: 0
 
   update: ->
     @position =
