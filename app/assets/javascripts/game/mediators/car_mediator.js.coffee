@@ -8,3 +8,4 @@ game.mediators.carMediator = Ember.Object.create
   position: Ember.Object.create
     x: 0
     y: 0
+  rotation: 0
