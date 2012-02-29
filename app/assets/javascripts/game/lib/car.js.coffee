@@ -13,11 +13,11 @@ game.lib.Car = game.lib.Movable.extend
   offRoadDeceleration: 0
 
   checkForCrash: ->
-    if @previousDirection?
-      angle = @previousDirection.angleFrom @direction
+    if  !@previousDirection? then return
 
-      if angle * @speed > @traction
-        @isCrashing = true
+    angle = @previousDirection.angleFrom @direction
+
+    if angle * @speed > @traction then @isCrashing = true
 
   driveInDirection: (direction) ->
     @previousDirection = @direction
@@ -25,11 +25,10 @@ game.lib.Car = game.lib.Movable.extend
     @update()
 
   crash: ->
-    if @speed == 0
-      @isCrashing = false
-
     @decelerate()
     @update()
+
+    if @speed is 0 then @isCrashing = false
 
   decelerate: ->
     if @isCrashing
