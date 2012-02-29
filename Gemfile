@@ -25,6 +25,11 @@ group :development, :test do
 
   # for notifications of auto-test results
   gem 'growl'
+
+  # rspec and shoulda for rails testing
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
+  gem 'factory_girl_rails'
 end
 
 group :production do
