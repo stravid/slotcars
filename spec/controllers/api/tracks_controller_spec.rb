@@ -12,6 +12,7 @@ describe Api::TracksController do
       get :index
 
       response.body.should == json_tracks
+      response.should be_success
     end
 
   end

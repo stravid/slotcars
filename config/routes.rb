@@ -5,4 +5,8 @@ Slotcars::Application.routes.draw do
   get '/tracks/:id' => 'tracks#index'
   get '/tracks/new' => 'tracks#index'
 
+  namespace :api do
+    resources :tracks, :only => [:index]
+  end
+
 end
