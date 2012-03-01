@@ -11,21 +11,14 @@ describe 'game.views.CarView (functional)', ->
         x: 0
         y: 0
 
-    @paperStub =
-      rect: sinon.stub().returns
-        attr: sinon.spy()
+    @updateSpy = sinon.spy()
 
     @carView = CarView.create
       carMediator: @carMediatorStub
-      paper: @paperStub
+      update: @updateSpy
 
-  it 'should create a car rectangle with a given position when created', ->
-    position = @carMediatorStub.get 'position'
-
-    (expect @paperStub.rect).toHaveBeenCalledWith position.x, position.y, (@carView.get 'width'), (@carView.get 'height')
-
-  it 'should update the car position when the position on the mediator changes', ->
+  it 'should call update when the mediator changes', ->
     newPosition = { x: 50, y: 50 }
     @carMediatorStub.set 'position', newPosition
 
-    (expect (@carView.get 'car').attr).toHaveBeenCalledWith newPosition
+    (expect @updateSpy).toHaveBeenCalled()
