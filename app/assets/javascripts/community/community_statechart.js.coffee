@@ -11,7 +11,7 @@ namespace 'community'
 community.CommunityStateManager = Ember.RouteManager.extend
 
   wantsHistory: true
-  baseURI: window.location?.origin? || ( window.location.protocol + "//" + window.location.host )
+  baseURI: window.location.origin || ( window.location.protocol + "//" + window.location.host )
   application: null
 
   # builder is default state
