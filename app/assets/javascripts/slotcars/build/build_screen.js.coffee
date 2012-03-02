@@ -7,6 +7,6 @@ namespace 'slotcars.build'
 slotcars.build.BuildScreen = Ember.Object.extend
   isBuildScreen: true
 
-  init: ->
+  appendToApplication: ->
     slotcars.build.BuildScreenStateManager.create
       delegate: this
