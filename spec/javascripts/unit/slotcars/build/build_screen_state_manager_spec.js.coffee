@@ -7,8 +7,9 @@ describe 'build screen state management', ->
 
   beforeEach ->
     @buildScreenStub =
-      appendScreen: sinon.stub()
-      removeScreen: sinon.stub()
+      appendScreen: sinon.spy()
+      removeScreen: sinon.spy()
+      loadTrack: sinon.spy()
 
     @buildScreenStateManager = BuildScreenStateManager.create
       delegate: @buildScreenStub
@@ -19,6 +20,13 @@ describe 'build screen state management', ->
       (expect @buildScreenStub.appendScreen).toHaveBeenCalled()
 
     it 'should tell the build screen to remove itself from the DOM when exited', ->
-      @buildScreenStateManager.send 'destroy'
+      @buildScreenStateManager.send 'destroyScreen'
 
       (expect @buildScreenStub.removeScreen).toHaveBeenCalled()
+
+  describe 'appending state', ->
+
+    it 'should activate the loading state when screen was appended', ->
+      @buildScreenStateManager.send 'appendedScreen'
+
+      (expect @buildScreenStub.loadTrack).toHaveBeenCalled()
