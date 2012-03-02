@@ -1,5 +1,6 @@
 
 #= require slotcars/build/build_screen
+#= require slotcars/build/views/build_screen_view
 
 describe 'build screen', ->
 
@@ -22,3 +23,29 @@ describe 'build screen', ->
       buildScreen.appendToApplication()
 
       (expect @BuildScreenStateManagerCreateStub).toHaveBeenCalledWithAnObjectLike delegate: buildScreen
+
+
+  describe 'appending the screen', ->
+
+    beforeEach ->
+      @buildScreenViewCreateStub = (sinon.stub slotcars.build.views.BuildScreenView, 'create')
+
+      @buildScreenViewAppendMethodStub = sinon.spy()
+
+      @buildScreenViewCreateStub.returns
+        append: @buildScreenViewAppendMethodStub
+
+      @buildScreen = BuildScreen.create()
+
+    afterEach ->
+      @buildScreenViewCreateStub.restore()
+
+    it 'should append the build screen view to the DOM body', ->
+      @buildScreen.appendScreen()
+
+      (expect @buildScreenViewAppendMethodStub).toHaveBeenCalled()
+
+    it 'should provide itself as delegate to the build screen view', ->
+      @buildScreen.appendScreen()
+
+      (expect @buildScreenViewCreateStub).toHaveBeenCalledWithAnObjectLike delegate: @buildScreen

@@ -7,16 +7,18 @@ describe 'build screen state management', ->
 
   beforeEach ->
     @buildScreenStub =
-      initialize: sinon.stub()
+      appendScreen: sinon.stub()
+      removeScreen: sinon.stub()
 
     @buildScreenStateManager = BuildScreenStateManager.create
       delegate: @buildScreenStub
 
-  it 'should tell the build screen to initialize in default state', ->
-    (expect @buildScreenStub.initialize).toHaveBeenCalled()
+  describe 'actions sent by the composite building state', ->
 
-  it 'should tell the build screen to start drawing after initializing', ->
-    @buildScreenStub.startDrawing = sinon.stub()
-    @buildScreenStateManager.send 'initialized'
+    it 'should tell the build screen to append itself to the DOM when entered', ->
+      (expect @buildScreenStub.appendScreen).toHaveBeenCalled()
 
-    (expect @buildScreenStub.startDrawing).toHaveBeenCalled()
+    it 'should tell the build screen to remove itself from the DOM when exited', ->
+      @buildScreenStateManager.send 'destroy'
+
+      (expect @buildScreenStub.removeScreen).toHaveBeenCalled()

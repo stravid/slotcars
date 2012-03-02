@@ -6,14 +6,14 @@ namespace 'slotcars.build'
 slotcars.build.BuildScreenStateManager = Ember.StateManager.extend
 
   delegate: null
-  initialState: 'Initialize'
+  initialState: 'Building'
 
-  Initialize: Ember.State.create
+  Building: Ember.State.create
 
-    enter: (manager) -> manager.delegate.initialize()
+    enter: (manager) -> manager.delegate.appendScreen()
 
-    initialized: (manager) -> manager.goToState 'Drawing'
+    destroy: (manager) -> manager.goToState 'Destroying'
 
-  Drawing: Ember.State.create
+    exit: (manager) -> manager.delegate.removeScreen()
 
-    enter: (manager) -> manager.delegate.startDrawing()
+  Destroying: Ember.State.create()
