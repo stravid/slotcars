@@ -1,10 +1,14 @@
 #= require helpers/namespace
+#= require slotcars/route_manager
 
 namespace 'slotcars'
 
 slotcars.SlotcarsApplication = Ember.Application.extend
   screenFactory: null
   currentScreen: null
+
+  init: ->
+    slotcars.RouteManager.create delegate: this
 
   showBuildScreen: ->
     @_destroyCurrentScreen()

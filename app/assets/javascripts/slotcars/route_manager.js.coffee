@@ -5,20 +5,20 @@
 namespace 'slotcars'
 
 slotcars.RouteManager = Ember.RouteManager.extend
-  application: null
+  delegate: null
 
   Build: Ember.State.create
     route: 'build'
-    enter: (manager) -> manager.application.showBuildScreen()
+    enter: (manager) -> manager.delegate.showBuildScreen()
 
   Play: Ember.State.create
     route: 'play/:id'
-    enter: (manager) -> manager.application.showPlayScreen (manager.getPath 'params.id')
+    enter: (manager) -> manager.delegate.showPlayScreen (manager.getPath 'params.id')
 
   Tracks: Ember.State.create
     route: 'tracks'
-    enter: (manager) -> manager.application.showTracksScreen()
+    enter: (manager) -> manager.delegate.showTracksScreen()
 
   Home: Ember.State.create
     route: ''
-    enter: (manager) -> manager.application.showHomeScreen()
+    enter: (manager) -> manager.delegate.showHomeScreen()

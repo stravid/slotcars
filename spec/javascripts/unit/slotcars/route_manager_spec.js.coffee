@@ -12,7 +12,7 @@ describe 'routing', ->
       showHomeScreen: sinon.spy()
 
     @routeManager = RouteManager.create
-      application: @slotcarsApplicationStub
+      delegate: @slotcarsApplicationStub
 
   it 'should show the build screen on /build', ->
     @routeManager.set 'location', '/build'
