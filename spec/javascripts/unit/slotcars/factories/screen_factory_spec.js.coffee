@@ -10,6 +10,12 @@ describe 'screen factory', ->
 
   describe 'getting build screen', ->
 
+    beforeEach ->
+      @BuildScreenStateManagerCreateStub = (sinon.stub slotcars.build.BuildScreenStateManager, 'create')
+
+    afterEach ->
+      @BuildScreenStateManagerCreateStub.restore()
+
     it 'should return an instance of the build screen', ->
       buildScreen = @screenFactory.getBuildScreen()
 
