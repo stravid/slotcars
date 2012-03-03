@@ -21,5 +21,10 @@ slotcars.build.BuildScreenStateManager = Ember.StateManager.extend
 
     Loading: Ember.State.create
       enter: (manager) -> manager.delegate.loadTrack()
+      newTrackCreated: (manager) -> manager.goToState 'Drawing'
+
+    Drawing: Ember.State.create
+      enter: (manager) -> manager.delegate.startDrawMode()
+      exit: (manager) -> manager.delegate.cleanupDrawMode()
 
   Destroying: Ember.State.create()
