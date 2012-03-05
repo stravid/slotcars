@@ -1,7 +1,45 @@
 
 #= require slotcars/build/views/draw_view
+#= require slotcars/shared/views/track_view
+#= require slotcars/build/controllers/draw_controller
 
 describe 'slotcars.build.views.DrawView', ->
 
-  it 'should extend Ember.Object', ->
-    (expect Ember.Object.detect slotcars.build.views.DrawView).toBe true
+  DrawView = slotcars.build.views.DrawView
+  DrawController = slotcars.build.controllers.DrawController
+
+  it 'should extend TrackView', ->
+    (expect slotcars.shared.views.TrackView.detect DrawView).toBe true
+
+  describe 'redrawing of track', ->
+
+    it 'should tell the base class to redraw when raphael path of track changes', ->
+      drawControllerStub = Ember.Object.create track: Ember.Object.create()
+      drawView = DrawView.create drawController: drawControllerStub
+      redrawStub = sinon.stub drawView, 'redrawTrack'
+
+      drawControllerStub.track.set 'raphaelPath', 'changed'
+
+      Ember.run.sync()
+
+      (expect redrawStub).toHaveBeenCalled()
+
+
+  describe 'setup of touchMouse event listeners', ->
+
+    it 'should setup touch mouse move listener on its view element that notifies draw controller', ->
+
+      drawControllerMock = mockEmberClass DrawController, onTouchMouseMove: sinon.spy()
+      drawView = DrawView.create drawController: drawControllerMock
+
+      # append it into DOM to test real jQuery events
+      container = jQuery 'div'
+      Ember.run => drawView.appendTo container
+
+      # manually create touch mouse move event
+      testPosition = x: 3, y: 4
+      touchMouseMoveEvent = jQuery.Event 'touchMouseMove', pageX: testPosition.x, pageY: testPosition.y
+
+      (jQuery drawView.$()).trigger touchMouseMoveEvent
+
+      (expect drawControllerMock.onTouchMouseMove).toHaveBeenCalledWithAnObjectLike testPosition
