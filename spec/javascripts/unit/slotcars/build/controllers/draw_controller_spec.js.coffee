@@ -6,8 +6,7 @@ describe 'slotcars.build.controllers.DrawController', ->
   DrawController = slotcars.build.controllers.DrawController
 
   it 'should be an Ember.Object', ->
-    (expect Ember.Object.detect DrawController).toBe true
-
+    (expect DrawController).toExtend Ember.Object
 
   describe 'add path points to track model on mouse move', ->
 

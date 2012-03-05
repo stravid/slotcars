@@ -12,3 +12,6 @@ beforeEach ->
 
     toBeInstanceOf: (expectedInstance) ->
       expectedInstance.detectInstance @actual
+
+    toExtend: (expectedClass) ->
+      expectedClass.detect @actual

@@ -7,7 +7,7 @@ describe 'game.views.CarView (unit)', ->
   CarView = game.views.CarView
 
   it 'should extend Ember.Object', ->
-    (expect Ember.Object.detect CarView).toBe true
+    (expect CarView).toExtend Ember.Object
 
   it 'should use a default width and height when created if none is given', ->
     carView = CarView.create

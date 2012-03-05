@@ -3,5 +3,7 @@
 
 describe 'slotcars.build.views.DrawView', ->
 
+  DrawView = slotcars.build.views.DrawView
+
   it 'should extend Ember.Object', ->
-    (expect Ember.Object.detect slotcars.build.views.DrawView).toBe true
+    (expect DrawView).toExtend Ember.Object
