@@ -23,30 +23,6 @@ describe 'game.lib.Car', ->
     it 'should use Crashable', ->
       (expect Crashable.detect @car).toBe true
 
-
-  describe '#driveInDirection', ->
-
-    beforeEach ->
-      @updateStub = sinon.spy()
-      @direction = Vector.create x: 1, y: 1
-
-      @car = Car.create
-        direction: @direction
-        update: @updateStub
-
-      @newDirection = Vector.create x: 0, y: -1
-      @car.driveInDirection @newDirection
-
-    it 'should call #update', ->
-      (expect @updateStub).toHaveBeenCalled()
-
-    it 'should set the previous direction to the last driven direction', ->
-      (expect @car.previousDirection).toEqual @direction
-
-    it 'should set the current direction to given direction', ->
-      (expect @car.direction).toEqual @newDirection
-
-
   describe '#accelerate', ->
 
     beforeEach ->
@@ -86,16 +62,20 @@ describe 'game.lib.Car', ->
 
       (expect @car.speed).toBe 0
 
+  describe '#crashcelerate', ->
+    
+    beforeEach ->
+      @car = Car.create
+        crashDeceleration: 3
+        speed: 5
 
-    it 'should decelerate with crashDeceleration when car is crashing', ->
-      @car.isCrashing = true
-      @car.decelerate()
-
+    it 'should decelerate with crashDeceleration', ->
+      @car.crashcelerate()
+    
       (expect @car.speed).toBe 2
-
+    
     it 'should not let speed get below zero after crashing', ->
-      @car.isCrashing = true
       @car.crashDeceleration = 8
-      @car.decelerate()
-
+      @car.crashcelerate()
+    
       (expect @car.speed).toBe 0

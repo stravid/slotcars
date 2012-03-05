@@ -39,48 +39,37 @@ describe 'game.controllers.CarController (unit)', ->
       (expect @car.crashing).toBe false
 
 
-  describe '#setup', ->
-
-    it 'should set car position on mediator', ->
-      expectedPoint = currentTrackMediator.currentTrack.getPointAtLength 0
-
-      @car.setup()
-
-      (expect carMediator.position.x).toEqual expectedPoint.x
-      (expect carMediator.position.y).toEqual expectedPoint.y
-
-
-  describe '#accelerate', ->
-
-    beforeEach ->
-      @car.speed =  0
-      @car.acceleration = 10
-      @car.maxSpeed = 10
-
-    it 'should increase speed', ->
-      @car.accelerate()
-      (expect @car.speed).toEqual 10
-
-    it 'should not set speed higher than maxSpeed', ->
-      @car.accelerate()
-      @car.accelerate()
-      (expect @car.speed).toEqual 10
-
-
-  describe '#slowDown', ->
-
-    beforeEach ->
-      @car.speed =  10
-      @car.deceleration = 10
-
-    it 'should decrease speed', ->
-      @car.slowDown()
-      (expect @car.speed).toEqual 0
-
-    it 'should not set speed < 0', ->
-      @car.slowDown()
-      @car.slowDown()
-      (expect @car.speed).toEqual 0
+  # describe '#accelerate', ->
+  # 
+  #   beforeEach ->
+  #     @car.speed =  0
+  #     @car.acceleration = 10
+  #     @car.maxSpeed = 10
+  # 
+  #   it 'should increase speed', ->
+  #     @car.accelerate()
+  #     (expect @car.speed).toEqual 10
+  # 
+  #   it 'should not set speed higher than maxSpeed', ->
+  #     @car.accelerate()
+  #     @car.accelerate()
+  #     (expect @car.speed).toEqual 10
+  # 
+  # 
+  # describe '#slowDown', ->
+  # 
+  #   beforeEach ->
+  #     @car.speed =  10
+  #     @car.deceleration = 10
+  # 
+  #   it 'should decrease speed', ->
+  #     @car.slowDown()
+  #     (expect @car.speed).toEqual 0
+  # 
+  #   it 'should not set speed < 0', ->
+  #     @car.slowDown()
+  #     @car.slowDown()
+  #     (expect @car.speed).toEqual 0
 
   describe '#drive', ->
 
@@ -128,21 +117,21 @@ describe 'game.controllers.CarController (unit)', ->
 
       describe 'crashing', ->
 
-        it 'should set crashing to true when too fast in curve', ->
-          @car.speed = 1
-          @car.traction = 89 # loses vs. speed * angle || 1 * 90 = 90
-
-          @car.drive()
-
-          (expect @car.crashing).toBe true
-
-        it 'should not set crashing when traction is high enough', ->
-          @car.speed = 1
-          @car.traction = 91 # wins vs. speed * angle || 1 * 90 = 90
-
-          @car.drive()
-
-          (expect @car.crashing).toBe false
+        # it 'should set crashing to true when too fast in curve', ->
+        #   @car.speed = 1
+        #   @car.traction = 89 # loses vs. speed * angle || 1 * 90 = 90
+        # 
+        #   @car.drive()
+        # 
+        #   (expect @car.crashing).toBe true
+        # 
+        # it 'should not set crashing when traction is high enough', ->
+        #   @car.speed = 1
+        #   @car.traction = 91 # wins vs. speed * angle || 1 * 90 = 90
+        # 
+        #   @car.drive()
+        # 
+        #   (expect @car.crashing).toBe false
 
         it 'should not update car as normal while crashing', ->
           @car.speed = 1

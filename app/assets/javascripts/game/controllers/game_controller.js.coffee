@@ -1,14 +1,14 @@
 
 #= require game/controllers/car_controller
+#= require game/lib/car
+#= require shared/models/track_model
 #= require helpers/event_normalize
-#= require game/mediators/game_mediator
 
 namespace 'game.controllers'
 
 game.controllers.GameController = Ember.Object.extend
 
   gameView: null
-  gameMediator: game.mediators.gameMediator
   carController: null
   gameLoopController: null
   isTouchMouseDown: false
@@ -22,6 +22,9 @@ game.controllers.GameController = Ember.Object.extend
 
     (jQuery @carController).on 'crossFinishLine', => @finish()
     (jQuery @gameView).on 'restartGame', => @restartGame()
+    
+    unless @track?
+      throw new Error 'track has to be provided'
 
   start: ->
     @_resetTime()

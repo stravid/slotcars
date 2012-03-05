@@ -18,33 +18,19 @@ game.lib.Car = Ember.Object.extend Movable, Crashable,
 
   acceleration: 0
   deceleration: 0
+  crashDeceleration: 0
 
   isCrashing: null
   crashDeceleration: 0
-
-  driveInDirection: (direction) ->
-    @previousDirection = @direction
-    @direction = direction
-    @update()
-
-  crash: ->
-    if @speed == 0
-      @isCrashing = false
-
-    @decelerate()
-    @moveTo {}
-    @update()
 
   accelerate: ->
     @speed += @acceleration
     if @speed > @maxSpeed then @speed = @maxSpeed
 
   decelerate: ->
-    if @isCrashing
-      @speed -= @crashDeceleration
-    else
-      @speed -= @deceleration
-    
+    @speed -= @deceleration
     if @speed < 0 then @speed = 0
 
-
+  crashcelerate: ->
+    @speed -= @crashDeceleration
+    if @speed < 0 then @speed = 0

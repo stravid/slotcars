@@ -74,9 +74,9 @@ game.controllers.CarController = Ember.Object.extend
 
   _updateTrackLength: -> @trackLength = @trackMediator.currentTrack.get 'totalLength'
 
-  _calculateCrashingDirection: ->
-    @_position.x += @_crashVector.x / @_crashVector.length() * @speed
-    @_position.y += @_crashVector.y / @_crashVector.length() * @speed
+  # _calculateCrashingDirection: ->
+  #   @_position.x += @_crashVector.x / @_crashVector.length() * @speed
+  #   @_position.y += @_crashVector.y / @_crashVector.length() * @speed
 
   _calculatePositionOnPath: ->
     @_position = @_getPointAtLength @lengthAtTrack
@@ -84,40 +84,40 @@ game.controllers.CarController = Ember.Object.extend
   _getPointAtLength: (length) ->
     @trackMediator.currentTrack.getPointAtLength length
 
-  _calculateRotation: ->
-    currentPosition = @_getPointAtLength @lengthAtTrack
-    nextPosition = @_getPointAtLength @lengthAtTrack + @speed
+  # _calculateRotation: ->
+  #   currentPosition = @_getPointAtLength @lengthAtTrack
+  #   nextPosition = @_getPointAtLength @lengthAtTrack + @speed
+  # 
+  #   carVector = (Vector.create from: currentPosition, to: nextPosition)
+  # 
+  #   carAngle = carVector.clockwiseAngle()
+  # 
+  #   unless isNaN carAngle
+  #     @carMediator.set 'rotation', carAngle
 
-    carVector = (Vector.create from: currentPosition, to: nextPosition)
-
-    carAngle = carVector.clockwiseAngle()
-
-    unless isNaN carAngle
-      @carMediator.set 'rotation', carAngle
-
-  _updateCarPosition: ->
-    @carMediator.set 'position',
-      x: @_position.x
-      y: @_position.y
-
-  _getNextPathVectors: ->
-    pointA = @_getPointAtLength @lengthAtTrack
-    pointB = @_getPointAtLength @lengthAtTrack + @speed
-    pointC = @_getPointAtLength @lengthAtTrack + @speed * 2
-
-    {
-      first: (Vector.create from: pointA, to: pointB)
-      second: (Vector.create from: pointB, to: pointC)
-    }
-
-  _checkCrashThreshold: ->
-    vectors = @_getNextPathVectors()
-
-    angle = vectors.first.angleFrom vectors.second
-
-    if angle > 180 then angle = 360 - angle
-
-    if angle * @speed > @traction
-      @_crashVector = vectors.first
-      @crashing = true
-
+  # _updateCarPosition: ->
+  #   @carMediator.set 'position',
+  #     x: @_position.x
+  #     y: @_position.y
+  # 
+  # _getNextPathVectors: ->
+  #   pointA = @_getPointAtLength @lengthAtTrack
+  #   pointB = @_getPointAtLength @lengthAtTrack + @speed
+  #   pointC = @_getPointAtLength @lengthAtTrack + @speed * 2
+  # 
+  #   {
+  #     first: (Vector.create from: pointA, to: pointB)
+  #     second: (Vector.create from: pointB, to: pointC)
+  #   }
+  # 
+  # _checkCrashThreshold: ->
+  #   vectors = @_getNextPathVectors()
+  # 
+  #   angle = vectors.first.angleFrom vectors.second
+  # 
+  #   if angle > 180 then angle = 360 - angle
+  # 
+  #   if angle * @speed > @traction
+  #     @_crashVector = vectors.first
+  #     @crashing = true
+  # 
