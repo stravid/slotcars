@@ -9,11 +9,6 @@ describe 'slotcars.build.BuildScreen', ->
   BuilderController = slotcars.build.controllers.BuilderController
   BuilderScreenView = slotcars.build.views.BuildScreenView
 
-  it 'should mark itself as buildScreen for duck typing', ->
-    buildScreen = BuildScreen.create()
-
-    (expect buildScreen.isBuildScreen).toBe true
-
   beforeEach ->
     @buildScreenViewMock = mockEmberClass BuilderScreenView, append: sinon.spy()
     @builderControllerMock = mockEmberClass BuilderController

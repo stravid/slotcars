@@ -7,7 +7,6 @@ namespace 'slotcars.build'
 
 slotcars.build.BuildScreen = Ember.Object.extend
 
-  isBuildScreen: true
   _buildScreenView: null
   _builderController: null
 

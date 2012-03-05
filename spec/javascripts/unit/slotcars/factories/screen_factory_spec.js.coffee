@@ -1,9 +1,15 @@
 
 #= require slotcars/factories/screen_factory
+#= require slotcars/build/build_screen
+#= require slotcars/tracks/tracks_screen
+#= require slotcars/home/home_screen
 
 describe 'screen factory', ->
 
   ScreenFactory = slotcars.factories.ScreenFactory
+  BuildScreen = slotcars.build.BuildScreen
+  TracksScreen = slotcars.tracks.TracksScreen
+  HomeScreen = slotcars.home.HomeScreen
 
   beforeEach ->
     @screenFactory = ScreenFactory.create()
@@ -19,7 +25,7 @@ describe 'screen factory', ->
     it 'should return an instance of the build screen', ->
       buildScreen = @screenFactory.getBuildScreen()
 
-      (expect buildScreen.isBuildScreen).toBe true
+      (expect buildScreen).toBeInstanceOf BuildScreen
 
 
   describe 'getting play screen', ->
@@ -44,7 +50,7 @@ describe 'screen factory', ->
     it 'should return an instance of the tracks screen', ->
       tracksScreen = @screenFactory.getTracksScreen()
 
-      (expect tracksScreen.isTracksScreen).toBe true
+      (expect tracksScreen).toBeInstanceOf TracksScreen
 
 
   describe 'getting home screen', ->
@@ -52,6 +58,4 @@ describe 'screen factory', ->
     it 'should return an instance of the home screen', ->
       homeScreen = @screenFactory.getHomeScreen()
 
-      (expect homeScreen.isHomeScreen).toBe true
-
-
+      (expect homeScreen).toBeInstanceOf HomeScreen

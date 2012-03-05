@@ -3,5 +3,4 @@
 
 namespace 'slotcars.tracks'
 
-slotcars.tracks.TracksScreen = Ember.Object.extend
-  isTracksScreen: true
+slotcars.tracks.TracksScreen = Ember.Object.extend()

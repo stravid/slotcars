@@ -3,5 +3,4 @@
 
 namespace 'slotcars.home'
 
-slotcars.home.HomeScreen = Ember.Object.extend
-  isHomeScreen: true
+slotcars.home.HomeScreen = Ember.Object.extend()
