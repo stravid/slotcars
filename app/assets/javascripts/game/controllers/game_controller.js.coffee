@@ -2,14 +2,20 @@
 #= require game/controllers/car_controller
 #= require game/lib/car
 #= require shared/models/track_model
+
+#= require game/views/car_view
+
 #= require helpers/event_normalize
 
 namespace 'game.controllers'
 
+Car = game.lib.Car
+CarView = game.views.CarView
+
 game.controllers.GameController = Ember.Object.extend
 
   gameView: null
-  carController: null
+  car: null
   gameLoopController: null
   isTouchMouseDown: false
 
@@ -20,15 +26,26 @@ game.controllers.GameController = Ember.Object.extend
     (jQuery document).on 'touchMouseDown', (event) => @onTouchMouseDown event
     (jQuery document).on 'touchMouseUp', (event) => @onTouchMouseUp event
 
-    (jQuery @carController).on 'crossFinishLine', => @finish()
-    (jQuery @gameView).on 'restartGame', => @restartGame()
+    (jQuery @car).on 'crossFinishLine', => @finish()
+#    (jQuery @gameView).on 'restartGame', => @restartGame()
     
+    @car = Car.create()
+    @carView = CarView.create
+      car: @car
+
+    @carView.appendTo '#game-application'
+
+    @_super()
+
+
     unless @track?
       throw new Error 'track has to be provided'
 
   start: ->
     @_resetTime()
-    @carController.setup()
+    position = @track.getPointAtLength 0
+    @car.moveTo { x: position.x, y: position.y }
+
     @gameLoopController.start => @update()
 
   finish: ->
@@ -38,11 +55,11 @@ game.controllers.GameController = Ember.Object.extend
 
   update: ->
     if @isTouchMouseDown
-      @carController.accelerate()
+      @car.accelerate()
     else
-      @carController.slowDown()
+      @car.decelerate()
 
-    @carController.drive()
+    #@car.moveTo()
 
   onTouchMouseDown: (event) ->
     event.originalEvent.preventDefault()
@@ -53,9 +70,8 @@ game.controllers.GameController = Ember.Object.extend
     @isTouchMouseDown = false
 
   restartGame: ->
-    @carController.reset()
+    @car.reset()
     @_resetTime()
 
   _resetTime: ->
-    @gameMediator.set 'raceTime', 0
     @startTime = new Date().getTime()

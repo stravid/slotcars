@@ -42,11 +42,11 @@ game.GameApplication = Ember.View.extend
       paper: @paper
 
   _setupCar: ->
-    @carView = game.views.CarView.create
-      paper: @paper
-      offset: (jQuery @$()).offset()
+    #@carView = game.views.CarView.create
+    #  paper: @paper
+    #  offset: (jQuery @$()).offset()
 
-    @carView.appendTo @$()
+    #@carView.appendTo @$()
 
     @carController = game.controllers.CarController.create
       acceleration: 0.1
@@ -61,8 +61,10 @@ game.GameApplication = Ember.View.extend
     @gameView = game.views.GameView.create()
     @gameView.appendTo @$()
     
+    currentTrackMediator = shared.mediators.currentTrackMediator
+
     @gameController = game.controllers.GameController.create
-      carController: @carController
+      track: currentTrackMediator.currentTrack
       gameLoopController: game.controllers.GameLoopController.create()
       gameView: @gameView
 

@@ -6,7 +6,7 @@ describe 'game.views.CarView (functional)', ->
   CarView = game.views.CarView
 
   beforeEach ->
-    @carMediatorStub = Ember.Object.create
+    @carStub = Ember.Object.create
       position:
         x: 0
         y: 0
@@ -14,11 +14,11 @@ describe 'game.views.CarView (functional)', ->
     @updateSpy = sinon.spy()
 
     @carView = CarView.create
-      carMediator: @carMediatorStub
+      car: @carStub
       update: @updateSpy
 
   it 'should call update when the mediator changes', ->
     newPosition = { x: 50, y: 50 }
-    @carMediatorStub.set 'position', newPosition
+    @carStub.set 'position', newPosition
 
     (expect @updateSpy).toHaveBeenCalled()

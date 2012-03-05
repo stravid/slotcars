@@ -21,7 +21,6 @@ game.lib.Car = Ember.Object.extend Movable, Crashable,
   crashDeceleration: 0
 
   isCrashing: null
-  crashDeceleration: 0
 
   accelerate: ->
     @speed += @acceleration

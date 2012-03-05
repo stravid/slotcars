@@ -18,25 +18,26 @@ game.views.CarView = Ember.View.extend
   exhaust: null
   puffInterval: 2
   puffStep: 0
-  carMediator: game.mediators.carMediator
   offset: null
 
   didInsertElement: ->
     #@exhaust = helpers.graphic.Exhaust.create(@paper)
+    @offset = (jQuery '#game-application').offset()
 
-    (jQuery @$()).css 'top', @offset.top
-    (jQuery @$()).css 'left', @offset.left
+    # (jQuery @$()).css 'top', @offset.top
+    # (jQuery @$()).css 'left', @offset.left
 
-  onPositionChange: (-> @update()).observes 'carMediator.position'
+  onPositionChange: (-> @update()).observes 'car.position'
 
   update: ->
-    position = @carMediator.get 'position'
-    rotation = @carMediator.get 'rotation'
-    position.x -= @width / 2
-    position.y -= @height / 4
+    position = @car.position
+    rotation = @car.rotation
+    drawPosition =
+      x: position.x - @width / 2
+      y: position.y - @height / 4
 
-    (jQuery '#car').css '-webkit-transform', "translate3d(#{position.x}px,#{position.y}px,0)rotateZ(#{rotation}deg)"
-    (jQuery '#car').css '-moz-transform', "translate3d(#{position.x}px,#{position.y}px,0)rotateZ(#{rotation}deg)"
+    (jQuery '#car').css '-webkit-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
+    (jQuery '#car').css '-moz-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
     
     #@puffStep = ++@puffStep % @puffInterval
     #@exhaust.puff(position.x + @width - 6, position.y + @height) unless @puffStep > 0

@@ -11,11 +11,11 @@ game.lib.Movable = Ember.Mixin.create
   position: x: 0, y: 0
   rotation: 0
 
-  moveTo: (position) ->
-    previousPosition = @position
+  moveTo: (newPosition) ->
+    previousPosition = @get 'position'
 
-    @position = position
+    @set 'position', newPosition
 
-    direction = Vector.create from: previousPosition, to: position
-    @rotation = direction.clockwiseAngle()
+    direction = Vector.create from: previousPosition, to: newPosition
+    @set 'rotation', direction.clockwiseAngle()
 

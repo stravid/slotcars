@@ -27,6 +27,9 @@ describe 'game.controllers.GameController (unit)', ->
   it 'should throw an error when no track is passed', ->
     (expect => GameController.create()).toThrow()
 
+  it 'should create a car', ->
+    (expect @gameController.car).not.toBe null
+
 
   describe '#onTouchMouseDown', ->
 
@@ -107,6 +110,15 @@ describe 'game.controllers.GameController (unit)', ->
       @carControllerStub =
         setup: sinon.spy()
 
+      path = helpers.math.Path.create points: [
+        {x: 10, y:10, angle: 0}
+        {x: 20, y:50, angle: 0}
+        {x: 30, y:50, angle: 0}
+      ]
+
+      @trackStub = TrackModel.createRecord()
+      @trackStub.setPointPath path
+
       @gameController = GameController.create
         track: @trackStub
         gameLoopController:
@@ -132,9 +144,9 @@ describe 'game.controllers.GameController (unit)', ->
 
       (expect @gameControllerUpdateStub).toHaveBeenCalled()
 
-    it 'should call setup method on carController', ->
+    it 'should set car to startposition', ->
       @gameController.start()
-      (expect @carControllerStub.setup).toHaveBeenCalled()
+      (expect @gameController.car.get 'position').toEqual { x: 10, y: 10 }
 
 
   describe '#finish', ->
