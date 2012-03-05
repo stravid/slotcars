@@ -48,14 +48,12 @@ game.GameApplication = Ember.View.extend
 
     #@carView.appendTo @$()
 
-    @carController = game.controllers.CarController.create
-      acceleration: 0.1
-      deceleration: 0.2
-      offRoadDeceleration: 0.15
-      maxSpeed: 20
-      traction: 100
-
-    (jQuery @carController).on 'crossFinishLine', @carController.reset
+    # @car = game.lib.Car.create
+    #   acceleration: 0.1
+    #   deceleration: 0.2
+    #   offRoadDeceleration: 0.15
+    #   maxSpeed: 20
+    #   traction: 100
 
   _setupGame: ->
     @gameView = game.views.GameView.create()

@@ -1,20 +1,26 @@
 
 #= require game/controllers/game_controller
-#= require game/mediators/game_mediator
-#= require game/views/track_view
-#= require game/views/game_view
-#= require shared/models/track_model
 #= require game/controllers/car_controller
 
+#= require game/mediators/game_mediator
+
+#= require game/views/track_view
+#= require game/views/game_view
+
+#= require shared/models/track_model
+#= require game/lib/car
 
 describe 'game.controllers.GameController (unit)', ->
 
   GameController = game.controllers.GameController
   GameView = game.views.GameView
   TrackModel = shared.models.TrackModel
+  Car = game.lib.Car
 
   beforeEach ->
-    @trackStub = sinon.stub()
+    @trackStub =
+      getPointAtLength: -> sinon.stub().returns { x: 0, y: 0 }
+
     @gameController = GameController.create
       track: @trackStub
 
@@ -67,53 +73,49 @@ describe 'game.controllers.GameController (unit)', ->
       (expect @gameController.isTouchMouseDown).toBe false
 
 
-  # describe '#update', ->
-  # 
-  #   beforeEach ->
-  #     @carController = game.controllers.CarController.create()
-  # 
-  #     @accelerateStub = sinon.stub @carController, 'accelerate'
-  #     @slowDownStub = sinon.stub @carController, 'slowDown'
-  #     @driveStub = sinon.stub @carController, 'drive'
-  # 
-  #     @gameController.carController = @carController
-  # 
-  #   afterEach ->
-  #     @carController.accelerate.restore()
-  #     @carController.drive.restore()
-  #     @carController.slowDown.restore()
-  # 
-  #   it 'should accelerate car when isTouchMouseDown is true', ->
-  #     @gameController.isTouchMouseDown = true
-  # 
-  #     @gameController.update()
-  # 
-  #     (expect @accelerateStub).toHaveBeenCalledOnce()
-  # 
-  #   it 'should slowDown when isTouchMouseDown is false', ->
-  #     @gameController.isTouchMouseDown = false
-  # 
-  #     @gameController.update()
-  # 
-  #     (expect @accelerateStub).not.toHaveBeenCalled()
-  #     (expect @slowDownStub).toHaveBeenCalledOnce()
-  # 
-  #   it 'should drive car', ->
-  #     @gameController.update()
-  # 
-  #     (expect @driveStub).toHaveBeenCalledOnce()
+  describe '#update', ->
+  
+    beforeEach ->
+      @car = game.lib.Car.create()
+  
+      @accelerateStub = sinon.stub @car, 'accelerate'
+      @decelerateStub = sinon.stub @car, 'decelerate'
+      @moveStub = sinon.stub @car, 'moveTo'
+  
+      @gameController.car = @car
+  
+    afterEach ->
+      @car.accelerate.restore()
+      @car.moveTo.restore()
+      @car.decelerate.restore()
+  
+    it 'should accelerate car when isTouchMouseDown is true', ->
+      @gameController.isTouchMouseDown = true
+  
+      @gameController.update()
+  
+      (expect @accelerateStub).toHaveBeenCalledOnce()
+  
+    it 'should slowDown when isTouchMouseDown is false', ->
+      @gameController.isTouchMouseDown = false
+  
+      @gameController.update()
+  
+      (expect @decelerateStub).toHaveBeenCalledOnce()
+      (expect @accelerateStub).not.toHaveBeenCalled()
+  
+    it 'should drive car', ->
+      @gameController.update()
+  
+      (expect @moveStub).toHaveBeenCalledOnce()
 
 
   describe '#start', ->
 
     beforeEach ->
-      @carControllerStub =
-        setup: sinon.spy()
-
       path = helpers.math.Path.create points: [
         {x: 10, y:10, angle: 0}
         {x: 20, y:50, angle: 0}
-        {x: 30, y:50, angle: 0}
       ]
 
       @trackStub = TrackModel.createRecord()
@@ -124,7 +126,6 @@ describe 'game.controllers.GameController (unit)', ->
         gameLoopController:
           start: ->
         update: ->
-        carController: @carControllerStub
 
     it 'should save timestamp', ->
       @gameController.start()
@@ -160,15 +161,10 @@ describe 'game.controllers.GameController (unit)', ->
       (expect @gameController.raceTime).toNotBe null
       
     it 'should call finish when crossFinishLine event was triggered in CarController', ->
-      carControllerStub = {}
       finishSpy = sinon.spy()
+      @gameController.finish = finishSpy
       
-      gameController = GameController.create
-        track: @trackStub
-        carController: carControllerStub
-        finish: finishSpy
-      
-      (jQuery carControllerStub).trigger 'crossFinishLine'
+      (jQuery @gameController.car).trigger 'crossFinishLine'
       (expect finishSpy).toHaveBeenCalled()
 
 
@@ -176,14 +172,8 @@ describe 'game.controllers.GameController (unit)', ->
 
     beforeEach ->
       @carResetSpy = sinon.spy()
-      @carControllerStub = 
+      @carStub = Car.create
         reset: @carResetSpy
-
-      @stopGameLoopSpy = sinon.spy()
-      @gameLoopControllerStub =
-        stop: @stopGameLoopSpy
-        start: ->
-
 
     it 'should call restartGame when restartGame event was triggered', ->
       restartGameSpy = sinon.spy()
@@ -199,19 +189,17 @@ describe 'game.controllers.GameController (unit)', ->
     it 'should reset raceTime', ->
       gameController = GameController.create
         track: @trackStub
-        carController: @carControllerStub        
-        gameLoopController: @gameLoopControllerStub
 
-      gameController.gameMediator.raceTime = 18
+      gameController.raceTime = 18
       gameController.restartGame()
 
-      (expect gameController.gameMediator.raceTime).toBe 0
+      (expect gameController.raceTime).toBe 0
 
     it 'should reset car', ->
       gameController = GameController.create
         track: @trackStub
-        carController: @carControllerStub
-        gameLoopController: @gameLoopControllerStub
 
+      gameController.car = @carStub
       gameController.restartGame()
+
       (expect @carResetSpy).toHaveBeenCalled()

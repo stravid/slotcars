@@ -59,7 +59,7 @@ describe 'game.lib.Crashable', ->
 
     beforeEach ->
         @decelerateStub = sinon.spy()
-        @crashable.decelerate = @decelerateStub
+        @crashable.crashcelerate = @decelerateStub
 
     describe 'when speed is zero', ->
 

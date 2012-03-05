@@ -23,43 +23,52 @@ game.controllers.GameController = Ember.Object.extend
   endTime: null
 
   init: ->
+    @car = Car.create
+      acceleration: 0.1
+      deceleration: 0.2
+      offRoadDeceleration: 0.15
+      maxSpeed: 20
+      traction: 100
+
+    @carView = CarView.create
+      car: @car
+
+    @carView.append()
+
     (jQuery document).on 'touchMouseDown', (event) => @onTouchMouseDown event
     (jQuery document).on 'touchMouseUp', (event) => @onTouchMouseUp event
 
     (jQuery @car).on 'crossFinishLine', => @finish()
-#    (jQuery @gameView).on 'restartGame', => @restartGame()
-    
-    @car = Car.create()
-    @carView = CarView.create
-      car: @car
+    (jQuery @car).on 'crossFinishLine', => @car.reset()
 
-    @carView.appendTo '#game-application'
-
-    @_super()
-
+    (jQuery @gameView).on 'restartGame', => @restartGame()    
 
     unless @track?
       throw new Error 'track has to be provided'
 
   start: ->
     @_resetTime()
-    position = @track.getPointAtLength 0
+    position = @track.getPointAtLength @car.get 'lengthAtTrack'
     @car.moveTo { x: position.x, y: position.y }
 
     @gameLoopController.start => @update()
 
   finish: ->
     @endTime = new Date().getTime()
-    raceTime = @endTime - @startTime
-    @gameMediator.set 'raceTime', raceTime
+    @raceTime = @endTime - @startTime
 
   update: ->
     if @isTouchMouseDown
       @car.accelerate()
     else
-      @car.decelerate()
+      unless @car.isCrashing then @car.decelerate() else @car.crashcelerate()
 
-    #@car.moveTo()
+    newLengthAtTrack = (@car.get 'lengthAtTrack') + @car.get 'speed'
+    position = @track.getPointAtLength newLengthAtTrack
+    @car.moveTo { x: position.x, y: position.y }
+
+    if @car.get 'lengthAtTrack' > @track.totalLength
+      (jQuery @car).trigger 'crossFinishLine'
 
   onTouchMouseDown: (event) ->
     event.originalEvent.preventDefault()
@@ -71,7 +80,12 @@ game.controllers.GameController = Ember.Object.extend
 
   restartGame: ->
     @car.reset()
+
+    position = @track.getPointAtLength @car.get 'lengthAtTrack'
+    @car.moveTo { x: position.x, y: position.y }
+
     @_resetTime()
 
   _resetTime: ->
+    @raceTime = 0
     @startTime = new Date().getTime()

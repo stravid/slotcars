@@ -23,6 +23,22 @@ describe 'game.lib.Car', ->
     it 'should use Crashable', ->
       (expect Crashable.detect @car).toBe true
 
+
+  describe 'defaults on creation', ->
+
+    beforeEach ->
+      @car = Car.create()
+
+    it 'should set speed to zero', ->
+      (expect @car.speed).toBe 0
+
+    it 'should set lengthAtTrack', ->
+      (expect @car.lengthAtTrack).toBe 0
+
+    it 'should set crashing to false', ->
+      (expect @car.isCrashing).toBe false
+
+
   describe '#accelerate', ->
 
     beforeEach ->
@@ -62,6 +78,7 @@ describe 'game.lib.Car', ->
 
       (expect @car.speed).toBe 0
 
+
   describe '#crashcelerate', ->
     
     beforeEach ->
@@ -79,3 +96,22 @@ describe 'game.lib.Car', ->
       @car.crashcelerate()
     
       (expect @car.speed).toBe 0
+
+
+  describe '#reset', ->
+
+    beforeEach ->
+      @car = Car.create speed: 10, lengthAtTrack: 293
+
+    it 'should reset speed', ->
+      @car.reset()
+
+      (expect @car.speed).toEqual 0
+
+    it 'should reset lengthAtTrack', ->
+      @car.reset()
+
+      (expect @car.lengthAtTrack).toEqual 0
+
+
+

@@ -30,15 +30,15 @@ game.controllers.CarController = Ember.Object.extend
     @_updateCarPosition()
     @_updateTrackLength()
 
-  accelerate: ->
-    unless @crashing
-      @speed += @acceleration
-      if @speed > @maxSpeed then @speed = @maxSpeed
+  # accelerate: ->
+  #   unless @crashing
+  #     @speed += @acceleration
+  #     if @speed > @maxSpeed then @speed = @maxSpeed
 
-  slowDown: ->
-    unless @crashing
-      @speed -= @deceleration
-      if @speed < 0 then @speed = 0
+  # slowDown: ->
+  #   unless @crashing
+  #     @speed -= @deceleration
+  #     if @speed < 0 then @speed = 0
 
   drive: -> unless @crashing then @_driveOnPath() else @_crash()
 
@@ -64,25 +64,25 @@ game.controllers.CarController = Ember.Object.extend
       @_calculateCrashingDirection()
       @_updateCarPosition()
 
-  _slowDownOffRoad: ->
-    @speed -= @offRoadDeceleration
-    if @speed < 0 then @speed = 0
+  # _slowDownOffRoad: ->
+  #   @speed -= @offRoadDeceleration
+  #   if @speed < 0 then @speed = 0
 
-  _checkForFinish: ->
-    if @lengthAtTrack > @trackLength
-      (jQuery this).trigger 'crossFinishLine'
+  # _checkForFinish: ->
+  #   if @lengthAtTrack > @trackLength
+  #     (jQuery this).trigger 'crossFinishLine'
 
-  _updateTrackLength: -> @trackLength = @trackMediator.currentTrack.get 'totalLength'
+  # _updateTrackLength: -> @trackLength = @trackMediator.currentTrack.get 'totalLength'
 
   # _calculateCrashingDirection: ->
   #   @_position.x += @_crashVector.x / @_crashVector.length() * @speed
   #   @_position.y += @_crashVector.y / @_crashVector.length() * @speed
 
-  _calculatePositionOnPath: ->
-    @_position = @_getPointAtLength @lengthAtTrack
+  # _calculatePositionOnPath: ->
+  #   @_position = @_getPointAtLength @lengthAtTrack
 
-  _getPointAtLength: (length) ->
-    @trackMediator.currentTrack.getPointAtLength length
+  # _getPointAtLength: (length) ->
+  #   @trackMediator.currentTrack.getPointAtLength length
 
   # _calculateRotation: ->
   #   currentPosition = @_getPointAtLength @lengthAtTrack
