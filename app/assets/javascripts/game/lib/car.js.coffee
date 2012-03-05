@@ -1,23 +1,26 @@
 
 #= require helpers/namespace
+
 #= require game/lib/movable
+#= require game/lib/crashable
 
 #= require helpers/math/vector
 
 namespace 'game.lib'
 
-game.lib.Car = game.lib.Movable.extend
+Movable = game.lib.Movable
+Crashable = game.lib.Crashable
+
+game.lib.Car = Ember.Object.extend Movable, Crashable,
   
-  isCrashing: false
-  previousDirection: null
-  offRoadDeceleration: 0
+  speed: 0
+  maxSpeed: 0
 
-  checkForCrash: ->
-    if @previousDirection?
-      angle = @previousDirection.angleFrom @direction
+  acceleration: 0
+  deceleration: 0
 
-      if angle * @speed > @traction
-        @isCrashing = true
+  isCrashing: null
+  crashDeceleration: 0
 
   driveInDirection: (direction) ->
     @previousDirection = @direction
@@ -29,12 +32,19 @@ game.lib.Car = game.lib.Movable.extend
       @isCrashing = false
 
     @decelerate()
+    @moveTo {}
     @update()
+
+  accelerate: ->
+    @speed += @acceleration
+    if @speed > @maxSpeed then @speed = @maxSpeed
 
   decelerate: ->
     if @isCrashing
-      @speed -= @offRoadDeceleration
-      if @speed < 0 then @speed = 0
+      @speed -= @crashDeceleration
     else
-      @_super()
+      @speed -= @deceleration
+    
+    if @speed < 0 then @speed = 0
+
 

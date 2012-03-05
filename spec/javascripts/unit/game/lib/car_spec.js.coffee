@@ -1,51 +1,28 @@
 
 #= require game/lib/car
 #= require game/lib/movable
+#= require game/lib/crashable
 
 #= require helpers/math/vector
 
 describe 'game.lib.Car', ->
 
   Car = game.lib.Car
-  Movable = game.lib.Movable
   Vector = helpers.math.Vector
+  Movable = game.lib.Movable
+  Crashable = game.lib.Crashable
 
-  it 'should extend Movable', ->
-    (expect Movable.detect Car).toBe true
-
-  it 'should have isCrashing set to false', ->
-    car = Car.create()
-    (expect car.isCrashing).toBe false
-
-  describe '#checkForCrash', ->
+  describe 'useage of mixins', ->
 
     beforeEach ->
-      @car = Car.create speed: 1
+      @car = Car.create()
 
+    it 'should use Movable', ->
+      (expect Movable.detect @car).toBe true
 
-    it 'should not crash if there is no previousDirection', ->
-      @car.checkForCrash()
+    it 'should use Crashable', ->
+      (expect Crashable.detect @car).toBe true
 
-      (expect @car.isCrashing).toBe false
-
-
-    it 'should set crashing to true when too fast in curve', ->
-      @car.traction = 89 # loses vs. speed * angle || 1 * 90 = 90
-      @car.previousDirection = Vector.create x: 1, y: 0
-      @car.direction = Vector.create x: 0, y: 1
-
-      @car.checkForCrash()
-
-      (expect @car.isCrashing).toBe true
-
-    it 'should not set crashing when traction is high enough', ->
-      @car.traction = 90 # wins vs. speed * angle || 1 * 90 = 90
-      @car.previousDirection = Vector.create x: 1, y: 0
-      @car.direction = Vector.create x: 0, y: 1
-
-      @car.checkForCrash()
-
-      (expect @car.isCrashing).toBe false
 
   describe '#driveInDirection', ->
 
@@ -70,46 +47,31 @@ describe 'game.lib.Car', ->
       (expect @car.direction).toEqual @newDirection
 
 
-  describe '#crash', ->
+  describe '#accelerate', ->
 
     beforeEach ->
-      @updateStub = sinon.spy()
-      @decelerateStub = sinon.spy()
-
       @car = Car.create
-        update: @updateStub
-        decelerate: @decelerateStub
+        acceleration: 1
+        speed: 0
+        maxSpeed: 1
 
-    it 'should end crashing when speed is zero', ->
-      @car.isCrashing = true
-      @car.speed = 0
-      @car.crash()
+    it 'should add acceleration value to speed', ->
+      @car.accelerate()
 
-      (expect @car.isCrashing).toBe false
+      (expect @car.speed).toBe 1
 
-    it 'should continue crashing as long as speed is bigger than zero', ->
-      @car.isCrashing = true
-      @car.speed = 1
-      @car.crash()
+    it 'should not increase speed higher than maxSpeed', ->
+      @car.accelerate()
+      @car.accelerate()
 
-      (expect @car.isCrashing).toBe true
-
-    it 'should call #decelerate', ->
-      @car.crash()
-
-      (expect @decelerateStub).toHaveBeenCalled()
-
-    it 'should call #update', ->
-      @car.crash()
-
-      (expect @updateStub).toHaveBeenCalled()
+      (expect @car.speed).toBe 1
 
 
   describe '#decelerate', ->
 
     beforeEach ->
       @car = Car.create
-        offRoadDeceleration: 3
+        crashDeceleration: 3
         deceleration: 4
         speed: 5
 
@@ -118,7 +80,14 @@ describe 'game.lib.Car', ->
 
       (expect @car.speed).toBe 1
 
-    it 'should decelerate with offRoadDeceleration when car is crashing', ->
+    it 'should not decrease speed below zero', ->
+      @car.decelerate()
+      @car.decelerate()
+
+      (expect @car.speed).toBe 0
+
+
+    it 'should decelerate with crashDeceleration when car is crashing', ->
       @car.isCrashing = true
       @car.decelerate()
 
@@ -126,7 +95,7 @@ describe 'game.lib.Car', ->
 
     it 'should not let speed get below zero after crashing', ->
       @car.isCrashing = true
-      @car.offRoadDeceleration = 8
+      @car.crashDeceleration = 8
       @car.decelerate()
 
       (expect @car.speed).toBe 0

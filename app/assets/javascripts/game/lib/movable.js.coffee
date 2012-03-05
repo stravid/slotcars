@@ -6,29 +6,16 @@ namespace 'game.lib'
 
 Vector = helpers.math.Vector
 
-game.lib.Movable = Ember.Object.extend
+game.lib.Movable = Ember.Mixin.create
 
   position: x: 0, y: 0
   rotation: 0
-  direction: (Vector.create x: 0, y: 0)
 
-  speed: 0
-  maxSpeed: 0
+  moveTo: (position) ->
+    previousPosition = @position
 
-  acceleration: 0
-  deceleration: 0
+    @position = position
 
-  update: ->
-    @position =
-      x: @direction.x * @speed
-      y: @direction.y * @speed
+    direction = Vector.create from: previousPosition, to: position
+    @rotation = direction.clockwiseAngle()
 
-    @rotation = @direction.clockwiseAngle()
-
-  accelerate: ->
-    @speed += @acceleration
-    if @speed > @maxSpeed then @speed = @maxSpeed
-
-  decelerate: ->
-    @speed -= @deceleration
-    if @speed < 0 then @speed = 0
