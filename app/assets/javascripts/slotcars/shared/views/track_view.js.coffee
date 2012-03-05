@@ -8,6 +8,12 @@ slotcars.shared.views.TrackView = Ember.View.extend
   elementId: 'track-view'
   _paper: null
 
+  ROAD_WIDTH: 70
+  SIDE_WIDTH: 10
+  DASH_WIDTH: 2
+  SIDE_DASH_WIDTH: 3
+  SIDE_WIDTH: 5
+
   didInsertElement: ->
     @_paper = Raphael @$()[0], 1024, 768
     
