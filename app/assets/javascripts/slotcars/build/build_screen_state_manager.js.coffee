@@ -6,7 +6,10 @@ namespace 'slotcars.build'
 slotcars.build.BuildScreenStateManager = Ember.StateManager.extend
 
   delegate: null
-  initialState: 'Building'
+  initialState: 'Initialized'
+
+  Initialized: Ember.State.create
+    startBuilding: (manager) -> manager.goToState 'Building'
 
   Building: Ember.State.create
 
@@ -17,7 +20,7 @@ slotcars.build.BuildScreenStateManager = Ember.StateManager.extend
     initialState: 'Appending'
 
     Appending: Ember.State.create
-      appendedScreen: (manager) -> manager.goToState 'Loading'
+      didAppendScreen: (manager) -> manager.goToState 'Loading'
 
     Loading: Ember.State.create
       enter: (manager) -> manager.delegate.loadTrack()

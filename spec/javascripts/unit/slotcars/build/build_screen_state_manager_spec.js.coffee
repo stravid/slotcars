@@ -1,7 +1,7 @@
 
 #= require slotcars/build/build_screen_state_manager
 
-describe 'protocol between build screen and its state manager', ->
+describe 'slotcars.build.BuildScreenStateManager', ->
 
   BuildScreenStateManager = slotcars.build.BuildScreenStateManager
 
@@ -16,8 +16,10 @@ describe 'protocol between build screen and its state manager', ->
     @buildScreenStateManager = BuildScreenStateManager.create
       delegate: @buildScreenStub
 
+    @buildScreenStateManager.send 'startBuilding'
 
-  describe 'actions sent by the default composite building state', ->
+
+  describe 'entering and exiting the building state', ->
 
     it 'should tell the build screen to append itself to the DOM when entered', ->
       (expect @buildScreenStub.appendScreen).toHaveBeenCalled()
@@ -31,7 +33,7 @@ describe 'protocol between build screen and its state manager', ->
   describe 'transition from appending to loading', ->
 
     it 'should activate the loading state when screen was appended', ->
-      @buildScreenStateManager.send 'appendedScreen'
+      @buildScreenStateManager.send 'didAppendScreen'
 
       (expect @buildScreenStub.loadTrack).toHaveBeenCalled()
 
@@ -39,7 +41,7 @@ describe 'protocol between build screen and its state manager', ->
   describe 'transition from loading the track to drawing mode', ->
 
     beforeEach ->
-      @buildScreenStateManager.send 'appendedScreen' # go to loading
+      @buildScreenStateManager.send 'didAppendScreen' # go to loading
 
     it 'should activate drawing mode when building a new track', ->
       @buildScreenStateManager.send 'newTrackCreated'
@@ -50,7 +52,7 @@ describe 'protocol between build screen and its state manager', ->
   describe 'cleaning up the drawing mode', ->
 
     beforeEach ->
-      @buildScreenStateManager.send 'appendedScreen' # go to loading
+      @buildScreenStateManager.send 'didAppendScreen' # go to loading
       @buildScreenStateManager.send 'newTrackCreated' # go to drawing mode
 
     it 'should tell the build screen to cleanup drawing mode when it gets destroyed', ->

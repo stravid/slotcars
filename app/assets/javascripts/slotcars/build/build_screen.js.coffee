@@ -1,18 +1,31 @@
 
 #= require helpers/namespace
-#= require slotcars/build/build_screen_state_manager
 #= require slotcars/build/views/build_screen_view
+#= require slotcars/build/controllers/builder_controller
 
 namespace 'slotcars.build'
 
 slotcars.build.BuildScreen = Ember.Object.extend
+
   isBuildScreen: true
+  _buildScreenView: null
+  _builderController: null
 
   appendToApplication: ->
-    slotcars.build.BuildScreenStateManager.create
-      delegate: this
+    @appendScreen()
+    @setupBuilder()
 
   appendScreen: ->
-    buildScreenView = (slotcars.build.views.BuildScreenView.create delegate: this)
-    buildScreenView.append()
+    @_buildScreenView = slotcars.build.views.BuildScreenView.create()
+    @_buildScreenView.append()
 
+  setupBuilder: ->
+    @_builderController = slotcars.build.controllers.BuilderController.create
+      buildScreenView: @_buildScreenView
+
+  destroy: ->
+    @_super()
+    @_buildScreenView.remove()
+    @_builderController.destroy()
+
+  toString: -> '<Instance of slotcars.build.BuildScreen>'

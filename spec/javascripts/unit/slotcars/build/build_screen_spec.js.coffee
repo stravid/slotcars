@@ -1,51 +1,54 @@
 
 #= require slotcars/build/build_screen
 #= require slotcars/build/views/build_screen_view
+#= require slotcars/build/controllers/builder_controller
 
-describe 'build screen', ->
+describe 'slotcars.build.BuildScreen', ->
 
   BuildScreen = slotcars.build.BuildScreen
+  BuilderController = slotcars.build.controllers.BuilderController
+  BuilderScreenView = slotcars.build.views.BuildScreenView
 
   it 'should mark itself as buildScreen for duck typing', ->
     buildScreen = BuildScreen.create()
 
     (expect buildScreen.isBuildScreen).toBe true
 
-  describe 'integration with build screen state manager', ->
+  beforeEach ->
+    @buildScreenViewMock = mockEmberClass BuilderScreenView, append: sinon.spy()
+    @builderControllerMock = mockEmberClass BuilderController
+    @buildScreen = BuildScreen.create()
 
-    beforeEach ->
-      @BuildScreenStateManagerCreateStub = (sinon.stub slotcars.build.BuildScreenStateManager, 'create')
+  afterEach ->
+    @buildScreenViewMock.restore()
+    @builderControllerMock.restore()
 
-    afterEach -> @BuildScreenStateManagerCreateStub.restore()
-
-    it 'should create state manager and register as delegate', ->
-      buildScreen = BuildScreen.create()
-      buildScreen.appendToApplication()
-
-      (expect @BuildScreenStateManagerCreateStub).toHaveBeenCalledWithAnObjectLike delegate: buildScreen
-
-
-  describe 'appending the screen', ->
-
-    beforeEach ->
-      @buildScreenViewCreateStub = (sinon.stub slotcars.build.views.BuildScreenView, 'create')
-
-      @buildScreenViewAppendMethodStub = sinon.spy()
-
-      @buildScreenViewCreateStub.returns
-        append: @buildScreenViewAppendMethodStub
-
-      @buildScreen = BuildScreen.create()
-
-    afterEach ->
-      @buildScreenViewCreateStub.restore()
+  describe 'append to application', ->
 
     it 'should append the build screen view to the DOM body', ->
-      @buildScreen.appendScreen()
+      @buildScreen.appendToApplication()
 
-      (expect @buildScreenViewAppendMethodStub).toHaveBeenCalled()
+      (expect @buildScreenViewMock.append).toHaveBeenCalled()
 
-    it 'should provide itself as delegate to the build screen view', ->
-      @buildScreen.appendScreen()
+    it 'should create builder and provide build screen view', ->
+      @buildScreen.appendToApplication()
 
-      (expect @buildScreenViewCreateStub).toHaveBeenCalledWithAnObjectLike delegate: @buildScreen
+      (expect @builderControllerMock.create).toHaveBeenCalledWithAnObjectLike buildScreenView: @buildScreenViewMock
+
+
+  describe 'destroy', ->
+
+    beforeEach ->
+      @builderControllerMock.destroy = sinon.spy()
+      @buildScreenViewMock.remove = sinon.spy()
+      @buildScreen.appendToApplication()
+
+    it 'should tell the build screen view to remove itself', ->
+      @buildScreen.destroy()
+
+      (expect @buildScreenViewMock.remove).toHaveBeenCalled()
+
+    it 'should tell the builder to destroy itself', ->
+      @buildScreen.destroy()
+
+      (expect @builderControllerMock.destroy).toHaveBeenCalled()
