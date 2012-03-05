@@ -63,12 +63,12 @@ describe 'helpers.math.Vector (unit)', ->
 
       (expect vector.clockwiseAngle()).toBeApproximatelyEqual 135
 
-    it 'should return correct angles for second quadrant', ->
+    it 'should return correct angles for third quadrant', ->
       vector = Vector.create x: -1, y: 1
 
       (expect vector.clockwiseAngle()).toBeApproximatelyEqual 225
 
-    it 'should return correct angles for second quadrant', ->
+    it 'should return correct angles for fourth quadrant', ->
       vector = Vector.create x: -1, y: -1
 
       (expect vector.clockwiseAngle()).toBeApproximatelyEqual 315
