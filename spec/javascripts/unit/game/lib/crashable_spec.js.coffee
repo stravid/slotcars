@@ -8,7 +8,10 @@ describe 'game.lib.Crashable', ->
   Vector = helpers.math.Vector
 
   beforeEach ->
-    @crashable = Ember.Object.extend(Crashable).create()
+    @crashable = Ember.Object.extend(Crashable).create
+      position:
+        x: 0
+        y: 0
 
   it 'should initially not be in crashing state', ->
     (expect @crashable.isCrashing).toBe false
@@ -17,9 +20,12 @@ describe 'game.lib.Crashable', ->
   describe 'consider wether to crash', ->
 
     describe 'when previous direction does not exist', ->
-    
+
       it 'should not crash', ->
-        position = { x: (Math.round Math.random()), y: (Math.round Math.random()) }
+        position =
+          x: (Math.round Math.random())
+          y: (Math.round Math.random())
+
         @crashable.checkForCrash position
 
         (expect @crashable.isCrashing).toBe false
@@ -49,17 +55,13 @@ describe 'game.lib.Crashable', ->
       it 'should save current direction for further calculations', ->
         @crashable.position = { x: 0, y: 0 }
         nextPosition = { x: 0, y: 1 }
-        
+
         @crashable.checkForCrash nextPosition
         direction = Vector.create from: @crashable.position, to: nextPosition
 
         (expect @crashable.previousDirection).toEqual direction
 
   describe 'crashing', ->
-
-    beforeEach ->
-        @decelerateStub = sinon.spy()
-        @crashable.crashcelerate = @decelerateStub
 
     describe 'when speed is zero', ->
 
@@ -78,8 +80,3 @@ describe 'game.lib.Crashable', ->
         @crashable.crash()
 
         (expect @crashable.isCrashing).toBe true
-
-      it 'should decelerate', ->
-        @crashable.crash()
-
-        (expect @decelerateStub).toHaveBeenCalled()

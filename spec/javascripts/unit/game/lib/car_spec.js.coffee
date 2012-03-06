@@ -80,7 +80,7 @@ describe 'game.lib.Car', ->
 
 
   describe '#crashcelerate', ->
-    
+
     beforeEach ->
       @car = Car.create
         crashDeceleration: 3
@@ -88,20 +88,22 @@ describe 'game.lib.Car', ->
 
     it 'should decelerate with crashDeceleration', ->
       @car.crashcelerate()
-    
+
       (expect @car.speed).toBe 2
-    
+
     it 'should not let speed get below zero after crashing', ->
       @car.crashDeceleration = 8
       @car.crashcelerate()
-    
+
       (expect @car.speed).toBe 0
 
 
   describe '#reset', ->
 
     beforeEach ->
-      @car = Car.create speed: 10, lengthAtTrack: 293
+      @car = Car.create
+        speed: 10
+        lengthAtTrack: 293
 
     it 'should reset speed', ->
       @car.reset()
@@ -113,5 +115,13 @@ describe 'game.lib.Car', ->
 
       (expect @car.lengthAtTrack).toEqual 0
 
+  describe '#drive', ->
 
+    beforeEach ->
+      @car = Car.create
+        speed: 1
 
+    it 'should update lengthAtTrack', ->
+      @car.drive()
+
+      (expect @car.lengthAtTrack).toBe 1

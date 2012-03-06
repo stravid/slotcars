@@ -48,7 +48,8 @@ describe 'game.controllers.GameController (unit)', ->
 
     it 'should be called when isTouchMouseDown is triggered on document', ->
 
-      # necessary to trigger 'mousedown' because of 'originalEvent' property which is added through event normalization
+      # necessary to trigger 'mousedown' because of 'originalEvent'
+      # property which is added through event normalization
       (jQuery document).trigger 'mousedown'
 
       (expect @gameController.isTouchMouseDown).toBe true
@@ -57,7 +58,7 @@ describe 'game.controllers.GameController (unit)', ->
 
     it 'should set isTouchMouseDown to false', ->
       eventStub = originalEvent:
-          preventDefault: ->
+        preventDefault: ->
 
       @gameController.onTouchMouseUp eventStub
 
@@ -67,46 +68,47 @@ describe 'game.controllers.GameController (unit)', ->
     it 'should be called when touchMouseUp is triggered on document', ->
       @gameController.isTouchMouseDown = true
 
-      # necessary to trigger 'mouseup' because of 'originalEvent' property which is added through event normalization
+      # necessary to trigger 'mouseup' because of 'originalEvent'
+      # property which is added through event normalization
       (jQuery document).trigger 'mouseup'
 
       (expect @gameController.isTouchMouseDown).toBe false
 
 
   describe '#update', ->
-  
+
     beforeEach ->
       @car = game.lib.Car.create()
-  
+
       @accelerateStub = sinon.stub @car, 'accelerate'
       @decelerateStub = sinon.stub @car, 'decelerate'
       @moveStub = sinon.stub @car, 'moveTo'
-  
+
       @gameController.car = @car
-  
+
     afterEach ->
       @car.accelerate.restore()
       @car.moveTo.restore()
       @car.decelerate.restore()
-  
+
     it 'should accelerate car when isTouchMouseDown is true', ->
       @gameController.isTouchMouseDown = true
-  
+
       @gameController.update()
-  
+
       (expect @accelerateStub).toHaveBeenCalledOnce()
-  
+
     it 'should slowDown when isTouchMouseDown is false', ->
       @gameController.isTouchMouseDown = false
-  
+
       @gameController.update()
-  
+
       (expect @decelerateStub).toHaveBeenCalledOnce()
       (expect @accelerateStub).not.toHaveBeenCalled()
-  
+
     it 'should drive car', ->
       @gameController.update()
-  
+
       (expect @moveStub).toHaveBeenCalledOnce()
 
 
@@ -151,19 +153,19 @@ describe 'game.controllers.GameController (unit)', ->
 
 
   describe '#finish', ->
-      
+
     it 'should save timestamp', ->
       @gameController.finish()
       (expect @gameController.endTime).toNotBe null
-    
+
     it 'should calculate and update race time', ->
       @gameController.finish()
       (expect @gameController.raceTime).toNotBe null
-      
+
     it 'should call finish when crossFinishLine event was triggered in CarController', ->
       finishSpy = sinon.spy()
       @gameController.finish = finishSpy
-      
+
       (jQuery @gameController.car).trigger 'crossFinishLine'
       (expect finishSpy).toHaveBeenCalled()
 
@@ -182,7 +184,7 @@ describe 'game.controllers.GameController (unit)', ->
         track: @trackStub
         gameView: GameView.create()
         restartGame: restartGameSpy
-  
+
       (jQuery gameController.gameView).trigger 'restartGame'
       (expect restartGameSpy).toHaveBeenCalledOnce()
 

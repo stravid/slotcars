@@ -12,7 +12,7 @@ Movable = game.lib.Movable
 Crashable = game.lib.Crashable
 
 game.lib.Car = Ember.Object.extend Movable, Crashable,
-  
+
   speed: 0
   maxSpeed: 0
 
@@ -24,6 +24,7 @@ game.lib.Car = Ember.Object.extend Movable, Crashable,
   # isCrashing: null - is set by Crashable
 
   drive: ->
+    @lengthAtTrack += @speed
 
   accelerate: ->
     @speed += @acceleration

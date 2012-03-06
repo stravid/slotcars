@@ -26,7 +26,7 @@ game.controllers.GameController = Ember.Object.extend
     @car = Car.create
       acceleration: 0.1
       deceleration: 0.2
-      offRoadDeceleration: 0.15
+      crashDeceleration: 0.15
       maxSpeed: 20
       traction: 100
 
@@ -41,7 +41,7 @@ game.controllers.GameController = Ember.Object.extend
     (jQuery @car).on 'crossFinishLine', => @finish()
     (jQuery @car).on 'crossFinishLine', => @car.reset()
 
-    (jQuery @gameView).on 'restartGame', => @restartGame()    
+    (jQuery @gameView).on 'restartGame', => @restartGame()
 
     unless @track?
       throw new Error 'track has to be provided'
@@ -58,14 +58,20 @@ game.controllers.GameController = Ember.Object.extend
     @raceTime = @endTime - @startTime
 
   update: ->
+    newLengthAtTrack = (@car.get 'lengthAtTrack') + @car.get 'speed'
+    nextPosition = @track.getPointAtLength newLengthAtTrack
+
+    @car.checkForCrash nextPosition
+
+    position = nextPosition
+
     if @isTouchMouseDown
       @car.accelerate()
     else
       unless @car.isCrashing then @car.decelerate() else @car.crashcelerate()
 
-    newLengthAtTrack = (@car.get 'lengthAtTrack') + @car.get 'speed'
-    position = @track.getPointAtLength newLengthAtTrack
     @car.moveTo { x: position.x, y: position.y }
+    @car.lengthAtTrack = newLengthAtTrack
 
     if @car.get 'lengthAtTrack' > @track.totalLength
       (jQuery @car).trigger 'crossFinishLine'

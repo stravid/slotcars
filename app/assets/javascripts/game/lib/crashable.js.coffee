@@ -7,14 +7,17 @@ namespace 'game.lib'
 Vector = helpers.math.Vector
 
 game.lib.Crashable = Ember.Mixin.create
-  
+
   previousDirection: null
   isCrashing: false
 
   checkForCrash: (nextPosition) ->
 
-    if @previousDirection?
-      direction = Vector.create from: @position, to: nextPosition
+    direction = Vector.create from: @position, to: nextPosition
+
+    unless @previousDirection?
+      @previousDirection = direction
+    else
       angle = @previousDirection.angleFrom direction
       @previousDirection = direction
 
@@ -24,6 +27,3 @@ game.lib.Crashable = Ember.Mixin.create
   crash: ->
     if @speed == 0
       @isCrashing = false
-
-    @crashcelerate()
-
