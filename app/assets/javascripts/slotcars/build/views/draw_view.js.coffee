@@ -25,10 +25,10 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
   drawTrack: ->
     return unless @track?
 
-    @path = @track.get 'raphaelPath'
+    @_path = @track.get 'raphaelPath'
 
     # remove the Z from path to not close it while drawing
-    @path = @path.substr 0, @path.length - 1
+    @_path = @_path.substr 0, @_path.length - 1
 
     @_drawLawn()
     @_drawOutterBase()
