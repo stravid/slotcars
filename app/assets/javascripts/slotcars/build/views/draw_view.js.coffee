@@ -21,3 +21,5 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
 
   _onTouchMouseMove: (event) ->
     @drawController.onTouchMouseMove x: event.pageX, y: event.pageY
+
+  willDestroyElement: -> @$().off 'touchMouseMove'

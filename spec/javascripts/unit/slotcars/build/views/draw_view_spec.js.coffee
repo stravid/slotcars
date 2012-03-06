@@ -26,21 +26,34 @@ describe 'slotcars.build.views.DrawView', ->
       (expect drawStub).toHaveBeenCalled()
 
 
-  describe 'setup of touchMouse event listeners', ->
+  describe 'handling mouse move events', ->
 
-    it 'should setup touch mouse move listener on its view element that notifies draw controller', ->
-
-      drawControllerMock = mockEmberClass DrawController, onTouchMouseMove: sinon.spy()
-      drawView = DrawView.create drawController: drawControllerMock
+    beforeEach ->
+      @drawControllerMock = mockEmberClass DrawController, onTouchMouseMove: sinon.spy()
+      @drawView = DrawView.create drawController: @drawControllerMock
 
       # append it into DOM to test real jQuery events
-      container = jQuery 'div'
-      Ember.run => drawView.appendTo container
+      container = jQuery '<div>'
+      @drawView.appendTo container
 
+      Ember.run.end()
+
+    afterEach ->
+      @drawControllerMock.restore()
+
+    it 'should setup touch mouse move listener on its view element that notifies draw controller', ->
       # manually create touch mouse move event
       testPosition = x: 3, y: 4
       touchMouseMoveEvent = jQuery.Event 'touchMouseMove', pageX: testPosition.x, pageY: testPosition.y
 
-      (jQuery drawView.$()).trigger touchMouseMoveEvent
+      (jQuery @drawView.$()).trigger touchMouseMoveEvent
 
-      (expect drawControllerMock.onTouchMouseMove).toHaveBeenCalledWithAnObjectLike testPosition
+      (expect @drawControllerMock.onTouchMouseMove).toHaveBeenCalledWithAnObjectLike testPosition
+
+
+    it 'should unbind the mouse move events when view will be removed', ->
+      @drawView.willDestroyElement()
+
+      (jQuery @drawView.$()).trigger 'touchMouseMove', {}
+
+      (expect @drawControllerMock.onTouchMouseMove).not.toHaveBeenCalled()
