@@ -30,16 +30,15 @@ game.controllers.GameController = Ember.Object.extend
       maxSpeed: 20
       traction: 100
 
+    offset = (jQuery '#game-application').offset()
     @carView = CarView.create
       car: @car
+      offset: offset
 
-    @carView.append()
+    @carView.appendTo '#game-application'
 
     (jQuery document).on 'touchMouseDown', (event) => @onTouchMouseDown event
     (jQuery document).on 'touchMouseUp', (event) => @onTouchMouseUp event
-
-    (jQuery @car).on 'crossFinishLine', => @finish()
-    (jQuery @car).on 'crossFinishLine', => @car.reset()
 
     (jQuery @gameView).on 'restartGame', => @restartGame()
 
@@ -48,33 +47,49 @@ game.controllers.GameController = Ember.Object.extend
 
   start: ->
     @_resetTime()
-    position = @track.getPointAtLength @car.get 'lengthAtTrack'
-    @car.moveTo { x: position.x, y: position.y }
+    # lastPosition = @track.getPointAtLength ((@track.get 'totalLength') - 1)
+    # startPosition = @track.getPointAtLength 0
 
+    # @car.setOnTrack { x: lastPosition.x, y: lastPosition.y }, { x: startPosition.x, y: startPosition.y }
+
+    @car.poke()
+    @car.reset()
+
+    console.log @car.get 'lengthAtTrack'
+
+    (jQuery @car).on 'crossFinishLine', => @finish()
     @gameLoopController.start => @update()
 
   finish: ->
+    (jQuery @car).off 'crossFinishLine'
     @endTime = new Date().getTime()
-    @raceTime = @endTime - @startTime
+    @set 'raceTime', @endTime - @startTime
+    @car.reset()
 
   update: ->
-    newLengthAtTrack = (@car.get 'lengthAtTrack') + @car.get 'speed'
-    nextPosition = @track.getPointAtLength newLengthAtTrack
+    unless @car.isCrashing
+      if @isTouchMouseDown
+        @car.accelerate()
+      else
+        @car.decelerate()
+  
+      newLengthAtTrack = (@car.get 'lengthAtTrack') + (@car.get 'speed')
+      nextPosition = @track.getPointAtLength newLengthAtTrack
 
-    @car.checkForCrash nextPosition
+      @car.checkForCrash nextPosition # isCrashing can be modified inside
 
-    position = nextPosition
+    if @car.isCrashing
+      @car.crashcelerate()
+      @car.crash()
 
-    if @isTouchMouseDown
-      @car.accelerate()
     else
-      unless @car.isCrashing then @car.decelerate() else @car.crashcelerate()
+      @car.drive() # automatically handles 'respawn'
+      @car.poke()
+      @car.moveTo { x: nextPosition.x, y: nextPosition.y }
 
-    @car.moveTo { x: position.x, y: position.y }
-    @car.lengthAtTrack = newLengthAtTrack
+      if (@car.get 'lengthAtTrack') > (@track.get 'totalLength')
+        (jQuery @car).trigger 'crossFinishLine'
 
-    if @car.get 'lengthAtTrack' > @track.totalLength
-      (jQuery @car).trigger 'crossFinishLine'
 
   onTouchMouseDown: (event) ->
     event.originalEvent.preventDefault()
@@ -86,12 +101,13 @@ game.controllers.GameController = Ember.Object.extend
 
   restartGame: ->
     @car.reset()
-
-    position = @track.getPointAtLength @car.get 'lengthAtTrack'
-    @car.moveTo { x: position.x, y: position.y }
-
     @_resetTime()
 
+    position = @track.getPointAtLength 0
+    @car.moveTo { x: position.x, y: position.y }
+
+    (jQuery @car).on 'crossFinishLine', => @finish()
+
   _resetTime: ->
-    @raceTime = 0
+    @set 'raceTime', 0
     @startTime = new Date().getTime()

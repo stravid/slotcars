@@ -10,16 +10,14 @@ game.views.GameView = Ember.View.extend
   elementId: 'game-view'
   templateName: 'game_templates_game_template'
 
-  gameMediator: game.mediators.gameMediator
+  raceTimeBinding: 'gameController.raceTime'
 
   onRestartClick: ->
-    (jQuery this).trigger 'restartGame'
+    @gameController.restartGame()
 
   raceTimeInSeconds: (Ember.computed ->
-    @formatTime @gameMediator.get 'raceTime'
-  ).property 'gameMediator.raceTime'
+    @formatTime (@gameController.get 'raceTime')
+  ).property 'gameController.raceTime'
 
   formatTime: (value) ->
     value / 1000
-
-

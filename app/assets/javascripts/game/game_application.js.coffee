@@ -56,13 +56,13 @@ game.GameApplication = Ember.View.extend
     #   traction: 100
 
   _setupGame: ->
-    @gameView = game.views.GameView.create()
-    @gameView.appendTo @$()
-    
     currentTrackMediator = shared.mediators.currentTrackMediator
 
     @gameController = game.controllers.GameController.create
       track: currentTrackMediator.currentTrack
       gameLoopController: game.controllers.GameLoopController.create()
-      gameView: @gameView
 
+    @gameView = game.views.GameView.create
+      gameController: @gameController
+
+    @gameView.appendTo @$()
