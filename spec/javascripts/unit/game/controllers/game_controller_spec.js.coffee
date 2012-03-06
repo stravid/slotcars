@@ -17,7 +17,7 @@ describe 'game.controllers.GameController (unit)', ->
     @gameController = GameController.create()
 
   it 'should extend Ember.Object', ->
-    (expect Ember.Object.detect GameController).toBe true
+    (expect GameController).toExtend Ember.Object
 
   it 'should have a property startTime with default null', ->
     (expect @gameController.startTime).toBe null
