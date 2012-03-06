@@ -1,6 +1,7 @@
 
 #= require helpers/namespace
 #= require slotcars/shared/views/track_view
+#= require helpers/event_normalize
 
 namespace 'slotcars.build.views'
 
@@ -11,7 +12,8 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
   trackBinding: 'drawController.track'
 
   didInsertElement: ->
-    (jQuery @$()).on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
+    @_super()
+    @$().on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
 
   onRaphaelPathChanged: (->
     @redrawTrack()

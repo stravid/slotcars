@@ -1,1 +1,1 @@
-{{dynamicView contentView}}
+{{dynamicView contentView id="build-screen-content-view"}}

@@ -1,5 +1,6 @@
 
 #= require helpers/namespace
+#= require vendor/raphael
 
 namespace 'slotcars.shared.views'
 
@@ -29,7 +30,7 @@ slotcars.shared.views.TrackView = Ember.View.extend
     @_drawDashedLine()
         
   _drawLawn: ->
-    rect = @paper.rect 0, 0, 1024, 768
+    rect = @_paper.rect 0, 0, 1024, 768
     rect.attr 'fill', '#104c08'
   
   _drawOutterBase: ->
