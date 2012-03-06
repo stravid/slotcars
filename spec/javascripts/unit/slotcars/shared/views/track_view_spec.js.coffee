@@ -6,7 +6,7 @@ describe 'track view', ->
   TrackView = slotcars.shared.views.TrackView
 
   it 'should be a subclass of ember view', ->
-    (expect Ember.View.detect TrackView).toBe true
+    (expect TrackView).toExtend Ember.View
 
   it 'should have an element id', ->
     trackView = TrackView.create()

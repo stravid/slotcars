@@ -3,5 +3,4 @@
 
 namespace 'slotcars.play'
 
-slotcars.play.PlayScreen = Ember.Object.extend
-  isPlayScreen: true
+slotcars.play.PlayScreen = Ember.Object.extend()

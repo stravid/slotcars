@@ -8,7 +8,7 @@ describe 'slotcars.shared.models.TrackModel', ->
   TrackModel = slotcars.shared.models.TrackModel
 
   it 'should be a subclass of an ember-data Model', ->
-    (expect DS.Model.detect TrackModel).toBe true
+    (expect TrackModel).toExtend DS.Model
 
   beforeEach ->
     @PathMock = mockEmberClass helpers.math.Path,

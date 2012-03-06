@@ -11,7 +11,7 @@ describe 'builder controller', ->
   DrawView = slotcars.build.views.DrawView
 
   it 'should extend Ember.Object', ->
-    (expect Ember.Object.detect BuilderController).toBe true
+    (expect BuilderController).toExtend Ember.Object
 
   beforeEach ->
     @DrawControllerMock = mockEmberClass DrawController
