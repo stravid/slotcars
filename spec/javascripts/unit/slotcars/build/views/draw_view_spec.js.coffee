@@ -12,18 +12,18 @@ describe 'slotcars.build.views.DrawView', ->
   it 'should extend TrackView', ->
     (expect DrawView).toExtend TrackView
 
-  describe 'redrawing of track', ->
+  describe 'drawing of track', ->
 
     it 'should tell the base class to redraw when raphael path of track changes', ->
       drawControllerStub = Ember.Object.create track: Ember.Object.create()
       drawView = DrawView.create drawController: drawControllerStub
-      redrawStub = sinon.stub drawView, 'redrawTrack'
+      drawStub = sinon.stub drawView, 'drawTrack'
 
       drawControllerStub.track.set 'raphaelPath', 'changed'
 
       Ember.run.sync()
 
-      (expect redrawStub).toHaveBeenCalled()
+      (expect drawStub).toHaveBeenCalled()
 
 
   describe 'setup of touchMouse event listeners', ->

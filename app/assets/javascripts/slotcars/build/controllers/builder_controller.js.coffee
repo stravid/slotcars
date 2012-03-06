@@ -18,13 +18,13 @@ slotcars.build.controllers.BuilderController = Ember.Object.extend
     @drawController = slotcars.build.controllers.DrawController.create
       track: @track
 
-    @drawView = slotcars.build.views.DrawView.create
+    @_drawView = slotcars.build.views.DrawView.create
       track: @track
       drawController: @drawController
 
-    @buildScreenView.set 'contentView', @drawView
+    @buildScreenView.set 'contentView', @_drawView
 
   destroy: ->
     @_super()
     @drawController.destroy()
-    @drawView.remove()
+    @_drawView.remove()

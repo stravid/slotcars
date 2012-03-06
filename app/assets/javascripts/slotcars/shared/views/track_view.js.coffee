@@ -18,7 +18,7 @@ slotcars.shared.views.TrackView = Ember.View.extend
   didInsertElement: ->
     @_paper = Raphael @$()[0], 1024, 768
     
-  redrawTrack: ->
+  drawTrack: ->
     @path = @track.get 'raphaelPath'
 
     @_drawLawn()

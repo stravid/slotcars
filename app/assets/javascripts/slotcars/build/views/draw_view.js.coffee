@@ -16,7 +16,7 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
     @$().on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
 
   onRaphaelPathChanged: (->
-    @redrawTrack()
+    @drawTrack()
   ).observes 'track.raphaelPath'
 
   _onTouchMouseMove: (event) ->

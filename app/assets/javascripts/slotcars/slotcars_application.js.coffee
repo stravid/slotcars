@@ -5,28 +5,28 @@ namespace 'slotcars'
 
 slotcars.SlotcarsApplication = Ember.Application.extend
   screenFactory: null
-  currentScreen: null
+  _currentScreen: null
 
   init: -> slotcars.RouteManager.create delegate: this
 
   showBuildScreen: ->
     @_destroyCurrentScreen()
-    @currentScreen = @screenFactory.getBuildScreen()
-    @currentScreen.appendToApplication()
+    @_currentScreen = @screenFactory.getBuildScreen()
+    @_currentScreen.appendToApplication()
 
   showPlayScreen: (trackId) ->
     @_destroyCurrentScreen()
-    @currentScreen = @screenFactory.getPlayScreen trackId
-    @currentScreen.appendToApplication()
+    @_currentScreen = @screenFactory.getPlayScreen trackId
+    @_currentScreen.appendToApplication()
 
   showTracksScreen: ->
     @_destroyCurrentScreen()
-    @currentScreen = @screenFactory.getTracksScreen()
-    @currentScreen.appendToApplication()
+    @_currentScreen = @screenFactory.getTracksScreen()
+    @_currentScreen.appendToApplication()
 
   showHomeScreen: ->
     @_destroyCurrentScreen()
-    @currentScreen = @screenFactory.getHomeScreen()
-    @currentScreen.appendToApplication()
+    @_currentScreen = @screenFactory.getHomeScreen()
+    @_currentScreen.appendToApplication()
 
-  _destroyCurrentScreen: -> @currentScreen.destroy() if @currentScreen
+  _destroyCurrentScreen: -> @_currentScreen.destroy() if @_currentScreen
