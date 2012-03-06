@@ -4,5 +4,7 @@ Slotcars::Application.routes.draw do
 
   get '/tracks/:id' => 'tracks#index'
   get '/build' => 'tracks#index'
+  get '/play/:id' => 'tracks#index'
+  get '/tracks' => 'tracks#index'
 
 end
