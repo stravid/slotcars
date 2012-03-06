@@ -5,11 +5,12 @@
 
 describe 'slotcars.build.views.DrawView', ->
 
+  TrackView = slotcars.shared.views.TrackView
   DrawView = slotcars.build.views.DrawView
   DrawController = slotcars.build.controllers.DrawController
 
   it 'should extend TrackView', ->
-    (expect slotcars.shared.views.TrackView.detect DrawView).toBe true
+    (expect DrawView).toExtend TrackView
 
   describe 'redrawing of track', ->
 

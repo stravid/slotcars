@@ -6,7 +6,7 @@ describe 'build screen view', ->
   BuildScreenView = slotcars.build.views.BuildScreenView
 
   it 'should extend Ember.View', ->
-    (expect Ember.View.detect BuildScreenView).toBe true
+    (expect BuildScreenView).toExtend Ember.View
 
   it 'should use a dynamic view in its template that can be set', ->
     buildScreenView = BuildScreenView.create()
