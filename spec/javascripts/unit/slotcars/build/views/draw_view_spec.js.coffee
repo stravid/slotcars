@@ -14,56 +14,120 @@ describe 'slotcars.build.views.DrawView', ->
 
   beforeEach ->
     @raphaelBackup = window.Raphael
-    raphaelElementStub = attr: ->
-    @raphaelStub = window.Raphael = sinon.stub().returns
-      path: -> raphaelElementStub
-      rect: -> raphaelElementStub
+
+    raphaelElementStub = attr: sinon.spy()
+
+    @paperStub =
+      path: sinon.stub().returns raphaelElementStub
+      rect: sinon.stub().returns raphaelElementStub
+
+    @raphaelStub = window.Raphael = sinon.stub().returns @paperStub
+
 
   afterEach ->
     window.Raphael = @raphaelBackup
 
-  describe 'drawing of track', ->
 
-    it 'should tell the base class to redraw when raphael path of track changes', ->
-      drawControllerStub = Ember.Object.create track: Ember.Object.create()
-      drawView = DrawView.create drawController: drawControllerStub
-      drawStub = sinon.stub drawView, 'drawTrack'
+  describe 'raphaelPath bindings on track', ->
 
-      drawControllerStub.track.set 'raphaelPath', 'changed'
+    it 'should not throw exceptions when created without controller', ->
+      DrawView.create()
 
-      Ember.run.sync()
-
-      (expect drawStub).toHaveBeenCalled()
+      (expect -> Ember.run.end()).not.toThrow()
 
 
-  describe 'handling mouse move events', ->
+  describe 'rendering of track', ->
 
     beforeEach ->
-      @drawControllerMock = mockEmberClass DrawController, onTouchMouseMove: sinon.spy()
+      @originalTestPath = 'M0,0L3,4Z'
+      @drawView = DrawView.create()
+
+      @drawView.appendTo '<div>'
+      Ember.run.end()
+
+    it 'should tell raphael to build a closed track while not in drawing mode', ->
+
+      @drawView.isDrawing = false
+      @drawView.drawTrack @originalTestPath
+
+      (expect @paperStub.path).toHaveBeenCalledWith @originalTestPath
+
+    it 'should tell raphael to build an open track while in drawing mode', ->
+
+      @drawView.isDrawing = true
+      modifiedPathWithoutZ = 'M0,0L3,4'
+
+      @drawView.drawTrack @originalTestPath
+
+      (expect @paperStub.path).toHaveBeenCalledWith modifiedPathWithoutZ
+
+
+  describe 'event handling in draw view', ->
+
+    beforeEach ->
+      @drawControllerMock = mockEmberClass DrawController
       @drawView = DrawView.create drawController: @drawControllerMock
 
       # append it into DOM to test real jQuery events
-      container = jQuery '<div>'
-      @drawView.appendTo container
+      @drawView.appendTo '<div>'
 
       Ember.run.end()
 
     afterEach ->
       @drawControllerMock.restore()
 
-    it 'should setup touch mouse move listener on its view element that notifies draw controller', ->
-      # manually create touch mouse move event
-      testPosition = x: 3, y: 4
-      touchMouseMoveEvent = jQuery.Event 'touchMouseMove', pageX: testPosition.x, pageY: testPosition.y
 
-      (jQuery @drawView.$()).trigger touchMouseMoveEvent
+    describe 'mouse down events', ->
 
-      (expect @drawControllerMock.onTouchMouseMove).toHaveBeenCalledWithAnObjectLike testPosition
+      beforeEach ->
+        @drawControllerMock.onTouchMouseDown = sinon.spy()
+
+      it 'should setup mouse down listeners and tell controller about events', ->
+        (jQuery @drawView.$()).trigger 'touchMouseDown'
+
+        (expect @drawControllerMock.onTouchMouseDown).toHaveBeenCalled()
+
+      it 'should unbind the mouse down event when removed', ->
+        @drawView.willDestroyElement()
+        (jQuery @drawView.$()).trigger 'touchMouseDown'
+
+        (expect @drawControllerMock.onTouchMouseDown).not.toHaveBeenCalled()
 
 
-    it 'should unbind the mouse move events when view will be removed', ->
-      @drawView.willDestroyElement()
+    describe 'mouse move events', ->
 
-      (jQuery @drawView.$()).trigger 'touchMouseMove', {}
+      beforeEach ->
+        @drawControllerMock.onTouchMouseMove = sinon.spy()
 
-      (expect @drawControllerMock.onTouchMouseMove).not.toHaveBeenCalled()
+      it 'should setup touch mouse move listener on its view element that notifies draw controller', ->
+        # manually create touch mouse move event
+        testPosition = x: 3, y: 4
+        touchMouseMoveEvent = jQuery.Event 'touchMouseMove', pageX: testPosition.x, pageY: testPosition.y
+
+        (jQuery @drawView.$()).trigger touchMouseMoveEvent
+
+        (expect @drawControllerMock.onTouchMouseMove).toHaveBeenCalledWithAnObjectLike testPosition
+
+
+      it 'should unbind the mouse move events when view will be removed', ->
+        @drawView.willDestroyElement()
+        (jQuery @drawView.$()).trigger 'touchMouseMove', {}
+
+        (expect @drawControllerMock.onTouchMouseMove).not.toHaveBeenCalled()
+
+
+    describe 'mouse up events', ->
+
+      beforeEach ->
+        @drawControllerMock.onTouchMouseUp = sinon.spy()
+
+      it 'should setup mouse down listeners and tell controller about events', ->
+        (jQuery @drawView.$()).trigger 'touchMouseUp'
+
+        (expect @drawControllerMock.onTouchMouseUp).toHaveBeenCalled()
+
+      it 'should unbind the mouse down event when removed', ->
+        @drawView.willDestroyElement()
+        (jQuery @drawView.$()).trigger 'touchMouseUp'
+
+        (expect @drawControllerMock.onTouchMouseUp).not.toHaveBeenCalled()
