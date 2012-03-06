@@ -6,6 +6,7 @@ namespace 'slotcars.build.views'
 
 slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
 
+  elementId: 'build-draw-view'
   drawController: null
   trackBinding: 'drawController.track'
 
