@@ -13,7 +13,7 @@ describe 'game.controllers.CarController (unit)', ->
   carMediator = game.mediators.carMediator
 
   it 'should extend Ember.Object', ->
-    (expect Ember.Object.detect CarController).toBe true
+    (expect CarController).toExtend Ember.Object
 
   beforeEach ->
     @path = "M10,20L30,40"
