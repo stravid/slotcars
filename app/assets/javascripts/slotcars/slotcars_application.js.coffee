@@ -7,8 +7,7 @@ slotcars.SlotcarsApplication = Ember.Application.extend
   screenFactory: null
   currentScreen: null
 
-  init: ->
-    slotcars.RouteManager.create delegate: this
+  init: -> slotcars.RouteManager.create delegate: this
 
   showBuildScreen: ->
     @_destroyCurrentScreen()
@@ -30,5 +29,4 @@ slotcars.SlotcarsApplication = Ember.Application.extend
     @currentScreen = @screenFactory.getHomeScreen()
     @currentScreen.appendToApplication()
 
-  _destroyCurrentScreen: ->
-    @currentScreen.destroy() if @currentScreen
+  _destroyCurrentScreen: -> @currentScreen.destroy() if @currentScreen

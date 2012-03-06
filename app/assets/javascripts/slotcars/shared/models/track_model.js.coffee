@@ -1,6 +1,7 @@
 
 #= require helpers/namespace
 #= require embient/ember-data
+#= require slotcars/shared/models/model_store
 #= require helpers/math/path
 
 namespace 'slotcars.shared.models'

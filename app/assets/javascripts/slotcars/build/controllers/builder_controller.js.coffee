@@ -2,6 +2,7 @@
 #= require helpers/namespace
 #= require slotcars/shared/models/track_model
 #= require slotcars/build/controllers/draw_controller
+#= require slotcars/build/views/draw_view
 
 namespace 'slotcars.build.controllers'
 
