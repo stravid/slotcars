@@ -1,17 +1,22 @@
 
 #= require game/lib/crashable
+#= require game/lib/movable
 #= require helpers/math/vector
 
 describe 'game.lib.Crashable', ->
 
+  Movable = game.lib.Movable
   Crashable = game.lib.Crashable
   Vector = helpers.math.Vector
 
   beforeEach ->
-    @crashable = Ember.Object.extend(Crashable).create
+    @crashable = Ember.Object.extend(Crashable, Movable).create
       position:
         x: 0
         y: 0
+
+  it 'should only work with Movable', ->
+    (expect => Ember.Object.extend(Crashable).create()).toThrow()
 
   it 'should initially not be in crashing state', ->
     (expect @crashable.isCrashing).toBe false
@@ -63,10 +68,14 @@ describe 'game.lib.Crashable', ->
 
   describe 'crashing', ->
 
+    beforeEach ->
+      @crashable.isCrashing = true
+      @crashable.position = x: 0, y: 0
+      @crashable.previousDirection = Vector.create x: 1, y: 0
+
     describe 'when speed is zero', ->
 
       it 'should end crashing', ->
-        @crashable.isCrashing = true
         @crashable.speed = 0
         @crashable.crash()
 
@@ -75,8 +84,13 @@ describe 'game.lib.Crashable', ->
     describe 'when speed is bigger than zero', ->
 
       it 'should continue crashing', ->
-        @crashable.isCrashing = true
         @crashable.speed = 1
         @crashable.crash()
 
         (expect @crashable.isCrashing).toBe true
+
+      it 'should continue driving in the last direction', ->
+        @crashable.speed = 0.5
+        @crashable.crash()
+
+        (expect @crashable.position).toEqual {x: 0.5, y: 0}

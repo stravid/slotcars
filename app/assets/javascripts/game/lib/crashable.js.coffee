@@ -1,15 +1,21 @@
 
 #= require helpers/namespace
 #= require helpers/math/vector
+#= require game/lib/movable
 
 namespace 'game.lib'
 
 Vector = helpers.math.Vector
+Movable = game.lib.Movable
 
 game.lib.Crashable = Ember.Mixin.create
 
   previousDirection: null
   isCrashing: false
+
+  init: ->
+    unless Movable.detect this
+      throw new Error 'Crashable requires Movable'
 
   checkForCrash: (nextPosition) ->
 
@@ -27,3 +33,10 @@ game.lib.Crashable = Ember.Mixin.create
   crash: ->
     if @speed == 0
       @isCrashing = false
+
+    crashVector = (@previousDirection.normalize()).scale @speed
+    position =
+      x: @position.x + crashVector.x
+      y: @position.y + crashVector.y
+
+    @moveTo position
