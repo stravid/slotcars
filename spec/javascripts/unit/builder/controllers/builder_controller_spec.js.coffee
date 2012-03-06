@@ -8,7 +8,7 @@ describe 'builder.controllers.BuilderController (unit)', ->
   BuilderController = builder.controllers.BuilderController
 
   it 'should extend Ember.Object', ->
-    (expect Ember.Object.detect BuilderController).toBe true
+    (expect BuilderController).toExtend Ember.Object
 
   beforeEach ->
     @builderController = BuilderController.create()
