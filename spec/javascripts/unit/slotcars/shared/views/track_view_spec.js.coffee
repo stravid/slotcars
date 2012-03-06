@@ -29,12 +29,10 @@ describe 'track view', ->
 
       (expect trackView.drawTrack).not.toThrow()
 
-    it 'should create raphael paper when drawing track the first time', ->
-      @trackView = TrackView.create track: get: ->
+    it 'should create raphael paper view is appended to DOM', ->
+      @trackView = TrackView.create()
       @trackView.appendTo '<div>'
 
       Ember.run.end()
-
-      @trackView.drawTrack()
 
       (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], 1024, 768

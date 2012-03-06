@@ -12,6 +12,16 @@ describe 'slotcars.build.views.DrawView', ->
   it 'should extend TrackView', ->
     (expect DrawView).toExtend TrackView
 
+  beforeEach ->
+    @raphaelBackup = window.Raphael
+    raphaelElementStub = attr: ->
+    @raphaelStub = window.Raphael = sinon.stub().returns
+      path: -> raphaelElementStub
+      rect: -> raphaelElementStub
+
+  afterEach ->
+    window.Raphael = @raphaelBackup
+
   describe 'drawing of track', ->
 
     it 'should tell the base class to redraw when raphael path of track changes', ->

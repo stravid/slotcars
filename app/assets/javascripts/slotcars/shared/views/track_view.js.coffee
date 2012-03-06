@@ -15,10 +15,12 @@ slotcars.shared.views.TrackView = Ember.View.extend
   DASH_WIDTH: 2
   SIDE_DASH_WIDTH: 3
   SIDE_WIDTH: 5
-    
+
+  didInsertElement: ->
+    @_paper = Raphael @$()[0], 1024, 768
+
   drawTrack: ->
     return unless @track?
-    @_paper = Raphael @$()[0], 1024, 768 unless @_paper?
 
     @path = @track.get 'raphaelPath'
 
