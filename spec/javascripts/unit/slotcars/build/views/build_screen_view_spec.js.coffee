@@ -10,7 +10,7 @@ describe 'build screen view', ->
 
   it 'should use a dynamic view in its template that can be set', ->
     buildScreenView = BuildScreenView.create()
-    container = jQuery 'div'
+    container = jQuery '<div>'
 
     Ember.run => buildScreenView.appendTo container
 
