@@ -125,7 +125,7 @@ describe 'slotcars.build.views.DrawView', ->
 
         (expect @drawControllerMock.onTouchMouseUp).toHaveBeenCalled()
 
-      it 'should unbind the mouse down event when removed', ->
+      it 'should unbind the mouse up event when removed', ->
         @drawView.willDestroyElement()
         (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseUp'
 
