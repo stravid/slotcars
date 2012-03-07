@@ -22,7 +22,7 @@ describe 'game.controllers.GameController (unit)', ->
       track: @trackStub
 
   it 'should extend Ember.Object', ->
-    (expect Ember.Object.detect GameController).toBe true
+    (expect GameController).toExtend Ember.Object
 
   it 'should set isTouchMouseDown to false by default', ->
     (expect @gameController.isTouchMouseDown).toBe false
