@@ -7,7 +7,7 @@ slotcars.SlotcarsApplication = Ember.Application.extend
   screenFactory: null
   _currentScreen: null
 
-  init: -> slotcars.RouteManager.create delegate: this
+  ready: -> slotcars.RouteManager.create delegate: this
 
   showBuildScreen: ->
     @_destroyCurrentScreen()
