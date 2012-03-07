@@ -5,6 +5,25 @@ describe 'track view', ->
 
   TrackView = slotcars.shared.views.TrackView
 
+  beforeEach ->
+      @raphaelBackup = window.Raphael
+      @raphaelElementStub = sinon.stub().returns attr: ->
+      @paperClearSpy = sinon.spy()
+
+      @raphaelStub = window.Raphael = sinon.stub().returns
+        path: @raphaelElementStub
+        rect: @raphaelElementStub
+        clear: @paperClearSpy
+
+      @trackView = TrackView.create()
+      @trackView.appendTo '<div>'
+
+      Ember.run.end()
+
+  afterEach ->
+    window.Raphael = @raphaelBackup
+
+
   it 'should be a subclass of ember view', ->
     (expect TrackView).toExtend Ember.View
 
@@ -12,19 +31,20 @@ describe 'track view', ->
     trackView = TrackView.create()
     (expect trackView.get 'elementId').toBe 'track-view'
 
-  describe 'creation of raphael paper', ->
+  it 'should create raphael paper view is appended to DOM', ->
+    (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], 1024, 768
 
-    beforeEach ->
-      @raphaelBackup = window.Raphael
-      @raphaelStub = window.Raphael = sinon.spy()
 
-    afterEach ->
-      window.Raphael = @raphaelBackup
+  describe 'drawing the track', ->
 
-    it 'should create raphael paper when inserted into DOM', ->
-      @container = jQuery '<div>'
+    it 'should not ignore drawing if not inserted in DOM', ->
+      trackView = TrackView.create()
 
-      @trackView = TrackView.create()
-      Ember.run => @trackView.appendTo @container
+      (expect trackView.drawTrack).not.toThrow()
 
-      (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], 1024, 768
+    it 'should clear the paper before drawing', ->
+      @trackView.drawTrack('M0,0Z')
+
+      (expect @paperClearSpy).toHaveBeenCalled()
+
+
