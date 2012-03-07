@@ -36,7 +36,8 @@ game.views.CarView = Ember.View.extend
     position.y -= @height / 4
 
     (jQuery '#car').css '-webkit-transform', "translate3d(#{position.x}px,#{position.y}px,0)rotateZ(#{rotation}deg)"
-
+    (jQuery '#car').css '-moz-transform', "translate3d(#{position.x}px,#{position.y}px,0)rotateZ(#{rotation}deg)"
+    
     #@puffStep = ++@puffStep % @puffInterval
     #@exhaust.puff(position.x + @width - 6, position.y + @height) unless @puffStep > 0
 
