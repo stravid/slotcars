@@ -1,5 +1,6 @@
 
-#= require game/controllers/car_controller
+#= require game/controllers/game_loop_controller
+
 #= require game/lib/car
 #= require shared/models/track_model
 
@@ -23,6 +24,8 @@ game.controllers.GameController = Ember.Object.extend
   endTime: null
 
   init: ->
+    @gameLoopController = game.controllers.GameLoopController.create()
+
     @car = Car.create
       acceleration: 0.1
       deceleration: 0.2
@@ -47,15 +50,11 @@ game.controllers.GameController = Ember.Object.extend
 
   start: ->
     @_resetTime()
-    # lastPosition = @track.getPointAtLength ((@track.get 'totalLength') - 1)
-    # startPosition = @track.getPointAtLength 0
+    startPosition = @track.getPointAtLength 0
+    @car.moveTo { x: startPosition.x, y: startPosition.y }
 
-    # @car.setOnTrack { x: lastPosition.x, y: lastPosition.y }, { x: startPosition.x, y: startPosition.y }
-
-    @car.poke()
+    @car.jumpstart()
     @car.reset()
-
-    console.log @car.get 'lengthAtTrack'
 
     (jQuery @car).on 'crossFinishLine', => @finish()
     @gameLoopController.start => @update()
@@ -81,10 +80,9 @@ game.controllers.GameController = Ember.Object.extend
     if @car.isCrashing
       @car.crashcelerate()
       @car.crash()
-
     else
-      @car.drive() # automatically handles 'respawn'
-      @car.poke()
+      @car.drive()      # automatically handles 'respawn'
+      @car.jumpstart()  # cares for right orientation
       @car.moveTo { x: nextPosition.x, y: nextPosition.y }
 
       if (@car.get 'lengthAtTrack') > (@track.get 'totalLength')

@@ -22,18 +22,13 @@ game.lib.Car = Ember.Object.extend Movable, Crashable,
   crashDeceleration: 0
 
   lengthAtTrack: 0
-  # isCrashing: null - is set by Crashable
 
   drive: ->
     newLength = (@get 'lengthAtTrack') + (@get 'speed')
     @set 'lengthAtTrack', newLength
 
-  poke: ->
+  jumpstart: ->
     @speed = @deceleration + .01 unless @speed > 0
-
-  setOnTrack: (origin, destination) ->
-    @moveTo origin
-    @moveTo destination
 
   accelerate: ->
     @speed += @acceleration
@@ -48,5 +43,5 @@ game.lib.Car = Ember.Object.extend Movable, Crashable,
     if @speed < 0 then @speed = 0
 
   reset: ->
-    @speed = @deceleration + 0.01
+    @speed = 0
     @lengthAtTrack = 0

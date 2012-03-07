@@ -1,7 +1,6 @@
 
 #= require helpers/namespace
 #= require helpers/graphic/exhaust
-#= require game/mediators/car_mediator
 #= require game/templates/car_template
 
 namespace 'game.views'

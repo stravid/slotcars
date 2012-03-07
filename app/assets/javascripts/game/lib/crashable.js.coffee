@@ -33,7 +33,6 @@ game.lib.Crashable = Ember.Mixin.create
   crash: ->
     if @speed == 0
       @isCrashing = false
-      @speed = @deceleration + 0.01
 
     crashVector = (@previousDirection.normalize()).scale @speed
     position =

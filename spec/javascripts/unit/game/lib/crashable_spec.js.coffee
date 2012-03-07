@@ -93,4 +93,4 @@ describe 'game.lib.Crashable', ->
         @crashable.speed = 0.5
         @crashable.crash()
 
-        (expect @crashable.position).toEqual {x: 0.5, y: 0}
+        (expect @crashable.position).toEqual { x: 0.5, y: 0 }

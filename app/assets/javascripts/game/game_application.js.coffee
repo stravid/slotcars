@@ -2,7 +2,6 @@
 #= require helpers/namespace
 
 #= require game/controllers/game_controller
-#= require game/controllers/game_loop_controller
 
 #= require game/views/car_view
 #= require game/views/track_view
@@ -17,9 +16,7 @@ game.GameApplication = Ember.View.extend
   elementId: 'game-application'
 
   trackView: null
-
   carView: null
-  carController: null
 
   gameView: null
   gameController: null
@@ -29,7 +26,6 @@ game.GameApplication = Ember.View.extend
   didInsertElement: ->
     @_setupRaphael()
     @_setupTrack()
-    @_setupCar()
     @_setupGame()
 
     @gameController.start()
@@ -41,26 +37,11 @@ game.GameApplication = Ember.View.extend
     @trackView = game.views.TrackView.create
       paper: @paper
 
-  _setupCar: ->
-    #@carView = game.views.CarView.create
-    #  paper: @paper
-    #  offset: (jQuery @$()).offset()
-
-    #@carView.appendTo @$()
-
-    # @car = game.lib.Car.create
-    #   acceleration: 0.1
-    #   deceleration: 0.2
-    #   offRoadDeceleration: 0.15
-    #   maxSpeed: 20
-    #   traction: 100
-
   _setupGame: ->
     currentTrackMediator = shared.mediators.currentTrackMediator
 
     @gameController = game.controllers.GameController.create
       track: currentTrackMediator.currentTrack
-      gameLoopController: game.controllers.GameLoopController.create()
 
     @gameView = game.views.GameView.create
       gameController: @gameController

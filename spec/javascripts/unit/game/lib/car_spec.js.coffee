@@ -126,18 +126,3 @@ describe 'game.lib.Car', ->
 
       (expect @car.lengthAtTrack).toBe 1
 
-  describe '#setOnTrack', ->
-
-    beforeEach ->
-      @car = Car.create()
-      @lastPosition = x: 3, y: 4
-      @nextPosition = x: 5, y: 2
-
-    it 'should set car onto given position', ->
-      @car.setOnTrack @lastPosition, @nextPosition
-      (expect @car.position).toEqual @nextPosition
-
-    it 'should update car orientation/rotation', ->
-      @car.setOnTrack @lastPosition, @nextPosition
-      (expect @car.rotation).toBeApproximatelyEqual 45
-
