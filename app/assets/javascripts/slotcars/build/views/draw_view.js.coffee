@@ -10,12 +10,13 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
   elementId: 'build-draw-view'
   drawController: null
   trackBinding: 'drawController.track'
+  isDrawing: false
 
   didInsertElement: ->
     @_super()
     @$().on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
-    @$().on 'touchMouseDown', (event) => @drawController.onTouchMouseDown()
-    @$().on 'touchMouseUp', (event) => @drawController.onTouchMouseUp()
+    @$().on 'touchMouseDown', (event) => @_onTouchMouseDown(event)
+    @$().on 'touchMouseUp', (event) => @_onTouchMouseUp(event)
 
   onRaphaelPathChanged: (->
     @drawTrack (@get 'track').get 'raphaelPath' if (@get 'track')?
@@ -29,6 +30,14 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
 
   _onTouchMouseMove: (event) ->
     @drawController.onTouchMouseMove x: event.pageX, y: event.pageY
+
+  _onTouchMouseDown: ->
+    @isDrawing = true
+    @drawController.onTouchMouseDown()
+
+  _onTouchMouseUp: ->
+    @isDrawing = false
+    @drawController.onTouchMouseUp()
 
   willDestroyElement: ->
     @$().off 'touchMouseMove'

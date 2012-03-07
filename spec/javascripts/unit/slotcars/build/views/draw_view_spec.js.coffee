@@ -12,6 +12,13 @@ describe 'slotcars.build.views.DrawView', ->
   it 'should extend TrackView', ->
     (expect DrawView).toExtend TrackView
 
+  describe 'important default values', ->
+
+    it 'should not be in drawing mode by default', ->
+      drawView = DrawView.create()
+      (expect drawView.isDrawing).toBe false
+
+
   beforeEach ->
     @raphaelBackup = window.Raphael
 
@@ -87,6 +94,11 @@ describe 'slotcars.build.views.DrawView', ->
 
         (expect @drawControllerMock.onTouchMouseDown).toHaveBeenCalled()
 
+      it 'should activate drawing mode', ->
+        (jQuery @drawView.$()).trigger 'touchMouseDown'
+
+        (expect @drawView.isDrawing).toBe true
+
       it 'should unbind the mouse down event when removed', ->
         @drawView.willDestroyElement()
         (jQuery @drawView.$()).trigger 'touchMouseDown'
@@ -121,10 +133,17 @@ describe 'slotcars.build.views.DrawView', ->
       beforeEach ->
         @drawControllerMock.onTouchMouseUp = sinon.spy()
 
-      it 'should setup mouse down listeners and tell controller about events', ->
+      it 'should setup mouse up listeners and tell controller about events', ->
         (jQuery @drawView.$()).trigger 'touchMouseUp'
 
         (expect @drawControllerMock.onTouchMouseUp).toHaveBeenCalled()
+
+      it 'should de-activate drawing mode', ->
+        @drawView.isDrawing = true
+
+        (jQuery @drawView.$()).trigger 'touchMouseUp'
+
+        (expect @drawView.isDrawing).toBe false
 
       it 'should unbind the mouse down event when removed', ->
         @drawView.willDestroyElement()
