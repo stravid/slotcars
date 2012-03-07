@@ -27,6 +27,7 @@ describe 'slotcars.build.views.DrawView', ->
     @paperStub =
       path: sinon.stub().returns raphaelElementStub
       rect: sinon.stub().returns raphaelElementStub
+      clear: sinon.spy()
 
     @raphaelStub = window.Raphael = sinon.stub().returns @paperStub
 
