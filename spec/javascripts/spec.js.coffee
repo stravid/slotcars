@@ -3,7 +3,7 @@
 
 #= require jquery
 #= require jquery_ujs
-#= require ember
+#= require embient/ember
 
 # ------ load testing extras -------
 # (jasmine + jasmine-jquery are loaded automatically)
