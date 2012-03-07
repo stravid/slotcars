@@ -201,7 +201,7 @@ describe 'game.controllers.GameController (unit)', ->
         carController: @carControllerStub        
         gameLoopController: @gameLoopControllerStub
 
-      gameController.gameMediator.raceTime = 18
+      gameController.gameMediator.set 'raceTime', 18
       gameController.restartGame()
 
       (expect gameController.gameMediator.raceTime).toBe 0

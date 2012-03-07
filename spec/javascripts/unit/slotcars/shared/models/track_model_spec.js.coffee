@@ -10,31 +10,33 @@ describe 'slotcars.shared.models.TrackModel', ->
   it 'should be a subclass of an ember-data Model', ->
     (expect TrackModel).toExtend DS.Model
 
+  describe 'important default values', ->
+
+  it 'should be an valid empty path with a single move to command by default', ->
+    @track = TrackModel.createRecord()
+
+    (expect @track.get 'raphaelPath').toEqual 'M0,0Z'
+
+
   beforeEach ->
-    @PathMock = mockEmberClass helpers.math.Path,
+    @pathMock = mockEmberClass helpers.math.Path,
       push: sinon.spy()
       asPointArray: sinon.stub().returns [ x: 1, y: 0 ]
 
   afterEach ->
-    @PathMock.restore()
+    @pathMock.restore()
+
 
   describe 'adding path points', ->
-
-    it 'should push point into its path', ->
-      track = TrackModel.createRecord()
-
-      testPoint = x: 0, y: 0
-      track.addPathPoint testPoint
-
-      (expect @PathMock.push).toHaveBeenCalledWith testPoint, true
-
-  describe 'raphael path', ->
 
     beforeEach ->
       @track = TrackModel.createRecord()
 
-    it 'should be an valid empty path with a single move to command', ->
-      (expect @track.get 'raphaelPath').toEqual 'M0,0Z'
+    it 'should push point into its path', ->
+      testPoint = x: 0, y: 0
+      @track.addPathPoint testPoint
+
+      (expect @pathMock.push).toHaveBeenCalledWith testPoint, true
 
     it 'should update the raphael path when first point added', ->
       @track.addPathPoint x: 1, y: 0
@@ -46,7 +48,7 @@ describe 'slotcars.shared.models.TrackModel', ->
       @secondPoint = { x: 2, y: 1 }
       @thirdPoint = { x: 3, y: 2 }
 
-      @PathMock.asPointArray.returns [ @firstPoint, @secondPoint, @thirdPoint ]
+      @pathMock.asPointArray.returns [ @firstPoint, @secondPoint, @thirdPoint ]
 
       @track.addPathPoint @firstPoint
       @track.addPathPoint @secondPoint
@@ -59,7 +61,7 @@ describe 'slotcars.shared.models.TrackModel', ->
 
     it 'should return the paths current total lenght', ->
       fakeTotalLength = 1
-      @PathMock.getTotalLength = -> return fakeTotalLength
+      @pathMock.getTotalLength = -> return fakeTotalLength
 
       @track = TrackModel.createRecord()
 
@@ -71,9 +73,55 @@ describe 'slotcars.shared.models.TrackModel', ->
     it 'should return the point at specific length on path', ->
       length = 1
       fakePointAtLength = {}
-      @PathMock.getPointAtLength = sinon.stub().withArgs(length).returns fakePointAtLength
+      @pathMock.getPointAtLength = sinon.stub().withArgs(length).returns fakePointAtLength
 
       @track = TrackModel.createRecord()
       result = @track.getPointAtLength length
 
       (expect result).toBe fakePointAtLength
+
+
+  describe 'clearing the path', ->
+
+    beforeEach ->
+      @pathMock.clear = sinon.spy()
+      @track = TrackModel.createRecord()
+
+    it 'should tell the path to clear', ->
+      @track.clearPath()
+
+      (expect @pathMock.clear).toHaveBeenCalled()
+
+    it 'should update the raphael path', ->
+      @track.raphaelPath = 'somePathValue'
+      raphaelPathObserver = sinon.spy()
+
+      @track.addObserver 'raphaelPath', raphaelPathObserver
+      @track.clearPath()
+
+      (expect raphaelPathObserver).toHaveBeenCalled()
+
+    it 'should reset the raphael path to default value', ->
+      @track.clearPath()
+
+      (expect @track.raphaelPath).toBe 'M0,0Z'
+
+
+  describe 'cleaning the path', ->
+
+    beforeEach ->
+      @pathMock.clean = sinon.spy()
+      @track = TrackModel.createRecord()
+
+    it 'should tell the path to clean itself', ->
+      @track.cleanPath()
+
+      (expect @pathMock.clean).toHaveBeenCalledWithAnObjectLike minAngle: 10, minLength: 10, maxLength: 30
+
+    it 'should update the raphael path', ->
+      raphaelPathObserver = sinon.spy()
+
+      @track.addObserver 'raphaelPath', raphaelPathObserver
+      @track.cleanPath()
+
+      (expect raphaelPathObserver).toHaveBeenCalled()
