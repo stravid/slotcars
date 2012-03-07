@@ -24,7 +24,7 @@ describe 'slotcars.build.controllers.DrawController', ->
 
     it 'should accept a point and tell the track model to add it', ->
       testPoint = x: 0, y: 0
-      @drawController.onTouchMouseMove(testPoint)
+      @drawController.onTouchMouseMove testPoint
 
       (expect @trackModelMock.addPathPoint).toHaveBeenCalledWith testPoint
 
@@ -32,7 +32,7 @@ describe 'slotcars.build.controllers.DrawController', ->
       @drawController.finishedDrawing = true
 
       testPoint = x: 0, y: 0
-      @drawController.onTouchMouseMove(testPoint)
+      @drawController.onTouchMouseMove testPoint
 
       (expect @trackModelMock.addPathPoint).not.toHaveBeenCalledWith testPoint
 
