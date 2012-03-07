@@ -21,17 +21,14 @@ slotcars.shared.views.TrackView = Ember.View.extend
   drawTrack: (path) ->
     return unless @_paper?
 
-    @_drawLawn()
+    @_paper.clear()
+
     @_drawOutterBase path
     @_drawOutterDash path
     @_drawOutterAsphalt path
     @_drawSideLine path
     @_drawAsphalt path
     @_drawDashedLine path
-        
-  _drawLawn: ->
-    rect = @_paper.rect 0, 0, 1024, 768
-    rect.attr 'fill', '#104c08'
   
   _drawOutterBase: (path) ->
     path = @_paper.path path
