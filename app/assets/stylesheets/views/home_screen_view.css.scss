@@ -1,36 +1,35 @@
 /*
- *= require global 
- *= require utils
+ *= require helpers/utils
  */
 
 #home-navigation {
   position: absolute;
   top: 253px;
   left: 392px;
-}
-
-#home-navigation li {
-  margin-bottom: 30px;
+  
+  li {
+    margin-bottom: 30px;
+  }
 }
 
 #quick-play-button {
   width: 231px;
   height: 66px;
-  background-image: url(buttons/quick-play.png);
+  background-image: image-url("buttons/quick-play.png");
   background-repeat: no-repeat;
 }
 
 #tracks-button {
   width: 177px;
   height: 66px;
-  background-image: url(buttons/tracks.png);
+  background-image: image-url("buttons/tracks.png");
   background-repeat: no-repeat;
 }
 
 #build-button {
   width: 151px;
   height: 69px;
-  background-image: url(buttons/build.png);
+  background-image: image-url("buttons/build.png");
   background-repeat: no-repeat;
 }
 

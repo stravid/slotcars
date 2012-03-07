@@ -1,5 +1,5 @@
 /*
- *= require_self
- *= require reset
+ *= require helpers/reset
+ *= require global 
  *= require views/home_screen_view
-*/
+ */
