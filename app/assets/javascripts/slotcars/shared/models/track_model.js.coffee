@@ -6,7 +6,7 @@
 
 namespace 'slotcars.shared.models'
 
-EMPTY_RAPHAEL_PATH = 'M0,0Z'
+EMPTY_RAPHAEL_PATH = 'M0,0z'
 
 slotcars.shared.models.TrackModel = DS.Model.extend
 
@@ -47,8 +47,8 @@ slotcars.shared.models.TrackModel = DS.Model.extend
 
       firstTime = false
 
-
-    #pathString = pathString.substr 0, pathString.length - 1
+    # remove last comma
+    pathString = pathString.substr 0, pathString.length - 1
     pathString += "z"
 
     @set 'raphaelPath', pathString

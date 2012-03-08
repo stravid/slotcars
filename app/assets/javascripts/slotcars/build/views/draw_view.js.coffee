@@ -25,10 +25,6 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
     track = @get 'track'
     @drawTrack track.get 'raphaelPath' if track?
 
-    for point in track._path.asPointArray()
-      circle = @_paper.circle point.x, point.y, 5
-      circle.attr 'fill', '#ff0000'
-
   ).observes 'track.raphaelPath'
 
   # overrides TrackView.drawTrack for drawing

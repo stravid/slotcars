@@ -6,6 +6,7 @@
 describe 'slotcars.shared.models.TrackModel', ->
 
   TrackModel = slotcars.shared.models.TrackModel
+  EMPTY_RAPHAEL_PATH = 'M0,0z'
 
   it 'should be a subclass of an ember-data Model', ->
     (expect TrackModel).toExtend DS.Model
@@ -15,7 +16,7 @@ describe 'slotcars.shared.models.TrackModel', ->
   it 'should be an valid empty path with a single move to command by default', ->
     @track = TrackModel.createRecord()
 
-    (expect @track.get 'raphaelPath').toEqual 'M0,0Z'
+    (expect @track.get 'raphaelPath').toEqual EMPTY_RAPHAEL_PATH
 
 
   beforeEach ->
@@ -41,7 +42,7 @@ describe 'slotcars.shared.models.TrackModel', ->
     it 'should update the raphael path when first point added', ->
       @track.addPathPoint x: 1, y: 0
 
-      (expect @track.get 'raphaelPath').toEqual 'M1,0Z'
+      (expect @track.get 'raphaelPath').toEqual 'M1,0z'
 
     it 'should update raphael path correctly when multiple points were added', ->
       @firstPoint = { x: 1, y: 0 }
@@ -54,7 +55,7 @@ describe 'slotcars.shared.models.TrackModel', ->
       @track.addPathPoint @secondPoint
       @track.addPathPoint @thirdPoint
 
-      (expect @track.get 'raphaelPath').toEqual 'M1,0L2,1L3,2Z'
+      (expect @track.get 'raphaelPath').toEqual 'M1,0R2,1,3,2z'
 
 
   describe 'getting total length of path', ->
@@ -104,7 +105,7 @@ describe 'slotcars.shared.models.TrackModel', ->
     it 'should reset the raphael path to default value', ->
       @track.clearPath()
 
-      (expect @track.raphaelPath).toBe 'M0,0Z'
+      (expect @track.raphaelPath).toBe EMPTY_RAPHAEL_PATH
 
 
   describe 'cleaning the path', ->
@@ -116,7 +117,7 @@ describe 'slotcars.shared.models.TrackModel', ->
     it 'should tell the path to clean itself', ->
       @track.cleanPath()
 
-      (expect @pathMock.clean).toHaveBeenCalledWithAnObjectLike minAngle: 10, minLength: 10, maxLength: 30
+      (expect @pathMock.clean).toHaveBeenCalledWithAnObjectLike minAngle: 20, minLength: 30, maxLength: 200
 
     it 'should update the raphael path', ->
       raphaelPathObserver = sinon.spy()
