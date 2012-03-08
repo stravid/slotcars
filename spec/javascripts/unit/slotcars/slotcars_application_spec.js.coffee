@@ -1,7 +1,7 @@
 #= require slotcars/slotcars_application
 #= require slotcars/route_manager
 
-describe 'screen managment', ->
+describe 'slotcars application screen management', ->
 
   SlotcarsApplication = slotcars.SlotcarsApplication
 
@@ -29,6 +29,9 @@ describe 'screen managment', ->
 
       @slotcarsApplication = SlotcarsApplication.create
         screenFactory: @screenFactoryStub
+
+    afterEach ->
+      @slotcarsApplication.destroy()
 
 
     it 'should get the BuildScreen and tell it to append', ->

@@ -34,7 +34,7 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
     @_super path
 
   onClearButtonClicked: (event) ->
-    event.preventDefault()
+    event.preventDefault() if event?
     @drawController.onClearTrack()
 
   willDestroyElement: ->
@@ -45,7 +45,7 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
     @$(PAPER_WRAPPER_ID).on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
 
   _onTouchMouseMove: (event) ->
-    event.originalEvent.preventDefault()
+    event.originalEvent.preventDefault() if event.originalEvent?
     @drawController.onTouchMouseMove x: event.pageX, y: event.pageY
 
   _onTouchMouseUp: ->
