@@ -37,6 +37,8 @@ slotcars.shared.views.TrackView = Ember.View.extend
     path = @_paper.path path;
     path.attr 'stroke', color
     path.attr 'stroke-width', width
+    
+    path
   
   _drawDashedLine: (path) ->
     path = @_drawPath path, @DASHED_LINE_WIDTH, @LINE_COLOR
