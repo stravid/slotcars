@@ -76,7 +76,7 @@ slotcars.shared.models.TrackModel = DS.Model.extend
     @set 'raphaelPath', pathString
 
   _updateRasterizedPath: (->
-    unless @_shouldUpdateRasterizedPath then return
+    return unless @_shouldUpdateRasterizedPath
 
     # defer rasterization since it is time costly and would block other operations
     Ember.run.later (=> @_rasterizeRaphaelPath()), 10
