@@ -92,19 +92,19 @@ describe 'slotcars.build.views.DrawView', ->
 
 
       it 'should not bind mouse move before mouse down happened', ->
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseMove', {}
+        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseMove'
 
         (expect @drawControllerMock.onTouchMouseMove).not.toHaveBeenCalled()
 
 
       it 'should bind mouse move on mouse down', ->
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseDown', {}
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseMove', {}
+        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseDown'
+        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseMove'
 
         (expect @drawControllerMock.onTouchMouseMove).toHaveBeenCalled()
 
       it 'should notifiy draw controller of move events', ->
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseDown', {}
+        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseDown'
 
         # manually create touch mouse move event
         testPosition = x: 3, y: 4
@@ -134,10 +134,10 @@ describe 'slotcars.build.views.DrawView', ->
       it 'should unbind the mouse move event', ->
         @drawControllerMock.onTouchMouseMove = sinon.spy()
 
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseDown', {}
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseUp', {}
+        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseDown'
+        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseUp'
 
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseMove', {}
+        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseMove'
 
         (expect @drawControllerMock.onTouchMouseMove).not.toHaveBeenCalled()
 
