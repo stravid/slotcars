@@ -5,5 +5,8 @@ rvm:
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
+  - bundle exec rake db:migrate
 
-script: bundle exec guard-jasmine
+script:
+  - bundle exec guard-jasmine
+  - bundle exec rake spec
