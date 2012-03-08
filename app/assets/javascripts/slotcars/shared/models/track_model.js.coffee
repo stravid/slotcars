@@ -33,7 +33,15 @@ slotcars.shared.models.TrackModel = DS.Model.extend
     @_path.clean minAngle: 20, minLength: 30, maxLength: 200
     @_updateRaphaelPath()
 
+  # Generates catmull-rom paths for raphel with format: x1 y1 (x y)+
+  # which results in pathes like: M0,0R,1,0,3,2,4,5z
   _updateRaphaelPath: ->
+
+    # catmull-rom paths are not valid with less points than 3
+    if @_path.length < 3
+      @set 'raphaelPath', EMPTY_RAPHAEL_PATH
+      return
+
     pathString = "M"
     firstTime = true
 

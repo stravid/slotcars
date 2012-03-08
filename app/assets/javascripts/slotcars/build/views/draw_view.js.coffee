@@ -24,7 +24,6 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
   onRaphaelPathChanged: (->
     track = @get 'track'
     @drawTrack track.get 'raphaelPath' if track?
-
   ).observes 'track.raphaelPath'
 
   # overrides TrackView.drawTrack for drawing

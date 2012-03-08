@@ -33,22 +33,28 @@ describe 'slotcars.shared.models.TrackModel', ->
     beforeEach ->
       @track = TrackModel.createRecord()
 
-    it 'should push point into its path', ->
-      testPoint = x: 0, y: 0
-      @track.addPathPoint testPoint
-
-      (expect @pathMock.push).toHaveBeenCalledWith testPoint, true
-
-    it 'should update the raphael path when first point added', ->
-      @track.addPathPoint x: 1, y: 0
-
-      (expect @track.get 'raphaelPath').toEqual 'M1,0z'
-
-    it 'should update raphael path correctly when multiple points were added', ->
       @firstPoint = { x: 1, y: 0 }
       @secondPoint = { x: 2, y: 1 }
       @thirdPoint = { x: 3, y: 2 }
+      @fourthPoint = { x: 4, y: 5 }
 
+    it 'should push point into its path', ->
+      @track.addPathPoint @firstPoint
+
+      (expect @pathMock.push).toHaveBeenCalledWith @firstPoint, true
+
+    it 'should keep default empty raphael path when points count < 3', ->
+      @pathMock.length = 1
+      @track.addPathPoint @firstPoint
+
+      (expect @track.get 'raphaelPath').toEqual EMPTY_RAPHAEL_PATH
+
+      @pathMock.length = 2
+      @track.addPathPoint @secondPoint
+
+      (expect @track.get 'raphaelPath').toEqual EMPTY_RAPHAEL_PATH
+
+    it 'should update raphael path correctly when more points than 2 were added', ->
       @pathMock.asPointArray.returns [ @firstPoint, @secondPoint, @thirdPoint ]
 
       @track.addPathPoint @firstPoint
