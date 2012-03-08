@@ -36,3 +36,4 @@ slotcars.play.PlayScreen = Ember.Object.extend
   initialize: ->
     @_playController = PlayController.create
       playScreenView: @_playScreenView
+      track: @track

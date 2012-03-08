@@ -1,7 +1,7 @@
 
 #= require game/controllers/game_loop_controller
 
-#= require game/lib/car
+#= require slotcars/play/lib/car
 #= require shared/models/track_model
 
 #= require game/views/car_view
@@ -10,7 +10,7 @@
 
 namespace 'game.controllers'
 
-Car = game.lib.Car
+Car = slotcars.play.lib.Car
 CarView = game.views.CarView
 
 game.controllers.GameController = Ember.Object.extend

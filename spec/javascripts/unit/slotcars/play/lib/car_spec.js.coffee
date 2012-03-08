@@ -1,5 +1,5 @@
 
-#= require game/lib/car
+#= require slotcars/play/lib/car
 #= require game/lib/movable
 #= require game/lib/crashable
 
@@ -7,7 +7,7 @@
 
 describe 'game.lib.Car', ->
 
-  Car = game.lib.Car
+  Car = slotcars.play.lib.Car
   Vector = helpers.math.Vector
   Movable = game.lib.Movable
   Crashable = game.lib.Crashable

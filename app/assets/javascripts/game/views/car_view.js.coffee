@@ -22,8 +22,9 @@ game.views.CarView = Ember.View.extend
   didInsertElement: ->
     #@exhaust = helpers.graphic.Exhaust.create(@paper)
 
-    (jQuery @$()).css 'top', @offset.top
-    (jQuery @$()).css 'left', @offset.left
+    if @offset?
+      (jQuery @$()).css 'top', @offset.top
+      (jQuery @$()).css 'left', @offset.left
 
   onPositionChange: (-> @update()).observes 'car.position'
 

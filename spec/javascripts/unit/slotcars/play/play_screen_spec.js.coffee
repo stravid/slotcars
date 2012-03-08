@@ -16,13 +16,13 @@ describe 'play screen', ->
   beforeEach ->
     @playScreenViewMock = mockEmberClass PlayScreenView, append: sinon.spy()
     @playScreenStateManagerMock = mockEmberClass PlayScreenStateManager, send: sinon.spy()
-    @PlayController = mockEmberClass PlayController
+    @PlayControllerMock = mockEmberClass PlayController
     @playScreen = PlayScreen.create()
 
   afterEach ->
     @playScreenViewMock.restore()
     @playScreenStateManagerMock.restore()
-    @PlayController.restore()
+    @PlayControllerMock.restore()
 
   describe 'append to application', ->
 
@@ -58,9 +58,12 @@ describe 'play screen', ->
 
     it 'should create play controller and provide play screen view', ->
       @playScreen.appendToApplication()
+      @playScreen.load()
       @playScreen.initialize()
 
-      (expect @PlayController.create).toHaveBeenCalledWithAnObjectLike playScreenView: @playScreenViewMock
+      (expect @PlayControllerMock.create).toHaveBeenCalledWithAnObjectLike
+        playScreenView: @playScreenViewMock
+        track: @playScreen.track
 
   describe 'destroy', ->
 

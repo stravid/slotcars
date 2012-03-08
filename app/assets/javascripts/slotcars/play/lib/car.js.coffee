@@ -6,12 +6,12 @@
 
 #= require helpers/math/vector
 
-namespace 'game.lib'
+namespace 'slotcars.play.lib'
 
 Movable = game.lib.Movable
 Crashable = game.lib.Crashable
 
-game.lib.Car = Ember.Object.extend Movable, Crashable,
+slotcars.play.lib.Car = Ember.Object.extend Movable, Crashable,
 
   speed: 0
   maxSpeed: 0

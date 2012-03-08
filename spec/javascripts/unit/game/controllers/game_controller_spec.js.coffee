@@ -5,14 +5,14 @@
 #= require game/views/game_view
 
 #= require shared/models/track_model
-#= require game/lib/car
+#= require slotcars/play/lib/car
 
 describe 'game.controllers.GameController (unit)', ->
 
   GameController = game.controllers.GameController
   GameView = game.views.GameView
   TrackModel = shared.models.TrackModel
-  Car = game.lib.Car
+  Car = slotcars.play.lib.Car
 
   beforeEach ->
     @trackStub =
@@ -82,7 +82,7 @@ describe 'game.controllers.GameController (unit)', ->
 
       @gameController.track = @trackStub
 
-      @car = game.lib.Car.create()
+      @car = Car.create()
 
       @accelerateStub = sinon.stub @car, 'accelerate'
       @decelerateStub = sinon.stub @car, 'decelerate'
