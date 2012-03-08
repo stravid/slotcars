@@ -1,9 +1,11 @@
 
 #= require helpers/namespace
 #= require slotcars/build/views/build_screen_view
-#= require slotcars/build/controllers/builder_controller
+#= require slotcars/build/builder
 
 namespace 'slotcars.build'
+
+BuilderController = slotcars.build.Builder
 
 slotcars.build.BuildScreen = Ember.Object.extend
 
@@ -19,7 +21,7 @@ slotcars.build.BuildScreen = Ember.Object.extend
     @_buildScreenView.append()
 
   setupBuilder: ->
-    @_builderController = slotcars.build.controllers.BuilderController.create
+    @_builderController = BuilderController.create
       buildScreenView: @_buildScreenView
 
   destroy: ->

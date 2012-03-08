@@ -1,12 +1,12 @@
 
-#= require slotcars/build/controllers/builder_controller
+#= require slotcars/build/builder
 #= require slotcars/shared/models/track_model
 #= require slotcars/build/controllers/draw_controller
 #= require slotcars/build/views/draw_view
 
 describe 'builder controller', ->
 
-  BuilderController = slotcars.build.controllers.BuilderController
+  BuilderController = slotcars.build.Builder
   DrawController = slotcars.build.controllers.DrawController
   DrawView = slotcars.build.views.DrawView
 
