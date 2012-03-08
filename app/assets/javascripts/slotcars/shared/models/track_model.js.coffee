@@ -30,16 +30,25 @@ slotcars.shared.models.TrackModel = DS.Model.extend
     @set 'raphaelPath', EMPTY_RAPHAEL_PATH
 
   cleanPath: ->
-    @_path.clean minAngle: 10, minLength: 10, maxLength: 30
+    @_path.clean minAngle: 20, minLength: 30, maxLength: 200
     @_updateRaphaelPath()
 
   _updateRaphaelPath: ->
     pathString = "M"
+    firstTime = true
 
     for point in @_path.asPointArray()
-      pathString += "#{point.x},#{point.y}L"
+      pathString += "#{point.x},#{point.y}"
 
-    pathString = pathString.substr 0, pathString.length - 1
-    pathString += "Z"
+      if firstTime
+        pathString += "R"
+      else
+        pathString += ","
+
+      firstTime = false
+
+
+    #pathString = pathString.substr 0, pathString.length - 1
+    pathString += "z"
 
     @set 'raphaelPath', pathString
