@@ -7,7 +7,7 @@ describe 'shared.models.TrackModel', ->
   TrackModel = shared.models.TrackModel
 
   it 'should be a model', ->
-    (expect DS.Model.detect TrackModel).toBe true
+    (expect TrackModel).toExtend DS.Model
 
   beforeEach ->
     @path = helpers.math.Path.create points: [

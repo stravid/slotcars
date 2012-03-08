@@ -1,0 +1,2 @@
+<a href="#" id="clear-track-button" {{action "onClearButtonClicked"}}>clear track</a>
+<div id="draw-view-paper"></div>

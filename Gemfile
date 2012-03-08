@@ -9,13 +9,10 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'embient'
+gem 'embient', '0.0.5'
 
 group :development, :test do
   gem 'sqlite3'
-
-  # adds handlebars template support to sprockets
-  gem 'emberjs-rails'
 
   # jasmine testing + coffeescript support
   gem 'jasminerice'

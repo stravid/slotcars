@@ -17,7 +17,7 @@ describe 'game.controllers.GameController (unit)', ->
     @gameController = GameController.create()
 
   it 'should extend Ember.Object', ->
-    (expect Ember.Object.detect GameController).toBe true
+    (expect GameController).toExtend Ember.Object
 
   it 'should have a property startTime with default null', ->
     (expect @gameController.startTime).toBe null
@@ -201,7 +201,7 @@ describe 'game.controllers.GameController (unit)', ->
         carController: @carControllerStub        
         gameLoopController: @gameLoopControllerStub
 
-      gameController.gameMediator.raceTime = 18
+      gameController.gameMediator.set 'raceTime', 18
       gameController.restartGame()
 
       (expect gameController.gameMediator.raceTime).toBe 0
