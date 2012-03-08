@@ -100,7 +100,7 @@ describe 'slotcars.shared.models.TrackModel', ->
       (expect @pathMock.clear).toHaveBeenCalled()
 
     it 'should update the raphael path', ->
-      @track.raphaelPath = 'somePathValue'
+      @track.set 'raphaelPath', 'somePathValue'
       raphaelPathObserver = sinon.spy()
 
       @track.addObserver 'raphaelPath', raphaelPathObserver

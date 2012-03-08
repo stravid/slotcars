@@ -3,27 +3,40 @@
 #= require embient/ember-data
 #= require slotcars/shared/models/model_store
 #= require helpers/math/path
+#= require vendor/raphael
 
 namespace 'slotcars.shared.models'
 
 EMPTY_RAPHAEL_PATH = 'M0,0z'
 
+Path = helpers.math.Path
+
 slotcars.shared.models.TrackModel = DS.Model.extend
 
   _path: null
+  _rasterizedPath: null
+  _shouldUpdateRasterizedPath: false
   raphaelPath: EMPTY_RAPHAEL_PATH
 
   init: ->
     @_super()
-    @_path = helpers.math.Path.create()
+    @_path = Path.create()
 
   addPathPoint: (point) ->
     @_path.push point, true
     @_updateRaphaelPath()
 
-  getTotalLength: -> @_path.getTotalLength()
+  getTotalLength: ->
+    unless @_rasterizedPath?
+      @_path.getTotalLength()
+    else
+      @_rasterizedPath.getTotalLength()
 
-  getPointAtLength: (length) -> @_path.getPointAtLength length
+  getPointAtLength: (length) ->
+    unless @_rasterizedPath?
+      @_path.getPointAtLength length
+    else
+      @_rasterizedPath.getPointAtLength length
 
   clearPath: ->
     @_path.clear()
@@ -31,6 +44,7 @@ slotcars.shared.models.TrackModel = DS.Model.extend
 
   cleanPath: ->
     @_path.clean minAngle: 20, minLength: 30, maxLength: 200
+    @_shouldUpdateRasterizedPath = true
     @_updateRaphaelPath()
 
   # Generates catmull-rom paths for raphel with format: x1 y1 (x y)+
@@ -60,3 +74,22 @@ slotcars.shared.models.TrackModel = DS.Model.extend
     pathString += "z"
 
     @set 'raphaelPath', pathString
+
+  _updateRasterizedPath: (->
+    unless @_shouldUpdateRasterizedPath then return
+
+    # defer rasterization since it is time costly and would block other operations
+    Ember.run.later (=> @_rasterizeRaphaelPath()), 10
+
+    @_shouldUpdateRasterizedPath = false
+
+  ).observes 'raphaelPath'
+
+  _rasterizeRaphaelPath: ->
+    @_rasterizedPath = Path.create()
+    path = @get 'raphaelPath'
+    totalLength = (Math.round Raphael.getTotalLength path)
+
+    # there is no optimization for curves vs. straight parts yet
+    for length in [0..totalLength] by 5
+      @_rasterizedPath.push (Raphael.getPointAtLength path, length), true
