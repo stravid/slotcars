@@ -1,12 +1,12 @@
 
 #= require slotcars/build/build_screen
 #= require slotcars/build/views/build_screen_view
-#= require slotcars/build/controllers/builder_controller
+#= require slotcars/build/builder
 
 describe 'slotcars.build.BuildScreen', ->
 
   BuildScreen = slotcars.build.BuildScreen
-  BuilderController = slotcars.build.controllers.BuilderController
+  BuilderController = slotcars.build.Builder
   BuilderScreenView = slotcars.build.views.BuildScreenView
 
   beforeEach ->
