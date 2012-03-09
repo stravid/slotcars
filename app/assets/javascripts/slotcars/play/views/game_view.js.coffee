@@ -1,13 +1,13 @@
 
 #= require helpers/namespace
-#= require game/templates/game_template
+#= require slotcars/play/templates/game_template
 
-namespace 'game.views'
+namespace 'slotcars.play.views'
 
-game.views.GameView = Ember.View.extend
+slotcars.play.views.GameView = Ember.View.extend
 
   elementId: 'game-view'
-  templateName: 'game_templates_game_template'
+  templateName: 'slotcars_play_templates_game_template'
 
   onRestartClick: ->
     @gameController.restartGame()

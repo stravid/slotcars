@@ -1,18 +1,18 @@
 
-#= require slotcars/play/lib/car
-#= require game/lib/movable
-#= require game/lib/crashable
+#= require slotcars/shared/models/car
+#= require slotcars/shared/lib/movable
+#= require slotcars/shared/lib/crashable
 
 #= require helpers/math/vector
 
-describe 'game.lib.Car', ->
+describe 'slotcars.shared.models.Car', ->
 
-  Car = slotcars.play.lib.Car
+  Car = slotcars.shared.models.Car
   Vector = helpers.math.Vector
-  Movable = game.lib.Movable
-  Crashable = game.lib.Crashable
+  Movable = slotcars.shared.lib.Movable
+  Crashable = slotcars.shared.lib.Crashable
 
-  describe 'useage of mixins', ->
+  describe 'usage of mixins', ->
 
     beforeEach ->
       @car = Car.create()

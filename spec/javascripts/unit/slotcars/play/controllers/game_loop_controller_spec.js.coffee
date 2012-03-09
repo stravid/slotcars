@@ -1,9 +1,9 @@
 
-#= require game/controllers/game_loop_controller
+#= require slotcars/play/controllers/game_loop_controller
 
-describe 'game.controllers.GameLoopController (unit)', ->
+describe 'slotcars.play.controllers.GameLoopController (unit)', ->
 
-  GameLoopController = game.controllers.GameLoopController
+  GameLoopController = slotcars.play.controllers.GameLoopController
 
   beforeEach ->
     @requestFrameBackup = window.requestFrame

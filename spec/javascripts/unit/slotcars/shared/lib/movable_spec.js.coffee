@@ -1,9 +1,9 @@
 
-#= require game/lib/movable
+#= require slotcars/shared/lib/movable
 
-describe 'game.lib.Movable', ->
+describe 'slotcars.shared.lib.Movable', ->
 
-  Movable = game.lib.Movable
+  Movable = slotcars.shared.lib.Movable
 
   describe 'move to a position', ->
 

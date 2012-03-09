@@ -3,7 +3,7 @@
 #= require slotcars/play/views/play_screen_view
 #= require slotcars/play/play_screen_state_manager
 #= require slotcars/shared/models/track_model
-#= require slotcars/play/controllers/play_controller
+#= require slotcars/play/game
 
 describe 'play screen', ->
 
@@ -11,18 +11,19 @@ describe 'play screen', ->
   PlayScreenView = slotcars.play.views.PlayScreenView
   PlayScreenStateManager = slotcars.play.PlayScreenStateManager
   TrackModel = slotcars.shared.models.TrackModel
-  PlayController = slotcars.play.controllers.PlayController
+  Car = slotcars.shared.models.Car
+  Game = slotcars.play.Game
 
   beforeEach ->
     @playScreenViewMock = mockEmberClass PlayScreenView, append: sinon.spy()
     @playScreenStateManagerMock = mockEmberClass PlayScreenStateManager, send: sinon.spy()
-    @PlayControllerMock = mockEmberClass PlayController
+    @GameMock = mockEmberClass Game, start: sinon.spy()
     @playScreen = PlayScreen.create()
 
   afterEach ->
     @playScreenViewMock.restore()
     @playScreenStateManagerMock.restore()
-    @PlayControllerMock.restore()
+    @GameMock.restore()
 
   describe 'append to application', ->
 
@@ -49,6 +50,11 @@ describe 'play screen', ->
 
       (expect @playScreen.track).toBeInstanceOf TrackModel
 
+    it 'should create a car', ->
+      @playScreen.load()
+
+      (expect @playScreen.car).toBeInstanceOf Car
+
     it 'should send loaded to the play screen state manager', ->
       @playScreen.load()
 
@@ -56,14 +62,30 @@ describe 'play screen', ->
 
   describe 'initialize', ->
 
-    it 'should create play controller and provide play screen view', ->
+    beforeEach ->
       @playScreen.appendToApplication()
       @playScreen.load()
       @playScreen.initialize()
 
-      (expect @PlayControllerMock.create).toHaveBeenCalledWithAnObjectLike
+    it 'should create game and provide necessary dependencies', ->
+      (expect @GameMock.create).toHaveBeenCalledWithAnObjectLike
         playScreenView: @playScreenViewMock
         track: @playScreen.track
+        car: @playScreen.car
+
+    it 'should send initialized to the play screen state manager', ->
+      (expect @playScreenStateManagerMock.send).toHaveBeenCalledWith 'initialized'
+
+  describe 'play', ->
+
+    beforeEach ->
+      @playScreen.appendToApplication()
+      @playScreen.load()
+      @playScreen.initialize()
+      @playScreen.play()
+
+    it 'should start the game', ->
+      (expect @GameMock.start).toHaveBeenCalled()
 
   describe 'destroy', ->
 

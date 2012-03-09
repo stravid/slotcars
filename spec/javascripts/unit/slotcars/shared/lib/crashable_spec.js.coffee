@@ -1,12 +1,12 @@
 
-#= require game/lib/crashable
-#= require game/lib/movable
+#= require slotcars/shared/lib/crashable
+#= require slotcars/shared/lib/movable
 #= require helpers/math/vector
 
-describe 'game.lib.Crashable', ->
+describe 'slotcars.shared.lib.Crashable', ->
 
-  Movable = game.lib.Movable
-  Crashable = game.lib.Crashable
+  Movable = slotcars.shared.lib.Movable
+  Crashable = slotcars.shared.lib.Crashable
   Vector = helpers.math.Vector
 
   beforeEach ->

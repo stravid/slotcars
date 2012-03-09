@@ -1,17 +1,16 @@
 
 #= require helpers/namespace
-
-#= require game/lib/movable
-#= require game/lib/crashable
-
 #= require helpers/math/vector
 
-namespace 'slotcars.play.lib'
+#= require slotcars/shared/lib/movable
+#= require slotcars/shared/lib/crashable
 
-Movable = game.lib.Movable
-Crashable = game.lib.Crashable
+namespace 'slotcars.shared.models'
 
-slotcars.play.lib.Car = Ember.Object.extend Movable, Crashable,
+Movable = slotcars.shared.lib.Movable
+Crashable = slotcars.shared.lib.Crashable
+
+slotcars.shared.models.Car = Ember.Object.extend Movable, Crashable,
 
   speed: 0
   maxSpeed: 0
@@ -28,7 +27,7 @@ slotcars.play.lib.Car = Ember.Object.extend Movable, Crashable,
     @set 'lengthAtTrack', newLength
 
   jumpstart: ->
-    @speed = @deceleration + .01 unless @speed > 0
+    @speed = @deceleration + .001 unless @speed > 0
 
   accelerate: ->
     @speed += @acceleration

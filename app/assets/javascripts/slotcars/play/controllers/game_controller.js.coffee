@@ -1,22 +1,22 @@
 
-#= require game/controllers/game_loop_controller
-
-#= require slotcars/play/lib/car
-#= require shared/models/track_model
-
-#= require game/views/car_view
+#= require slotcars/play/controllers/game_loop_controller
+#= require slotcars/shared/models/car
+#= require slotcars/shared/models/track_model
+#= require slotcars/play/views/car_view
 
 #= require helpers/event_normalize
 
-namespace 'game.controllers'
+namespace 'slotcars.play.controllers'
 
-Car = slotcars.play.lib.Car
-CarView = game.views.CarView
+Car = slotcars.shared.models.Car
+CarView = slotcars.play.views.CarView
+GameLoopController = slotcars.play.controllers.GameLoopController
 
-game.controllers.GameController = Ember.Object.extend
+slotcars.play.controllers.GameController = Ember.Object.extend
 
   gameView: null
   car: null
+  track: null
   gameLoopController: null
   isTouchMouseDown: false
 
@@ -24,29 +24,15 @@ game.controllers.GameController = Ember.Object.extend
   endTime: null
 
   init: ->
-    @gameLoopController = game.controllers.GameLoopController.create()
-
-    @car = Car.create
-      acceleration: 0.1
-      deceleration: 0.2
-      crashDeceleration: 0.15
-      maxSpeed: 20
-      traction: 100
-
-    offset = (jQuery '#game-application').offset()
-    @carView = CarView.create
-      car: @car
-      offset: offset
-
-    @carView.appendTo '#game-application'
+    @gameLoopController = GameLoopController.create()
 
     (jQuery document).on 'touchMouseDown', (event) => @onTouchMouseDown event
     (jQuery document).on 'touchMouseUp', (event) => @onTouchMouseUp event
 
-    (jQuery @gameView).on 'restartGame', => @restartGame()
-
     unless @track?
       throw new Error 'track has to be provided'
+    unless @car?
+      throw new Error 'car has to be provided'
 
   start: ->
     @_resetTime()
@@ -82,10 +68,10 @@ game.controllers.GameController = Ember.Object.extend
       @car.crash()
     else
       @car.drive()      # automatically handles 'respawn'
-      @car.jumpstart()  # cares for right orientation
+      @car.jumpstart()  # cares for correct orientation
       @car.moveTo { x: nextPosition.x, y: nextPosition.y }
 
-      if (@car.get 'lengthAtTrack') > (@track.get 'totalLength')
+      if (@car.get 'lengthAtTrack') >= @track.getTotalLength()
         (jQuery @car).trigger 'crossFinishLine'
 
 

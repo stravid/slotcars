@@ -2,11 +2,11 @@
 #= require helpers/namespace
 #= require helpers/math/vector
 
-namespace 'game.lib'
+namespace 'slotcars.shared.lib'
 
 Vector = helpers.math.Vector
 
-game.lib.Movable = Ember.Mixin.create
+slotcars.shared.lib.Movable = Ember.Mixin.create
 
   position: x: 0, y: 0
   rotation: 0

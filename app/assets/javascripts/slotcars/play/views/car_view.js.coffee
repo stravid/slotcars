@@ -1,23 +1,23 @@
 
 #= require helpers/namespace
 #= require helpers/graphic/exhaust
-#= require game/templates/car_template
+#= require slotcars/play/templates/car_template
 
-namespace 'game.views'
+namespace 'slotcars.play.views'
 
-game.views.CarView = Ember.View.extend
+slotcars.play.views.CarView = Ember.View.extend
 
-  templateName: 'game_templates_car_template'
+  templateName: 'slotcars_play_templates_car_template'
   tagName: ''
 
-  paper: null
+  car: null
+  offset: null
+
   width: 27
   height: 39
-  car: null
   exhaust: null
   puffInterval: 2
   puffStep: 0
-  offset: null
 
   didInsertElement: ->
     #@exhaust = helpers.graphic.Exhaust.create(@paper)
@@ -35,8 +35,8 @@ game.views.CarView = Ember.View.extend
       x: position.x - @width / 2
       y: position.y - @height / 4
 
-    (jQuery '#car').css '-webkit-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
-    (jQuery '#car').css '-moz-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
+    (jQuery @$()).css '-webkit-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
+    (jQuery @$()).css '-moz-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
     
     #@puffStep = ++@puffStep % @puffInterval
     #@exhaust.puff(position.x + @width - 6, position.y + @height) unless @puffStep > 0

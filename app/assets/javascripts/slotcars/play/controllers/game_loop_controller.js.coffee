@@ -1,9 +1,9 @@
 #= require helpers/request_frame
 #= require helpers/namespace
 
-namespace 'game.controllers'
+namespace 'slotcars.play.controllers'
 
-@game.controllers.GameLoopController = Ember.Object.extend
+slotcars.play.controllers.GameLoopController = Ember.Object.extend
 
   renderCallback: null
 

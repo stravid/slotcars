@@ -1,10 +1,10 @@
 
-#= require game/views/car_view
+#= require slotcars/play/views/car_view
 #= require vendor/raphael
 
-describe 'game.views.CarView (unit)', ->
+describe 'slotcars.play.views.CarView (unit)', ->
 
-  CarView = game.views.CarView
+  CarView = slotcars.play.views.CarView
 
   it 'should extend Ember.Object', ->
     (expect CarView).toExtend Ember.Object

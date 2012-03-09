@@ -1,9 +1,9 @@
 
-#= require game/views/car_view
+#= require slotcars/play/views/car_view
 
-describe 'game.views.CarView (functional)', ->
+describe 'slotcars.play.views.CarView (functional)', ->
 
-  CarView = game.views.CarView
+  CarView = slotcars.play.views.CarView
 
   beforeEach ->
     @carStub = Ember.Object.create
