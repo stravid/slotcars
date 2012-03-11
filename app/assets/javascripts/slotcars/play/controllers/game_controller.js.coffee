@@ -36,8 +36,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
 
   start: ->
     @_resetTime()
-    startPosition = @track.getPointAtLength 0
-    @car.moveTo { x: startPosition.x, y: startPosition.y }
+    @_resetCarPosition()
 
     @car.jumpstart()
     @car.reset()
@@ -46,10 +45,11 @@ slotcars.play.controllers.GameController = Ember.Object.extend
     @gameLoopController.start => @update()
 
   finish: ->
-    (jQuery @car).off 'crossFinishLine'
     @endTime = new Date().getTime()
     @set 'raceTime', @endTime - @startTime
     @car.reset()
+    @_resetCarPosition()
+    @startTime = new Date().getTime()
 
   update: ->
     unless @car.isCrashing
@@ -88,11 +88,11 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   restartGame: ->
     @car.reset()
     @_resetTime()
+    @_resetCarPosition()
 
+  _resetCarPosition: ->
     position = @track.getPointAtLength 0
     @car.moveTo { x: position.x, y: position.y }
-
-    (jQuery @car).on 'crossFinishLine', => @finish()
 
   _resetTime: ->
     @set 'raceTime', 0
