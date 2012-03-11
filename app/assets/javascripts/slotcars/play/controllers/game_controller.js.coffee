@@ -14,7 +14,6 @@ GameLoopController = slotcars.play.controllers.GameLoopController
 
 slotcars.play.controllers.GameController = Ember.Object.extend
 
-  gameView: null
   car: null
   track: null
   gameLoopController: null
@@ -22,6 +21,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
 
   startTime: null
   endTime: null
+  raceTime: null
 
   init: ->
     @gameLoopController = GameLoopController.create()
@@ -68,7 +68,9 @@ slotcars.play.controllers.GameController = Ember.Object.extend
       @car.crash()
     else
       @car.drive()      # automatically handles 'respawn'
-      @car.jumpstart()  # cares for correct orientation
+
+      # cares for correct orientation
+      @car.jumpstart()
       @car.moveTo { x: nextPosition.x, y: nextPosition.y }
 
       if (@car.get 'lengthAtTrack') >= @track.getTotalLength()

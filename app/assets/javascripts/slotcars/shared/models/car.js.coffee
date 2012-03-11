@@ -27,7 +27,7 @@ slotcars.shared.models.Car = Ember.Object.extend Movable, Crashable,
     @set 'lengthAtTrack', newLength
 
   jumpstart: ->
-    @speed = @deceleration + .001 unless @speed > 0
+    @speed = @deceleration + .0001 unless @speed > 0
 
   accelerate: ->
     @speed += @acceleration

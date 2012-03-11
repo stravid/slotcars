@@ -22,9 +22,12 @@ slotcars.play.views.CarView = Ember.View.extend
   didInsertElement: ->
     #@exhaust = helpers.graphic.Exhaust.create(@paper)
 
-    if @offset?
-      (jQuery @$()).css 'top', @offset.top
-      (jQuery @$()).css 'left', @offset.left
+    # if @offset?
+    #   (jQuery @$()).css 'top', @offset.top
+    #   (jQuery @$()).css 'left', @offset.left
+
+    (jQuery '#car').css 'top', 0
+    (jQuery '#car').css 'left', 0
 
   onPositionChange: (-> @update()).observes 'car.position'
 
@@ -35,8 +38,8 @@ slotcars.play.views.CarView = Ember.View.extend
       x: position.x - @width / 2
       y: position.y - @height / 4
 
-    (jQuery @$()).css '-webkit-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
-    (jQuery @$()).css '-moz-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
+    (jQuery '#car').css '-webkit-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
+    (jQuery '#car').css '-moz-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
     
     #@puffStep = ++@puffStep % @puffInterval
     #@exhaust.puff(position.x + @width - 6, position.y + @height) unless @puffStep > 0
