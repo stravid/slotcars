@@ -8,6 +8,7 @@ slotcars.shared.views.TrackView = Ember.View.extend
 
   elementId: 'track-view'
   _paper: null
+  _path: null
 
   DASHED_LINE_WIDTH: 3
   ASPHALT_WIDTH: 70
@@ -21,9 +22,13 @@ slotcars.shared.views.TrackView = Ember.View.extend
 
   didInsertElement: ->
     @_paper = Raphael @$()[0], 1024, 768
+    @drawTrack @_path
 
   drawTrack: (path) ->
-    return unless @_paper?
+    # save path when not in DOM to draw it as soon as inserted
+    unless @_paper?
+      @_path = path
+      return
 
     @_paper.clear()
 

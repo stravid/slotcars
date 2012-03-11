@@ -29,6 +29,12 @@ class helpers.math.Vector
   center: ->
     new Vector @x/2, @y/2
 
+  normalize: ->
+    new Vector @x/@length(), @y/@length()
+
+  scale: (factor) ->
+    new Vector @x*factor, @y*factor
+
   @create: (parameters) ->
     if parameters.x? and parameters.y?
       x = parameters.x

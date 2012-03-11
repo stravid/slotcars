@@ -14,4 +14,3 @@
 
 # ------ load all specs ------
 #= require_tree ./unit
-#= require_tree ./functional

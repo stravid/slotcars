@@ -8,6 +8,7 @@ describe 'slotcars.build.views.DrawView', ->
   TrackView = slotcars.shared.views.TrackView
   DrawView = slotcars.build.views.DrawView
   DrawController = slotcars.build.controllers.DrawController
+  TrackModel = slotcars.shared.models.TrackModel
 
   DRAW_VIEW_PAPER_WRAPPER_ID = '#draw-view-paper'
 
@@ -55,7 +56,6 @@ describe 'slotcars.build.views.DrawView', ->
       (expect @raphaelStub).toHaveBeenCalledWith @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)[0], 1024, 768
 
     it 'should tell raphael to build a closed track while not in drawing mode', ->
-
       @drawController.set 'finishedDrawing', true
       @drawView.drawTrack @originalTestPath
 
