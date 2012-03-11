@@ -1,5 +1,4 @@
 #= require helpers/namespace
-
 #= require embient/ember-routemanager
 
 namespace 'slotcars'
