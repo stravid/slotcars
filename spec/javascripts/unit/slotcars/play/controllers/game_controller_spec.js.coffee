@@ -138,15 +138,6 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
         (expect @carMock.checkForCrash).toHaveBeenCalledOnce()
 
-      it 'should trigger event when crossing finish line', ->
-        @carMock.get = sinon.stub().returns 30  # trackMock returns length of 5
-        @gameController.finish = sinon.spy()
-
-        # bind event inside #restartGame (or in #start - but #start also starts the game loop)      
-        @gameController.restartGame()
-        @gameController.update()
-
-        (expect @gameController.finish).toHaveBeenCalledOnce()
 
     describe 'when car is crashing', ->
   
