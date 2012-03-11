@@ -23,8 +23,10 @@ describe 'play screen state manager', ->
   describe 'loading state', ->
 
     it 'should call load on its delegate', ->
-      PlayScreenStateManager.create
+      playScreenStateManager = PlayScreenStateManager.create
         delegate: @delegateMock
+
+      playScreenStateManager.send 'load'
 
       (expect @delegateMock.load).toHaveBeenCalled()
 

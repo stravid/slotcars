@@ -25,14 +25,17 @@ slotcars.play.PlayScreen = Ember.Object.extend
     @_playScreenView = PlayScreenView.create()
     @_playScreenView.append()
 
+    @_playScreenStateManager.send 'load'
+
   destroy: ->
     @_super()
     @_playScreenView.remove()
 
   load: ->
     @track = TrackModel.createRecord()
-    @track.addPathPoint { x: 10, y: 10 }
-    @track.addPathPoint { x: 50, y: 100 }
+    @track.addPathPoint { x: 100, y: 100 }
+    @track.addPathPoint { x: 500, y: 100 }
+    @track.addPathPoint { x: 300, y: 400 }
 
     @car = Car.create
       acceleration: 0.1
