@@ -13,10 +13,10 @@ describe 'slotcars.shared.models.TrackModel', ->
 
   describe 'important default values', ->
 
-  it 'should be an valid empty path with a single move to command by default', ->
-    @track = TrackModel.createRecord()
+    it 'should be an valid empty path with a single move to command by default', ->
+      @track = TrackModel.createRecord()
 
-    (expect @track.get 'raphaelPath').toEqual EMPTY_RAPHAEL_PATH
+      (expect @track.get 'raphaelPath').toEqual EMPTY_RAPHAEL_PATH
 
 
   beforeEach ->
@@ -132,3 +132,12 @@ describe 'slotcars.shared.models.TrackModel', ->
       @track.cleanPath()
 
       (expect raphaelPathObserver).toHaveBeenCalled()
+
+
+  describe 'route to the track resource', ->
+
+    it 'should return the correct route with client id', ->
+      track = TrackModel.createRecord()
+      id = track.get 'clientId'
+
+      (expect track.get 'playRoute').toEqual "play/#{id}"
