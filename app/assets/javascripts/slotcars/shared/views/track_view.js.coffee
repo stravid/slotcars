@@ -9,60 +9,38 @@ slotcars.shared.views.TrackView = Ember.View.extend
   elementId: 'track-view'
   _paper: null
 
-  ROAD_WIDTH: 70
-  SIDE_WIDTH: 10
-  DASH_WIDTH: 2
-  SIDE_DASH_WIDTH: 3
-  SIDE_WIDTH: 5
+  DASHED_LINE_WIDTH: 3
+  ASPHALT_WIDTH: 70
+  BORDER_LINE_WIDTH: 75
+  BORDER_ASPHALT_WIDTH: 81
+  DIRT_WIDTH: 90
+  
+  ASPHALT_COLOR: '#1E1E1E'
+  LINE_COLOR: '#FFF'
+  DIRT_COLOR: '#A67B52'
 
   didInsertElement: ->
     @_paper = Raphael @$()[0], 1024, 768
-    @drawTrack()
-    
-  drawTrack: ->
-    @path = @track.get 'raphaelPath'
 
-    @_drawLawn()
-    @_drawOutterBase()
-    @_drawOutterDash()
-    @_drawOutterAsphalt()
-    @_drawSideLine()
-    @_drawAsphalt()
-    @_drawDashedLine()
-        
-  _drawLawn: ->
-    rect = @_paper.rect 0, 0, 1024, 768
-    rect.attr 'fill', '#104c08'
+  drawTrack: (path) ->
+    return unless @_paper?
+
+    @_paper.clear()
+
+    @_drawPath path, @DIRT_WIDTH, @DIRT_COLOR
+    @_drawPath path, @BORDER_ASPHALT_WIDTH, @ASPHALT_COLOR
+    @_drawPath path, @BORDER_LINE_WIDTH, @LINE_COLOR
+    @_drawPath path, @ASPHALT_WIDTH, @ASPHALT_COLOR
+    @_drawDashedLine path
   
-  _drawOutterBase: ->
-    path = @_paper.path @path;
-    path.attr 'stroke', '#960808'
-    path.attr 'stroke-width', @ROAD_WIDTH + @SIDE_DASH_WIDTH * 2 + @SIDE_WIDTH * 2 + 10
-  
-  _drawOutterDash: ->
-    path = @_paper.path @path;
-    path.attr 'stroke', '#FFFFFF'
-    path.attr 'stroke-width', @ROAD_WIDTH + @SIDE_DASH_WIDTH * 2 + @SIDE_WIDTH * 2 + 10
-    path.attr 'stroke-dasharray', 'mattie'
-  
-  _drawOutterAsphalt: ->
-    path = @_paper.path @path;
-    path.attr 'stroke', '#171717'
-    path.attr 'stroke-width', @ROAD_WIDTH + @SIDE_DASH_WIDTH * 2 + @SIDE_WIDTH * 2 - 2
-  
-  _drawSideLine: ->
-    path = @_paper.path @path;
-    path.attr 'stroke', '#FFFFFF'
-    path.attr 'stroke-width', @ROAD_WIDTH + @SIDE_DASH_WIDTH * 2
-  
-  _drawAsphalt: ->
-    path = @_paper.path @path;
-    path.attr 'stroke', '#171717'
-    path.attr 'stroke-width', @ROAD_WIDTH
+  _drawPath: (path, width, color) ->
+    path = @_paper.path path;
+    path.attr 'stroke', color
+    path.attr 'stroke-width', width
     
-  _drawDashedLine: ->
-    path = @_paper.path @path;
-    path.attr 'stroke', '#FFFFFF'
-    path.attr 'stroke-width', @DASH_WIDTH
+    path
+  
+  _drawDashedLine: (path) ->
+    path = @_drawPath path, @DASHED_LINE_WIDTH, @LINE_COLOR
     path.attr 'stroke-dasharray', '- '
     path.attr 'stroke-linecap', 'square'

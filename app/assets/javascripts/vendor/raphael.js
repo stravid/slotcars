@@ -3720,12 +3720,9 @@ window.Raphael.svg && function (R) {
         "--": [8, 3],
         "- .": [4, 3, 1, 3],
         "--.": [8, 3, 1, 3],
-        "--..": [8, 3, 1, 3, 1, 3],
-        "mattie": [10, 10]
+        "--..": [8, 3, 1, 3, 1, 3]
     },
     addDashes = function (o, value, params) {
-        var storeValue = value;
-        
         value = dasharray[Str(value).toLowerCase()];
         if (value) {
             var width = o.attrs["stroke-width"] || "1",
@@ -3733,11 +3730,8 @@ window.Raphael.svg && function (R) {
                 dashes = [],
                 i = value.length;
             while (i--) {
-                if (storeValue == "mattie") {
-                    dashes[i] = value[i] + ((i % 2) ? 1 : -1) * butt;
-                } else {
-                    dashes[i] = value[i] * width + ((i % 2) ? 1 : -1) * butt;
-                }
+                dashes[i] = value[i] * width + ((i % 2) ? 1 : -1) * butt;
+                
             }
             $(o.node, {"stroke-dasharray": dashes.join(",")});
         }

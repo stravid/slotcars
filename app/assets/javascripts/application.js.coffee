@@ -1,6 +1,6 @@
 #= require jquery
 #= require jquery_ujs
-#= require ember
+#= require embient/ember
 #= require slotcars/factories/screen_factory
 #= require slotcars/slotcars_application
 
