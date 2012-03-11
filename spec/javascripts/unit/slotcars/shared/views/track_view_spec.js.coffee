@@ -12,19 +12,23 @@ describe 'track view', ->
     trackView = TrackView.create()
     (expect trackView.get 'elementId').toBe 'track-view'
 
-  describe 'creation of raphael paper', ->
+  describe 'when inserted in DOM', ->
 
     beforeEach ->
       @raphaelBackup = window.Raphael
       @raphaelStub = window.Raphael = sinon.spy()
 
+      @trackView = TrackView.create()
+      @trackView.drawTrack = sinon.spy()
+
+      @container = jQuery '<div>'
+      Ember.run => @trackView.appendTo @container
+
     afterEach ->
       window.Raphael = @raphaelBackup
 
-    it 'should create raphael paper when inserted into DOM', ->
-      @container = jQuery '<div>'
-
-      @trackView = TrackView.create()
-      Ember.run => @trackView.appendTo @container
-
+    it 'should create raphael paper', ->
       (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], 1024, 768
+
+    it 'should draw the track', ->
+      (expect @trackView.drawTrack).toHaveBeenCalled()

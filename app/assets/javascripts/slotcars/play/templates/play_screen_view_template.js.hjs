@@ -1,1 +1,3 @@
+{{dynamicView trackView tagName=""}}
+{{dynamicView carView tagName=""}}
 {{dynamicView contentView id="play-screen-content-view"}}

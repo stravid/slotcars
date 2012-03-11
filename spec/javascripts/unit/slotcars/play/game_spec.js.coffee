@@ -24,12 +24,12 @@ describe 'game', ->
   beforeEach ->
     @carMock = mockEmberClass Car
     @trackMock = mockEmberClass TrackModel
-    @playScreenViewMock = mockEmberClass PlayScreenView
+    @playScreenViewMock = mockEmberClass PlayScreenView, set: sinon.spy()
 
     @GameControllerMock = mockEmberClass GameController, start: sinon.spy()
-    @CarViewMock = mockEmberClass CarView, appendTo: sinon.spy()
-    @GameViewMock = mockEmberClass GameView, appendTo: sinon.spy()
-    @TrackViewMock = mockEmberClass TrackView, appendTo: sinon.spy()
+    @CarViewMock = mockEmberClass CarView
+    @GameViewMock = mockEmberClass GameView
+    @TrackViewMock = mockEmberClass TrackView
 
     @game = Game.create
       playScreenView: @playScreenViewMock
@@ -61,13 +61,13 @@ describe 'game', ->
     (expect @TrackViewMock.create).toHaveBeenCalled()
 
   it 'should append car view to play screen view', ->
-    (expect @CarViewMock.appendTo).toHaveBeenCalledWithAnObjectLike @playScreenViewMock
+    (expect @playScreenViewMock.set).toHaveBeenCalledWith 'carView', @CarViewMock
 
   it 'should append track view to play screen view', ->
-    (expect @TrackViewMock.appendTo).toHaveBeenCalledWithAnObjectLike @playScreenViewMock
+    (expect @playScreenViewMock.set).toHaveBeenCalledWith 'trackView', @TrackViewMock
 
   it 'should append game view to play screen view', ->
-    (expect @GameViewMock.appendTo).toHaveBeenCalledWithAnObjectLike @playScreenViewMock
+    (expect @playScreenViewMock.set).toHaveBeenCalledWith 'contentView', @GameViewMock
 
   it 'should start the game controller', ->
     @game.start()

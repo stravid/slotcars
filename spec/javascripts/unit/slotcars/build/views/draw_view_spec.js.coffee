@@ -8,6 +8,7 @@ describe 'slotcars.build.views.DrawView', ->
   TrackView = slotcars.shared.views.TrackView
   DrawView = slotcars.build.views.DrawView
   DrawController = slotcars.build.controllers.DrawController
+  TrackModel = slotcars.shared.models.TrackModel
 
   it 'should extend TrackView', ->
     (expect DrawView).toExtend TrackView
@@ -29,9 +30,9 @@ describe 'slotcars.build.views.DrawView', ->
   describe 'setup of touchMouse event listeners', ->
 
     it 'should setup touch mouse move listener on its view element that notifies draw controller', ->
-
       drawControllerMock = mockEmberClass DrawController, onTouchMouseMove: sinon.spy()
       drawView = DrawView.create drawController: drawControllerMock
+      drawStub = sinon.stub drawView, 'drawTrack'
 
       # append it into DOM to test real jQuery events
       container = jQuery 'div'

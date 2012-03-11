@@ -8,6 +8,7 @@ slotcars.play.views.GameView = Ember.View.extend
 
   elementId: 'game-view'
   templateName: 'slotcars_play_templates_game_template'
+  gameController: null
 
   onRestartClick: ->
     @gameController.restartGame()
