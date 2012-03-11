@@ -40,10 +40,10 @@ describe 'slotcars.shared.lib.Crashable', ->
       beforeEach ->
         @crashable.position = { x: 0, y: 0 }
         @crashable.previousDirection = Vector.create x: 1, y: 0
+        @crashable.speed = 1
 
       it 'should crash if traction is not high enough', ->
         @crashable.traction = 89 # is less than (speed * angle)
-        @crashable.speed = 1
 
         @crashable.checkForCrash { x: 0, y: 1 }
 
@@ -51,11 +51,19 @@ describe 'slotcars.shared.lib.Crashable', ->
 
       it 'should not crash if traction is high enough', ->
         @crashable.traction = 90 # equals (speed * angle) - equals upper limit
-        @crashable.speed = 1
 
         @crashable.checkForCrash { x: 0, y: 1 }
 
         (expect @crashable.isCrashing).toBe false
+
+      it 'should not save current direction if it crashes', ->
+        @crashable.traction = 89 # is less than (speed * angle)
+        nextPosition = { x: 0, y: 1 }
+
+        @crashable.checkForCrash nextPosition
+        direction = Vector.create from: @crashable.position, to: nextPosition
+
+        (expect @crashable.previousDirection).not.toEqual direction
 
       it 'should save current direction for further calculations', ->
         @crashable.position = { x: 0, y: 0 }
