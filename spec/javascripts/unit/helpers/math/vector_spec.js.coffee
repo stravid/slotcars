@@ -63,12 +63,12 @@ describe 'helpers.math.Vector (unit)', ->
 
       (expect vector.clockwiseAngle()).toBeApproximatelyEqual 135
 
-    it 'should return correct angles for second quadrant', ->
+    it 'should return correct angles for third quadrant', ->
       vector = Vector.create x: -1, y: 1
 
       (expect vector.clockwiseAngle()).toBeApproximatelyEqual 225
 
-    it 'should return correct angles for second quadrant', ->
+    it 'should return correct angles for fourth quadrant', ->
       vector = Vector.create x: -1, y: -1
 
       (expect vector.clockwiseAngle()).toBeApproximatelyEqual 315
@@ -80,3 +80,21 @@ describe 'helpers.math.Vector (unit)', ->
 
       (expect vector.center()).toEqual Vector.create x: 2, y: 2
 
+  describe '#normalize', ->
+
+    it 'should return the normalized vector', ->
+      vector = Vector.create x: 10, y: 12
+
+      vector = vector.normalize()
+
+      (expect vector.length()).toBe 1
+
+  describe '#scale', ->
+
+    it 'should return a scaled vector', ->
+      vector = Vector.create x: 1, y: 0
+      
+      vector = vector.scale 5
+      
+      (expect vector.length()).toBe 5
+    
