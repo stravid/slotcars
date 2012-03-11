@@ -42,6 +42,17 @@ describe 'track view', ->
 
       (expect trackView.drawTrack).not.toThrow()
 
+    it 'should save the path if not in DOM and draw it when inserted', ->
+      trackView = TrackView.create()
+      path = 'M0,0Z'
+
+      trackView.drawTrack path
+      trackView.drawTrack = sinon.spy()
+
+      trackView.didInsertElement()
+
+      (expect trackView.drawTrack).toHaveBeenCalledWith path
+
     it 'should clear the paper before drawing', ->
       @trackView.drawTrack('M0,0Z')
 

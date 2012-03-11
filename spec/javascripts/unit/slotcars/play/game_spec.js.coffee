@@ -26,7 +26,7 @@ describe 'game', ->
     @trackMock = mockEmberClass TrackModel
     @playScreenViewMock = mockEmberClass PlayScreenView, set: sinon.spy()
 
-    @GameControllerMock = mockEmberClass GameController, start: sinon.spy()
+    @GameControllerMock = mockEmberClass GameController
     @CarViewMock = mockEmberClass CarView
     @GameViewMock = mockEmberClass GameView
     @TrackViewMock = mockEmberClass TrackView
@@ -45,32 +45,47 @@ describe 'game', ->
     @GameViewMock.restore()
     @TrackViewMock.restore()
 
-  it 'should extend Ember.Object', ->
-    (expect Game).toExtend Ember.Object
 
-  it 'should create a car view and provide the car', ->
-    (expect @CarViewMock.create).toHaveBeenCalledWithAnObjectLike car: @carMock
+  describe 'creating the game', ->
 
-  it 'should create a game controller and provide necessary dependencies', ->
-    (expect @GameControllerMock.create).toHaveBeenCalledWithAnObjectLike car: @carMock, track: @trackMock
+    it 'should extend Ember.Object', ->
+      (expect Game).toExtend Ember.Object
 
-  it 'should create a game view and provide a game controller', ->
-    (expect @GameViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock
+    it 'should create a car view and provide the car', ->
+      (expect @CarViewMock.create).toHaveBeenCalledWithAnObjectLike car: @carMock
 
-  it 'should create a track view', ->
-    (expect @TrackViewMock.create).toHaveBeenCalled()
+    it 'should create a game controller and provide necessary dependencies', ->
+      (expect @GameControllerMock.create).toHaveBeenCalledWithAnObjectLike car: @carMock, track: @trackMock
 
-  it 'should append car view to play screen view', ->
-    (expect @playScreenViewMock.set).toHaveBeenCalledWith 'carView', @CarViewMock
+    it 'should create a game view and provide a game controller', ->
+      (expect @GameViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock
 
-  it 'should append track view to play screen view', ->
-    (expect @playScreenViewMock.set).toHaveBeenCalledWith 'trackView', @TrackViewMock
+    it 'should create a track view', ->
+      (expect @TrackViewMock.create).toHaveBeenCalledWithAnObjectLike
 
-  it 'should append game view to play screen view', ->
-    (expect @playScreenViewMock.set).toHaveBeenCalledWith 'contentView', @GameViewMock
+    it 'should append car view to play screen view', ->
+      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'carView', @CarViewMock
 
-  it 'should start the game controller', ->
-    @game.start()
+    it 'should append track view to play screen view', ->
+      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'trackView', @TrackViewMock
 
-    (expect @GameControllerMock.start).toHaveBeenCalled()
+    it 'should append game view to play screen view', ->
+      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'contentView', @GameViewMock
 
+
+  describe 'starting the game', ->
+
+    beforeEach ->
+      @GameControllerMock.start = sinon.spy()
+      @TrackViewMock.drawTrack = sinon.spy()
+      @trackMock.raphaelPath = {}
+
+    it 'should start the game controller', ->
+      @game.start()
+
+      (expect @GameControllerMock.start).toHaveBeenCalled()
+
+    it 'should tell the track view to draw itself', ->
+      @game.start()
+
+      (expect @TrackViewMock.drawTrack).toHaveBeenCalledWith @trackMock.raphaelPath

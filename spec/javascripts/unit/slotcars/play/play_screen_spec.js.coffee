@@ -25,6 +25,7 @@ describe 'play screen', ->
     @playScreenStateManagerMock.restore()
     @GameMock.restore()
 
+
   describe 'append to application', ->
 
     beforeEach ->
@@ -40,7 +41,8 @@ describe 'play screen', ->
 
       (expect @playScreenViewMock.append).toHaveBeenCalled()
 
-  describe 'load', ->
+
+  describe 'loading', ->
 
     beforeEach ->
       @playScreen.appendToApplication()
@@ -60,7 +62,8 @@ describe 'play screen', ->
 
       (expect @playScreenStateManagerMock.send).toHaveBeenCalledWith 'loaded'
 
-  describe 'initialize', ->
+
+  describe 'initializing', ->
 
     beforeEach ->
       @playScreen.appendToApplication()
@@ -73,10 +76,8 @@ describe 'play screen', ->
         track: @playScreen.track
         car: @playScreen.car
 
-    it 'should send initialized to the play screen state manager', ->
-      (expect @playScreenStateManagerMock.send).toHaveBeenCalledWith 'initialized'
 
-  describe 'play', ->
+  describe 'playing', ->
 
     beforeEach ->
       @playScreen.appendToApplication()
@@ -87,7 +88,8 @@ describe 'play screen', ->
     it 'should start the game', ->
       (expect @GameMock.start).toHaveBeenCalled()
 
-  describe 'destroy', ->
+
+  describe 'destroying', ->
 
     beforeEach ->
       @playScreenViewMock.remove = sinon.spy()
