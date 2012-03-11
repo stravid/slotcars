@@ -10,7 +10,7 @@
 
 #= require sinon
 #= require jasmine-sinon
-#= require helpers/jasmine/custom_matchers
+#= require_tree ./helpers
 
 # ------ load all specs ------
 #= require_tree ./unit
