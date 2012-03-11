@@ -1,5 +1,6 @@
 #= require helpers/namespace
 #= require slotcars/route_manager
+#= require helpers/routing/route_local_links
 
 namespace 'slotcars'
 
@@ -7,7 +8,9 @@ slotcars.SlotcarsApplication = Ember.Application.extend
   screenFactory: null
   _currentScreen: null
 
-  ready: -> slotcars.RouteManager.create delegate: this
+  ready: ->
+    routeManager = slotcars.RouteManager.create delegate: this
+    helpers.routing.routeLocalLinks routeManager
 
   showBuildScreen: ->
     @_destroyCurrentScreen()

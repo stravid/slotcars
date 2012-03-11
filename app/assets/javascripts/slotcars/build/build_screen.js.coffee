@@ -5,12 +5,12 @@
 
 namespace 'slotcars.build'
 
-BuilderController = slotcars.build.Builder
+Builder = slotcars.build.Builder
 
 slotcars.build.BuildScreen = Ember.Object.extend
 
   _buildScreenView: null
-  _builderController: null
+  _builder: null
 
   appendToApplication: ->
     @appendScreen()
@@ -21,12 +21,12 @@ slotcars.build.BuildScreen = Ember.Object.extend
     @_buildScreenView.append()
 
   setupBuilder: ->
-    @_builderController = BuilderController.create
+    @_builder = Builder.create
       buildScreenView: @_buildScreenView
 
   destroy: ->
     @_super()
+    @_builder.destroy()
     @_buildScreenView.remove()
-    @_builderController.destroy()
 
   toString: -> '<Instance of slotcars.build.BuildScreen>'
