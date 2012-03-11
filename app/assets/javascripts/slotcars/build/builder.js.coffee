@@ -4,9 +4,9 @@
 #= require slotcars/build/controllers/draw_controller
 #= require slotcars/build/views/draw_view
 
-namespace 'slotcars.build.controllers'
+namespace 'slotcars.build'
 
-slotcars.build.controllers.BuilderController = Ember.Object.extend
+slotcars.build.Builder = Ember.Object.extend
 
   track: null
   drawController: null
