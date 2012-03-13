@@ -51,7 +51,6 @@ slotcars.play.controllers.GameController = Ember.Object.extend
     @car.reset()
 
   _setCurrentTime: ->
-    return unless @startTime?
     @endTime = new Date().getTime()
     @set 'raceTime', @endTime - @startTime
 

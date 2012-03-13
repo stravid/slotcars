@@ -14,6 +14,8 @@ describe 'slotcars.play.views.GameView (unit)', ->
 
     @gameView = GameView.create
       gameController: @gameController
+      clock: 
+        updateTime: sinon.spy()
 
   it 'should extend Ember.View', ->
     (expect GameView).toExtend Ember.View
@@ -25,7 +27,6 @@ describe 'slotcars.play.views.GameView (unit)', ->
     (expect @gameController.restartGame).toHaveBeenCalled()
 
   it 'should update race time when it changes', ->
-    timeValue = 28
-    @gameController.set 'raceTime', timeValue
+    @gameController.set 'raceTime', 28
 
-    (expect @gameView.get 'raceTimeInSeconds').toBe @gameView.convertMillisecondsToSeconds timeValue
+    (expect @gameView.clock.updateTime).toHaveBeenCalledWith 28
