@@ -1,6 +1,7 @@
 /*
  *= require helpers/utilities
- *= require helpers/font_ds_digital
+ *= require helpers/font_ds_digital_42
+ *= require helpers/font_ds_digital_22
  */
 
 @import "config";
@@ -45,14 +46,12 @@
   top: 28px;
 }
 
-#clock-seconds {
-  left: 74px;
-}
+#clock-seconds { left: 74px; }
+#clock-dot { left: 112px; }
+#clock-milliseconds { left: 127px; }
 
-#clock-dot{
-  left: 112px;
-}
-
-#clock-milliseconds{
-  left: 127px
+#clock-lap {
+  position: absolute;
+  top: 40px;
+  left: 31px;
 }
