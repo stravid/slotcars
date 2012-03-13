@@ -21,5 +21,4 @@ slotcars.play.views.GameView = Ember.View.extend
 
   onRaceTimeChange: ( ->
     @clock.updateTime @gameController.get 'raceTime'
-    
   ).observes 'gameController.raceTime'
