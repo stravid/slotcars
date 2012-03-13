@@ -1,6 +1,6 @@
 
 #= require helpers/namespace
-#= require slotcars/shared/models/track_model
+#= require slotcars/shared/models/track
 #= require slotcars/build/controllers/draw_controller
 #= require slotcars/build/views/draw_view
 
@@ -13,7 +13,7 @@ slotcars.build.Builder = Ember.Object.extend
   buildScreenView: null
 
   init: ->
-    @track = slotcars.shared.models.TrackModel.createRecord()
+    @track = slotcars.shared.models.Track.createRecord()
 
     @drawController = slotcars.build.controllers.DrawController.create
       track: @track
