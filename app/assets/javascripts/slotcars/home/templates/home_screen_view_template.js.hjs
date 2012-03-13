@@ -4,5 +4,5 @@
     <li><a id="build-button" class="override-button" href="build">Build</a></li>
 </ul>
 
-<img id="top-curve" src="assets/views/top-curve.png">
-<img id="bottom-curve" src="assets/views/bottom-curve.png">
+<img id="top-curve" src="assets/views/home/top-curve.png">
+<img id="bottom-curve" src="assets/views/home/bottom-curve.png">

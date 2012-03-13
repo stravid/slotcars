@@ -1,0 +1,58 @@
+/*
+ *= require helpers/utilities
+ *= require helpers/font_ds_digital
+ */
+
+@import "config";
+
+#home-button, #retry-button {
+  cursor: pointer;
+  position: absolute;
+  top: $border-padding;
+}
+
+#home-button {
+  width: 153px;
+  height: 67px;
+  background-image: image-url("buttons/home.png");
+  background-repeat: no-repeat;
+
+  left: $border-padding;
+}
+
+#retry-button {
+  width: 163px;
+  height: 66px;
+  background-image: image-url("buttons/retry.png");
+  background-repeat: no-repeat;
+  
+  right: $border-padding;
+}
+
+#clock {
+  width: 201px;
+  height: 85px;
+  background-image: image-url("views/play/clock-background.png");
+  background-repeat: no-repeat;
+  
+  position: absolute;
+  top: $border-padding - 5px;
+  left: $center-x - 100px;
+}
+
+#clock-seconds, #clock-dot, #clock-milliseconds {
+  position: absolute;
+  top: 28px;
+}
+
+#clock-seconds {
+  left: 74px;
+}
+
+#clock-dot{
+  left: 112px;
+}
+
+#clock-milliseconds{
+  left: 127px
+}
