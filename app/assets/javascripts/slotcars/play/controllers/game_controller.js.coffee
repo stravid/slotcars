@@ -1,7 +1,6 @@
 
 #= require slotcars/play/controllers/game_loop_controller
 #= require slotcars/shared/models/car
-#= require slotcars/shared/models/track_model
 #= require slotcars/play/views/car_view
 
 #= require helpers/event_normalize

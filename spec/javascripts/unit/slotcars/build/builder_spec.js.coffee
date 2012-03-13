@@ -1,10 +1,10 @@
 
 #= require slotcars/build/builder
-#= require slotcars/shared/models/track_model
+#= require slotcars/shared/models/track
 #= require slotcars/build/controllers/draw_controller
 #= require slotcars/build/views/draw_view
 
-describe 'builder controller', ->
+describe 'builder', ->
 
   BuilderController = slotcars.build.Builder
   DrawController = slotcars.build.controllers.DrawController
@@ -26,14 +26,14 @@ describe 'builder controller', ->
   describe 'setting up drawing editor on creation', ->
 
     beforeEach ->
-      @TrackModelBackup = slotcars.shared.models.TrackModel
+      @TrackModelBackup = slotcars.shared.models.Track
 
       @fakeTrackModel = {}
-      @TrackModelMock = slotcars.shared.models.TrackModel =
+      @TrackModelMock = slotcars.shared.models.Track =
         createRecord: sinon.stub().returns @fakeTrackModel
 
     afterEach ->
-      slotcars.shared.models.TrackModel = @TrackModelBackup
+      slotcars.shared.models.Track = @TrackModelBackup
 
 
     it 'should create a new track model', ->

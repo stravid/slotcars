@@ -2,18 +2,18 @@
 #= require slotcars/play/controllers/game_controller
 #= require slotcars/play/controllers/game_loop_controller
 
-#= require slotcars/shared/models/track_model
+#= require slotcars/shared/models/track
 #= require slotcars/shared/models/car
 
 describe 'slotcars.play.controllers.GameController (unit)', ->
 
   GameController = slotcars.play.controllers.GameController
   GameLoopController = slotcars.play.controllers.GameLoopController
-  TrackModel = slotcars.shared.models.TrackModel
+  Track = slotcars.shared.models.Track
   Car = slotcars.shared.models.Car
 
   beforeEach ->
-    @trackMock = mockEmberClass TrackModel,
+    @trackMock = mockEmberClass Track,
       getPointAtLength: sinon.stub().returns { x: 0, y: 0 }
       getTotalLength: sinon.stub().returns 5
 
@@ -173,7 +173,7 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
   describe '#start', ->
 
     beforeEach ->
-      @trackStub = TrackModel.createRecord()
+      @trackStub = Track.createRecord()
       @trackStub.addPathPoint { x: 10, y: 10 }
       @trackStub.addPathPoint { x: 20, y: 50 }
 
