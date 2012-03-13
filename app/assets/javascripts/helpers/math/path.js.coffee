@@ -94,9 +94,10 @@ class helpers.math.Path extends LinkedList
 
   getPointAtLength: (searchedLength) ->
     unless @length > 1
-      return x: 0, y: 0, angle:0
+      return x: 0, y: 0, angle: 0
 
     if @_lengthDirty then @_updateLength()
+
     searchedLength = searchedLength % @getTotalLength()
     current = @head.next
     currentTotalLength = 0
@@ -124,10 +125,11 @@ class helpers.math.Path extends LinkedList
     previous = (@getCircularPreviousOf point)
     vector = Vector.create from: previous, to: point
     length = vector.length()
+
     {
       x: previous.x + (vector.x / length * factor)
       y: previous.y + (vector.y / length * factor)
-      angle: 0
+      angle: point.angle
     }
 
   _updateLength: ->
