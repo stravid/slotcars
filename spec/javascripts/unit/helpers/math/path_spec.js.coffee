@@ -225,7 +225,7 @@ describe 'helpers.math.Path', ->
       (expect @path.getPointAtLength 2).toEqual x:1 , y: 1, angle: 3
 
     it 'should calculate intermediate points for any length', ->
-      (expect @path.getPointAtLength 1.5).toEqual x: 1, y: 0.5, angle: 0
+      (expect @path.getPointAtLength 1.5).toEqual x: 1, y: 0.5, angle: 3
 
     it 'should return correct point when searched length > total length', ->
       (expect @path.getPointAtLength 5).toEqual x: 1, y: 0, angle: 2
