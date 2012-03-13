@@ -74,20 +74,6 @@ class helpers.math.Path extends LinkedList
 
     @_lengthDirty = true
 
-  smooth: (angleThreshold) ->
-    next = @head
-    dirty = false
-
-    while next?
-      current = next
-      next = current.next
-
-      if current.angle > angleThreshold
-        @_smoothPoint current
-        dirty = true
-
-    if dirty then @smooth angleThreshold
-
   getTotalLength: ->
     if @_lengthDirty then @_updateLength()
     @totalLength
@@ -151,28 +137,6 @@ class helpers.math.Path extends LinkedList
 
     vector = Vector.create from: previous, to: point
     point.length = vector.length()
-
-  _smoothPoint: (point) ->
-    previous = @getCircularPreviousOf point
-    next = @getCircularNextOf point
-
-    vectorA = Vector.create from: previous, to: point
-    vectorB = Vector.create from: point, to: next
-
-    interpolatedA =
-      x: previous.x + vectorA.center().x
-      y: previous.y + vectorA.center().y
-
-    interpolatedB =
-      x: point.x + vectorB.center().x
-      y: point.y + vectorB.center().y
-
-    @remove point
-    @insertBefore next, interpolatedA
-    @insertBefore next, interpolatedB
-
-    @_calculateAngleFor interpolatedA
-    @_calculateAngleFor interpolatedB
 
   _pointShouldBeSplit: (point, parameters) ->
     next = @getCircularNextOf point
