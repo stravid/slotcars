@@ -1,2 +1,21 @@
-<div id="race-time">{{raceTimeInSeconds}} seconds</div>
-<button id="restart-button" type="button" {{action "onRestartClick"}}>restart game</button>
+<a id="retry-button" class="override-button" {{action "onRestartClick"}}>Retry</a>
+
+<div id="clock">
+    <div id="clock-lap">
+        <div class="ds-digital-22 first letter-1"></div>
+        <div class="ds-digital-22 second letter-slash"></div>
+        <div class="ds-digital-22 third letter-3"></div>
+    </div>
+    
+    <div id="clock-seconds">
+        <div class="ds-digital-41 first letter-0"></div>
+        <div class="ds-digital-41 second letter-0"></div>
+    </div>
+    <div id="clock-dot">
+        <div class="ds-digital-41 first letter-dot"></div>
+    </div>
+    <div id="clock-milliseconds">
+        <div class="ds-digital-41 first letter-0"></div>
+        <div class="ds-digital-41 second letter-0"></div>
+    </div>
+</div>
