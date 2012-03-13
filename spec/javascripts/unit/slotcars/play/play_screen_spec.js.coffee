@@ -2,7 +2,7 @@
 #= require slotcars/play/play_screen
 #= require slotcars/play/views/play_screen_view
 #= require slotcars/play/play_screen_state_manager
-#= require slotcars/shared/models/track_model
+#= require slotcars/shared/models/track
 #= require slotcars/play/game
 
 describe 'play screen', ->
@@ -10,7 +10,7 @@ describe 'play screen', ->
   PlayScreen = slotcars.play.PlayScreen
   PlayScreenView = slotcars.play.views.PlayScreenView
   PlayScreenStateManager = slotcars.play.PlayScreenStateManager
-  TrackModel = slotcars.shared.models.TrackModel
+  Track = slotcars.shared.models.Track
   Car = slotcars.shared.models.Car
   Game = slotcars.play.Game
 
@@ -50,7 +50,7 @@ describe 'play screen', ->
     it 'should load a track', ->
       @playScreen.load()
 
-      (expect @playScreen.track).toBeInstanceOf TrackModel
+      (expect @playScreen.track).toBeInstanceOf Track
 
     it 'should create a car', ->
       @playScreen.load()

@@ -3,7 +3,7 @@
 #= require slotcars/play/controllers/game_controller
 
 #= require slotcars/shared/models/car
-#= require slotcars/shared/models/track_model
+#= require slotcars/shared/models/track
 
 #= require slotcars/play/views/car_view
 #= require slotcars/play/views/game_view
@@ -14,7 +14,7 @@ describe 'game', ->
 
   Game = slotcars.play.Game
   Car = slotcars.shared.models.Car
-  TrackModel = slotcars.shared.models.TrackModel
+  Track = slotcars.shared.models.Track
   CarView = slotcars.play.views.CarView
   GameController = slotcars.play.controllers.GameController
   GameView = slotcars.play.views.GameView
@@ -23,7 +23,7 @@ describe 'game', ->
 
   beforeEach ->
     @carMock = mockEmberClass Car
-    @trackMock = mockEmberClass TrackModel
+    @trackMock = mockEmberClass Track
     @playScreenViewMock = mockEmberClass PlayScreenView, set: sinon.spy()
 
     @GameControllerMock = mockEmberClass GameController
