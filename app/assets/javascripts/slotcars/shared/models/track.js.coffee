@@ -18,6 +18,8 @@ slotcars.shared.models.Track = DS.Model.extend
   _shouldUpdateRasterizedPath: false
   raphaelPath: EMPTY_RAPHAEL_PATH
 
+  numberOfLaps: 1
+
   init: ->
     @_super()
     @_path = Path.create()
@@ -51,6 +53,13 @@ slotcars.shared.models.Track = DS.Model.extend
     clientId = @get('clientId')
     "play/#{clientId}"
   ).property 'clientId'
+
+  isLengthAfterFinishLine: (length) ->
+    @getTotalLength() * (@get 'numberOfLaps') < length
+
+  lapForLength: (length) ->
+    lap = Math.floor length / @getTotalLength()
+    if lap is 0 then return 1 else return lap
 
   # Generates catmull-rom paths for raphel with format: x1 y1 (x y)+
   # which results in pathes like: M0,0R,1,0,3,2,4,5z

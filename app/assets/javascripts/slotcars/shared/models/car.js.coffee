@@ -20,7 +20,21 @@ slotcars.shared.models.Car = Ember.Object.extend Movable, Crashable,
   deceleration: 0
   crashDeceleration: 0
 
+  track: null
   lengthAtTrack: 0
+
+  currentLap: 1
+  crossedFinishLine: false
+
+  _onLengthAtTrackChanged: (->
+    track = @get 'track'
+    if track?
+      lapForLengthAtTrack = (track.lapForLength @get 'lengthAtTrack')
+      if lapForLengthAtTrack isnt @get 'currentLap' then @set 'currentLap', lapForLengthAtTrack
+
+      isLengthAfterFinishLine = (track.isLengthAfterFinishLine @get 'lengthAtTrack')
+      if isLengthAfterFinishLine isnt @get 'crossedFinishLine' then @set 'crossedFinishLine', isLengthAfterFinishLine
+  ).observes 'lengthAtTrack'
 
   drive: ->
     newLength = (@get 'lengthAtTrack') + (@get 'speed')
@@ -43,4 +57,4 @@ slotcars.shared.models.Car = Ember.Object.extend Movable, Crashable,
 
   reset: ->
     @speed = 0
-    @lengthAtTrack = 0
+    @set 'lengthAtTrack', 0
