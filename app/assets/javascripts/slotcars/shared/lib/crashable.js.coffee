@@ -25,10 +25,11 @@ slotcars.shared.lib.Crashable = Ember.Mixin.create
       @previousDirection = direction
     else
       angle = @previousDirection.angleFrom direction
-      @previousDirection = direction
 
       if angle * @speed > @traction
         @isCrashing = true
+      else
+        @previousDirection = direction
 
   crash: ->
     if @speed == 0
