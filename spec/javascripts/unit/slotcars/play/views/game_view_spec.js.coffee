@@ -23,9 +23,3 @@ describe 'slotcars.play.views.GameView (unit)', ->
     @gameView.onRestartClick()
     
     (expect @gameController.restartGame).toHaveBeenCalled()
-
-  it 'should update race time when it changes', ->
-    timeValue = 28
-    @gameController.set 'raceTime', timeValue
-
-    (expect @gameView.get 'raceTimeInSeconds').toBe @gameView.convertMillisecondsToSeconds timeValue
