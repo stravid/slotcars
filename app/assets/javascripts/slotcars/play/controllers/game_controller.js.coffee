@@ -46,9 +46,12 @@ slotcars.play.controllers.GameController = Ember.Object.extend
 
   finish: ->
     (jQuery @car).off 'crossFinishLine'
+    @_setCurrentTime()
+    @car.reset()
+
+  _setCurrentTime: ->
     @endTime = new Date().getTime()
     @set 'raceTime', @endTime - @startTime
-    @car.reset()
 
   update: ->
     unless @car.isCrashing
@@ -74,6 +77,8 @@ slotcars.play.controllers.GameController = Ember.Object.extend
 
       if (@car.get 'lengthAtTrack') >= @track.getTotalLength()
         (jQuery @car).trigger 'crossFinishLine'
+   
+    @_setCurrentTime()
 
 
   onTouchMouseDown: (event) ->

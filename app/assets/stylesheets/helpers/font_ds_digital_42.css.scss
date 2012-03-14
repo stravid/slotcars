@@ -1,0 +1,45 @@
+$letter-41-width: 20px;
+$letter-41-height: 29px;
+$letter-41-kerning: 1px;
+
+/*
+ * Each letter of a string of DS-DIGITAL with size 41 point.
+ */
+.ds-digital-41 {
+  display: block;
+  width: $letter-41-width;
+  height: $letter-41-height;
+  background-image: image-url("views/play/font-ds-digital-41.png");
+  background-repeat: no-repeat;
+  position: absolute;
+}
+
+/*
+ * Positions each char in a string.
+ */
+@mixin letter-position-41($position) {
+  left: ($letter-41-width + $letter-41-kerning) * $position;
+}
+
+.ds-digital-41.first  { @include letter-position-41(0); }
+.ds-digital-41.second { @include letter-position-41(1); }
+.ds-digital-41.third  { @include letter-position-41(2); }
+.ds-digital-41.fourth { @include letter-position-41(3); }
+.ds-digital-41.fifth  { @include letter-position-41(4); }
+
+/*
+ * Defines what letter is shown.
+ */
+.ds-digital-41.letter-dot { background-position-y: -$letter-41-height * 10; }
+.ds-digital-41.letter-0   { background-position-y: -$letter-41-height * 9;  }
+.ds-digital-41.letter-1   { background-position-y: -$letter-41-height * 8;  }
+.ds-digital-41.letter-2   { background-position-y: -$letter-41-height * 7;  }
+.ds-digital-41.letter-3   { background-position-y: -$letter-41-height * 6;  }
+.ds-digital-41.letter-4   { background-position-y: -$letter-41-height * 5;  }
+.ds-digital-41.letter-5   { background-position-y: -$letter-41-height * 4;  }
+.ds-digital-41.letter-6   { background-position-y: -$letter-41-height * 3;  }
+.ds-digital-41.letter-7   { background-position-y: -$letter-41-height * 2;  }
+.ds-digital-41.letter-8   { background-position-y: -$letter-41-height * 1;  }
+.ds-digital-41.letter-9   { background-position-y: -$letter-41-height * 0;  }
+
+
