@@ -18,7 +18,7 @@ slotcars.shared.models.Track = DS.Model.extend
   _shouldUpdateRasterizedPath: false
   raphaelPath: EMPTY_RAPHAEL_PATH
 
-  numberOfLaps: 1
+  numberOfLaps: 3
 
   init: ->
     @_super()
@@ -58,7 +58,11 @@ slotcars.shared.models.Track = DS.Model.extend
     @getTotalLength() * (@get 'numberOfLaps') < length
 
   lapForLength: (length) ->
-    lap = Math.floor length / @getTotalLength()
+    lap = Math.ceil length / @getTotalLength()
+    numberOfLaps = @get 'numberOfLaps'
+    
+    # clamp return value to maximum number of laps
+    if lap > numberOfLaps then lap = numberOfLaps
     if lap is 0 then return 1 else return lap
 
   # Generates catmull-rom paths for raphel with format: x1 y1 (x y)+

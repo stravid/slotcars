@@ -23,7 +23,7 @@ slotcars.shared.models.Car = Ember.Object.extend Movable, Crashable,
   track: null
   lengthAtTrack: 0
 
-  currentLap: 1
+  currentLap: 0
   crossedFinishLine: false
 
   _onLengthAtTrackChanged: (->

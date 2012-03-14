@@ -180,13 +180,12 @@ describe 'slotcars.shared.models.Track', ->
 
       (expect @track.lapForLength lengthLessThanFirstLap).toBe 1
 
-    it 'should return first lap for length equal to the path length', ->
-      lengthEqualFirstLap = @fakePathLength
+    it 'should return second lap for length between first and second lap', ->
+      lengthBetweenFirstAndSecondLap = @fakePathLength + 0.0001
 
-      (expect @track.lapForLength lengthEqualFirstLap).toBe 1
+      (expect @track.lapForLength lengthBetweenFirstAndSecondLap).toBe 2
 
-    it 'should return lap X for total path length multiplied by X', ->
-      X = Math.round(Math.random() * 10) + 1
-      lengthX = @fakePathLength * X
+    it 'should clamp the return value to maximum number of laps', ->
+      lengthBiggerThanTotalLaps = @fakePathLength * (@track.get 'numberOfLaps') + 1
 
-      (expect @track.lapForLength lengthX).toBe X
+      (expect @track.lapForLength lengthBiggerThanTotalLaps).toBe @track.get 'numberOfLaps'

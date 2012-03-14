@@ -40,6 +40,9 @@ describe 'slotcars.shared.models.Car', ->
     it 'should set crashing to false', ->
       (expect @car.isCrashing).toBe false
 
+    it 'should set currentLap to zero', ->
+      (expect @car.get 'currentLap').toBe 0
+
 
   describe '#accelerate', ->
 
@@ -142,11 +145,6 @@ describe 'slotcars.shared.models.Car', ->
 
 
     describe 'current lap of car', ->
-
-      it 'should provide bindable property for the current lap the car is in', ->
-        @trackMock.lapForLength = sinon.stub().withArgs(0).returns 1
-
-        (expect @car.get 'currentLap').toBe 1
 
       it 'should update currentLap when lengthAtTrack changes', ->
         @trackMock.lapForLength = sinon.stub().withArgs(1).returns 2
