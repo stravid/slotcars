@@ -23,7 +23,6 @@ describe 'track view', ->
   afterEach ->
     window.Raphael = @raphaelBackup
 
-
   it 'should be a subclass of ember view', ->
     (expect TrackView).toExtend Ember.View
 
@@ -45,7 +44,7 @@ describe 'track view', ->
     it 'should save the path if not in DOM and draw it when inserted', ->
       trackView = TrackView.create()
       path = 'M0,0Z'
-
+  
       trackView.drawTrack path
       trackView.drawTrack = sinon.spy()
 

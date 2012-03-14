@@ -1,7 +1,7 @@
 <div id="clock-lap">
-    <div class="ds-digital-22 first letter-1"></div>
+    <div class="ds-digital-22 first letter-0"></div>
     <div class="ds-digital-22 second letter-slash"></div>
-    <div class="ds-digital-22 third letter-3"></div>
+    <div class="ds-digital-22 third letter-0"></div>
 </div>
 
 <div id="clock-minutes">

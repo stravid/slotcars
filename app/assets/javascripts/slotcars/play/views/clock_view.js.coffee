@@ -8,7 +8,10 @@ slotcars.play.views.ClockView = Ember.View.extend
   elementId: 'clock'
   templateName: 'slotcars_play_templates_clock_template'
   
+  trackModel: null
+  carModel: null
   gameController: null
+
   chars: null
   values: [
     "letter-0"
@@ -18,6 +21,12 @@ slotcars.play.views.ClockView = Ember.View.extend
     "letter-0"
     "letter-0"
   ]
+  
+  lapClass: "letter-0"
+  
+  lapChar: null
+  totalLapClass: "letter-0"
+  totalLapChar: null
     
   didInsertElement: ->
     @chars = [
@@ -29,9 +38,18 @@ slotcars.play.views.ClockView = Ember.View.extend
       @$('#clock-milliseconds .second')
     ]
     
+    @lapChar = @$('#clock-lap .first')
+    @totalLapChar = @$('#clock-lap .third')
+    
+    @_setLapStats()
+    
   onUpdateRaceTime: ( ->
     @updateTime @gameController.get 'raceTime'
   ).observes 'gameController.raceTime'
+  
+  onUpdateLab: ( ->
+    @updateLap @carModel.get 'currentLap'
+  ).observes 'carModel.currentLap'
   
   updateTime: (time) ->
     date = new Date()
@@ -50,6 +68,18 @@ slotcars.play.views.ClockView = Ember.View.extend
       milliseconds.substr 1, 1 
     ]
 
+  updateLap: (lap) ->
+    return unless @lapChar?
+    
+    @lapChar.removeClass @lapClass
+    @lapClass = "letter-#{lap.toString().substr(-1, 1)}"
+    @lapChar.addClass @lapClass
+    
+  updateLapAmount: (amount) ->
+    @totalLapChar.removeClass @totalLapClass
+    @totalLapClass = "letter-#{amount.toString().substr(-1, 1)}"
+    @totalLapChar.addClass @totalLapClass
+    
   _setLetters: (letters) ->
     return unless @chars?
 
@@ -63,3 +93,8 @@ slotcars.play.views.ClockView = Ember.View.extend
   _twoDigets: (value) ->
     value = value.toString()
     if value.length >= 2 then value.substr(0, 2) else "0#{value}"
+    
+  _setLapStats: ->
+    @updateLap @carModel.get 'currentLap'
+    @updateLapAmount @trackModel.get 'numberOfLaps'
+    
