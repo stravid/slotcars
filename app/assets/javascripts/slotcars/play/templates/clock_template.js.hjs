@@ -1,15 +1,21 @@
-
 <div id="clock-lap">
     <div class="ds-digital-22 first letter-1"></div>
     <div class="ds-digital-22 second letter-slash"></div>
     <div class="ds-digital-22 third letter-3"></div>
 </div>
 
+<div id="clock-minutes">
+    <div class="ds-digital-41 first letter-0"></div>
+    <div class="ds-digital-41 second letter-0"></div>
+</div>
+<div id="clock-dot-one">
+    <div class="ds-digital-41 first letter-dot"></div>
+</div>
 <div id="clock-seconds">
     <div class="ds-digital-41 first letter-0"></div>
     <div class="ds-digital-41 second letter-0"></div>
 </div>
-<div id="clock-dot">
+<div id="clock-dot-two">
     <div class="ds-digital-41 first letter-dot"></div>
 </div>
 <div id="clock-milliseconds">
