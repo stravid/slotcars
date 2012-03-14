@@ -1,2 +1,3 @@
 <div id="race-time">{{raceTimeInSeconds}} seconds</div>
 <button id="restart-button" type="button" {{action "onRestartClick"}}>restart game</button>
+<div id="countdown">{{countdown}}</div>

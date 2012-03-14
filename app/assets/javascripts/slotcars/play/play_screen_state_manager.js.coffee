@@ -6,7 +6,6 @@ namespace 'slotcars.play'
 slotcars.play.PlayScreenStateManager = Ember.StateManager.extend
 
   initialState: 'Loading'
-  enableLogging: true
   delegate: null
 
   Loading: Ember.State.create

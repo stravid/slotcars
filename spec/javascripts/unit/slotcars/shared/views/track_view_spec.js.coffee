@@ -1,27 +1,34 @@
 
 #= require slotcars/shared/views/track_view
+#= require slotcars/play/controllers/game_controller
 
 describe 'track view', ->
 
   TrackView = slotcars.shared.views.TrackView
+  GameController = slotcars.play.controllers.GameController
 
   beforeEach ->
-      @raphaelBackup = window.Raphael
-      @raphaelElementStub = sinon.stub().returns attr: ->
-      @paperClearSpy = sinon.spy()
+    @raphaelBackup = window.Raphael
+    @raphaelElementStub = sinon.stub().returns attr: ->
+    @paperClearSpy = sinon.spy()
 
-      @raphaelStub = window.Raphael = sinon.stub().returns
-        path: @raphaelElementStub
-        rect: @raphaelElementStub
-        clear: @paperClearSpy
+    @raphaelStub = window.Raphael = sinon.stub().returns
+      path: @raphaelElementStub
+      rect: @raphaelElementStub
+      clear: @paperClearSpy
 
-      @trackView = TrackView.create()
-      @trackView.appendTo '<div>'
+    @gameControllerMock = mockEmberClass GameController
 
-      Ember.run.end()
+    @trackView = TrackView.create
+      gameController: @gameControllerMock
+
+    @trackView.appendTo '<div>'
+
+    Ember.run.end()
 
   afterEach ->
     window.Raphael = @raphaelBackup
+    @gameControllerMock.restore()
 
 
   it 'should be a subclass of ember view', ->
@@ -57,3 +64,21 @@ describe 'track view', ->
       @trackView.drawTrack('M0,0Z')
 
       (expect @paperClearSpy).toHaveBeenCalled()
+
+  describe 'enable/disable car controls', ->
+
+    beforeEach ->
+      @gameControllerMock.onTouchMouseDown = sinon.spy()
+      @gameControllerMock.onTouchMouseUp = sinon.spy()
+
+    describe 'when controls are enabled', ->
+  
+      it 'should call onTouchMouseDown on game controller when controls are enabled', ->
+        @gameControllerMock.get = sinon.stub().withArgs('carControlsEnabled').returns true
+        @trackView.onCarControlsChange()
+
+        (jQuery @trackView.$()).trigger 'touchMouseDown'
+
+        (expect @gameControllerMock.onTouchMouseDown).toHaveBeenCalled()
+
+    describe 'when controls are disabled', ->

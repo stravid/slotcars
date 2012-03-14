@@ -18,7 +18,7 @@ describe 'slotcars.play.views.GameView (unit)', ->
   it 'should extend Ember.View', ->
     (expect GameView).toExtend Ember.View
 
-  it 'should restart game when restartGame event was triggered', ->
+  it 'should restart game when button was clicked', ->
     @gameController.restartGame = sinon.spy()
     @gameView.onRestartClick()
     
@@ -29,3 +29,13 @@ describe 'slotcars.play.views.GameView (unit)', ->
     @gameController.set 'raceTime', timeValue
 
     (expect @gameView.get 'raceTimeInSeconds').toBe @gameView.convertMillisecondsToSeconds timeValue
+
+  it 'should start countdown', ->
+    @gameController.set 'countdownInSeconds', 6
+    fakeTimer = sinon.useFakeTimers()
+
+    # (expect @gameView.get 'countdown').toBe 6
+
+    fakeTimer.tick 1010
+    # (expect @gameView.get 'countdown').toBe @gameController.countdownInSeconds - 1
+    fakeTimer.restore()

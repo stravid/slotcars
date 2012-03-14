@@ -7,6 +7,7 @@ namespace 'slotcars.shared.views'
 slotcars.shared.views.TrackView = Ember.View.extend
 
   elementId: 'track-view'
+  gameController: null
   _paper: null
   _path: null
 
@@ -38,6 +39,16 @@ slotcars.shared.views.TrackView = Ember.View.extend
     @_drawPath path, @ASPHALT_WIDTH, @ASPHALT_COLOR
     @_drawDashedLine path
   
+  onCarControlsChange: (->
+    (jQuery @$()).off 'touchMouseDown'
+    (jQuery @$()).off 'touchMouseUp'
+
+    if @gameController.get 'carControlsEnabled'
+      (jQuery @$()).on 'touchMouseDown', (event) => @gameController.onTouchMouseDown event
+      (jQuery @$()).on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
+
+  ).observes 'gameController.carControlsEnabled'
+
   _drawPath: (path, width, color) ->
     path = @_paper.path path;
     path.attr 'stroke', color

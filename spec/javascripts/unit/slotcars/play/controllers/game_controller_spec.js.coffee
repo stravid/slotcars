@@ -30,6 +30,9 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
   it 'should set isTouchMouseDown to false by default', ->
     (expect @gameController.isTouchMouseDown).toBe false
 
+  it 'should set carControlsEnabled to false by default', ->
+    (expect @gameController.carControlsEnabled).toBe false
+
   it 'should throw an error when no track is provided', ->
     (expect => GameController.create car: Car.create()).toThrow()
 
@@ -55,14 +58,6 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
       (expect @gameController.isTouchMouseDown).toBe true
 
-    it 'should be called when isTouchMouseDown is triggered on document', ->
-
-      # necessary to trigger 'mousedown' because of 'originalEvent'
-      # property which is added through event normalization
-      (jQuery document).trigger 'mousedown'
-
-      (expect @gameController.isTouchMouseDown).toBe true
-
   describe '#onTouchMouseUp', ->
 
     it 'should set isTouchMouseDown to false', ->
@@ -72,17 +67,6 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.onTouchMouseUp eventStub
 
       (expect @gameController.isTouchMouseDown).toBe false
-
-
-    it 'should be called when touchMouseUp is triggered on document', ->
-      @gameController.isTouchMouseDown = true
-
-      # necessary to trigger 'mouseup' because of 'originalEvent'
-      # property which is added through event normalization
-      (jQuery document).trigger 'mouseup'
-
-      (expect @gameController.isTouchMouseDown).toBe false
-
 
   describe '#update', ->
 
@@ -187,10 +171,6 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
     afterEach ->
       @gameLoopControllerMock.restore()
 
-    it 'should save timestamp', ->
-      @gameController.start()
-      (expect @gameController.get 'startTime').toNotBe null
-
     it 'should start the game loop with #update method as renderCallback', ->
       @gameController.gameLoopController = @gameLoopControllerMock
       @gameController.start()
@@ -201,8 +181,11 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.start()
       (expect @gameController.car.get 'position').toEqual { x: 10, y: 10 }
 
-
   describe '#finish', ->
+
+    beforeEach ->
+      @gameController.carControlsEnabled = true
+      @gameController.isTouchMouseDown = true
 
     it 'should save timestamp', ->
       @gameController.finish()
@@ -212,12 +195,29 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.finish()
       (expect @gameController.raceTime).toNotBe null
 
+    it 'should disable car controls', ->
+      @gameController.finish()
+
+      (expect @gameController.carControlsEnabled).toBe false
+
+    it 'should disable stop acceleration', ->
+      @gameController.finish()
+
+      (expect @gameController.isTouchMouseDown).toBe false
+
   describe '#restartGame', ->
 
     beforeEach ->
-      @carResetSpy = sinon.spy()
-      @carStub = Car.create
-        reset: @carResetSpy
+      @carMock = mockEmberClass Car,
+        reset: sinon.spy()
+        moveTo: sinon.spy()
+        jumpstart: sinon.spy()
+
+      @fakeTimer = sinon.useFakeTimers()
+
+    afterEach ->
+      @fakeTimer.restore()
+      @carMock.restore()
 
     it 'should reset raceTime', ->
       @gameController.raceTime = 18
@@ -226,7 +226,24 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       (expect @gameController.raceTime).toBe 0
 
     it 'should reset car', ->
-      @gameController.car = @carStub
+      @gameController.car = @carMock
       @gameController.restartGame()
 
-      (expect @carResetSpy).toHaveBeenCalled()
+      (expect @carMock.reset).toHaveBeenCalled()
+
+    it 'should enable controls after countdown', ->
+      @gameController.onTouchMouseDown = sinon.spy()
+      @gameController.restartGame()
+
+      (expect @gameController.carControlsEnabled).toBe false
+      @fakeTimer.tick 3010
+      (expect @gameController.carControlsEnabled).toBe true
+
+    it 'should save timestamp after countdown', ->
+      @gameController.restartGame()
+
+      @fakeTimer.tick 3010
+
+      (expect @gameController.get 'startTime').toNotBe null
+
+

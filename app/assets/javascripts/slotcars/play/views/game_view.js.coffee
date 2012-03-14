@@ -17,5 +17,17 @@ slotcars.play.views.GameView = Ember.View.extend
     @convertMillisecondsToSeconds (@gameController.get 'raceTime')
   ).property 'gameController.raceTime'
 
+  countdown: (Ember.computed ->
+    # currentCountdown = @gameController.get 'countdownInSeconds'
+    # interval = setInterval (=>
+    #   unless currentCountdown == 0
+    #     currentCountdown = currentCountdown - 1
+    #   else
+    #     currentCountdown = 'GO'
+    # ), 1000
+    # console.log currentCountdown
+    # currentCountdown
+  ).property 'currentCountdown'
+
   convertMillisecondsToSeconds: (value) ->
     value / 1000

@@ -18,6 +18,9 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   track: null
   gameLoopController: null
   isTouchMouseDown: false
+  carControlsEnabled: false
+
+  countdownInSeconds: 3
 
   startTime: null
   endTime: null
@@ -26,30 +29,22 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   init: ->
     @gameLoopController = GameLoopController.create()
 
-    (jQuery document).on 'touchMouseDown', (event) => @onTouchMouseDown event
-    (jQuery document).on 'touchMouseUp', (event) => @onTouchMouseUp event
-
     unless @track?
       throw new Error 'track has to be provided'
     unless @car?
       throw new Error 'car has to be provided'
 
   start: ->
-    @_resetTime()
-    startPosition = @track.getPointAtLength 0
-    @car.moveTo { x: startPosition.x, y: startPosition.y }
-
-    @car.jumpstart()
-    @car.reset()
-
-    (jQuery @car).on 'crossFinishLine', => @finish()
+    @restartGame()
     @gameLoopController.start => @update()
 
   finish: ->
     (jQuery @car).off 'crossFinishLine'
     @endTime = new Date().getTime()
     @set 'raceTime', @endTime - @startTime
-    @car.reset()
+
+    @set 'carControlsEnabled', false
+    @isTouchMouseDown = false
 
   update: ->
     unless @car.isCrashing
@@ -86,14 +81,17 @@ slotcars.play.controllers.GameController = Ember.Object.extend
     @isTouchMouseDown = false
 
   restartGame: ->
-    @car.reset()
-    @_resetTime()
-
     position = @track.getPointAtLength 0
     @car.moveTo { x: position.x, y: position.y }
 
+    @car.jumpstart()
+    @car.reset()
+
     (jQuery @car).on 'crossFinishLine', => @finish()
 
-  _resetTime: ->
     @set 'raceTime', 0
-    @startTime = new Date().getTime()
+
+    setTimeout (=>
+      @set 'carControlsEnabled', true
+      @startTime = new Date().getTime()
+    ), @countdownInSeconds * 1000
