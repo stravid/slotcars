@@ -134,6 +134,7 @@ describe 'slotcars.shared.models.Track', ->
       (expect raphaelPathObserver).toHaveBeenCalled()
 
 
+
   describe 'route to the track resource', ->
 
     it 'should return the correct route with client id', ->
@@ -141,3 +142,50 @@ describe 'slotcars.shared.models.Track', ->
       id = track.get 'clientId'
 
       (expect track.get 'playRoute').toEqual "play/#{id}"
+
+
+  describe 'lap count for tracks', ->
+
+    it 'should return the same static number of laps for all tracks', ->
+      @track = Track.createRecord()
+
+      (expect @track.get 'numberOfLaps').toBe 3
+
+
+  describe 'asking if specific length on track is after finish line', ->
+
+    beforeEach ->
+      @fakePathLength = 1
+      @pathMock.getTotalLength = sinon.stub().returns @fakePathLength
+      @track = Track.createRecord()
+
+    it 'should return true when asked for length after finish line', ->
+      lengthThatShouldBeAfter = (@track.get 'numberOfLaps') * @fakePathLength + 0.00001
+      (expect @track.isLengthAfterFinishLine lengthThatShouldBeAfter).toBe true
+
+    it 'should return false when asked length is before finish line', ->
+      lengthThatShouldNotBeAfter = (@track.get 'numberOfLaps') * @fakePathLength - 0.00001
+      (expect @track.isLengthAfterFinishLine lengthThatShouldNotBeAfter).toBe false
+
+
+  describe 'asking for lap at length', ->
+
+    beforeEach ->
+      @fakePathLength = 1
+      @pathMock.getTotalLength = sinon.stub().returns @fakePathLength
+      @track = Track.createRecord()
+
+    it 'should return first lap for lengths smaller than the path length', ->
+      lengthLessThanFirstLap = @fakePathLength - 0.0001
+
+      (expect @track.lapForLength lengthLessThanFirstLap).toBe 1
+
+    it 'should return second lap for length between first and second lap', ->
+      lengthBetweenFirstAndSecondLap = @fakePathLength + 0.0001
+
+      (expect @track.lapForLength lengthBetweenFirstAndSecondLap).toBe 2
+
+    it 'should clamp the return value to maximum number of laps', ->
+      lengthBiggerThanTotalLaps = @fakePathLength * (@track.get 'numberOfLaps') + 1
+
+      (expect @track.lapForLength lengthBiggerThanTotalLaps).toBe @track.get 'numberOfLaps'

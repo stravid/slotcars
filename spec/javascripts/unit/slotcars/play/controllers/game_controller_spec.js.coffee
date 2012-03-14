@@ -46,6 +46,9 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
     
     @GameLoopControllerMock.restore()
 
+  it 'should provide the current track for the car', ->
+    (expect @gameController.car.track).toBe @trackMock
+
   describe '#onTouchMouseDown', ->
 
     it 'should set isTouchMouseDown to true', ->
@@ -102,7 +105,7 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @GameLoopControllerMock = mockEmberClass GameLoopController,
         start: sinon.spy()
 
-      @gameController.car = @carMock
+      @gameController.set 'car', @carMock
 
     afterEach ->
       @GameLoopControllerMock.restore()
@@ -138,15 +141,7 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
         (expect @carMock.checkForCrash).toHaveBeenCalledOnce()
 
-      it 'should trigger event when crossing finish line', ->
-        @carMock.get = sinon.stub().returns 30  # trackMock returns length of 5
-        @gameController.finish = sinon.spy()
 
-        # bind event inside #restartGame (or in #start - but #start also starts the game loop)      
-        @gameController.restartGame()
-        @gameController.update()
-
-        (expect @gameController.finish).toHaveBeenCalledOnce()
 
     describe 'when car is crashing', ->
   
@@ -212,6 +207,32 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.finish()
       (expect @gameController.raceTime).toNotBe null
 
+
+  describe 'observing crossed finish line property of car', ->
+
+    beforeEach ->
+      @carMock = mockEmberClass Car
+      @gameController.finish = sinon.spy()
+
+    afterEach ->
+      @carMock.restore()
+
+    it 'should observe the crossed finish line property of the car', ->
+      (expect @gameController.onCarCrossedFinishLine).toObserve 'car.crossedFinishLine'
+
+    it 'should finish the race when car crossed finish line', ->
+      @carMock.get = sinon.stub().withArgs('crossedFinishLine').returns true
+      @gameController.set 'car', @carMock
+
+      (expect @gameController.finish).toHaveBeenCalled()
+
+    it 'should not finish the race when car didnt cross the finish line yet', ->
+      @carMock.get = sinon.stub().withArgs('crossedFinishLine').returns false
+      @gameController.set 'car', @carMock
+
+      (expect @gameController.finish).not.toHaveBeenCalled()
+
+
   describe '#restartGame', ->
 
     beforeEach ->
@@ -226,7 +247,7 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       (expect @gameController.raceTime).toBe 0
 
     it 'should reset car', ->
-      @gameController.car = @carStub
+      @gameController.set 'car', @carStub
       @gameController.restartGame()
 
       (expect @carResetSpy).toHaveBeenCalled()

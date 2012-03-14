@@ -23,6 +23,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   raceTime: null
 
   init: ->
+    (@get 'car').set 'track', (@get 'track')
     @gameLoopController = GameLoopController.create()
 
     (jQuery document).on 'touchMouseDown', (event) => @onTouchMouseDown event
@@ -41,14 +42,17 @@ slotcars.play.controllers.GameController = Ember.Object.extend
     @car.jumpstart()
     @car.reset()
 
-    (jQuery @car).on 'crossFinishLine', => @finish()
     @gameLoopController.start => @update()
 
   finish: ->
-    (jQuery @car).off 'crossFinishLine'
     @endTime = new Date().getTime()
     @set 'raceTime', @endTime - @startTime
     @car.reset()
+
+  onCarCrossedFinishLine: (->
+    car = @get 'car'
+    if car.get 'crossedFinishLine' then @finish()
+  ).observes 'car.crossedFinishLine'
 
   update: ->
     unless @car.isCrashing
@@ -72,9 +76,6 @@ slotcars.play.controllers.GameController = Ember.Object.extend
       @car.jumpstart()
       @car.moveTo { x: nextPosition.x, y: nextPosition.y }
 
-      if (@car.get 'lengthAtTrack') >= @track.getTotalLength()
-        (jQuery @car).trigger 'crossFinishLine'
-
 
   onTouchMouseDown: (event) ->
     event.originalEvent.preventDefault()
@@ -90,8 +91,6 @@ slotcars.play.controllers.GameController = Ember.Object.extend
 
     position = @track.getPointAtLength 0
     @car.moveTo { x: position.x, y: position.y }
-
-    (jQuery @car).on 'crossFinishLine', => @finish()
 
   _resetTime: ->
     @set 'raceTime', 0
