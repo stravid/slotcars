@@ -1,0 +1,3 @@
+<a href="#" id="clear-track-button" {{action "onClearButtonClicked"}}>clear track</a>
+<a {{bindAttr href="track.playRoute"}}>play created track</a>
+<div id="draw-view-paper"></div>

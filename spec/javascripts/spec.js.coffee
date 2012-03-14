@@ -3,15 +3,14 @@
 
 #= require jquery
 #= require jquery_ujs
-#= require ember
+#= require embient/ember
 
 # ------ load testing extras -------
 # (jasmine + jasmine-jquery are loaded automatically)
 
 #= require sinon
 #= require jasmine-sinon
-#= require helpers/jasmine/custom_matchers
+#= require_tree ./helpers
 
 # ------ load all specs ------
 #= require_tree ./unit
-#= require_tree ./functional
