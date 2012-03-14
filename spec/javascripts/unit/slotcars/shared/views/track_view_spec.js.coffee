@@ -65,7 +65,7 @@ describe 'track view', ->
 
       (expect @paperClearSpy).toHaveBeenCalled()
 
-  describe 'enable/disable car controls', ->
+  describe 'bind/unbind car controls', ->
 
     beforeEach ->
       @gameControllerMock.onTouchMouseDown = sinon.spy()
@@ -82,3 +82,11 @@ describe 'track view', ->
         (expect @gameControllerMock.onTouchMouseDown).toHaveBeenCalled()
 
     describe 'when controls are disabled', ->
+
+      it 'should call onTouchMouseDown on game controller when controls are enabled', ->
+        @gameControllerMock.get = sinon.stub().withArgs('carControlsEnabled').returns false
+        @trackView.onCarControlsChange()
+
+        (jQuery @trackView.$()).trigger 'touchMouseDown'
+
+        (expect @gameControllerMock.onTouchMouseDown).not.toHaveBeenCalled()
