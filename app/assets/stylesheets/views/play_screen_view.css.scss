@@ -2,24 +2,10 @@
  *= require helpers/utilities
  *= require helpers/font_ds_digital_42
  *= require helpers/font_ds_digital_22
+ *= require shared/home_button
  */
 
 @import "config";
-
-#home-button, #retry-button {
-  cursor: pointer;
-  position: absolute;
-  top: $border-padding;
-}
-
-#home-button {
-  width: 153px;
-  height: 67px;
-  background-image: image-url("buttons/home.png");
-  background-repeat: no-repeat;
-
-  left: $border-padding;
-}
 
 #retry-button {
   width: 163px;
@@ -27,7 +13,11 @@
   background-image: image-url("buttons/retry.png");
   background-repeat: no-repeat;
   
+  position: absolute;
+  top: $border-padding;
   right: $border-padding;
+
+  cursor: pointer;
 }
 
 #clock {
