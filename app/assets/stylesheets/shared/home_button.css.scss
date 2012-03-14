@@ -1,0 +1,12 @@
+
+@import "config";
+
+#home-button {
+  position: absolute;
+  width: 153px;
+  height: 67px;
+  background-image: image-url("buttons/home.png");
+  background-repeat: no-repeat;
+  top: $border-padding;
+  left: $border-padding;
+}
