@@ -1,2 +1,2 @@
-<div id="race-time">{{raceTimeInSeconds}} seconds</div>
-<button id="restart-button" type="button" {{action "onRestartClick"}}>restart game</button>
+<a id="retry-button" class="override-button" {{action "onRestartClick"}}>Retry</a>
+

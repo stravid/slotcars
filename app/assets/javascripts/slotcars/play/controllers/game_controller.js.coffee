@@ -45,9 +45,12 @@ slotcars.play.controllers.GameController = Ember.Object.extend
     @gameLoopController.start => @update()
 
   finish: ->
+    @_setCurrentTime()
+    @car.reset()
+
+  _setCurrentTime: ->
     @endTime = new Date().getTime()
     @set 'raceTime', @endTime - @startTime
-    @car.reset()
 
   onCarCrossedFinishLine: (->
     car = @get 'car'
@@ -76,6 +79,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
       @car.jumpstart()
       @car.moveTo { x: nextPosition.x, y: nextPosition.y }
 
+    @_setCurrentTime()
 
   onTouchMouseDown: (event) ->
     event.originalEvent.preventDefault()

@@ -123,7 +123,7 @@ describe 'slotcars.shared.models.Track', ->
     it 'should tell the path to clean itself', ->
       @track.cleanPath()
 
-      (expect @pathMock.clean).toHaveBeenCalledWithAnObjectLike minAngle: 20, minLength: 30, maxLength: 200
+      (expect @pathMock.clean).toHaveBeenCalled()
 
     it 'should update the raphael path', ->
       raphaelPathObserver = sinon.spy()

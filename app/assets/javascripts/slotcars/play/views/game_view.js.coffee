@@ -12,10 +12,3 @@ slotcars.play.views.GameView = Ember.View.extend
 
   onRestartClick: ->
     @gameController.restartGame()
-
-  raceTimeInSeconds: (Ember.computed ->
-    @convertMillisecondsToSeconds (@gameController.get 'raceTime')
-  ).property 'gameController.raceTime'
-
-  convertMillisecondsToSeconds: (value) ->
-    value / 1000

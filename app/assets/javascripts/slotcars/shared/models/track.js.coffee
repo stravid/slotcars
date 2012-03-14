@@ -45,7 +45,7 @@ slotcars.shared.models.Track = DS.Model.extend
     @set 'raphaelPath', EMPTY_RAPHAEL_PATH
 
   cleanPath: ->
-    @_path.clean minAngle: 20, minLength: 30, maxLength: 200
+    @_path.clean minAngle: 10, minLength: 100, maxLength: 400
     @_shouldUpdateRasterizedPath = true
     @_updateRaphaelPath()
 

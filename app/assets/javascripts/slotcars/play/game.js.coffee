@@ -3,15 +3,17 @@
 #= require slotcars/shared/models/car
 #= require slotcars/play/views/car_view
 #= require slotcars/play/views/game_view
+#= require slotcars/play/views/clock_view
 #= require slotcars/play/controllers/game_controller
 #= require slotcars/shared/views/track_view
 
 namespace 'slotcars.play'
 
-Car = slotcars.shared.models.Car
-CarView = slotcars.play.views.CarView
 GameController = slotcars.play.controllers.GameController
+CarView = slotcars.play.views.CarView
 GameView = slotcars.play.views.GameView
+ClockView = slotcars.play.views.ClockView
+Car = slotcars.shared.models.Car
 TrackView = slotcars.shared.views.TrackView
 
 slotcars.play.Game = Ember.Object.extend
@@ -26,6 +28,7 @@ slotcars.play.Game = Ember.Object.extend
     @_carView = CarView.create car: @car
     @_trackView = TrackView.create()
     @_gameView = GameView.create gameController: @_gameController
+    @_clockView = ClockView.create gameController: @_gameController
 
     @_appendViews()
 
@@ -37,3 +40,4 @@ slotcars.play.Game = Ember.Object.extend
     @playScreenView.set 'trackView', @_trackView
     @playScreenView.set 'carView', @_carView
     @playScreenView.set 'contentView', @_gameView
+    @playScreenView.set 'clockView', @_clockView
