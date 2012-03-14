@@ -1,9 +1,14 @@
+#= require helpers/namespace
+#= require slotcars/play/templates/clock_template
 
+namespace 'slotcars.play.views'
 
-namespace 'helpers.graphic'
+slotcars.play.views.ClockView = Ember.View.extend
 
-class helpers.graphic.Clock
+  elementId: 'clock'
+  templateName: 'slotcars_play_templates_clock_template'
   
+  gameController: null
   chars: null
   values: [
     "letter-0"
@@ -12,17 +17,19 @@ class helpers.graphic.Clock
     "letter-0"
   ]
     
-  findNodes: ->
+  didInsertElement: ->
     @chars = [
-      jQuery '#clock-seconds .first'
-      jQuery '#clock-seconds .second'
-      jQuery '#clock-milliseconds .first'
-      jQuery '#clock-milliseconds .second'
+      @$('#clock-seconds .first')
+      @$('#clock-seconds .second')
+      @$('#clock-milliseconds .first')
+      @$('#clock-milliseconds .second')
     ]
+    
+  onUpdateRaceTime: ( ->
+    @updateTime @gameController.get 'raceTime'
+  ).observes 'gameController.raceTime'
   
   updateTime: (milliSeconds) ->
-    console.log milliSeconds
-    
     seconds = milliSeconds / 1000
     secondsString = (~~seconds).toString()
     milliSecondString = (~~(milliSeconds / 10)).toString()

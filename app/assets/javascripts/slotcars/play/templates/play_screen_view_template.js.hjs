@@ -1,5 +1,6 @@
 {{dynamicView trackView tagName=""}}
 {{dynamicView carView tagName=""}}
 {{dynamicView contentView id="play-screen-content-view"}}
+{{dynamicView clockView tagName=""}}
 
 <a id="home-button" class="override-button" href="">Home</a>
