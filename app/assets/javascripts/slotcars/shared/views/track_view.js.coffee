@@ -40,12 +40,12 @@ slotcars.shared.views.TrackView = Ember.View.extend
     @_drawDashedLine path
   
   onCarControlsChange: (->
-    (jQuery document).off 'touchMouseDown'
-    (jQuery document).off 'touchMouseUp'
+    (jQuery @$()).off 'touchMouseDown'
+    (jQuery @$()).off 'touchMouseUp'
 
     if @gameController.get 'carControlsEnabled'
-      (jQuery document).on 'touchMouseDown', (event) => @gameController.onTouchMouseDown event
-      (jQuery document).on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
+      (jQuery @$()).on 'touchMouseDown', (event) => @gameController.onTouchMouseDown event
+      (jQuery @$()).on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
 
   ).observes 'gameController.carControlsEnabled'
 

@@ -29,13 +29,3 @@ describe 'slotcars.play.views.GameView (unit)', ->
     @gameController.set 'raceTime', timeValue
 
     (expect @gameView.get 'raceTimeInSeconds').toBe @gameView.convertMillisecondsToSeconds timeValue
-
-  it 'should start countdown', ->
-    @gameController.set 'countdownInSeconds', 6
-    fakeTimer = sinon.useFakeTimers()
-
-    # (expect @gameView.get 'countdown').toBe 6
-
-    fakeTimer.tick 1010
-    # (expect @gameView.get 'countdown').toBe @gameController.countdownInSeconds - 1
-    fakeTimer.restore()

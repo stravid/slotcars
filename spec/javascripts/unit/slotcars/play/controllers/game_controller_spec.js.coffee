@@ -213,17 +213,14 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
         moveTo: sinon.spy()
         jumpstart: sinon.spy()
 
-      @fakeTimer = sinon.useFakeTimers()
-
     afterEach ->
-      @fakeTimer.restore()
       @carMock.restore()
 
     it 'should reset raceTime', ->
       @gameController.raceTime = 18
       @gameController.restartGame()
 
-      (expect @gameController.raceTime).toBe 0
+      (expect @gameController.get 'raceTime').toBe 0
 
     it 'should reset car', ->
       @gameController.car = @carMock
@@ -231,19 +228,39 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
       (expect @carMock.reset).toHaveBeenCalled()
 
-    it 'should enable controls after countdown', ->
-      @gameController.onTouchMouseDown = sinon.spy()
+    it 'should disable car controls', ->
       @gameController.restartGame()
 
-      (expect @gameController.carControlsEnabled).toBe false
-      @fakeTimer.tick 3010
-      (expect @gameController.carControlsEnabled).toBe true
+      (expect @gameController.get 'carControlsEnabled').toBe false
 
-    it 'should save timestamp after countdown', ->
+    it 'should set flag to show countdown', ->
       @gameController.restartGame()
+      
+      (expect @gameController.get 'isCountdownVisible').toBe true
 
-      @fakeTimer.tick 3010
+    describe 'after countdown', ->
 
-      (expect @gameController.get 'startTime').toNotBe null
+      beforeEach ->
+        @fakeTimer = sinon.useFakeTimers()
 
+      afterEach ->
+        @fakeTimer.restore()
 
+      it 'should enable controls after countdown', ->
+        @gameController.restartGame()
+
+        @fakeTimer.tick 3000
+        (expect @gameController.get 'carControlsEnabled').toBe true
+
+      it 'should save timestamp after countdown', ->
+        @gameController.restartGame()
+
+        @fakeTimer.tick 3000
+
+        (expect @gameController.get 'startTime').toNotBe null
+
+      it 'should set flag to hide countdown', ->
+        @gameController.restartGame()
+        @fakeTimer.tick 3500
+
+        (expect @gameController.get 'isCountdownVisible').toBe false

@@ -20,7 +20,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   isTouchMouseDown: false
   carControlsEnabled: false
   
-  showCountdown: false
+  isCountdownVisible: false
   currentCountdownValue: null
 
   startTime: null
@@ -83,6 +83,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
 
   restartGame: ->
     @set 'carControlsEnabled', false
+    @set 'raceTime', 0
 
     position = @track.getPointAtLength 0
     @car.moveTo { x: position.x, y: position.y }
@@ -92,10 +93,8 @@ slotcars.play.controllers.GameController = Ember.Object.extend
 
     (jQuery @car).on 'crossFinishLine', => @finish()
 
-    @set 'raceTime', 0
-
     @set 'currentCountdownValue', 3
-    @set 'showCountdown', true
+    @set 'isCountdownVisible', true
 
     setTimeout (=> @set 'currentCountdownValue', 2 ), 1000
     setTimeout (=> @set 'currentCountdownValue', 1 ), 2000
@@ -106,4 +105,4 @@ slotcars.play.controllers.GameController = Ember.Object.extend
       @set 'currentCountdownValue', 'Go!'
     ), 3000
 
-    setTimeout (=> @set 'showCountdown', false ), 4000
+    setTimeout (=> @set 'isCountdownVisible', false ), 3500
