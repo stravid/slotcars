@@ -2,7 +2,7 @@
 #= require helpers/namespace
 #= require slotcars/play/views/play_screen_view
 #= require slotcars/play/play_screen_state_manager
-#= require slotcars/shared/models/track_model
+#= require slotcars/shared/models/track
 #= require slotcars/shared/models/model_store
 #= require slotcars/shared/models/car
 #= require slotcars/play/game
@@ -10,7 +10,7 @@
 namespace 'slotcars.play'
 
 ModelStore = slotcars.shared.models.ModelStore
-TrackModel = slotcars.shared.models.TrackModel
+Track = slotcars.shared.models.Track
 PlayScreenView = slotcars.play.views.PlayScreenView
 PlayScreenStateManager = slotcars.play.PlayScreenStateManager
 Car = slotcars.shared.models.Car
@@ -35,7 +35,7 @@ slotcars.play.PlayScreen = Ember.Object.extend
     @_playScreenView.remove()
 
   load: ->
-    @track = ModelStore.findByClientId TrackModel, @trackId
+    @track = ModelStore.findByClientId Track, @trackId
 
     @car = Car.create
       acceleration: 0.1

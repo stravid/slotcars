@@ -11,7 +11,7 @@ EMPTY_RAPHAEL_PATH = 'M0,0z'
 
 Path = helpers.math.Path
 
-slotcars.shared.models.TrackModel = DS.Model.extend
+slotcars.shared.models.Track = DS.Model.extend
 
   _path: null
   _rasterizedPath: null

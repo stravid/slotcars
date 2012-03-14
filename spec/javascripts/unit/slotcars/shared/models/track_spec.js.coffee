@@ -1,20 +1,20 @@
 
 #= require embient/ember-data
-#= require slotcars/shared/models/track_model
+#= require slotcars/shared/models/track
 #= require helpers/math/path
 
-describe 'slotcars.shared.models.TrackModel', ->
+describe 'slotcars.shared.models.Track', ->
 
-  TrackModel = slotcars.shared.models.TrackModel
+  Track = slotcars.shared.models.Track
   EMPTY_RAPHAEL_PATH = 'M0,0z'
 
   it 'should be a subclass of an ember-data Model', ->
-    (expect TrackModel).toExtend DS.Model
+    (expect Track).toExtend DS.Model
 
   describe 'important default values', ->
 
     it 'should be an valid empty path with a single move to command by default', ->
-      @track = TrackModel.createRecord()
+      @track = Track.createRecord()
 
       (expect @track.get 'raphaelPath').toEqual EMPTY_RAPHAEL_PATH
 
@@ -31,7 +31,7 @@ describe 'slotcars.shared.models.TrackModel', ->
   describe 'adding path points', ->
 
     beforeEach ->
-      @track = TrackModel.createRecord()
+      @track = Track.createRecord()
 
       @firstPoint = { x: 1, y: 0 }
       @secondPoint = { x: 2, y: 1 }
@@ -70,7 +70,7 @@ describe 'slotcars.shared.models.TrackModel', ->
       fakeTotalLength = 1
       @pathMock.getTotalLength = -> return fakeTotalLength
 
-      @track = TrackModel.createRecord()
+      @track = Track.createRecord()
 
       (expect @track.getTotalLength()).toEqual fakeTotalLength
 
@@ -82,7 +82,7 @@ describe 'slotcars.shared.models.TrackModel', ->
       fakePointAtLength = {}
       @pathMock.getPointAtLength = sinon.stub().withArgs(length).returns fakePointAtLength
 
-      @track = TrackModel.createRecord()
+      @track = Track.createRecord()
       result = @track.getPointAtLength length
 
       (expect result).toBe fakePointAtLength
@@ -92,7 +92,7 @@ describe 'slotcars.shared.models.TrackModel', ->
 
     beforeEach ->
       @pathMock.clear = sinon.spy()
-      @track = TrackModel.createRecord()
+      @track = Track.createRecord()
 
     it 'should tell the path to clear', ->
       @track.clearPath()
@@ -118,7 +118,7 @@ describe 'slotcars.shared.models.TrackModel', ->
 
     beforeEach ->
       @pathMock.clean = sinon.spy()
-      @track = TrackModel.createRecord()
+      @track = Track.createRecord()
 
     it 'should tell the path to clean itself', ->
       @track.cleanPath()
@@ -137,7 +137,7 @@ describe 'slotcars.shared.models.TrackModel', ->
   describe 'route to the track resource', ->
 
     it 'should return the correct route with client id', ->
-      track = TrackModel.createRecord()
+      track = Track.createRecord()
       id = track.get 'clientId'
 
       (expect track.get 'playRoute').toEqual "play/#{id}"
