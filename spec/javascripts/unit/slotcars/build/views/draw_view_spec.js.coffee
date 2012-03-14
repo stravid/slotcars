@@ -8,7 +8,6 @@ describe 'slotcars.build.views.DrawView', ->
   TrackView = slotcars.shared.views.TrackView
   DrawView = slotcars.build.views.DrawView
   DrawController = slotcars.build.controllers.DrawController
-  TrackModel = slotcars.shared.models.TrackModel
 
   DRAW_VIEW_PAPER_WRAPPER_ID = '#draw-view-paper'
 
