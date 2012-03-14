@@ -9,6 +9,7 @@
 #= require slotcars/play/views/game_view
 #= require slotcars/shared/views/track_view
 #= require slotcars/play/views/play_screen_view
+#= require slotcars/play/views/clock_view
 
 describe 'game', ->
 
@@ -20,6 +21,7 @@ describe 'game', ->
   GameView = slotcars.play.views.GameView
   TrackView = slotcars.shared.views.TrackView
   PlayScreenView = slotcars.play.views.PlayScreenView
+  ClockView = slotcars.play.views.ClockView
 
   beforeEach ->
     @carMock = mockEmberClass Car
@@ -30,6 +32,7 @@ describe 'game', ->
     @CarViewMock = mockEmberClass CarView
     @GameViewMock = mockEmberClass GameView
     @TrackViewMock = mockEmberClass TrackView
+    @ClockViewMock = mockEmberClass ClockView
 
     @game = Game.create
       playScreenView: @playScreenViewMock
@@ -44,6 +47,7 @@ describe 'game', ->
     @GameControllerMock.restore()
     @GameViewMock.restore()
     @TrackViewMock.restore()
+    @ClockViewMock.restore()
 
 
   describe 'creating the game', ->
@@ -71,6 +75,9 @@ describe 'game', ->
 
     it 'should append game view to play screen view', ->
       (expect @playScreenViewMock.set).toHaveBeenCalledWith 'contentView', @GameViewMock
+
+    it 'should append clock view to play screen view', ->
+      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'clockView', @ClockViewMock
 
 
   describe 'starting the game', ->

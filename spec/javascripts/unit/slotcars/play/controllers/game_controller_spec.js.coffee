@@ -176,6 +176,7 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @trackStub = Track.createRecord()
       @trackStub.addPathPoint { x: 10, y: 10 }
       @trackStub.addPathPoint { x: 20, y: 50 }
+      @trackStub.addPathPoint { x: 30, y: 40 }
 
       @gameLoopControllerMock = mockEmberClass GameLoopController,
         start: (renderCallback) ->
