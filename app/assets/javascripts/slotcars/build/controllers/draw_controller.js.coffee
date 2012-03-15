@@ -17,3 +17,7 @@ slotcars.build.controllers.DrawController = Ember.Object.extend
   onTouchMouseUp: ->
     @finishedDrawing = true
     @track.cleanPath()
+
+  onPlayCreatedTrack: ->
+    @track.rasterize =>
+      slotcars.routeManager.set 'location', @track.get 'playRoute'

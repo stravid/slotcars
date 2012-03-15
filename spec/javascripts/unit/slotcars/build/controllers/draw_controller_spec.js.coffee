@@ -9,7 +9,7 @@ describe 'slotcars.build.controllers.DrawController', ->
     (expect DrawController).toExtend Ember.Object
 
   beforeEach ->
-    @trackMock = addPathPoint: sinon.spy()
+    @trackMock = Ember.Object.create addPathPoint: sinon.spy()
     @drawController = DrawController.create
       track: @trackMock
 
@@ -54,6 +54,7 @@ describe 'slotcars.build.controllers.DrawController', ->
 
       (expect @drawController.finishedDrawing).toBe false
 
+
   describe 'cleaning the track when user finished drawing', ->
 
     beforeEach ->
@@ -68,3 +69,30 @@ describe 'slotcars.build.controllers.DrawController', ->
       @drawController.onTouchMouseUp()
 
       (expect @drawController.finishedDrawing).toBe true
+
+
+  describe 'playing created track', ->
+
+    beforeEach ->
+      @trackMock.rasterize = sinon.spy()
+      @trackMock.playRoute = 'test/route'
+
+      @routeManagerBackup = slotcars.routeManager
+      slotcars.routeManager = sinon.stub()
+      slotcars.routeManager.set = sinon.spy()
+
+    afterEach ->
+      slotcars.routeManager = @routeManagerBackup
+
+    it 'should tell the track to rasterize itself', ->
+      @drawController.onPlayCreatedTrack()
+
+      (expect @trackMock.rasterize).toHaveBeenCalled()
+
+    it 'should provide a callback that changes the current location to play', ->
+      @drawController.onPlayCreatedTrack()
+
+      rasterizationFinishCallback = @trackMock.rasterize.args[0][0]
+      rasterizationFinishCallback() # normally called by track
+
+      (expect slotcars.routeManager.set).toHaveBeenCalledWith 'location', @trackMock.playRoute
