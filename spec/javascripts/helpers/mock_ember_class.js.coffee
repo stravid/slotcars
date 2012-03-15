@@ -6,6 +6,10 @@
   api.create = emberClassCreateStub
   api.restore = -> emberClassCreateStub.restore()
 
-  emberClassCreateStub.returns api
+  apiObject = Ember.Object.create api
+  apiObject.set = api.set if api.set?
+  apiObject.get = api.get if api.get?
 
-  return api
+  emberClassCreateStub.returns apiObject
+
+  return apiObject
