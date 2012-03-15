@@ -95,6 +95,36 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @GameLoopControllerMock.restore()
       @carMock.restore()
 
+    describe 'updating race time', ->
+
+      beforeEach ->
+        @fakeTimer = sinon.useFakeTimers()
+
+      afterEach ->
+        @fakeTimer.restore()
+
+      it 'should update race time as long car is allowed to drive', ->
+        @gameController.set 'carControlsEnabled', true
+
+        @gameController.set 'raceTime', 0
+        @gameController.set 'startTime', new Date().getTime()
+
+        @fakeTimer.tick 1000
+        @gameController.update()
+
+        (expect @gameController.get 'raceTime').toEqual 1000
+
+      it 'should not update race time when car isn´t allowed to drive', ->
+        @gameController.set 'carControlsEnabled', false
+
+        @gameController.set 'raceTime', 0
+        @gameController.set 'startTime', new Date().getTime()
+
+        @fakeTimer.tick 1000
+        @gameController.update()
+
+        (expect @gameController.get 'raceTime').toEqual 0
+
     describe 'when car is on track', ->
 
       beforeEach ->
@@ -124,8 +154,6 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
         @gameController.update()
 
         (expect @carMock.checkForCrash).toHaveBeenCalledOnce()
-
-
 
     describe 'when car is crashing', ->
   
