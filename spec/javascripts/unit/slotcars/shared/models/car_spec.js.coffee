@@ -4,6 +4,7 @@
 #= require slotcars/shared/lib/crashable
 
 #= require helpers/math/vector
+#= require slotcars/shared/models/track
 
 describe 'slotcars.shared.models.Car', ->
 
@@ -11,6 +12,7 @@ describe 'slotcars.shared.models.Car', ->
   Vector = helpers.math.Vector
   Movable = slotcars.shared.lib.Movable
   Crashable = slotcars.shared.lib.Crashable
+  Track = slotcars.shared.models.Track
 
   describe 'usage of mixins', ->
 
@@ -37,6 +39,9 @@ describe 'slotcars.shared.models.Car', ->
 
     it 'should set crashing to false', ->
       (expect @car.isCrashing).toBe false
+
+    it 'should set currentLap to zero', ->
+      (expect @car.get 'currentLap').toBe 0
 
 
   describe '#accelerate', ->
@@ -118,11 +123,46 @@ describe 'slotcars.shared.models.Car', ->
   describe '#drive', ->
 
     beforeEach ->
-      @car = Car.create
-        speed: 1
+      @car = Car.create speed: 1
 
     it 'should update lengthAtTrack', ->
       @car.drive()
 
       (expect @car.lengthAtTrack).toBe 1
 
+
+  describe 'reactions to changes of length at track', ->
+
+    beforeEach ->
+      @trackMock = mockEmberClass Track
+      @trackMock.lapForLength = sinon.stub().returns 1
+      @trackMock.isLengthAfterFinishLine = sinon.stub().returns false
+
+      @car = Car.create track: @trackMock
+
+    afterEach ->
+      @trackMock.restore()
+
+
+    describe 'current lap of car', ->
+
+      it 'should update currentLap when lengthAtTrack changes', ->
+        @trackMock.lapForLength = sinon.stub().withArgs(1).returns 2
+
+        @car.set 'lengthAtTrack', 2
+
+        (expect @car.get 'currentLap').toBe 2
+
+
+    describe 'crossing finish line', ->
+
+      it 'should provide property that is false by default', ->
+        (expect @car.get 'crossedFinishLine').toBe false
+
+      it 'should be set to true if lengthAtTrack gets bigger than length of finish line', ->
+        testLength = 3
+        @trackMock.isLengthAfterFinishLine.withArgs(testLength).returns true
+
+        @car.set 'lengthAtTrack', testLength
+
+        (expect @car.get 'crossedFinishLine').toBe true

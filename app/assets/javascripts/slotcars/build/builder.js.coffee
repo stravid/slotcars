@@ -6,6 +6,9 @@
 
 namespace 'slotcars.build'
 
+DrawController = slotcars.build.controllers.DrawController
+DrawView = slotcars.build.views.DrawView
+
 slotcars.build.Builder = Ember.Object.extend
 
   track: null
@@ -15,10 +18,10 @@ slotcars.build.Builder = Ember.Object.extend
   init: ->
     @track = slotcars.shared.models.Track.createRecord()
 
-    @drawController = slotcars.build.controllers.DrawController.create
+    @drawController = DrawController.create
       track: @track
 
-    @_drawView = slotcars.build.views.DrawView.create
+    @_drawView = DrawView.create
       track: @track
       drawController: @drawController
 

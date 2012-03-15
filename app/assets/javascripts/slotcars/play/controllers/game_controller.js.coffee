@@ -17,16 +17,18 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   track: null
   gameLoopController: null
   isTouchMouseDown: false
+  carControlsEnabled: false
+  
+  isCountdownVisible: false
+  currentCountdownValue: null
 
   startTime: null
   endTime: null
   raceTime: null
 
   init: ->
+    (@get 'car').set 'track', (@get 'track')
     @gameLoopController = GameLoopController.create()
-
-    (jQuery document).on 'touchMouseDown', (event) => @onTouchMouseDown event
-    (jQuery document).on 'touchMouseUp', (event) => @onTouchMouseUp event
 
     unless @track?
       throw new Error 'track has to be provided'
@@ -34,24 +36,24 @@ slotcars.play.controllers.GameController = Ember.Object.extend
       throw new Error 'car has to be provided'
 
   start: ->
-    @_resetTime()
-    startPosition = @track.getPointAtLength 0
-    @car.moveTo { x: startPosition.x, y: startPosition.y }
-
-    @car.jumpstart()
-    @car.reset()
-
-    (jQuery @car).on 'crossFinishLine', => @finish()
+    @restartGame()
     @gameLoopController.start => @update()
 
   finish: ->
-    (jQuery @car).off 'crossFinishLine'
     @_setCurrentTime()
-    @car.reset()
+
+    @set 'carControlsEnabled', false
+    @isTouchMouseDown = false
 
   _setCurrentTime: ->
     @endTime = new Date().getTime()
-    @set 'raceTime', @endTime - @startTime
+    if @get 'carControlsEnabled'
+      @set 'raceTime', @endTime - @startTime
+
+  onCarCrossedFinishLine: (->
+    car = @get 'car'
+    if car.get 'crossedFinishLine' then @finish()
+  ).observes 'car.crossedFinishLine'
 
   update: ->
     unless @car.isCrashing
@@ -75,11 +77,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
       @car.jumpstart()
       @car.moveTo { x: nextPosition.x, y: nextPosition.y }
 
-      if (@car.get 'lengthAtTrack') >= @track.getTotalLength()
-        (jQuery @car).trigger 'crossFinishLine'
-   
     @_setCurrentTime()
-
 
   onTouchMouseDown: (event) ->
     event.originalEvent.preventDefault()
@@ -90,14 +88,25 @@ slotcars.play.controllers.GameController = Ember.Object.extend
     @isTouchMouseDown = false
 
   restartGame: ->
-    @car.reset()
-    @_resetTime()
+    @set 'carControlsEnabled', false
+    @set 'raceTime', 0
 
     position = @track.getPointAtLength 0
     @car.moveTo { x: position.x, y: position.y }
 
-    (jQuery @car).on 'crossFinishLine', => @finish()
+    @car.jumpstart()
+    @car.reset()
 
-  _resetTime: ->
-    @set 'raceTime', 0
-    @startTime = new Date().getTime()
+    @set 'currentCountdownValue', 3
+    @set 'isCountdownVisible', true
+
+    setTimeout (=> @set 'currentCountdownValue', 2 ), 1000
+    setTimeout (=> @set 'currentCountdownValue', 1 ), 2000
+
+    setTimeout (=>
+      @set 'carControlsEnabled', true
+      @startTime = new Date().getTime()
+      @set 'currentCountdownValue', 'Go!'
+    ), 3000
+
+    setTimeout (=> @set 'isCountdownVisible', false ), 3500

@@ -26,9 +26,13 @@ slotcars.play.Game = Ember.Object.extend
     @_gameController = GameController.create track: @track, car: @car
 
     @_carView = CarView.create car: @car
-    @_trackView = TrackView.create()
+    @_trackView = TrackView.create gameController: @_gameController
+
     @_gameView = GameView.create gameController: @_gameController
-    @_clockView = ClockView.create gameController: @_gameController
+    @_clockView = ClockView.create 
+      gameController: @_gameController
+      carModel: @car
+      trackModel: @track
 
     @_appendViews()
 

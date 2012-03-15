@@ -65,7 +65,7 @@ describe 'game', ->
       (expect @GameViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock
 
     it 'should create a track view', ->
-      (expect @TrackViewMock.create).toHaveBeenCalledWithAnObjectLike
+      (expect @TrackViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock
 
     it 'should append car view to play screen view', ->
       (expect @playScreenViewMock.set).toHaveBeenCalledWith 'carView', @CarViewMock

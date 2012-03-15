@@ -6,12 +6,12 @@
 
 describe 'builder', ->
 
-  BuilderController = slotcars.build.Builder
+  Builder = slotcars.build.Builder
   DrawController = slotcars.build.controllers.DrawController
   DrawView = slotcars.build.views.DrawView
 
   it 'should extend Ember.Object', ->
-    (expect BuilderController).toExtend Ember.Object
+    (expect Builder).toExtend Ember.Object
 
   beforeEach ->
     @DrawControllerMock = mockEmberClass DrawController
@@ -26,36 +26,36 @@ describe 'builder', ->
   describe 'setting up drawing editor on creation', ->
 
     beforeEach ->
-      @TrackModelBackup = slotcars.shared.models.Track
+      @TrackBackup = slotcars.shared.models.Track
 
-      @fakeTrackModel = {}
-      @TrackModelMock = slotcars.shared.models.Track =
-        createRecord: sinon.stub().returns @fakeTrackModel
+      @fakeTrack = {}
+      @TrackMock = slotcars.shared.models.Track =
+        createRecord: sinon.stub().returns @fakeTrack
 
     afterEach ->
-      slotcars.shared.models.Track = @TrackModelBackup
+      slotcars.shared.models.Track = @TrackBackup
 
 
     it 'should create a new track model', ->
-      BuilderController.create buildScreenView: @buildScreenViewStub
+      Builder.create buildScreenView: @buildScreenViewStub
 
-      (expect @TrackModelMock.createRecord).toHaveBeenCalled()
+      (expect @TrackMock.createRecord).toHaveBeenCalled()
 
     it 'should create the draw controller and provide the created track', ->
-      BuilderController.create buildScreenView: @buildScreenViewStub
+      Builder.create buildScreenView: @buildScreenViewStub
 
       (expect @DrawControllerMock.create).toHaveBeenCalledWithAnObjectLike
-        track: @fakeTrackModel
+        track: @fakeTrack
 
     it 'should create the draw view and provide the draw controller and track', ->
-      BuilderController.create buildScreenView: @buildScreenViewStub
+      Builder.create buildScreenView: @buildScreenViewStub
 
       (expect @DrawViewMock.create).toHaveBeenCalledWithAnObjectLike
-        track: @fakeTrackModel
+        track: @fakeTrack
         drawController: @DrawControllerMock
 
     it 'should set content view property of build screen view to draw view', ->
-      BuilderController.create buildScreenView: @buildScreenViewStub
+      Builder.create buildScreenView: @buildScreenViewStub
 
       (expect @buildScreenViewStub.set).toHaveBeenCalledWith 'contentView', @DrawViewMock
 
@@ -65,15 +65,15 @@ describe 'builder', ->
     beforeEach ->
       @DrawControllerMock.destroy = sinon.spy()
       @DrawViewMock.remove = sinon.spy()
-      @builderController = BuilderController.create buildScreenView: @buildScreenViewStub
+      @builder = Builder.create buildScreenView: @buildScreenViewStub
 
 
     it 'should tell the draw controller to destroy itself', ->
-      @builderController.destroy()
+      @builder.destroy()
 
       (expect @DrawControllerMock.destroy).toHaveBeenCalled()
 
     it 'should tell the draw view to remove itself', ->
-      @builderController.destroy()
+      @builder.destroy()
 
       (expect @DrawViewMock.remove).toHaveBeenCalled()

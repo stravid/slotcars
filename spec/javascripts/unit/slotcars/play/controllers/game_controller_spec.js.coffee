@@ -30,6 +30,9 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
   it 'should set isTouchMouseDown to false by default', ->
     (expect @gameController.isTouchMouseDown).toBe false
 
+  it 'should set carControlsEnabled to false by default', ->
+    (expect @gameController.carControlsEnabled).toBe false
+
   it 'should throw an error when no track is provided', ->
     (expect => GameController.create car: Car.create()).toThrow()
 
@@ -46,20 +49,15 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
     
     @GameLoopControllerMock.restore()
 
+  it 'should provide the current track for the car', ->
+    (expect @gameController.car.track).toBe @trackMock
+
   describe '#onTouchMouseDown', ->
 
     it 'should set isTouchMouseDown to true', ->
       eventStub = originalEvent: preventDefault: ->
 
       @gameController.onTouchMouseDown eventStub
-
-      (expect @gameController.isTouchMouseDown).toBe true
-
-    it 'should be called when isTouchMouseDown is triggered on document', ->
-
-      # necessary to trigger 'mousedown' because of 'originalEvent'
-      # property which is added through event normalization
-      (jQuery document).trigger 'mousedown'
 
       (expect @gameController.isTouchMouseDown).toBe true
 
@@ -72,17 +70,6 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.onTouchMouseUp eventStub
 
       (expect @gameController.isTouchMouseDown).toBe false
-
-
-    it 'should be called when touchMouseUp is triggered on document', ->
-      @gameController.isTouchMouseDown = true
-
-      # necessary to trigger 'mouseup' because of 'originalEvent'
-      # property which is added through event normalization
-      (jQuery document).trigger 'mouseup'
-
-      (expect @gameController.isTouchMouseDown).toBe false
-
 
   describe '#update', ->
 
@@ -102,11 +89,41 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @GameLoopControllerMock = mockEmberClass GameLoopController,
         start: sinon.spy()
 
-      @gameController.car = @carMock
+      @gameController.set 'car', @carMock
 
     afterEach ->
       @GameLoopControllerMock.restore()
       @carMock.restore()
+
+    describe 'updating race time', ->
+
+      beforeEach ->
+        @fakeTimer = sinon.useFakeTimers()
+
+      afterEach ->
+        @fakeTimer.restore()
+
+      it 'should update race time as long car is allowed to drive', ->
+        @gameController.set 'carControlsEnabled', true
+
+        @gameController.set 'raceTime', 0
+        @gameController.set 'startTime', new Date().getTime()
+
+        @fakeTimer.tick 1000
+        @gameController.update()
+
+        (expect @gameController.get 'raceTime').toEqual 1000
+
+      it 'should not update race time when car isn´t allowed to drive', ->
+        @gameController.set 'carControlsEnabled', false
+
+        @gameController.set 'raceTime', 0
+        @gameController.set 'startTime', new Date().getTime()
+
+        @fakeTimer.tick 1000
+        @gameController.update()
+
+        (expect @gameController.get 'raceTime').toEqual 0
 
     describe 'when car is on track', ->
 
@@ -137,16 +154,6 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
         @gameController.update()
 
         (expect @carMock.checkForCrash).toHaveBeenCalledOnce()
-
-      it 'should trigger event when crossing finish line', ->
-        @carMock.get = sinon.stub().returns 30  # trackMock returns length of 5
-        @gameController.finish = sinon.spy()
-
-        # bind event inside #restartGame (or in #start - but #start also starts the game loop)      
-        @gameController.restartGame()
-        @gameController.update()
-
-        (expect @gameController.finish).toHaveBeenCalledOnce()
 
     describe 'when car is crashing', ->
   
@@ -188,10 +195,6 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
     afterEach ->
       @gameLoopControllerMock.restore()
 
-    it 'should save timestamp', ->
-      @gameController.start()
-      (expect @gameController.get 'startTime').toNotBe null
-
     it 'should start the game loop with #update method as renderCallback', ->
       @gameController.gameLoopController = @gameLoopControllerMock
       @gameController.start()
@@ -202,8 +205,11 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.start()
       (expect @gameController.car.get 'position').toEqual { x: 10, y: 10 }
 
-
   describe '#finish', ->
+
+    beforeEach ->
+      @gameController.carControlsEnabled = true
+      @gameController.isTouchMouseDown = true
 
     it 'should save timestamp', ->
       @gameController.finish()
@@ -213,21 +219,97 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.finish()
       (expect @gameController.raceTime).toNotBe null
 
+    it 'should disable car controls', ->
+      @gameController.finish()
+
+      (expect @gameController.carControlsEnabled).toBe false
+
+    it 'should disable stop acceleration', ->
+      @gameController.finish()
+
+      (expect @gameController.isTouchMouseDown).toBe false
+
+  describe 'observing crossed finish line property of car', ->
+
+    beforeEach ->
+      @carMock = mockEmberClass Car
+      @gameController.finish = sinon.spy()
+
+    afterEach ->
+      @carMock.restore()
+
+    it 'should observe the crossed finish line property of the car', ->
+      (expect @gameController.onCarCrossedFinishLine).toObserve 'car.crossedFinishLine'
+
+    it 'should finish the race when car crossed finish line', ->
+      @carMock.get = sinon.stub().withArgs('crossedFinishLine').returns true
+      @gameController.set 'car', @carMock
+
+      (expect @gameController.finish).toHaveBeenCalled()
+
+    it 'should not finish the race when car didnt cross the finish line yet', ->
+      @carMock.get = sinon.stub().withArgs('crossedFinishLine').returns false
+      @gameController.set 'car', @carMock
+
+      (expect @gameController.finish).not.toHaveBeenCalled()
+
   describe '#restartGame', ->
 
     beforeEach ->
-      @carResetSpy = sinon.spy()
-      @carStub = Car.create
-        reset: @carResetSpy
+      @carMock = mockEmberClass Car,
+        reset: sinon.spy()
+        moveTo: sinon.spy()
+        jumpstart: sinon.spy()
+        get: sinon.spy()
+
+    afterEach ->
+      @carMock.restore()
 
     it 'should reset raceTime', ->
       @gameController.raceTime = 18
       @gameController.restartGame()
 
-      (expect @gameController.raceTime).toBe 0
+      (expect @gameController.get 'raceTime').toBe 0
 
     it 'should reset car', ->
-      @gameController.car = @carStub
+      @gameController.set 'car', @carMock
       @gameController.restartGame()
 
-      (expect @carResetSpy).toHaveBeenCalled()
+      (expect @carMock.reset).toHaveBeenCalled()
+
+    it 'should disable car controls', ->
+      @gameController.restartGame()
+
+      (expect @gameController.get 'carControlsEnabled').toBe false
+
+    it 'should set flag to show countdown', ->
+      @gameController.restartGame()
+      
+      (expect @gameController.get 'isCountdownVisible').toBe true
+
+    describe 'after countdown', ->
+
+      beforeEach ->
+        @fakeTimer = sinon.useFakeTimers()
+
+      afterEach ->
+        @fakeTimer.restore()
+
+      it 'should enable controls after countdown', ->
+        @gameController.restartGame()
+
+        @fakeTimer.tick 3000
+        (expect @gameController.get 'carControlsEnabled').toBe true
+
+      it 'should save timestamp after countdown', ->
+        @gameController.restartGame()
+
+        @fakeTimer.tick 3000
+
+        (expect @gameController.get 'startTime').toNotBe null
+
+      it 'should set flag to hide countdown', ->
+        @gameController.restartGame()
+        @fakeTimer.tick 3500
+
+        (expect @gameController.get 'isCountdownVisible').toBe false

@@ -12,10 +12,13 @@ RaphaelPath = helpers.math.RaphaelPath
 slotcars.shared.models.Track = DS.Model.extend
 
   _raphaelPath: null
-  _rasterizedPath: null
-  _shouldUpdateRasterizedPath: false
-
   raphaelPathBinding: '_raphaelPath.path'
+  numberOfLaps: 3
+
+  playRoute: (->
+    clientId = @get('clientId')
+    "play/#{clientId}"
+  ).property 'clientId'
 
   init: ->
     @_super()
@@ -37,7 +40,13 @@ slotcars.shared.models.Track = DS.Model.extend
     # costly and would block other operations
     Ember.run.later (=> raphaelPath.rasterize 5), 10
 
-  playRoute: (->
-    clientId = @get('clientId')
-    "play/#{clientId}"
-  ).property 'clientId'
+  isLengthAfterFinishLine: (length) ->
+    @getTotalLength() * (@get 'numberOfLaps') < length
+
+  lapForLength: (length) ->
+    lap = Math.ceil length / @getTotalLength()
+    numberOfLaps = @get 'numberOfLaps'
+
+    # clamp return value to maximum number of laps
+    if lap > numberOfLaps then lap = numberOfLaps
+    if lap is 0 then return 1 else return lap
