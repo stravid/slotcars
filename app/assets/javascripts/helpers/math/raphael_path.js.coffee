@@ -40,15 +40,31 @@ RaphaelPath = helpers.math.RaphaelPath = Ember.Object.extend
     @_path.clean parameters
     @_updateCatmullRomPath()
 
-  rasterize: (rasterizationSize)->
-    @_rasterizedPath = Path.create()
+  rasterize: (parameters) ->
+    parameters ?= {}
+    totalLength = parameters.totalLength ?= @get 'totalLength'
 
+    # stop immediately if total length is zero
+    return if totalLength <= 0
+
+    currentLength = parameters.currentLength ?= 0
+
+    @_rasterizedPath ?= Path.create()
+    @_rasterizePointAtLength currentLength
+
+    # tell progress handler the current rasterization length
+    parameters.onProgress currentLength if parameters.onProgress
+
+    # keep rasterizing if not finished yet
+    if totalLength > currentLength
+      parameters.currentLength += parameters.stepSize
+      Ember.run.next => @rasterize parameters
+    else
+      parameters.onFinished() if parameters.onFinished?
+
+  _rasterizePointAtLength: (length) ->
     path = @get 'path'
-    totalLength = @get 'totalLength'
-
-    # there is no optimization for curves vs. straight parts yet
-    for length in [0..totalLength] by rasterizationSize
-      @_rasterizedPath.push (Raphael.getPointAtLength path, length), true
+    @_rasterizedPath.push (Raphael.getPointAtLength path, length), true
 
   # Generates catmull-rom paths for raphel with format: x1 y1 (x y)+
   # which results in pathes like: M0,0R,1,0,3,2,4,5z
