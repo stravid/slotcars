@@ -5,6 +5,12 @@ describe 'slotcars application screen management', ->
 
   SlotcarsApplication = slotcars.SlotcarsApplication
 
+  beforeEach ->
+    @RouteManagerCreateStub = mockEmberClass slotcars.RouteManager
+
+  afterEach ->
+    @RouteManagerCreateStub.restore()
+
   describe 'interaction with screens', ->
 
     beforeEach ->
@@ -71,13 +77,14 @@ describe 'slotcars application screen management', ->
   describe 'integration with the route manager', ->
 
     beforeEach ->
-      @RouteManagerCreateStub = (sinon.stub slotcars.RouteManager, 'create')
-
-    afterEach ->
-      @RouteManagerCreateStub.restore()
-
-    it 'should create route manager and register itself as delegate', ->
       @slotcarsApplication = SlotcarsApplication.create()
 
-      (expect @RouteManagerCreateStub).toHaveBeenCalledWithAnObjectLike
+    afterEach ->
+      @slotcarsApplication.destroy()
+
+    it 'should create route manager and register itself as delegate', ->
+      (expect @RouteManagerCreateStub.create).toHaveBeenCalledWithAnObjectLike
         delegate: @slotcarsApplication
+
+    it 'should make the route manager a singleton that can be directly accessed', ->
+      (expect slotcars.routeManager).toBe @RouteManagerCreateStub
