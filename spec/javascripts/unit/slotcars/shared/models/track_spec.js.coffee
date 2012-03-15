@@ -98,11 +98,6 @@ describe 'slotcars.shared.models.Track', ->
 
       (expect @raphaelPathMock.rasterize).not.toHaveBeenCalled()
 
-    it 'should rasterize the raphael path after an short delay', ->
-      runs -> @track.cleanPath()
-      waits 20
-      runs -> (expect @raphaelPathMock.rasterize).toHaveBeenCalled()
-
 
   describe 'route to the track resource', ->
 
@@ -158,3 +153,69 @@ describe 'slotcars.shared.models.Track', ->
       lengthBiggerThanTotalLaps = @fakePathLength * (@track.get 'numberOfLaps') + 1
 
       (expect @track.lapForLength lengthBiggerThanTotalLaps).toBe @track.get 'numberOfLaps'
+
+
+  describe 'rasterizing the track', ->
+
+    beforeEach ->
+      @track = Track.createRecord()
+      @raphaelPathMock.rasterize = sinon.spy()
+
+      @fakeRasterizedPathValue = 'fakePathValue'
+      @RaphaelBackup = window.Raphael
+      @RaphaelMock = window.Raphael =
+        getSubpath: sinon.stub().returns @fakeRasterizedPathValue
+
+    afterEach ->
+      window.Raphael = @RaphaelBackup
+
+
+    it 'should not be rasterizing by default', ->
+      (expect @track.get 'isRasterizing').toBe false
+
+    it 'should tell when it starts rasterizing', ->
+      @track.rasterize()
+
+      (expect @track.get 'isRasterizing').toBe true
+
+    it 'should tell the raphael path to raterize', ->
+      @track.rasterize()
+
+      (expect @raphaelPathMock.rasterize).toHaveBeenCalled()
+
+    it 'should configure step size for rasterization', ->
+      @track.rasterize()
+
+      (expect @raphaelPathMock.rasterize.args[0][0].stepSize).toBe 10
+
+    it 'should provide rasterization progress callback that updates rasterized path', ->
+      # needed to check for correct raphael path
+      @raphaelPathMock.set 'path', {}
+
+      @track.rasterize()
+      testLength = 10
+
+      # in reality called by raphael path
+      @raphaelPathMock.rasterize.args[0][0].onProgress testLength
+
+      trackPath = @track.get 'raphaelPath'
+
+      (expect @RaphaelMock.getSubpath).toHaveBeenCalledWith trackPath, 0, testLength
+      (expect @track.get 'rasterizedPath').toEqual @fakeRasterizedPathValue
+
+    it 'should provide finish callback that resets rasterizing state', ->
+      @track.rasterize()
+
+      # in reality called by raphael path
+      @raphaelPathMock.rasterize.args[0][0].onFinished()
+
+      (expect @track.get 'isRasterizing').toBe false
+
+    it 'should call finish callback that rasterization finished', ->
+      finishCallback = sinon.spy()
+      @track.rasterize finishCallback
+
+      # in reality called by raphael path
+      @raphaelPathMock.rasterize.args[0][0].onFinished()
+
+      (expect finishCallback).toHaveBeenCalled()
