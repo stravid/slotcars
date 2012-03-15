@@ -48,12 +48,12 @@ describe 'slotcars.shared.models.Track', ->
 
     it 'should ask its raphael path for total length', ->
       track = Track.createRecord()
-      expectedValue = 'bla'
-      @raphaelPathMock.get = sinon.stub().withArgs('totalLength').returns expectedValue
+      expectedLength = Math.random() * 10
+      @raphaelPathMock.get = sinon.stub().withArgs('totalLength').returns expectedLength
 
       totalLength = track.getTotalLength()
 
-      (expect totalLength).toBe expectedValue
+      (expect totalLength).toBe expectedLength
 
 
   describe 'getting point on length of track', ->
@@ -64,9 +64,9 @@ describe 'slotcars.shared.models.Track', ->
       @raphaelPathMock.getPointAtLength = sinon.stub().withArgs(length).returns fakePointAtLength
 
       track = Track.createRecord()
-      result = track.getPointAtLength length
+      resultPoint = track.getPointAtLength length
 
-      (expect result).toBe fakePointAtLength
+      (expect resultPoint).toBe fakePointAtLength
 
 
   describe 'clearing the path', ->
