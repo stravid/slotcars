@@ -276,6 +276,14 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
       (expect @carMock.reset).toHaveBeenCalled()
 
+    it 'should clear timeouts', ->
+      clearTimeoutBackup = clearTimeout
+      window.clearTimeout = sinon.spy()
+      @gameController.restartGame()
+
+      (expect window.clearTimeout).toHaveBeenCalled()
+      window.clearTimeout = clearTimeoutBackup
+
     it 'should disable car controls', ->
       @gameController.restartGame()
 

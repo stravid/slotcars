@@ -26,6 +26,8 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   endTime: null
   raceTime: null
 
+  timeouts: []
+
   init: ->
     (@get 'car').set 'track', (@get 'track')
     @gameLoopController = GameLoopController.create()
@@ -100,13 +102,18 @@ slotcars.play.controllers.GameController = Ember.Object.extend
     @set 'currentCountdownValue', 3
     @set 'isCountdownVisible', true
 
-    setTimeout (=> @set 'currentCountdownValue', 2 ), 1000
-    setTimeout (=> @set 'currentCountdownValue', 1 ), 2000
+    @_clearTimeouts()
+    @timeouts[0] = setTimeout (=> @set 'currentCountdownValue', 2 ), 1000
+    @timeouts[1] = setTimeout (=> @set 'currentCountdownValue', 1 ), 2000
 
-    setTimeout (=>
+    @timeouts[2] = setTimeout (=>
       @set 'carControlsEnabled', true
       @startTime = new Date().getTime()
       @set 'currentCountdownValue', 'Go!'
     ), 3000
 
-    setTimeout (=> @set 'isCountdownVisible', false ), 3500
+    @timeouts[3] = setTimeout (=> @set 'isCountdownVisible', false ), 3500
+
+  _clearTimeouts: ->
+    for timeout in @timeouts
+      clearTimeout timeout
