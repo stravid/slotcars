@@ -104,7 +104,6 @@ describe 'slotcars.shared.models.Track', ->
       runs -> (expect @raphaelPathMock.rasterize).toHaveBeenCalled()
 
 
-
   describe 'route to the track resource', ->
 
     it 'should return the correct route with client id', ->
@@ -126,7 +125,7 @@ describe 'slotcars.shared.models.Track', ->
 
     beforeEach ->
       @fakePathLength = 1
-      @pathMock.getTotalLength = sinon.stub().returns @fakePathLength
+      @raphaelPathMock.totalLength = @fakePathLength
       @track = Track.createRecord()
 
     it 'should return true when asked for length after finish line', ->
@@ -142,7 +141,7 @@ describe 'slotcars.shared.models.Track', ->
 
     beforeEach ->
       @fakePathLength = 1
-      @pathMock.getTotalLength = sinon.stub().returns @fakePathLength
+      @raphaelPathMock.totalLength = @fakePathLength
       @track = Track.createRecord()
 
     it 'should return first lap for lengths smaller than the path length', ->
