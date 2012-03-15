@@ -1,13 +1,13 @@
 
 #= require helpers/namespace
 #= require helpers/graphic/exhaust
-#= require slotcars/play/templates/car_template
+#= require slotcars/play/templates/car_view_template
 
 namespace 'slotcars.play.views'
 
 slotcars.play.views.CarView = Ember.View.extend
 
-  templateName: 'slotcars_play_templates_car_template'
+  templateName: 'slotcars_play_templates_car_view_template'
   tagName: ''
 
   car: null

@@ -9,9 +9,9 @@ describe 'slotcars.build.controllers.DrawController', ->
     (expect DrawController).toExtend Ember.Object
 
   beforeEach ->
-    @trackModelMock = addPathPoint: sinon.spy()
+    @trackMock = addPathPoint: sinon.spy()
     @drawController = DrawController.create
-      track: @trackModelMock
+      track: @trackMock
 
 
   describe 'important default values', ->
@@ -26,7 +26,7 @@ describe 'slotcars.build.controllers.DrawController', ->
       testPoint = x: 0, y: 0
       @drawController.onTouchMouseMove testPoint
 
-      (expect @trackModelMock.addPathPoint).toHaveBeenCalledWith testPoint
+      (expect @trackMock.addPathPoint).toHaveBeenCalledWith testPoint
 
     it 'should not add further points when user finished drawing', ->
       @drawController.finishedDrawing = true
@@ -34,20 +34,20 @@ describe 'slotcars.build.controllers.DrawController', ->
       testPoint = x: 0, y: 0
       @drawController.onTouchMouseMove testPoint
 
-      (expect @trackModelMock.addPathPoint).not.toHaveBeenCalledWith testPoint
+      (expect @trackMock.addPathPoint).not.toHaveBeenCalledWith testPoint
 
 
   describe 'clearing the track path', ->
 
     it 'should tell the track model to clear path', ->
-      @trackModelMock.clearPath = sinon.spy()
+      @trackMock.clearPath = sinon.spy()
 
       @drawController.onClearTrack()
 
-      (expect @trackModelMock.clearPath).toHaveBeenCalled()
+      (expect @trackMock.clearPath).toHaveBeenCalled()
 
     it 'should enable drawing', ->
-      @trackModelMock.clearPath = sinon.spy()
+      @trackMock.clearPath = sinon.spy()
       @drawController.finishedDrawing = true
 
       @drawController.onClearTrack()
@@ -57,12 +57,12 @@ describe 'slotcars.build.controllers.DrawController', ->
   describe 'cleaning the track when user finished drawing', ->
 
     beforeEach ->
-      @trackModelMock.cleanPath = sinon.spy()
+      @trackMock.cleanPath = sinon.spy()
 
     it 'should clean the track on mouse up event', ->
       @drawController.onTouchMouseUp()
 
-      (expect @trackModelMock.cleanPath).toHaveBeenCalled()
+      (expect @trackMock.cleanPath).toHaveBeenCalled()
 
     it 'should set finished drawing to true', ->
       @drawController.onTouchMouseUp()
