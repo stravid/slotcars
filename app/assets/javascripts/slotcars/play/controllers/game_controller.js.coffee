@@ -17,6 +17,10 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   track: null
   gameLoopController: null
   isTouchMouseDown: false
+  carControlsEnabled: false
+  
+  isCountdownVisible: false
+  currentCountdownValue: null
 
   startTime: null
   endTime: null
@@ -26,27 +30,21 @@ slotcars.play.controllers.GameController = Ember.Object.extend
     (@get 'car').set 'track', (@get 'track')
     @gameLoopController = GameLoopController.create()
 
-    (jQuery document).on 'touchMouseDown', (event) => @onTouchMouseDown event
-    (jQuery document).on 'touchMouseUp', (event) => @onTouchMouseUp event
-
     unless @track?
       throw new Error 'track has to be provided'
     unless @car?
       throw new Error 'car has to be provided'
 
   start: ->
-    @_resetTime()
-    startPosition = @track.getPointAtLength 0
-    @car.moveTo { x: startPosition.x, y: startPosition.y }
-
-    @car.jumpstart()
-    @car.reset()
-
+    @restartGame()
     @gameLoopController.start => @update()
 
   finish: ->
     @_setCurrentTime()
     @car.reset()
+
+    @set 'carControlsEnabled', false
+    @isTouchMouseDown = false
 
   _setCurrentTime: ->
     @endTime = new Date().getTime()
@@ -90,12 +88,25 @@ slotcars.play.controllers.GameController = Ember.Object.extend
     @isTouchMouseDown = false
 
   restartGame: ->
-    @car.reset()
-    @_resetTime()
+    @set 'carControlsEnabled', false
+    @set 'raceTime', 0
 
     position = @track.getPointAtLength 0
     @car.moveTo { x: position.x, y: position.y }
 
-  _resetTime: ->
-    @set 'raceTime', 0
-    @startTime = new Date().getTime()
+    @car.jumpstart()
+    @car.reset()
+
+    @set 'currentCountdownValue', 3
+    @set 'isCountdownVisible', true
+
+    setTimeout (=> @set 'currentCountdownValue', 2 ), 1000
+    setTimeout (=> @set 'currentCountdownValue', 1 ), 2000
+
+    setTimeout (=>
+      @set 'carControlsEnabled', true
+      @startTime = new Date().getTime()
+      @set 'currentCountdownValue', 'Go!'
+    ), 3000
+
+    setTimeout (=> @set 'isCountdownVisible', false ), 3500

@@ -12,3 +12,17 @@ slotcars.play.views.GameView = Ember.View.extend
 
   onRestartClick: ->
     @gameController.restartGame()
+
+  raceTimeInSeconds: (Ember.computed ->
+    @convertMillisecondsToSeconds (@gameController.get 'raceTime')
+  ).property 'gameController.raceTime'
+
+  onCountdownVisibleChange: ( ->
+    if @gameController.get 'isCountdownVisible'
+      (@$ '#countdown').show() 
+    else 
+      (@$ '#countdown').hide()
+  ).observes 'gameController.isCountdownVisible'
+
+  convertMillisecondsToSeconds: (value) ->
+    value / 1000

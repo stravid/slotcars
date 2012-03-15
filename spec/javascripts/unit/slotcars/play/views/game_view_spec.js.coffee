@@ -18,8 +18,14 @@ describe 'slotcars.play.views.GameView (unit)', ->
   it 'should extend Ember.View', ->
     (expect GameView).toExtend Ember.View
 
-  it 'should restart game when restartGame event was triggered', ->
+  it 'should restart game when button was clicked', ->
     @gameController.restartGame = sinon.spy()
     @gameView.onRestartClick()
     
     (expect @gameController.restartGame).toHaveBeenCalled()
+
+  it 'should update race time when it changes', ->
+    timeValue = 28
+    @gameController.set 'raceTime', timeValue
+
+    (expect @gameView.get 'raceTimeInSeconds').toBe @gameView.convertMillisecondsToSeconds timeValue
