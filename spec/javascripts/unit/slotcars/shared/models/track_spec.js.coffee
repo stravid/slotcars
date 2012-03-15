@@ -135,33 +135,6 @@ describe 'slotcars.shared.models.Track', ->
 
       (expect raphaelPathObserver).toHaveBeenCalled()
   
-  describe 'creating startVector after cleaning', ->
-    
-    beforeEach ->
-      @pathMock.clean = sinon.spy()
-      @track = Track.createRecord()
-      
-      @firstPoint = { x: 1, y: 0 }
-      @secondPoint = { x: 2, y: 1 }
-      @thirdPoint = { x: 3, y: 2 }
-      
-      @pathMock.asPointArray.returns [ @firstPoint, @secondPoint, @thirdPoint ]
-      @pathMock.head = @firstPoint
-      @pathMock.head.next = @secondPoint
-      
-      @track.addPathPoint @firstPoint
-      @track.addPathPoint @secondPoint
-      @track.addPathPoint @thirdPoint
-      
-      @track.cleanPath()
-     
-    it 'should update startVector', ->
-      (expect @track.startVector).not.toBeNull()
-    
-    it 'should update startVector', ->
-      (expect @track.startVector.x).toBe 1
-      (expect @track.startVector.y).toBe 1
-
   describe 'route to the track resource', ->
 
     it 'should return the correct route with client id', ->

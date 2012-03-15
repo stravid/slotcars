@@ -21,7 +21,6 @@ slotcars.shared.models.Track = DS.Model.extend
   raphaelPath: EMPTY_RAPHAEL_PATH
 
   numberOfLaps: 3
-  startVector: null
 
   init: ->
     @_super()
@@ -48,7 +47,6 @@ slotcars.shared.models.Track = DS.Model.extend
     @set 'raphaelPath', EMPTY_RAPHAEL_PATH
 
   cleanPath: ->
-    @_createStartVector()
     @_path.clean minAngle: 10, minLength: 100, maxLength: 400
     @_shouldUpdateRasterizedPath = true
     @_updateRaphaelPath()
@@ -115,14 +113,4 @@ slotcars.shared.models.Track = DS.Model.extend
     # there is no optimization for curves vs. straight parts yet
     for length in [0..totalLength] by 5
       @_rasterizedPath.push (Raphael.getPointAtLength path, length), true
-  
-  _createStartVector: ->
-    head = @_path.head
-    return unless head?
 
-    next = @_path.head.next
-    return unless next? 
-    
-    @startVector = new Vector()
-    @startVector.x = next.x - head.x
-    @startVector.y = next.y - head.y
