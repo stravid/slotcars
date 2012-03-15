@@ -41,14 +41,14 @@ slotcars.play.controllers.GameController = Ember.Object.extend
 
   finish: ->
     @_setCurrentTime()
-    @car.reset()
 
     @set 'carControlsEnabled', false
     @isTouchMouseDown = false
 
   _setCurrentTime: ->
     @endTime = new Date().getTime()
-    @set 'raceTime', @endTime - @startTime
+    if @get 'carControlsEnabled'
+      @set 'raceTime', @endTime - @startTime
 
   onCarCrossedFinishLine: (->
     car = @get 'car'
