@@ -14,6 +14,7 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
   elementId: 'build-draw-view'
   drawController: null
   trackBinding: 'drawController.track'
+  _rasterizedTrackPath: null
 
   didInsertElement: ->
     @_paper = Raphael @$(PAPER_WRAPPER_ID)[0], 1024, 768
@@ -26,6 +27,13 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
     @drawTrack track.get 'raphaelPath' if track?
   ).observes 'track.raphaelPath'
 
+  onRasterizedPathChanged: (->
+    track = @get 'track'
+    if track?
+      @_rasterizedTrackPath.remove() if @_rasterizedTrackPath?
+      @_rasterizedTrackPath = @_drawPath (track.get 'rasterizedPath'), @ASPHALT_WIDTH, 'rgba(0, 255, 0, 0.5)'
+  ).observes 'track.rasterizedPath'
+
   # overrides TrackView.drawTrack for drawing
   drawTrack: (path) ->
     # remove the Z from path to not close it while drawing
@@ -36,6 +44,10 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
   onClearButtonClicked: (event) ->
     event.preventDefault() if event?
     @drawController.onClearTrack()
+
+  onPlayCreatedTrackButtonClicked: (event) ->
+    event.preventDefault() if event?
+    @drawController.onPlayCreatedTrack()
 
   willDestroyElement: ->
     @$(PAPER_WRAPPER_ID).off 'touchMouseDown'
