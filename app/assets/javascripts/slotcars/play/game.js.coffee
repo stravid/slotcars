@@ -38,6 +38,8 @@ slotcars.play.Game = Ember.Object.extend
 
   start: ->
     @_trackView.drawTrack @track.raphaelPath
+    @_trackView.drawFinishLine @track.getPointAtLength(20), @track.getPointAtLength(23)
+    
     @_gameController.start()
 
   _appendViews: ->

@@ -1,8 +1,11 @@
 
 #= require helpers/namespace
 #= require vendor/raphael
+#= require helpers/math/vector
 
 namespace 'slotcars.shared.views'
+
+Vector = helpers.math.Vector
 
 slotcars.shared.views.TrackView = Ember.View.extend
 
@@ -10,6 +13,9 @@ slotcars.shared.views.TrackView = Ember.View.extend
   gameController: null
   _paper: null
   _path: null
+  _finishLine: null
+  _pointA: null
+  _pointB: null
 
   DASHED_LINE_WIDTH: 3
   ASPHALT_WIDTH: 70
@@ -24,6 +30,7 @@ slotcars.shared.views.TrackView = Ember.View.extend
   didInsertElement: ->
     @_paper = Raphael @$()[0], 1024, 768
     @drawTrack @_path
+    @drawFinishLine @_pointA, @_pointB
 
   drawTrack: (path) ->
     # save path when not in DOM to draw it as soon as inserted
@@ -38,6 +45,24 @@ slotcars.shared.views.TrackView = Ember.View.extend
     @_drawPath path, @BORDER_LINE_WIDTH, @LINE_COLOR
     @_drawPath path, @ASPHALT_WIDTH, @ASPHALT_COLOR
     @_drawDashedLine path
+    
+  drawFinishLine: (pointA, pointB) ->
+    unless @_paper?
+      @_pointA = pointA
+      @_pointB = pointB
+      return
+    
+    return unless pointA? and pointB?
+    
+    x = pointB.x - pointA.x
+    y = pointB.y - pointA.y
+    
+    vector = Vector.create x: x, y: y
+    
+    @_finishLine.remove() if @_finishLine
+    @_finishLine = @_paper.image "<%= asset_path('views/play/finish-line.jpg') %>", pointA.x, pointA.y, 70, 20
+    @_finishLine.translate -35, -10
+    @_finishLine.rotate vector.clockwiseAngle()
   
   onCarControlsChange: (->
     (jQuery @$()).off 'touchMouseDown'

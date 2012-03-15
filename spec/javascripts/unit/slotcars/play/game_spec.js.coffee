@@ -78,7 +78,9 @@ describe 'game', ->
     beforeEach ->
       @GameControllerMock.start = sinon.spy()
       @TrackViewMock.drawTrack = sinon.spy()
+      @TrackViewMock.drawFinishLine = sinon.spy()
       @trackMock.raphaelPath = {}
+      @trackMock.getPointAtLength = sinon.stub().returns x: 3, y: 4
 
     it 'should start the game controller', ->
       @game.start()
@@ -89,3 +91,8 @@ describe 'game', ->
       @game.start()
 
       (expect @TrackViewMock.drawTrack).toHaveBeenCalledWith @trackMock.raphaelPath
+    
+    it 'should tell the track view to draw the finish line', ->
+      @game.start()
+
+      (expect @TrackViewMock.drawFinishLine).toHaveBeenCalled

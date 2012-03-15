@@ -121,7 +121,7 @@ slotcars.shared.models.Track = DS.Model.extend
     return unless head?
 
     next = @_path.head.next
-    return unless next?
+    return unless next? 
     
     @startVector = new Vector()
     @startVector.x = next.x - head.x
