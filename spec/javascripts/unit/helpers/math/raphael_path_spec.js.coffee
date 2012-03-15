@@ -159,6 +159,87 @@ describe 'raphael path', ->
   describe 'rasterizing the path for performance lookups', ->
 
     beforeEach ->
+      @raphaelPath = RaphaelPath.create()
+
+      @RaphaelMock.getPointAtLength = sinon.stub()
+      # stub total length of raphael path to be zero
+      @RaphaelMock.getTotalLength = sinon.stub().returns 1
+
+      @EmberNextBackup = Ember.run.next
+      Ember.run.next = sinon.stub()
+
+    afterEach ->
+      Ember.run.next = @EmberNextBackup
+
+    it 'should create a new path for rasterization', ->
+      @raphaelPath.rasterize()
+
+      # once at create() and once in rasterize()
+      (expect @pathMock.create).toHaveBeenCalledTwice()
+
+    it 'should push point at current length into rasterization path', ->
+      testPoint = {}
+      expectedLength = 10
+      path = @raphaelPath.get 'path'
+      @RaphaelMock.getPointAtLength.withArgs(path, expectedLength).returns testPoint
+
+      @raphaelPath.rasterize currentLength: expectedLength
+
+      (expect @pathMock.push).toHaveBeenCalledWithExactly testPoint, true
+
+    it 'should call the progress handler with rasterized length', ->
+      expectedCurrentLength = 10
+      progressCallback = sinon.spy()
+
+      @raphaelPath.rasterize
+        currentLength: expectedCurrentLength
+        onProgress: progressCallback
+
+      (expect progressCallback).toHaveBeenCalledWith expectedCurrentLength
+
+    it 'should not rasterize if total lenth is zero', ->
+      @RaphaelMock.getTotalLength = sinon.stub().returns 0
+
+      @raphaelPath.rasterize()
+
+      (expect Ember.run.next).not.toHaveBeenCalled()
+      (expect @pathMock.create).toHaveBeenCalledOnce() # only once on creation
+
+    it 'should tell ember to run rasterize on next tick and avoid infinite loops', ->
+      parameters = { stepSize: 2 }
+      # let it rasterize one time
+      @RaphaelMock.getTotalLength = sinon.stub().returns 1
+
+      @raphaelPath.rasterize parameters
+      # extract anonymous callback provided to Ember.run.next
+      rasterizeCallbackProvidedToEmber = Ember.run.next.args[0][0]
+
+      # let jasmine spy on and call original method to test recursion
+      rasterizeStub = (spyOn @raphaelPath, 'rasterize').andCallThrough()
+
+      # simulate Ember that calls on next tick
+      rasterizeCallbackProvidedToEmber()
+
+      (expect Ember.run.next).toHaveBeenCalledOnce()
+
+    it 'should rasterize until the end is reached and then tell finish callback', ->
+      finishSpy = sinon.spy()
+      parameters = stepSize: 1, onFinished: finishSpy
+      # let it rasterize three times (starts with zero)
+      @RaphaelMock.getTotalLength = sinon.stub().returns 2
+
+      # simulate Ember.run.next by always calling the callback immediately
+      Ember.run.next.yields()
+
+      @raphaelPath.rasterize parameters
+
+      (expect Ember.run.next).toHaveBeenCalledTwice()
+      (expect finishSpy).toHaveBeenCalledOnce()
+
+'''
+  describe 'rasterizing the path for performance lookups', ->
+
+    beforeEach ->
       @points = [
         { x: 0, y: 0 }
         { x: 1, y: 0 }
@@ -186,3 +267,4 @@ describe 'raphael path', ->
       (expect @RaphaelMock.getPointAtLength).toHaveBeenCalledWith @expectedPath, 0
       (expect @RaphaelMock.getPointAtLength).toHaveBeenCalledWith @expectedPath, 5
       (expect @RaphaelMock.getPointAtLength).toHaveBeenCalledWith @expectedPath, 10
+'''
