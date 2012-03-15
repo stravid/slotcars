@@ -10,4 +10,6 @@ slotcars.play.views.PlayScreenView = Ember.View.extend
   templateName: 'slotcars_play_templates_play_screen_view_template'
   contentView: null
   clockView: null
+  gameView: null
+  carView: null
     

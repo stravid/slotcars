@@ -41,7 +41,7 @@ slotcars.play.Game = Ember.Object.extend
     @_gameController.start()
 
   _appendViews: ->
-    @playScreenView.set 'trackView', @_trackView
+    @playScreenView.set 'contentView', @_trackView
     @playScreenView.set 'carView', @_carView
-    @playScreenView.set 'contentView', @_gameView
+    @playScreenView.set 'gameView', @_gameView
     @playScreenView.set 'clockView', @_clockView
