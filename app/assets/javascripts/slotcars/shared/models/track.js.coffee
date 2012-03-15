@@ -2,7 +2,7 @@
 #= require helpers/namespace
 #= require embient/ember-data
 #= require slotcars/shared/models/model_store
-#= require helpers/math/path
+#= require helpers/math/raphael_path
 #= require vendor/raphael
 
 namespace 'slotcars.shared.models'
@@ -23,24 +23,21 @@ slotcars.shared.models.Track = DS.Model.extend
 
   addPathPoint: (point) -> (@get '_raphaelPath').addPoint point
 
-  getTotalLength: -> (@get '_raphaelPath').getTotalLength()
+  getTotalLength: -> (@get '_raphaelPath').get 'totalLength'
 
   getPointAtLength: (length) -> (@get '_raphaelPath').getPointAtLength length
 
   clearPath: -> (@get '_raphaelPath').clear()
 
   cleanPath: ->
-    (@get '_raphaelPath').clean minAngle: 10, minLength: 100, maxLength: 400
+    raphaelPath = (@get '_raphaelPath')
+    raphaelPath.clean minAngle: 10, minLength: 100, maxLength: 400
+
+    # defer rasterization for 10 milliseconds since it is time
+    # costly and would block other operations
+    Ember.run.later (=> raphaelPath.rasterize 5), 10
 
   playRoute: (->
     clientId = @get('clientId')
     "play/#{clientId}"
   ).property 'clientId'
-
-  _updateRasterizedPath: ->
-    return unless @_shouldUpdateRasterizedPath
-
-    # defer rasterization since it is time costly and would block other operations
-    Ember.run.later (=> @_rasterizeRaphaelPath()), 10
-
-    @_shouldUpdateRasterizedPath = false

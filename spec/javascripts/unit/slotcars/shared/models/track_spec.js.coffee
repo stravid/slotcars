@@ -49,7 +49,7 @@ describe 'slotcars.shared.models.Track', ->
     it 'should ask its raphael path for total length', ->
       track = Track.createRecord()
       expectedValue = 'bla'
-      @raphaelPathMock.getTotalLength = sinon.stub().returns expectedValue
+      @raphaelPathMock.get = sinon.stub().withArgs('totalLength').returns expectedValue
 
       totalLength = track.getTotalLength()
 
@@ -85,12 +85,23 @@ describe 'slotcars.shared.models.Track', ->
 
     beforeEach ->
       @raphaelPathMock.clean = sinon.spy()
+      @raphaelPathMock.rasterize = sinon.spy()
       @track = Track.createRecord()
 
     it 'should tell the path to clean itself', ->
       @track.cleanPath()
 
       (expect @raphaelPathMock.clean).toHaveBeenCalled()
+
+    it 'should not tell the raphael path to rasterize immediately', ->
+      @track.cleanPath()
+
+      (expect @raphaelPathMock.rasterize).not.toHaveBeenCalled()
+
+    it 'should rasterize the raphael path after an short delay', ->
+      runs -> @track.cleanPath()
+      waits 20
+      runs -> (expect @raphaelPathMock.rasterize).toHaveBeenCalled()
 
 
   describe 'route to the track resource', ->

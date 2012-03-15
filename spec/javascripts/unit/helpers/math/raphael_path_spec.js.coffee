@@ -126,6 +126,36 @@ describe 'raphael path', ->
 
 
 
+  describe 'cleaning the path', ->
+
+    beforeEach ->
+      @raphaelPath = RaphaelPath.create()
+      @pathMock.clean = sinon.spy()
+
+    it 'should tell the path to clean with given parameters', ->
+      parameters = {}
+
+      @raphaelPath.clean parameters
+
+      (expect @pathMock.clean).toHaveBeenCalledWith parameters
+
+    it 'should update the path property after cleaning', ->
+      @pathMock.length = 3
+      @pathMock.asPointArray.returns [
+        { x: 0,  y: 0  }
+        { x: 10, y: 5  }
+        { x: 5,  y: 10 }
+      ]
+
+      pathBeforeClean = @raphaelPath.get 'path'
+
+      @raphaelPath.clean {}
+
+      pathAfterClean = @raphaelPath.get 'path'
+
+      (expect pathAfterClean).not.toEqual pathBeforeClean
+
+
   describe 'rasterizing the path for performance lookups', ->
 
     beforeEach ->

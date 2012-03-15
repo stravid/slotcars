@@ -32,9 +32,12 @@ RaphaelPath = helpers.math.RaphaelPath = Ember.Object.extend
     else
       Raphael.getPointAtLength (@get 'path'), length
 
-
   clear: ->
     @_path.clear()
+    @_updateCatmullRomPath()
+
+  clean: (parameters) ->
+    @_path.clean parameters
     @_updateCatmullRomPath()
 
   rasterize: (rasterizationSize)->
