@@ -71,10 +71,10 @@ describe 'game', ->
       (expect @playScreenViewMock.set).toHaveBeenCalledWith 'carView', @CarViewMock
 
     it 'should append track view to play screen view', ->
-      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'trackView', @TrackViewMock
+      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'contentView', @TrackViewMock
 
     it 'should append game view to play screen view', ->
-      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'contentView', @GameViewMock
+      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'gameView', @GameViewMock
 
     it 'should append clock view to play screen view', ->
       (expect @playScreenViewMock.set).toHaveBeenCalledWith 'clockView', @ClockViewMock
