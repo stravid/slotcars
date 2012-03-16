@@ -93,6 +93,9 @@ describe 'slotcars.build.controllers.DrawController', ->
       slotcars.routeManager = sinon.stub()
       slotcars.routeManager.set = sinon.spy()
 
+      # simulate that a track was already drawn
+      @drawController.set 'finishedDrawing', true
+
     afterEach ->
       slotcars.routeManager = @routeManagerBackup
 
@@ -128,3 +131,11 @@ describe 'slotcars.build.controllers.DrawController', ->
       finishCallback()
 
       (expect @drawController.get 'isRasterizing').toBe false
+
+    it 'dont start playing the track if not yet finished drawing it', ->
+      @drawController.set 'finishedDrawing', false
+
+      @drawController.onPlayCreatedTrack()
+
+      (expect @drawController.get 'isRasterizing').toBe false
+      (expect @trackMock.rasterize).not.toHaveBeenCalled()
