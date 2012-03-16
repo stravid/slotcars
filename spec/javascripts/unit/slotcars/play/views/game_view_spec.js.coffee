@@ -1,10 +1,12 @@
 
 #= require slotcars/play/views/game_view
+#= require slotcars/play/views/lap_time_view
 #= require slotcars/play/controllers/game_controller
 
 describe 'slotcars.play.views.GameView (unit)', ->
 
   GameView = slotcars.play.views.GameView
+  LapTimeView = slotcars.play.views.LapTimeView
   GameController = slotcars.play.controllers.GameController
 
   beforeEach ->
@@ -14,6 +16,10 @@ describe 'slotcars.play.views.GameView (unit)', ->
 
     @gameView = GameView.create
       gameController: @gameController
+    
+    @gameView.appendTo jQuery '<div>'
+    
+    Ember.run.end()
 
   it 'should extend Ember.View', ->
     (expect GameView).toExtend Ember.View
@@ -29,3 +35,6 @@ describe 'slotcars.play.views.GameView (unit)', ->
     @gameController.set 'raceTime', timeValue
 
     (expect @gameView.get 'raceTimeInSeconds').toBe @gameView.convertMillisecondsToSeconds timeValue
+    
+  it 'should have a lap view', ->
+    (expect @gameView.lapTimeView).toBeInstanceOf LapTimeView

@@ -228,6 +228,11 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.finish()
 
       (expect @gameController.isTouchMouseDown).toBe false
+      
+    it 'should set a flag when race is over', ->
+      @gameController.finish()
+      
+      (expect @gameController.get 'isRaceFinished').toBe true
 
   describe 'observing crossed finish line property of car', ->
 
@@ -294,6 +299,11 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.restartGame()
       
       (expect @gameController.get 'isCountdownVisible').toBe true
+      
+    it 'sholud unset the flag wether the race is finished', ->
+      @gameController.restartGame()
+      
+      (expect @gameController.get 'isRaceFinished').toBe false
       
     it 'should reset lap times when race is reset', ->
       @gameController.lapTimes.push(123)

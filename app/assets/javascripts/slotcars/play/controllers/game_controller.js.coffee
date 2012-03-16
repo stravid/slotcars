@@ -20,6 +20,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   carControlsEnabled: false
   
   isCountdownVisible: false
+  isRaceFinished: false
   currentCountdownValue: null
 
   startTime: null
@@ -44,7 +45,9 @@ slotcars.play.controllers.GameController = Ember.Object.extend
 
   finish: ->
     @_setCurrentTime()
-
+    @onLapChange()
+    
+    @set 'isRaceFinished', true
     @set 'carControlsEnabled', false
     @isTouchMouseDown = false
 
@@ -101,6 +104,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
 
   restartGame: ->
     @set 'carControlsEnabled', false
+    @set 'isRaceFinished', false
     @set 'raceTime', 0
     @set 'lapTimes', []
 
