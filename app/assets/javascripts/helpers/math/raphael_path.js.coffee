@@ -14,6 +14,7 @@ RaphaelPath = helpers.math.RaphaelPath = Ember.Object.extend
   path: EMPTY_RAPHAEL_PATH_STRING
   _path: null
   _rasterizedPath: null
+  _cancelRasterization: false
 
   init: ->
     @set '_path', Path.create()
@@ -41,6 +42,11 @@ RaphaelPath = helpers.math.RaphaelPath = Ember.Object.extend
     @_updateCatmullRomPath()
 
   rasterize: (parameters) ->
+
+    if @_cancelRasterization
+      @_cancelRasterization = false
+      return @_rasterizedPath = null
+
     parameters ?= {}
     totalLength = parameters.totalLength ?= @get 'totalLength'
 
@@ -61,6 +67,8 @@ RaphaelPath = helpers.math.RaphaelPath = Ember.Object.extend
       Ember.run.next => @rasterize parameters
     else
       parameters.onFinished() if parameters.onFinished?
+
+  cancelRasterization: -> @_cancelRasterization = true
 
   _rasterizePointAtLength: (length) ->
     path = @get 'path'

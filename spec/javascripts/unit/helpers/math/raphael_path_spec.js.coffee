@@ -235,3 +235,29 @@ describe 'raphael path', ->
 
       (expect Ember.run.next).toHaveBeenCalledTwice()
       (expect finishSpy).toHaveBeenCalledOnce()
+
+    it 'should stop rasterization immediately if cancelled', ->
+      finishSpy = sinon.spy()
+      progressSpy = sinon.spy()
+
+      parameters =
+        stepSize: 1
+        onFinished: finishSpy
+        onProgress: progressSpy
+
+      # would let it rasterize two times (starts with zero)
+      @RaphaelMock.getTotalLength = sinon.stub().returns 1
+
+      @raphaelPath.rasterize parameters
+
+      # extract anonymous callback provided to Ember.run.next
+      rasterizeCallbackProvidedToEmber = Ember.run.next.args[0][0]
+
+      @raphaelPath.cancelRasterization()
+
+      # simulate that ember calls back on next ticks
+      rasterizeCallbackProvidedToEmber()
+
+      # check that rasterization was cancelled correctly
+      (expect progressSpy).toHaveBeenCalledOnce()
+      (expect finishSpy).not.toHaveBeenCalled()

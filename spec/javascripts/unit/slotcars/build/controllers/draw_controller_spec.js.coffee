@@ -19,6 +19,9 @@ describe 'slotcars.build.controllers.DrawController', ->
     it 'should not be finished with drawing when created', ->
       (expect @drawController.finishedDrawing).toBe false
 
+    it 'should not be in rasterizing mode by default', ->
+      (expect @drawController.isRasterizing).toBe false
+
 
   describe 'add path points to track model on mouse move', ->
 
@@ -39,20 +42,29 @@ describe 'slotcars.build.controllers.DrawController', ->
 
   describe 'clearing the track path', ->
 
-    it 'should tell the track model to clear path', ->
+    beforeEach ->
       @trackMock.clearPath = sinon.spy()
 
+    it 'should tell the track model to clear path', ->
       @drawController.onClearTrack()
 
       (expect @trackMock.clearPath).toHaveBeenCalled()
 
     it 'should enable drawing', ->
-      @trackMock.clearPath = sinon.spy()
       @drawController.finishedDrawing = true
 
       @drawController.onClearTrack()
 
       (expect @drawController.finishedDrawing).toBe false
+
+    it 'should cancel rasterization if clicked while preparing track', ->
+      @trackMock.cancelRasterization = sinon.spy()
+      @drawController.isRasterizing = true
+
+      @drawController.onClearTrack()
+
+      (expect @trackMock.cancelRasterization).toHaveBeenCalled()
+      (expect @drawController.get 'isRasterizing').toBe false
 
 
   describe 'cleaning the track when user finished drawing', ->
