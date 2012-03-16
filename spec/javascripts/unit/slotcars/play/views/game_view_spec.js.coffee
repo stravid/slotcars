@@ -14,12 +14,19 @@ describe 'slotcars.play.views.GameView (unit)', ->
       track: Ember.Object.create()  # real track is not necessary here
       car: Ember.Object.create()
 
+    @lapTimeViewMock = mockEmberClass LapTimeView
+    @gameControllerMock = mockEmberClass GameController
+
     @gameView = GameView.create
       gameController: @gameController
     
     @gameView.appendTo jQuery '<div>'
     
     Ember.run.end()
+    
+  afterEach ->
+    @gameControllerMock.restore()
+    @lapTimeViewMock.restore()
 
   it 'should extend Ember.View', ->
     (expect GameView).toExtend Ember.View
@@ -35,6 +42,6 @@ describe 'slotcars.play.views.GameView (unit)', ->
     @gameController.set 'raceTime', timeValue
 
     (expect @gameView.get 'raceTimeInSeconds').toBe @gameView.convertMillisecondsToSeconds timeValue
-    
-  it 'should have a lap view', ->
-    (expect @gameView.lapTimeView).toBeInstanceOf LapTimeView
+
+  #it 'should create a lap view with gameController', ->
+  #  (expect @lapTimeViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @gameControllerMock

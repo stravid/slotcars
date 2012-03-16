@@ -2,5 +2,5 @@
 <div id="countdown" style="color: white; font-size: 270px; position: absolute; top: 210px; left: 300px; font-weight: bold; font-family: sans-serif; width: 400px; text-align: center; text-shadow: 0 0 15px #eee;">{{gameController.currentCountdownValue}}</div>
 
 {{#if gameController.isRaceFinished}}
-    {{view LapTimeView className="overlay"}}
+    {{dynamicView lapTimeView className="overlay"}}
 {{/if}} 
