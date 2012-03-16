@@ -59,7 +59,12 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   ).observes 'car.crossedFinishLine'
   
   onLapChange: (->
-    
+    lapTimes = @get 'lapTimes'
+    sum = lapTimes.reduce (previous, current) -> 
+      previous + current
+    , 0
+    lapTimes.push (@get 'raceTime') - sum
+    @set 'lapTimes', lapTimes
   ).observes 'car.currentLap'
 
   update: ->

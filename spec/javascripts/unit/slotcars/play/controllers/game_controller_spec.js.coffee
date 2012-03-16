@@ -331,7 +331,23 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
   describe 'saving lap times', ->
     
     it 'should save lap time when current lap of car changes', ->
-      arrayLength = @gameController.lapTimes.length
+      @gameController.lapTimes = []
       @gameController.onLapChange()
       
-      (expect @gameController.lapTimes.length).toBe (arrayLength + 1)
+      (expect @gameController.lapTimes.length).toBe 1
+      
+    it 'should save the difference of total minus first lap', ->
+      fakeTimer = sinon.useFakeTimers()
+      @gameController.restartGame()
+      
+      fakeTimer.tick 5000 # 3 second count down - 2 second round
+      @gameController._setCurrentTime()
+      @gameController.onLapChange()
+      
+      fakeTimer.tick 3000
+      @gameController._setCurrentTime()
+      @gameController.onLapChange()
+
+      (expect @gameController.lapTimes[1]).toBe 3000
+      
+      fakeTimer.restore()
