@@ -197,7 +197,7 @@ describe 'raphael path', ->
 
       (expect progressCallback).toHaveBeenCalledWith expectedCurrentLength
 
-    it 'should not rasterize if total lenth is zero', ->
+    it 'should not rasterize if total length is zero', ->
       @RaphaelMock.getTotalLength = sinon.stub().returns 0
 
       @raphaelPath.rasterize()
@@ -235,36 +235,3 @@ describe 'raphael path', ->
 
       (expect Ember.run.next).toHaveBeenCalledTwice()
       (expect finishSpy).toHaveBeenCalledOnce()
-
-'''
-  describe 'rasterizing the path for performance lookups', ->
-
-    beforeEach ->
-      @points = [
-        { x: 0, y: 0 }
-        { x: 1, y: 0 }
-        { x: 2, y: 0 }
-      ]
-
-      @pathMock.asPointArray.returns @points
-
-      @RaphaelMock.getTotalLength = sinon.stub().returns 10
-      @RaphaelMock.getPointAtLength = sinon.stub()
-
-      @RaphaelMock.getPointAtLength.withArgs(@pathMock, 0).returns @points[0]
-      @RaphaelMock.getPointAtLength.withArgs(@pathMock, 5).returns @points[1]
-      @RaphaelMock.getPointAtLength.withArgs(@pathMock, 10).returns @points[2]
-
-      @rasterizationSize = 5 # rasterize three points
-
-      @raphaelPath = RaphaelPath.create()
-      @expectedPath = 'bla'
-      @raphaelPath.set 'path', @expectedPath
-
-    it 'should ask for points from Raphael in given steps', ->
-      @raphaelPath.rasterize @rasterizationSize
-
-      (expect @RaphaelMock.getPointAtLength).toHaveBeenCalledWith @expectedPath, 0
-      (expect @RaphaelMock.getPointAtLength).toHaveBeenCalledWith @expectedPath, 5
-      (expect @RaphaelMock.getPointAtLength).toHaveBeenCalledWith @expectedPath, 10
-'''

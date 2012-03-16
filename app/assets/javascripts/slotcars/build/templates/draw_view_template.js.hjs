@@ -1,12 +1,12 @@
 <div id="draw-view-paper"></div>
 
-<a id="clear-track-button" class="override-button" href="#" {{action "onClearButtonClicked"}}>
+<span id="clear-track-button" class="override-button" {{action "onClearButtonClicked"}}>
   clear track
-</a>
+</span>
 
-<a id="test-track-button" class="override-button" href="#" {{action "onPlayCreatedTrackButtonClicked"}}>
+<span id="test-track-button" class="override-button" {{action "onPlayCreatedTrackButtonClicked"}}>
   play created track
-</a>
+</span>
 
 {{#if track.isRasterizing}}
   <div id="rasterizing-notification"><p>Preparing your track..</p></div>

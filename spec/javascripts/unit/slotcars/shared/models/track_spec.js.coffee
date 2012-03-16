@@ -178,7 +178,7 @@ describe 'slotcars.shared.models.Track', ->
 
       (expect @track.get 'isRasterizing').toBe true
 
-    it 'should tell the raphael path to raterize', ->
+    it 'should tell the raphael path to rasterize', ->
       @track.rasterize()
 
       (expect @raphaelPathMock.rasterize).toHaveBeenCalled()
@@ -186,7 +186,9 @@ describe 'slotcars.shared.models.Track', ->
     it 'should configure step size for rasterization', ->
       @track.rasterize()
 
-      (expect @raphaelPathMock.rasterize.args[0][0].stepSize).toBe 10
+      providedStepSize = @raphaelPathMock.rasterize.args[0][0].stepSize
+
+      (expect providedStepSize).toBeAPositiveNumber()
 
     it 'should provide rasterization progress callback that updates rasterized path', ->
       # needed to check for correct raphael path
