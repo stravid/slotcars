@@ -12,7 +12,7 @@ slotcars.play.views.GameView = Ember.View.extend
   elementId: 'game-view'
   templateName: 'slotcars_play_templates_game_view_template'
   gameController: null
-  lapTimeView: null
+  LapTimeView: slotcars.play.views.LapTimeView
 
   didInsertElement: ->
     @lapTimeView = LapTimeView.create()
