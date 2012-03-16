@@ -21,8 +21,10 @@ slotcars.build.controllers.DrawController = Ember.Object.extend
     @track.cleanPath()
 
   onPlayCreatedTrack: ->
-    # don't start multiple rasterization processes
+    # don't start multiple rasterizations
     return if @get 'isRasterizing'
+    # only play track when it was created first
+    return unless @get 'finishedDrawing'
 
     @set 'isRasterizing', true
     @track.rasterize => @_finishedRasterization()
