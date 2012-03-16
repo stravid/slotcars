@@ -21,10 +21,16 @@ slotcars.build.controllers.DrawController = Ember.Object.extend
     @track.cleanPath()
 
   onPlayCreatedTrack: ->
+    # don't start multiple rasterization processes
+    return if @get 'isRasterizing'
+
     @set 'isRasterizing', true
-    @track.rasterize =>
-      slotcars.routeManager.set 'location', @track.get 'playRoute'
+    @track.rasterize => @_finishedRasterization()
 
   _cancelRasterization: ->
     @set 'isRasterizing', false
     @track.cancelRasterization()
+
+  _finishedRasterization: ->
+    @set 'isRasterizing', false
+    slotcars.routeManager.set 'location', @track.get 'playRoute'

@@ -96,6 +96,11 @@ describe 'slotcars.build.controllers.DrawController', ->
     afterEach ->
       slotcars.routeManager = @routeManagerBackup
 
+    it 'should activate rasterization mode', ->
+      @drawController.onPlayCreatedTrack()
+
+      (expect @drawController.get 'isRasterizing').toBe true
+
     it 'should tell the track to rasterize itself', ->
       @drawController.onPlayCreatedTrack()
 
@@ -108,3 +113,18 @@ describe 'slotcars.build.controllers.DrawController', ->
       rasterizationFinishCallback() # normally called by track
 
       (expect slotcars.routeManager.set).toHaveBeenCalledWith 'location', @trackMock.playRoute
+
+    it 'should not tell the track to rasterize again during the process', ->
+      @drawController.onPlayCreatedTrack()
+      @drawController.onPlayCreatedTrack()
+
+      (expect @trackMock.rasterize).toHaveBeenCalledOnce()
+
+    it 'should leave rasterization mode when finish callback was called', ->
+      @drawController.onPlayCreatedTrack()
+
+      # simulate that rasterization finished
+      finishCallback = @trackMock.rasterize.args[0][0]
+      finishCallback()
+
+      (expect @drawController.get 'isRasterizing').toBe false
