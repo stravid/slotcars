@@ -27,6 +27,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   raceTime: null
 
   timeouts: []
+  lapTimes: []
 
   init: ->
     (@get 'car').set 'track', (@get 'track')
@@ -56,6 +57,10 @@ slotcars.play.controllers.GameController = Ember.Object.extend
     car = @get 'car'
     if car.get 'crossedFinishLine' then @finish()
   ).observes 'car.crossedFinishLine'
+  
+  onLapChange: (->
+    
+  ).observes 'car.currentLap'
 
   update: ->
     unless @car.isCrashing
@@ -92,6 +97,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   restartGame: ->
     @set 'carControlsEnabled', false
     @set 'raceTime', 0
+    @set 'lapTimes', []
 
     position = @track.getPointAtLength 0
     @car.moveTo { x: position.x, y: position.y }

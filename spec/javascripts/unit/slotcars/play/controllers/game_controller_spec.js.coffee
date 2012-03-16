@@ -294,7 +294,13 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.restartGame()
       
       (expect @gameController.get 'isCountdownVisible').toBe true
-
+      
+    it 'should reset lap times when race is reset', ->
+      @gameController.lapTimes.push(123)
+      @gameController.restartGame()
+       
+      (expect @gameController.lapTimes).toEqual []
+  
     describe 'after countdown', ->
 
       beforeEach ->
@@ -321,3 +327,11 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
         @fakeTimer.tick 3500
 
         (expect @gameController.get 'isCountdownVisible').toBe false
+
+  describe 'saving lap times', ->
+    
+    it 'should save lap time when current lap of car changes', ->
+      arrayLength = @gameController.lapTimes.length
+      @gameController.onLapChange()
+      
+      (expect @gameController.lapTimes.length).toBe (arrayLength + 1)
