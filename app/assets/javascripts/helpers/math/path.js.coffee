@@ -24,7 +24,7 @@ class helpers.math.Path extends LinkedList
   clean: (parameters) ->
     next = @head
 
-    while next?
+    while next? and @length > 3
       current = next
       if @_pointShouldBeRemoved current, parameters
         next = if current.previous? then current.previous else current.next
