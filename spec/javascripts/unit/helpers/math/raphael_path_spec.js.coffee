@@ -162,8 +162,12 @@ describe 'raphael path', ->
       @raphaelPath = RaphaelPath.create()
 
       @RaphaelMock.getPointAtLength = sinon.stub()
-      # stub total length of raphael path to be zero
-      @RaphaelMock.getTotalLength = sinon.stub().returns 1
+
+      # provide simplest config for tests
+      @parameters = stepSize: 1, pointsPerTick: 1
+
+      # there must be a minimum of two points rasterized
+      @RaphaelMock.getTotalLength = sinon.stub().returns 2
 
       @EmberNextBackup = Ember.run.next
       Ember.run.next = sinon.stub()
@@ -172,30 +176,37 @@ describe 'raphael path', ->
       Ember.run.next = @EmberNextBackup
 
     it 'should create a new path for rasterization', ->
-      @raphaelPath.rasterize()
+      @raphaelPath.rasterize @parameters
 
       # once at create() and once in rasterize()
       (expect @pathMock.create).toHaveBeenCalledTwice()
 
+
     it 'should push point at current length into rasterization path', ->
       testPoint = {}
-      expectedLength = 10
+      @RaphaelMock.getTotalLength = sinon.stub().returns 2
+      expectedLength = 1
+
       path = @raphaelPath.get 'path'
       @RaphaelMock.getPointAtLength.withArgs(path, expectedLength).returns testPoint
 
-      @raphaelPath.rasterize currentLength: expectedLength
+      @parameters.currentLength = expectedLength
+      @raphaelPath.rasterize @parameters
 
       (expect @pathMock.push).toHaveBeenCalledWithExactly testPoint, true
 
+
     it 'should call the progress handler with rasterized length', ->
-      expectedCurrentLength = 10
+      expectedCurrentEndLength = 2
       progressCallback = sinon.spy()
 
-      @raphaelPath.rasterize
-        currentLength: expectedCurrentLength
-        onProgress: progressCallback
+      @parameters.currentLength = 1
+      @parameters.onProgress = progressCallback
 
-      (expect progressCallback).toHaveBeenCalledWith expectedCurrentLength
+      @raphaelPath.rasterize @parameters
+
+      (expect progressCallback).toHaveBeenCalledWith expectedCurrentEndLength
+
 
     it 'should not rasterize if total length is zero', ->
       @RaphaelMock.getTotalLength = sinon.stub().returns 0
@@ -205,12 +216,13 @@ describe 'raphael path', ->
       (expect Ember.run.next).not.toHaveBeenCalled()
       (expect @pathMock.create).toHaveBeenCalledOnce() # only once on creation
 
-    it 'should tell ember to run rasterize on next tick and avoid infinite loops', ->
-      parameters = { stepSize: 2 }
-      # let it rasterize one time
-      @RaphaelMock.getTotalLength = sinon.stub().returns 1
 
-      @raphaelPath.rasterize parameters
+    it 'should tell ember to run rasterize on next tick and avoid infinite loops', ->
+      # let it rasterize twice (call ember once)
+      @RaphaelMock.getTotalLength = sinon.stub().returns 3
+
+      @raphaelPath.rasterize @parameters
+
       # extract anonymous callback provided to Ember.run.next
       rasterizeCallbackProvidedToEmber = Ember.run.next.args[0][0]
 
@@ -222,33 +234,31 @@ describe 'raphael path', ->
 
       (expect Ember.run.next).toHaveBeenCalledOnce()
 
+
     it 'should rasterize until the end is reached and then tell finish callback', ->
       finishSpy = sinon.spy()
-      parameters = stepSize: 1, onFinished: finishSpy
-      # let it rasterize three times (starts with zero)
-      @RaphaelMock.getTotalLength = sinon.stub().returns 2
+      @parameters.onFinished = finishSpy
+
+      # let it rasterize three times (call ember twice)
+      @RaphaelMock.getTotalLength = sinon.stub().returns 5
 
       # simulate Ember.run.next by always calling the callback immediately
       Ember.run.next.yields()
 
-      @raphaelPath.rasterize parameters
+      @raphaelPath.rasterize @parameters
 
       (expect Ember.run.next).toHaveBeenCalledTwice()
       (expect finishSpy).toHaveBeenCalledOnce()
 
+
     it 'should stop rasterization immediately if cancelled', ->
-      finishSpy = sinon.spy()
-      progressSpy = sinon.spy()
+      @parameters.onFinished = sinon.spy()
+      @parameters.onProgress = sinon.spy()
 
-      parameters =
-        stepSize: 1
-        onFinished: finishSpy
-        onProgress: progressSpy
+      # would let it rasterize two times
+      @RaphaelMock.getTotalLength = sinon.stub().returns 3
 
-      # would let it rasterize two times (starts with zero)
-      @RaphaelMock.getTotalLength = sinon.stub().returns 1
-
-      @raphaelPath.rasterize parameters
+      @raphaelPath.rasterize @parameters
 
       # extract anonymous callback provided to Ember.run.next
       rasterizeCallbackProvidedToEmber = Ember.run.next.args[0][0]
@@ -259,5 +269,5 @@ describe 'raphael path', ->
       rasterizeCallbackProvidedToEmber()
 
       # check that rasterization was cancelled correctly
-      (expect progressSpy).toHaveBeenCalledOnce()
-      (expect finishSpy).not.toHaveBeenCalled()
+      (expect @parameters.onProgress).toHaveBeenCalledOnce()
+      (expect @parameters.onFinished).not.toHaveBeenCalled()

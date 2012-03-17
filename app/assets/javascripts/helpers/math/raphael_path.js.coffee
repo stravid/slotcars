@@ -42,7 +42,6 @@ RaphaelPath = helpers.math.RaphaelPath = Ember.Object.extend
     @_updateCatmullRomPath()
 
   rasterize: (parameters) ->
-
     if @_cancelRasterization
       @_cancelRasterization = false
       return @_rasterizedPath = null
@@ -53,26 +52,36 @@ RaphaelPath = helpers.math.RaphaelPath = Ember.Object.extend
     # stop immediately if total length is zero
     return if totalLength <= 0
 
-    currentLength = parameters.currentLength ?= 0
+    stepSize = parameters.stepSize ?= 5
+    pointsPerTick = parameters.pointsPerTick ?= 50
+    currentStartLength = parameters.currentLength ?= 0
 
+    # clamp next current length to total length
+    currentEndLength = currentStartLength + pointsPerTick * stepSize
+    currentEndLength = totalLength if currentEndLength > totalLength
+
+    # create and fill rasterized path with points
     @_rasterizedPath ?= Path.create()
-    @_rasterizePointAtLength currentLength
+    @_rasterizePointsFromTo currentStartLength, currentEndLength, stepSize
 
     # tell progress handler the current rasterization length
-    parameters.onProgress currentLength if parameters.onProgress
+    parameters.onProgress currentEndLength if parameters.onProgress
+
+    nextCurrentStartLength = currentEndLength + stepSize
 
     # keep rasterizing if not finished yet
-    if totalLength > currentLength
-      parameters.currentLength += parameters.stepSize
+    if totalLength > nextCurrentStartLength
+      parameters.currentLength = nextCurrentStartLength
       Ember.run.next => @rasterize parameters
     else
       parameters.onFinished() if parameters.onFinished?
 
   cancelRasterization: -> @_cancelRasterization = true
 
-  _rasterizePointAtLength: (length) ->
+  _rasterizePointsFromTo: (start, end, stepSize) ->
     path = @get 'path'
-    @_rasterizedPath.push (Raphael.getPointAtLength path, length), true
+    for length in [start..end] by stepSize
+      @_rasterizedPath.push (Raphael.getPointAtLength path, length), true
 
   # Generates catmull-rom paths for raphel with format: x1 y1 (x y)+
   # which results in pathes like: M0,0R,1,0,3,2,4,5z
