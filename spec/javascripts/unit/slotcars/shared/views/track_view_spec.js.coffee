@@ -40,7 +40,6 @@ describe 'track view', ->
   it 'should create raphael paper view is appended to DOM', ->
     (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], 1024, 768
 
-
   describe 'drawing the track', ->
 
     it 'should not ignore drawing if not inserted in DOM', ->
@@ -48,44 +47,7 @@ describe 'track view', ->
 
       (expect trackView.drawTrack).not.toThrow()
 
-    it 'should save the path if not in DOM and draw it when inserted', ->
-      trackView = TrackView.create()
-      path = 'M0,0Z'
-  
-      trackView.drawTrack path
-      trackView.drawTrack = sinon.spy()
-
-      trackView.didInsertElement()
-
-      (expect trackView.drawTrack).toHaveBeenCalledWith path
-
     it 'should clear the paper before drawing', ->
       @trackView.drawTrack('M0,0Z')
 
       (expect @paperClearSpy).toHaveBeenCalled()
-
-  describe 'bind/unbind car controls', ->
-
-    beforeEach ->
-      @gameControllerMock.onTouchMouseDown = sinon.spy()
-      @gameControllerMock.onTouchMouseUp = sinon.spy()
-
-    describe 'when controls are enabled', ->
-  
-      it 'should call onTouchMouseDown on game controller when controls are enabled', ->
-        @gameControllerMock.get = sinon.stub().withArgs('carControlsEnabled').returns true
-        @trackView.onCarControlsChange()
-
-        (jQuery @trackView.$()).trigger 'touchMouseDown'
-
-        (expect @gameControllerMock.onTouchMouseDown).toHaveBeenCalled()
-
-    describe 'when controls are disabled', ->
-
-      it 'should call onTouchMouseDown on game controller when controls are enabled', ->
-        @gameControllerMock.get = sinon.stub().withArgs('carControlsEnabled').returns false
-        @trackView.onCarControlsChange()
-
-        (jQuery @trackView.$()).trigger 'touchMouseDown'
-
-        (expect @gameControllerMock.onTouchMouseDown).not.toHaveBeenCalled()

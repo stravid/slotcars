@@ -22,7 +22,6 @@ describe 'builder', ->
     @DrawControllerMock.restore()
     @DrawViewMock.restore()
 
-
   describe 'setting up drawing editor on creation', ->
 
     beforeEach ->
@@ -35,10 +34,9 @@ describe 'builder', ->
     afterEach ->
       slotcars.shared.models.Track = @TrackBackup
 
-
     it 'should create a new track model', ->
-      Builder.create buildScreenView: @buildScreenViewStub
-
+      builder = Builder.create buildScreenView: @buildScreenViewStub
+     
       (expect @TrackMock.createRecord).toHaveBeenCalled()
 
     it 'should create the draw controller and provide the created track', ->

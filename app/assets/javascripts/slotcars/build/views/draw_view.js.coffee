@@ -10,6 +10,9 @@ PAPER_WRAPPER_ID = '#draw-view-paper'
 
 slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
 
+  track: null
+  drawController: null
+  
   templateName: 'slotcars_build_templates_draw_view_template'
   elementId: 'build-draw-view'
   drawController: null
@@ -20,11 +23,6 @@ slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
 
     @$(PAPER_WRAPPER_ID).on 'touchMouseDown', (event) => @_onTouchMouseDown(event)
     @$(PAPER_WRAPPER_ID).on 'touchMouseUp', (event) => @_onTouchMouseUp(event)
-
-  onRaphaelPathChanged: (->
-    track = @get 'track'
-    @drawTrack track.get 'raphaelPath' if track?
-  ).observes 'track.raphaelPath'
 
   # overrides TrackView.drawTrack for drawing
   drawTrack: (path) ->

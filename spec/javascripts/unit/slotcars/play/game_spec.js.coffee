@@ -20,6 +20,7 @@ describe 'game', ->
   GameController = slotcars.play.controllers.GameController
   GameView = slotcars.play.views.GameView
   TrackView = slotcars.shared.views.TrackView
+  PlayTrackView = slotcars.play.views.PlayTrackView
   PlayScreenView = slotcars.play.views.PlayScreenView
   ClockView = slotcars.play.views.ClockView
 
@@ -31,7 +32,7 @@ describe 'game', ->
     @GameControllerMock = mockEmberClass GameController
     @CarViewMock = mockEmberClass CarView
     @GameViewMock = mockEmberClass GameView
-    @TrackViewMock = mockEmberClass TrackView
+    @PlayTrackViewMock = mockEmberClass PlayTrackView
     @ClockViewMock = mockEmberClass ClockView
 
     @game = Game.create
@@ -46,7 +47,7 @@ describe 'game', ->
     @CarViewMock.restore()
     @GameControllerMock.restore()
     @GameViewMock.restore()
-    @TrackViewMock.restore()
+    @PlayTrackViewMock.restore()
     @ClockViewMock.restore()
 
 
@@ -65,13 +66,13 @@ describe 'game', ->
       (expect @GameViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock
 
     it 'should create a track view', ->
-      (expect @TrackViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock
+      (expect @PlayTrackViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock, track: @trackMock
 
     it 'should append car view to play screen view', ->
       (expect @playScreenViewMock.set).toHaveBeenCalledWith 'carView', @CarViewMock
 
     it 'should append track view to play screen view', ->
-      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'contentView', @TrackViewMock
+      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'contentView', @PlayTrackViewMock
 
     it 'should append game view to play screen view', ->
       (expect @playScreenViewMock.set).toHaveBeenCalledWith 'gameView', @GameViewMock
@@ -84,8 +85,6 @@ describe 'game', ->
 
     beforeEach ->
       @GameControllerMock.start = sinon.spy()
-      @TrackViewMock.drawTrack = sinon.spy()
-      @TrackViewMock.drawFinishLine = sinon.spy()
       @trackMock.raphaelPath = {}
       @trackMock.getPointAtLength = sinon.stub().returns x: 3, y: 4
 
@@ -93,13 +92,3 @@ describe 'game', ->
       @game.start()
 
       (expect @GameControllerMock.start).toHaveBeenCalled()
-
-    it 'should tell the track view to draw itself', ->
-      @game.start()
-
-      (expect @TrackViewMock.drawTrack).toHaveBeenCalledWith @trackMock.raphaelPath
-    
-    it 'should tell the track view to draw the finish line', ->
-      @game.start()
-
-      (expect @TrackViewMock.drawFinishLine).toHaveBeenCalled

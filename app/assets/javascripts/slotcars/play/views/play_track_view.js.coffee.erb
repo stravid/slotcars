@@ -1,0 +1,51 @@
+
+#= require helpers/namespace
+#= require helpers/event_normalize
+#= require slotcars/shared/views/track_view
+#= require helpers/math/vector
+
+namespace 'slotcars.play.views'
+
+Vector = helpers.math.Vector
+
+slotcars.play.views.PlayTrackView = slotcars.shared.views.TrackView.extend
+
+  gameController: null
+  
+  _finishLine: null
+  
+  didInsertElement: ->
+    @_super()
+    
+    @onTrackChange()
+    @onCarControlsChange()
+
+  onCarControlsChange: (->
+    (jQuery @$()).off 'touchMouseDown'
+    (jQuery @$()).off 'touchMouseUp'
+
+    if @gameController.get 'carControlsEnabled'
+      (jQuery @$()).on 'touchMouseDown', (event) => @gameController.onTouchMouseDown event
+      (jQuery @$()).on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
+
+  ).observes 'gameController.carControlsEnabled'
+  
+  drawTrack: (path) ->
+    @_super path
+    @_drawFinishLine()
+  
+  _drawFinishLine: ->
+    return unless @_paper?
+  
+    pointA = @track.getPointAtLength(20)
+    pointB = @track.getPointAtLength(23)
+    
+    x = pointB.x - pointA.x
+    y = pointB.y - pointA.y
+    
+    vector = Vector.create x: x, y: y
+    
+    @_finishLine.remove() if @_finishLine
+    @_finishLine = @_paper.image "<%= asset_path('views/play/finish-line.jpg') %>", pointA.x, pointA.y, 70, 20
+    @_finishLine.translate -35, -10
+    @_finishLine.rotate vector.clockwiseAngle()
