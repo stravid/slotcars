@@ -13,7 +13,11 @@ slotcars.shared.models.Track = DS.Model.extend
 
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'
+
   numberOfLaps: 3
+
+  isRasterizing: false
+  rasterizedPath: null
 
   playRoute: (->
     clientId = @get('clientId')
@@ -32,13 +36,7 @@ slotcars.shared.models.Track = DS.Model.extend
 
   clearPath: -> (@get '_raphaelPath').clear()
 
-  cleanPath: ->
-    raphaelPath = (@get '_raphaelPath')
-    raphaelPath.clean minAngle: 10, minLength: 100, maxLength: 400
-
-    # defer rasterization for 10 milliseconds since it is time
-    # costly and would block other operations
-    Ember.run.later (=> raphaelPath.rasterize 5), 10
+  cleanPath: -> (@get '_raphaelPath').clean minAngle: 10, minLength: 100, maxLength: 400
 
   isLengthAfterFinishLine: (length) ->
     @getTotalLength() * (@get 'numberOfLaps') < length
@@ -50,3 +48,20 @@ slotcars.shared.models.Track = DS.Model.extend
     # clamp return value to maximum number of laps
     if lap > numberOfLaps then lap = numberOfLaps
     if lap is 0 then return 1 else return lap
+
+  rasterize: (finishCallback) ->
+    @set 'isRasterizing', true
+    (@get '_raphaelPath').rasterize
+      stepSize: 10
+      onProgress: ($.proxy @_onRasterizationProgress, this)
+      onFinished: =>
+        @set 'isRasterizing', false
+        finishCallback() if finishCallback?
+
+  cancelRasterization: ->
+    (@get '_raphaelPath').cancelRasterization()
+    @set 'isRasterizing', false
+    @set 'rasterizedPath', null
+
+  _onRasterizationProgress: (rasterizedLength) ->
+    @set 'rasterizedPath', Raphael.getSubpath (@get 'raphaelPath'), 0, rasterizedLength

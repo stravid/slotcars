@@ -9,8 +9,8 @@ slotcars.SlotcarsApplication = Ember.Application.extend
   _currentScreen: null
 
   ready: ->
-    routeManager = slotcars.RouteManager.create delegate: this
-    helpers.routing.routeLocalLinks routeManager
+    slotcars.routeManager = slotcars.RouteManager.create delegate: this
+    helpers.routing.routeLocalLinks slotcars.routeManager
 
   showBuildScreen: ->
     @_destroyCurrentScreen()
