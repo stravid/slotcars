@@ -350,14 +350,26 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       fakeTimer = sinon.useFakeTimers()
       @gameController.restartGame()
       
-      fakeTimer.tick 5000 # 3 second count down - 2 second round
-      @gameController._setCurrentTime()
+      fakeTimer.tick 5000 # 3 seconds count down - 2 seconds lap
+      @gameController._setCurrentTime() # normaly caused by game loop
       @gameController.onLapChange()
       
       fakeTimer.tick 3000
-      @gameController._setCurrentTime()
+      @gameController._setCurrentTime() # normaly caused by game loop
       @gameController.onLapChange()
 
       (expect @gameController.lapTimes[1]).toBe 3000
       
+      fakeTimer.restore()
+
+    it 'should not save lap time if lap time is zero', ->
+      # this test sounds weird but it´s neccessary to check
+      fakeTimer = sinon.useFakeTimers()
+      @gameController.restartGame()
+
+      @gameController._setCurrentTime() # normaly caused by game loop
+      @gameController.onLapChange()
+      
+      (expect @gameController.lapTimes.length).toBe 0
+
       fakeTimer.restore()

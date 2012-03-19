@@ -1,47 +1,51 @@
 
 #= require slotcars/play/views/game_view
-#= require slotcars/play/views/lap_time_view
+#= require slotcars/play/views/result_view
 #= require slotcars/play/controllers/game_controller
 
 describe 'slotcars.play.views.GameView (unit)', ->
 
   GameView = slotcars.play.views.GameView
-  LapTimeView = slotcars.play.views.LapTimeView
+  ResultView = slotcars.play.views.ResultView
   GameController = slotcars.play.controllers.GameController
 
   beforeEach ->
-    @gameController = GameController.create
-      track: Ember.Object.create()  # real track is not necessary here
-      car: Ember.Object.create()
-
-    @lapTimeViewMock = mockEmberClass LapTimeView
+    @resultViewMock = mockEmberClass ResultView
     @gameControllerMock = mockEmberClass GameController
 
     @gameView = GameView.create
-      gameController: @gameController
-    
-    @gameView.appendTo jQuery '<div>'
-    
-    Ember.run.end()
-    
+      gameController: @gameControllerMock
+        
   afterEach ->
+    @resultViewMock.restore()
     @gameControllerMock.restore()
-    @lapTimeViewMock.restore()
 
   it 'should extend Ember.View', ->
     (expect GameView).toExtend Ember.View
 
   it 'should restart game when button was clicked', ->
-    @gameController.restartGame = sinon.spy()
+    @gameControllerMock.restartGame = sinon.spy()
     @gameView.onRestartClick()
     
-    (expect @gameController.restartGame).toHaveBeenCalled()
+    (expect @gameControllerMock.restartGame).toHaveBeenCalled()
 
   it 'should update race time when it changes', ->
     timeValue = 28
-    @gameController.set 'raceTime', timeValue
+    @gameControllerMock.set 'raceTime', timeValue
 
     (expect @gameView.get 'raceTimeInSeconds').toBe @gameView.convertMillisecondsToSeconds timeValue
 
-  #it 'should create a lap view with gameController', ->
-  #  (expect @lapTimeViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @gameControllerMock
+  describe 'when race finishes', ->
+
+    beforeEach ->
+      @gameControllerMock.set 'isRaceFinished', true
+
+    it 'should create a result view and provide the game controller', ->
+      @gameView.onRaceStatusChange()
+
+      (expect @resultViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @gameControllerMock
+
+    it 'should use the dynamic view to insert result view', ->
+      @gameView.onRaceStatusChange()
+
+      (expect @gameView.get 'overlayView').toEqual ResultView.create()

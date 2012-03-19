@@ -46,15 +46,10 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   finish: ->
     @_setCurrentTime()
     @onLapChange()
-    
+
     @set 'isRaceFinished', true
     @set 'carControlsEnabled', false
     @isTouchMouseDown = false
-
-  _setCurrentTime: ->
-    @endTime = new Date().getTime()
-    if @get 'carControlsEnabled'
-      @set 'raceTime', @endTime - @startTime
 
   onCarCrossedFinishLine: (->
     car = @get 'car'
@@ -66,8 +61,10 @@ slotcars.play.controllers.GameController = Ember.Object.extend
     sum = lapTimes.reduce (previous, current) -> 
       previous + current
     , 0
-    lapTimes.push (@get 'raceTime') - sum
+    unless (@get 'raceTime') == sum
+      lapTimes.push (@get 'raceTime') - sum
     @set 'lapTimes', lapTimes
+
   ).observes 'car.currentLap'
 
   update: ->
@@ -132,3 +129,8 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   _clearTimeouts: ->
     for timeout in @timeouts
       clearTimeout timeout
+
+  _setCurrentTime: ->
+    @endTime = new Date().getTime()
+    if @get 'carControlsEnabled'
+      @set 'raceTime', @endTime - @startTime
