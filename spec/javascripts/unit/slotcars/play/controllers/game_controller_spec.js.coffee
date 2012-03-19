@@ -183,6 +183,7 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @trackStub = Track.createRecord()
       @trackStub.addPathPoint { x: 10, y: 10 }
       @trackStub.addPathPoint { x: 20, y: 50 }
+      @trackStub.addPathPoint { x: 30, y: 40 }
 
       @gameLoopControllerMock = mockEmberClass GameLoopController,
         start: (renderCallback) ->
@@ -275,6 +276,14 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.restartGame()
 
       (expect @carMock.reset).toHaveBeenCalled()
+
+    it 'should clear timeouts', ->
+      clearTimeoutBackup = clearTimeout
+      window.clearTimeout = sinon.spy()
+      @gameController.restartGame()
+
+      (expect window.clearTimeout).toHaveBeenCalled()
+      window.clearTimeout = clearTimeoutBackup
 
     it 'should disable car controls', ->
       @gameController.restartGame()

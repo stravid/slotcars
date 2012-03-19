@@ -14,7 +14,7 @@
   background-repeat: no-repeat;
   
   position: absolute;
-  top: $border-padding;
+  top: $border-top-padding;
   right: $border-padding;
 
   cursor: pointer;
@@ -27,7 +27,7 @@
   background-repeat: no-repeat;
   
   position: absolute;
-  top: $border-padding - 5px;
+  top: $border-top-padding - 5px;
   left: $center-x - 127px;
 }
 

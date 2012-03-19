@@ -9,9 +9,9 @@ describe 'helpers.math.Path', ->
 
     it 'should create a linked list form given points', ->
       points = [
-        { x: 0, y: 0, angle: 0}
-        { x: 1, y: 0, angle: 0}
-        { x: 2, y: 0, angle: 0}
+        { x: 0, y: 0, angle: 0 }
+        { x: 1, y: 0, angle: 0 }
+        { x: 2, y: 0, angle: 0 }
       ]
 
       path = Path.create points: points
@@ -29,28 +29,28 @@ describe 'helpers.math.Path', ->
 
     it 'should recalculate angle for new point and neighbours when told so', ->
       points = [
-        { x: 0, y: 0, angle: 45}
-        { x: 1, y: 0, angle: 90}
-        { x: 1, y: 1, angle: 45}
+        { x: 0, y: 0, angle: 45 }
+        { x: 1, y: 0, angle: 90 }
+        { x: 1, y: 1, angle: 45 }
       ]
 
       path = Path.create points: points
-      path.push { x: 0, y: 1, angle: null}, true
+      path.push { x: 0, y: 1, angle: null }, true
 
       (expect path.asPointArray()).toEqual [
-        { x: 0, y: 0, angle: 90}
-        { x: 1, y: 0, angle: 90}
-        { x: 1, y: 1, angle: 90}
-        { x: 0, y: 1, angle: 90}
+        { x: 0, y: 0, angle: 90 }
+        { x: 1, y: 0, angle: 90 }
+        { x: 1, y: 1, angle: 90 }
+        { x: 0, y: 1, angle: 90 }
       ]
 
   describe '#asPointArray', ->
 
     it 'should return all elements as array', ->
       points = [
-        { x: 0, y: 0, angle: 0}
-        { x: 1, y: 0, angle: 0}
-        { x: 2, y: 0, angle: 0}
+        { x: 0, y: 0, angle: 0 }
+        { x: 1, y: 0, angle: 0 }
+        { x: 2, y: 0, angle: 0 }
       ]
 
       path = Path.create points: points
@@ -61,51 +61,56 @@ describe 'helpers.math.Path', ->
 
     it 'should remove points with angle < minAngle if resulting vector is appropriate', ->
       points = [
-        { x: 0, y: 0, angle: 0}
-        { x: 1, y: 0, angle: 0}
-        { x: 2, y: 0, angle: 0}
-        { x: 3, y: 0, angle: 0}
+        { x: 0, y: 0, angle: 0 }
+        { x: 1, y: 0, angle: 0 }
+        { x: 2, y: 0, angle: 0 }
+        { x: 3, y: 0, angle: 0 }
       ]
 
       path = Path.create points: points
       path.clean minAngle: 5, minLength: 2, maxLength: 3
 
       (expect path.asPointArray()).toEqual [
-        { x: 1, y: 0, angle: 180}
-        { x: 3, y: 0, angle: 0}
+        { x: 1, y: 0, angle: 180 }
+        { x: 2, y: 0, angle: 0 }
+        { x: 3, y: 0, angle: 0 }
       ]
 
     it 'should remove points if vectors are too short', ->
       points = [
-        { x: 1, y: 0, angle: 10}
-        { x: 2, y: 0, angle: 20}
-        { x: 3, y: 0, angle: 15}
+        { x: 1, y: 0, angle: 10 }
+        { x: 2, y: 0, angle: 20 }
+        { x: 3, y: 0, angle: 15 }
+        { x: 4, y: 0, angle: 20 }
       ]
 
       path = Path.create points: points
       path.clean minAngle: 5, minLength: 2, maxLength: 5
 
       (expect path.asPointArray()).toEqual [
-        { x: 1, y: 0, angle: 180}
-        { x: 3, y: 0, angle: 15}
+        { x: 1, y: 0, angle: 180 }
+        { x: 3, y: 0, angle: 15 }
+        { x: 4, y: 0, angle: 20 }
       ]
 
     it 'should add points if a vector is too long', ->
       points = [
-        { x: 0, y: 0, angle: 10}
-        { x: 10, y: 0, angle: 10}
+        { x: 0, y: 0, angle: 10 }
+        { x: 10, y: 0, angle: 10 }
+        { x: 7, y: 0, angle: 10 }
+        { x: 4, y: 0, angle: 10 }
       ]
 
       path = Path.create points: points
       path.clean minAngle: 5, minLength: 2, maxLength: 5
 
       (expect path.asPointArray()).toEqual [
-        { x: 5, y: 0, angle: 0}
-        { x: 0, y: 0, angle: 10}
-        { x: 5, y: 0, angle: 0}
-        { x: 10, y: 0, angle: 10}
+        { x: 0, y: 0, angle: 10 }
+        { x: 5, y: 0, angle: 0 }
+        { x: 10, y: 0, angle: 10 }
+        { x: 7, y: 0, angle: 10 }
+        { x: 4, y: 0, angle: 10 }
       ]
-
 
   describe '#getTotalLength', ->
 
@@ -118,10 +123,10 @@ describe 'helpers.math.Path', ->
 
     it 'should calculate total length of path in pixels when created', ->
       points = [
-        { x: 0, y: 0, angle: 0}
-        { x: 1, y: 0, angle: 0}
-        { x: 1, y: 1, angle: 0}
-        { x: 0, y: 1, angle: 0}
+        { x: 0, y: 0, angle: 0 }
+        { x: 1, y: 0, angle: 0 }
+        { x: 1, y: 1, angle: 0 }
+        { x: 0, y: 1, angle: 0 }
       ]
 
       path = Path.create points: points
@@ -130,24 +135,24 @@ describe 'helpers.math.Path', ->
 
     it 'should update total length when points are inserted', ->
       points = [
-        { x: 0, y: 0, angle: 0}
-        { x: 1, y: 0, angle: 0}
+        { x: 0, y: 0, angle: 0 }
+        { x: 1, y: 0, angle: 0 }
       ]
 
       path = Path.create points: points
       (expect path.getTotalLength()).toBe 2
 
-      path.insertBefore path.tail, {x: 2, y:0, angle:0}
+      path.insertBefore path.tail, {x: 2, y:0, angle:0 }
 
       (expect path.getTotalLength()).toBe 4
 
     it 'should update total length when points are removed', ->
       points = [
-        { x: 0, y: 0, angle: 0}
-        { x: 0.5, y: 0, angle: 0}
-        { x: 1, y: 0, angle: 0}
-        { x: 1, y: 1, angle: 0}
-        { x: 0, y: 1, angle: 0}
+        { x: 0, y: 0, angle: 0 }
+        { x: 0.5, y: 0, angle: 0 }
+        { x: 1, y: 0, angle: 0 }
+        { x: 1, y: 1, angle: 0 }
+        { x: 0, y: 1, angle: 0 }
       ]
 
       path = Path.create points: points
@@ -162,10 +167,10 @@ describe 'helpers.math.Path', ->
 
     beforeEach ->
       @points = [
-        { x: 0, y: 0, angle: 1}
-        { x: 1, y: 0, angle: 2}
-        { x: 1, y: 1, angle: 3}
-        { x: 0, y: 1, angle: 4}
+        { x: 0, y: 0, angle: 1 }
+        { x: 1, y: 0, angle: 2 }
+        { x: 1, y: 1, angle: 3 }
+        { x: 0, y: 1, angle: 4 }
       ]
 
       @path = Path.create points: @points

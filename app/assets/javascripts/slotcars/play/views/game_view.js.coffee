@@ -19,9 +19,9 @@ slotcars.play.views.GameView = Ember.View.extend
 
   onCountdownVisibleChange: ( ->
     if @gameController.get 'isCountdownVisible'
-      (@$ '#countdown').show() 
+      (@$ '#countdown').removeClass 'squashed'
     else 
-      (@$ '#countdown').hide()
+      (@$ '#countdown').addClass 'squashed'
   ).observes 'gameController.isCountdownVisible'
 
   convertMillisecondsToSeconds: (value) ->
