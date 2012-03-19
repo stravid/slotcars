@@ -1,7 +1,6 @@
 
 #= require helpers/namespace
 #= require embient/ember-data
-#= require slotcars/shared/models/model_store
 #= require helpers/math/raphael_path
 #= require vendor/raphael
 
@@ -50,3 +49,6 @@ slotcars.shared.models.Track = DS.Model.extend
     # clamp return value to maximum number of laps
     if lap > numberOfLaps then lap = numberOfLaps
     if lap is 0 then return 1 else return lap
+
+slotcars.shared.models.Track.reopenClass
+  url: 'api/tracks'
