@@ -11,10 +11,12 @@ TracksScreenView = slotcars.tracks.views.TracksScreenView
 slotcars.tracks.TracksScreen = Ember.Object.extend
 
   appendToApplication: ->
-    TracksController.create()
     @_tracksScreenView = TracksScreenView.create()
 
     @_tracksScreenView.append()
+
+    TracksController.create
+      tracksScreenView: @_tracksScreenView
 
   destroy: ->
     @_super()
