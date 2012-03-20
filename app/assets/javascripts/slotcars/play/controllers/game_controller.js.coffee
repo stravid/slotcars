@@ -9,7 +9,7 @@ Car = slotcars.shared.models.Car
 CarView = slotcars.play.views.CarView
 GameLoopController = slotcars.play.controllers.GameLoopController
 
-namespace('slotcars.play.controllers').GameController = Ember.Object.extend
+(namespace 'slotcars.play.controllers').GameController = Ember.Object.extend
 
   car: null
   track: null

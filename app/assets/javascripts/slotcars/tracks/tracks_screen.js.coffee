@@ -5,7 +5,7 @@
 TracksController = slotcars.tracks.controllers.TracksController
 TracksScreenView = slotcars.tracks.views.TracksScreenView
 
-namespace('slotcars.tracks').TracksScreen = Ember.Object.extend
+(namespace 'slotcars.tracks').TracksScreen = Ember.Object.extend
 
   appendToApplication: ->
     TracksController.create()

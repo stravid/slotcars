@@ -1,5 +1,5 @@
 
-class namespace('helpers.math').LinkedList
+class (namespace 'helpers.math').LinkedList
 
   head: null
   tail: null

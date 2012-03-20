@@ -1,5 +1,5 @@
 
-class namespace('helpers.math').Vector
+class (namespace 'helpers.math').Vector
 
   constructor: (@x, @y) ->
 

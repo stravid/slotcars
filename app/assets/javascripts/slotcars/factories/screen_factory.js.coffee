@@ -4,7 +4,7 @@
 #= require slotcars/tracks/tracks_screen
 #= require slotcars/home/home_screen
 
-namespace('slotcars.factories').ScreenFactory = Ember.Object.extend
+(namespace 'slotcars.factories').ScreenFactory = Ember.Object.extend
 
   getBuildScreen: -> slotcars.build.BuildScreen.create()
 

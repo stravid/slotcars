@@ -13,7 +13,7 @@ PlayScreenStateManager = slotcars.play.PlayScreenStateManager
 Car = slotcars.shared.models.Car
 Game = slotcars.play.Game
 
-namespace('slotcars.play').PlayScreen = Ember.Object.extend
+(namespace 'slotcars.play').PlayScreen = Ember.Object.extend
 
   trackId: null
   _playScreenView: null

@@ -2,7 +2,7 @@
 #= require slotcars/route_manager
 #= require helpers/routing/route_local_links
 
-namespace('slotcars').SlotcarsApplication = Ember.Application.extend
+(namespace 'slotcars').SlotcarsApplication = Ember.Application.extend
   screenFactory: null
   _currentScreen: null
 

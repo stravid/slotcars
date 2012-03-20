@@ -6,7 +6,7 @@ EMPTY_RAPHAEL_PATH_STRING = 'M0,0z'
 
 Path = helpers.math.Path
 
-RaphaelPath = namespace('helpers.math').RaphaelPath = Ember.Object.extend
+RaphaelPath = (namespace 'helpers.math').RaphaelPath = Ember.Object.extend
 
   path: EMPTY_RAPHAEL_PATH_STRING
   _path: null

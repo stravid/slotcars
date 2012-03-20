@@ -6,7 +6,7 @@
 
 RaphaelPath = helpers.math.RaphaelPath
 
-namespace('slotcars.shared.models').Track = DS.Model.extend
+(namespace 'slotcars.shared.models').Track = DS.Model.extend
 
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'

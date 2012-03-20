@@ -13,7 +13,7 @@ ClockView = slotcars.play.views.ClockView
 Car = slotcars.shared.models.Car
 PlayTrackView = slotcars.play.views.PlayTrackView
 
-namespace('slotcars.play').Game = Ember.Object.extend
+(namespace 'slotcars.play').Game = Ember.Object.extend
 
   playScreenView: null
   track: null

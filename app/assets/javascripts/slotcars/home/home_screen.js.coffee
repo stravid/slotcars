@@ -1,7 +1,7 @@
 
 #= require slotcars/home/views/home_screen_view
 
-namespace('slotcars.home').HomeScreen = Ember.Object.extend
+(namespace 'slotcars.home').HomeScreen = Ember.Object.extend
 
   _homeScreenView: null
 

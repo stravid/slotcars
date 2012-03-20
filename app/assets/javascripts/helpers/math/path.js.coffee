@@ -5,7 +5,7 @@
 Vector = helpers.math.Vector
 LinkedList = helpers.math.LinkedList
 
-class namespace('helpers.math').Path extends LinkedList
+class (namespace 'helpers.math').Path extends LinkedList
 
   totalLength: 0
   _lengthDirty: false

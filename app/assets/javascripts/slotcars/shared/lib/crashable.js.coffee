@@ -5,7 +5,7 @@
 Vector = helpers.math.Vector
 Movable = slotcars.shared.lib.Movable
 
-namespace('slotcars.shared.lib').Crashable = Ember.Mixin.create
+(namespace 'slotcars.shared.lib').Crashable = Ember.Mixin.create
 
   previousDirection: null
   isCrashing: false

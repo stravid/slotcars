@@ -1,5 +1,5 @@
 
-namespace('helpers.routing').routeLocalLinks = (routeManager) ->
+(namespace 'helpers.routing').routeLocalLinks = (routeManager) ->
 
   (jQuery 'a').live 'click', (event) ->
     href = (jQuery this).attr 'href'

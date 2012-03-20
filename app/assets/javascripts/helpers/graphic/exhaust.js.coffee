@@ -1,5 +1,5 @@
 
-class namespace('helpers.graphic').Exhaust
+class (namespace 'helpers.graphic').Exhaust
   
   paper: null
   fumes: null

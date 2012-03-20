@@ -3,7 +3,7 @@
 
 Vector = helpers.math.Vector
 
-namespace('slotcars.shared.lib').Movable = Ember.Mixin.create
+(namespace 'slotcars.shared.lib').Movable = Ember.Mixin.create
 
   position: x: 0, y: 0
   rotation: 0

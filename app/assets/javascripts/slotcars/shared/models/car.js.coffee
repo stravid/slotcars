@@ -7,7 +7,7 @@
 Movable = slotcars.shared.lib.Movable
 Crashable = slotcars.shared.lib.Crashable
 
-namespace('slotcars.shared.models').Car = Ember.Object.extend Movable, Crashable,
+(namespace 'slotcars.shared.models').Car = Ember.Object.extend Movable, Crashable,
 
   speed: 0
   maxSpeed: 0

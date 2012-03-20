@@ -5,7 +5,7 @@
 
 PAPER_WRAPPER_ID = '#draw-view-paper'
 
-namespace('slotcars.build.views').DrawView = slotcars.shared.views.TrackView.extend
+(namespace 'slotcars.build.views').DrawView = slotcars.shared.views.TrackView.extend
 
   track: null
   drawController: null

@@ -6,7 +6,7 @@
 DrawController = slotcars.build.controllers.DrawController
 DrawView = slotcars.build.views.DrawView
 
-namespace('slotcars.build').Builder = Ember.Object.extend
+(namespace 'slotcars.build').Builder = Ember.Object.extend
 
   track: null
   drawController: null
