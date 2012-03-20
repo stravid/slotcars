@@ -4,7 +4,7 @@
   
   <ul>
   {{#each lapTimes}}
-    <li>lap: {{this}}</li>
+    <li>{{this}}</li>
   {{/each}}
   </ul>
 </div>

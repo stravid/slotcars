@@ -18,10 +18,12 @@ slotcars.play.views.ResultView = Ember.View.extend
 
   onLapTimesChange: (->
     return unless @gameController?
+    
     times = []
     milliSeconds = @gameController.get 'lapTimes'
+    
     for time, i in milliSeconds
-      times[i] = @_formatTime time
+      times[i] = "lap #{i + 1}: #{@_formatTime time}"
       
     @set 'lapTimes', times
   ).observes 'gameController.lapTimes'
