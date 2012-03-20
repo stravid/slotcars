@@ -52,9 +52,11 @@ RaphaelPath = helpers.math.RaphaelPath = Ember.Object.extend
     # stop immediately if total length is zero
     return if totalLength <= 0
 
-    stepSize = parameters.stepSize ?= 5
-    pointsPerTick = parameters.pointsPerTick ?= 50
-    currentStartLength = parameters.currentLength ?= 0
+    parameters.currentLength ?= 0
+
+    stepSize = parameters.stepSize
+    pointsPerTick = parameters.pointsPerTick
+    currentStartLength = parameters.currentLength
 
     # clamp next current length to total length
     currentEndLength = currentStartLength + pointsPerTick * stepSize
