@@ -25,11 +25,17 @@ describe 'slotcars.build.controllers.DrawController', ->
 
   describe 'add path points to track model on mouse move', ->
 
-    it 'should accept a point and tell the track model to add it', ->
-      testPoint = x: 0, y: 0
+    it 'should add point to model if it has enough distance from last point', ->
+      testPoint = x: 9999, y: 0
       @drawController.onTouchMouseMove testPoint
 
       (expect @trackMock.addPathPoint).toHaveBeenCalledWith testPoint
+
+    it 'should not add point if it is too close to last added point', ->
+      testPoint = x: 1, y: 0
+      @drawController.onTouchMouseMove testPoint
+
+      (expect @trackMock.addPathPoint).not.toHaveBeenCalled()
 
     it 'should not add further points when user finished drawing', ->
       @drawController.finishedDrawing = true
