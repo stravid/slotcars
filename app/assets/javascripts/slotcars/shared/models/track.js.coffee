@@ -48,12 +48,15 @@ namespace('slotcars.shared.models').Track = DS.Model.extend
 
   rasterize: (finishCallback) ->
     @set 'isRasterizing', true
-    (@get '_raphaelPath').rasterize
-      stepSize: 10
-      onProgress: ($.proxy @_onRasterizationProgress, this)
-      onFinished: =>
-        @set 'isRasterizing', false
-        finishCallback() if finishCallback?
+    Ember.run.later (=>
+      (@get '_raphaelPath').rasterize
+        stepSize: 10
+        pointsPerTick: 50
+        onProgress: ($.proxy @_onRasterizationProgress, this)
+        onFinished: =>
+          @set 'isRasterizing', false
+          finishCallback() if finishCallback?
+    ), 50
 
   cancelRasterization: ->
     (@get '_raphaelPath').cancelRasterization()

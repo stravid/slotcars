@@ -13,7 +13,7 @@ namespace('slotcars.build.views').DrawView = slotcars.shared.views.TrackView.ext
   templateName: 'slotcars_build_templates_draw_view_template'
   elementId: 'build-draw-view'
   drawController: null
-  trackBinding: 'drawController.track'
+
   _rasterizedTrackPath: null
 
   didInsertElement: ->
@@ -21,11 +21,6 @@ namespace('slotcars.build.views').DrawView = slotcars.shared.views.TrackView.ext
 
     @$(PAPER_WRAPPER_ID).on 'touchMouseDown', (event) => @_onTouchMouseDown(event)
     @$(PAPER_WRAPPER_ID).on 'touchMouseUp', (event) => @_onTouchMouseUp(event)
-
-  onRaphaelPathChanged: (->
-    track = @get 'track'
-    @drawTrack track.get 'raphaelPath' if track?
-  ).observes 'track.raphaelPath'
 
   onRasterizedPathChanged: (->
     # clean up before drawing anything
@@ -42,12 +37,14 @@ namespace('slotcars.build.views').DrawView = slotcars.shared.views.TrackView.ext
       @_rasterizedTrackPath = @_drawPath rasterizedPath, @ASPHALT_WIDTH, 'rgba(0, 255, 0, 0.5)'
   ).observes 'track.rasterizedPath'
 
-  # overrides TrackView.drawTrack for drawing
+  # overrides TrackView.drawTrack for specialized drawing in builder
   drawTrack: (path) ->
-    # remove the Z from path to not close it while drawing
-    path = (path.substr 0, path.length - 1) unless @drawController.get 'finishedDrawing'
+    return unless @_paper?
 
-    @_super path
+    if @drawController.get 'finishedDrawing'
+      @_super path
+    else
+      @_drawTrackWhileDrawing path
 
   onClearButtonClicked: (event) ->
     event.preventDefault() if event?
@@ -71,3 +68,10 @@ namespace('slotcars.build.views').DrawView = slotcars.shared.views.TrackView.ext
   _onTouchMouseUp: ->
     @$(PAPER_WRAPPER_ID).off 'touchMouseMove'
     @drawController.onTouchMouseUp()
+
+  _drawTrackWhileDrawing: (path) ->
+    # remove the Z from path to not close it while drawing
+    path = (path.substr 0, path.length - 1)
+    @_paper.clear()
+    # only draw the raw asphalt for better performance on iPad
+    @_drawPath path, @BORDER_ASPHALT_WIDTH, @ASPHALT_COLOR
