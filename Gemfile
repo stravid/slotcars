@@ -9,7 +9,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'embient', '0.0.5'
+gem 'embient', '0.0.6'
 
 group :development, :test do
   gem 'sqlite3'
