@@ -18,3 +18,5 @@ beforeEach ->
 
     toObserve: (expectedBindingPath) ->
       @env.equals_ @actual.__ember_observes__[0], expectedBindingPath
+
+    toBeAPositiveNumber: -> (parseInt @actual) > 0
