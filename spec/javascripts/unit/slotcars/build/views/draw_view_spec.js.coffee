@@ -152,3 +152,13 @@ describe 'slotcars.build.views.DrawView', ->
         @drawView.onClearButtonClicked()
 
         (expect @drawControllerMock.onClearTrack).toHaveBeenCalled()
+
+
+    describe 'playing created track', ->
+
+      it 'should tell the controller when the user wants to play the created track', ->
+        @drawControllerMock.onPlayCreatedTrack = sinon.spy()
+
+        @drawView.onPlayCreatedTrackButtonClicked()
+
+        (expect @drawControllerMock.onPlayCreatedTrack).toHaveBeenCalled()
