@@ -166,8 +166,11 @@ describe 'slotcars.shared.models.Track', ->
       @RaphaelMock = window.Raphael =
         getSubpath: sinon.stub().returns @fakeRasterizedPathValue
 
+      @emberRunLaterStub = sinon.stub(Ember.run, 'later').yields()
+
     afterEach ->
       window.Raphael = @RaphaelBackup
+      @emberRunLaterStub.restore()
 
 
     it 'should not be rasterizing by default', ->
@@ -177,6 +180,11 @@ describe 'slotcars.shared.models.Track', ->
       @track.rasterize()
 
       (expect @track.get 'isRasterizing').toBe true
+
+    it 'should defer rasterization with ember', ->
+      @track.rasterize()
+
+      (expect @emberRunLaterStub).toHaveBeenCalledOnce()
 
     it 'should tell the raphael path to rasterize', ->
       @track.rasterize()
