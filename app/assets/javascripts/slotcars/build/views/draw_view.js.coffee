@@ -10,6 +10,9 @@ PAPER_WRAPPER_ID = '#draw-view-paper'
 
 slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
 
+  track: null
+  drawController: null
+  
   templateName: 'slotcars_build_templates_draw_view_template'
   elementId: 'build-draw-view'
   drawController: null
