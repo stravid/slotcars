@@ -1,9 +1,10 @@
 <div style="position: absolute; top: 200px; left: 300px; color: white; font-size: 32px; font-family: sans-serif; background-color: rgba(0,0,0,0.7); -webkit-box-shadow: 0 0 40px rgba(0,0,0,0.7); width: 400px; text-align: center; padding: 30px;">
   <p>Your lap times:</p>
+  <p>race time: {{raceTime}}</p>
+  
   <ul style="list-style: none;">
-  {{#each gameController.lapTimes}}
+  {{#each lapTimes}}
     <li>lap: {{this}}</li>
   {{/each}}
   </ul>
-  <p>race time: {{gameController.raceTime}}</p>
 </div>
