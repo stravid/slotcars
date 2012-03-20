@@ -14,6 +14,7 @@ slotcars.build.controllers.DrawController = Ember.Object.extend
   _lastAddedPoint: null
 
   onTouchMouseMove: (point) ->
+    return if @finishedDrawing
     # only add new point if it is at least 40 pixels away from last
     @_lastAddedPoint = { x: 0, y: 0 } unless @_lastAddedPoint?
     distanceVector = helpers.math.Vector.create from: @_lastAddedPoint, to: point
