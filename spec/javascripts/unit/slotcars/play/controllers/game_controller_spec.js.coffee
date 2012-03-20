@@ -300,7 +300,7 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       
       (expect @gameController.get 'isCountdownVisible').toBe true
       
-    it 'sholud unset the flag wether the race is finished', ->
+    it 'should unset the flag wether the race is finished', ->
       @gameController.restartGame()
       
       (expect @gameController.get 'isRaceFinished').toBe false
