@@ -1,9 +1,7 @@
-#= require helpers/namespace
+
 #= require slotcars/play/templates/clock_view_template
 
-namespace 'slotcars.play.views'
-
-slotcars.play.views.ClockView = Ember.View.extend
+namespace('slotcars.play.views').ClockView = Ember.View.extend
 
   elementId: 'clock'
   templateName: 'slotcars_play_templates_clock_view_template'

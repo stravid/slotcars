@@ -1,14 +1,11 @@
 
-#= require helpers/namespace
 #= require helpers/math/vector
 #= require slotcars/shared/lib/movable
-
-namespace 'slotcars.shared.lib'
 
 Vector = helpers.math.Vector
 Movable = slotcars.shared.lib.Movable
 
-slotcars.shared.lib.Crashable = Ember.Mixin.create
+namespace('slotcars.shared.lib').Crashable = Ember.Mixin.create
 
   previousDirection: null
   isCrashing: false

@@ -1,13 +1,10 @@
 
-#= require helpers/namespace
 #= require slotcars/play/views/play_screen_view
 #= require slotcars/play/play_screen_state_manager
 #= require slotcars/shared/models/track
 #= require slotcars/shared/models/model_store
 #= require slotcars/shared/models/car
 #= require slotcars/play/game
-
-namespace 'slotcars.play'
 
 ModelStore = slotcars.shared.models.ModelStore
 Track = slotcars.shared.models.Track
@@ -16,7 +13,7 @@ PlayScreenStateManager = slotcars.play.PlayScreenStateManager
 Car = slotcars.shared.models.Car
 Game = slotcars.play.Game
 
-slotcars.play.PlayScreen = Ember.Object.extend
+namespace('slotcars.play').PlayScreen = Ember.Object.extend
 
   trackId: null
   _playScreenView: null

@@ -1,15 +1,12 @@
 
-#= require helpers/namespace
 #= require slotcars/shared/models/track
 #= require slotcars/build/controllers/draw_controller
 #= require slotcars/build/views/draw_view
 
-namespace 'slotcars.build'
-
 DrawController = slotcars.build.controllers.DrawController
 DrawView = slotcars.build.views.DrawView
 
-slotcars.build.Builder = Ember.Object.extend
+namespace('slotcars.build').Builder = Ember.Object.extend
 
   track: null
   drawController: null

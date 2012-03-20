@@ -1,15 +1,12 @@
 
-#= require helpers/namespace
 #= require embient/ember-data
 #= require slotcars/shared/models/model_store
 #= require helpers/math/raphael_path
 #= require vendor/raphael
 
-namespace 'slotcars.shared.models'
-
 RaphaelPath = helpers.math.RaphaelPath
 
-slotcars.shared.models.Track = DS.Model.extend
+namespace('slotcars.shared.models').Track = DS.Model.extend
 
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'

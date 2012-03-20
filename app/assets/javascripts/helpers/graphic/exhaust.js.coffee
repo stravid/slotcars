@@ -1,9 +1,5 @@
 
-#= require helpers/namespace
-
-namespace 'helpers.graphic'
-
-class helpers.graphic.Exhaust
+class namespace('helpers.graphic').Exhaust
   
   paper: null
   fumes: null

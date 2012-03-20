@@ -1,16 +1,13 @@
 
-#= require helpers/namespace
 #= require helpers/math/vector
 
 #= require slotcars/shared/lib/movable
 #= require slotcars/shared/lib/crashable
 
-namespace 'slotcars.shared.models'
-
 Movable = slotcars.shared.lib.Movable
 Crashable = slotcars.shared.lib.Crashable
 
-slotcars.shared.models.Car = Ember.Object.extend Movable, Crashable,
+namespace('slotcars.shared.models').Car = Ember.Object.extend Movable, Crashable,
 
   speed: 0
   maxSpeed: 0

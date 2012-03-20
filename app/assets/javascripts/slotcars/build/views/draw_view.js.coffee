@@ -1,14 +1,11 @@
 
-#= require helpers/namespace
 #= require slotcars/shared/views/track_view
 #= require slotcars/build/templates/draw_view_template
 #= require helpers/event_normalize
 
-namespace 'slotcars.build.views'
-
 PAPER_WRAPPER_ID = '#draw-view-paper'
 
-slotcars.build.views.DrawView = slotcars.shared.views.TrackView.extend
+namespace('slotcars.build.views').DrawView = slotcars.shared.views.TrackView.extend
 
   track: null
   drawController: null

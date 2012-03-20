@@ -1,9 +1,5 @@
 
-#= require helpers/namespace
-
-namespace 'slotcars.play'
-
-slotcars.play.PlayScreenStateManager = Ember.StateManager.extend
+namespace('slotcars.play').PlayScreenStateManager = Ember.StateManager.extend
 
   initialState: 'Loading'
   delegate: null
