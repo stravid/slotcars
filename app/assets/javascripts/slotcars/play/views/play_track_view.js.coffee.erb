@@ -1,14 +1,11 @@
 
-#= require helpers/namespace
 #= require helpers/event_normalize
 #= require slotcars/shared/views/track_view
 #= require helpers/math/vector
 
-namespace 'slotcars.play.views'
-
 Vector = helpers.math.Vector
 
-slotcars.play.views.PlayTrackView = slotcars.shared.views.TrackView.extend
+namespace('slotcars.play.views').PlayTrackView = slotcars.shared.views.TrackView.extend
 
   gameController: null
   

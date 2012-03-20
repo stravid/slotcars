@@ -1,12 +1,9 @@
 
-#= require helpers/namespace
 #= require helpers/math/vector
-
-namespace 'slotcars.build.controllers'
 
 ADD_POINT_MIN_DISTANCE = 30
 
-slotcars.build.controllers.DrawController = Ember.Object.extend
+(namespace 'slotcars.build.controllers').DrawController = Ember.Object.extend
 
   track: null
   finishedDrawing: false
