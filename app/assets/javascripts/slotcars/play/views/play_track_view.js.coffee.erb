@@ -21,12 +21,12 @@ slotcars.play.views.PlayTrackView = slotcars.shared.views.TrackView.extend
     @onCarControlsChange()
 
   onCarControlsChange: (->
-    (jQuery @$()).off 'touchMouseDown'
-    (jQuery @$()).off 'touchMouseUp'
+    @$().off 'touchMouseDown'
+    @$().off 'touchMouseUp'
 
     if @gameController.get 'carControlsEnabled'
-      (jQuery @$()).on 'touchMouseDown', (event) => @gameController.onTouchMouseDown event
-      (jQuery @$()).on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
+      @$().on 'touchMouseDown', (event) => @gameController.onTouchMouseDown event
+      @$().on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
 
   ).observes 'gameController.carControlsEnabled'
   

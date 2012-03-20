@@ -44,7 +44,7 @@ describe 'slotcars.build.views.DrawView', ->
 
     beforeEach ->
       @originalTestPath = 'M0,0L3,4Z'
-      @track = Track.createRecord()
+      @track = mockEmberClass Track
       @drawController = DrawController.create
         track: @track
 
@@ -52,6 +52,8 @@ describe 'slotcars.build.views.DrawView', ->
       @drawView.appendTo '<div>'
       
       Ember.run.end()
+      
+    afterEach -> @track.restore()
 
     it 'should create raphael paper view is appended to DOM', ->
       (expect @raphaelStub).toHaveBeenCalledWith @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)[0], 1024, 768

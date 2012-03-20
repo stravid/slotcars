@@ -35,7 +35,7 @@ describe 'builder', ->
       slotcars.shared.models.Track = @TrackBackup
 
     it 'should create a new track model', ->
-      builder = Builder.create buildScreenView: @buildScreenViewStub
+      Builder.create buildScreenView: @buildScreenViewStub
      
       (expect @TrackMock.createRecord).toHaveBeenCalled()
 
