@@ -18,6 +18,7 @@ GameLoopController = slotcars.play.controllers.GameLoopController
   carControlsEnabled: false
   
   isCountdownVisible: false
+  isRaceFinished: false
   currentCountdownValue: null
 
   startTime: null
@@ -25,6 +26,7 @@ GameLoopController = slotcars.play.controllers.GameLoopController
   raceTime: null
 
   timeouts: []
+  lapTimes: []
 
   init: ->
     (@get 'car').set 'track', (@get 'track')
@@ -41,19 +43,27 @@ GameLoopController = slotcars.play.controllers.GameLoopController
 
   finish: ->
     @_setCurrentTime()
+    @onLapChange()
 
+    @set 'isRaceFinished', true
     @set 'carControlsEnabled', false
     @isTouchMouseDown = false
-
-  _setCurrentTime: ->
-    @endTime = new Date().getTime()
-    if @get 'carControlsEnabled'
-      @set 'raceTime', @endTime - @startTime
 
   onCarCrossedFinishLine: (->
     car = @get 'car'
     if car.get 'crossedFinishLine' then @finish()
   ).observes 'car.crossedFinishLine'
+  
+  onLapChange: (->
+    lapTimes = @get 'lapTimes'
+    sum = lapTimes.reduce (previous, current) -> 
+      previous + current
+    , 0
+    unless (@get 'raceTime') == sum
+      lapTimes.push (@get 'raceTime') - sum
+    @set 'lapTimes', lapTimes
+
+  ).observes 'car.currentLap'
 
   update: ->
     unless @car.isCrashing
@@ -89,7 +99,9 @@ GameLoopController = slotcars.play.controllers.GameLoopController
 
   restartGame: ->
     @set 'carControlsEnabled', false
+    @set 'isRaceFinished', false
     @set 'raceTime', 0
+    @set 'lapTimes', []
 
     position = @track.getPointAtLength 0
     @car.moveTo { x: position.x, y: position.y }
@@ -115,3 +127,8 @@ GameLoopController = slotcars.play.controllers.GameLoopController
   _clearTimeouts: ->
     for timeout in @timeouts
       clearTimeout timeout
+
+  _setCurrentTime: ->
+    @endTime = new Date().getTime()
+    if @get 'carControlsEnabled'
+      @set 'raceTime', @endTime - @startTime

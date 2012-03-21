@@ -228,6 +228,11 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.finish()
 
       (expect @gameController.isTouchMouseDown).toBe false
+      
+    it 'should set a flag when race is over', ->
+      @gameController.finish()
+      
+      (expect @gameController.get 'isRaceFinished').toBe true
 
   describe 'observing crossed finish line property of car', ->
 
@@ -294,7 +299,18 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       @gameController.restartGame()
       
       (expect @gameController.get 'isCountdownVisible').toBe true
-
+      
+    it 'should unset the flag wether the race is finished', ->
+      @gameController.restartGame()
+      
+      (expect @gameController.get 'isRaceFinished').toBe false
+      
+    it 'should reset lap times when race is reset', ->
+      @gameController.lapTimes.push(123)
+      @gameController.restartGame()
+       
+      (expect @gameController.lapTimes).toEqual []
+  
     describe 'after countdown', ->
 
       beforeEach ->
@@ -321,3 +337,39 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
         @fakeTimer.tick 3500
 
         (expect @gameController.get 'isCountdownVisible').toBe false
+
+  describe 'saving lap times', ->
+    
+    it 'should save lap time when current lap of car changes', ->
+      @gameController.lapTimes = []
+      @gameController.onLapChange()
+      
+      (expect @gameController.lapTimes.length).toBe 1
+      
+    it 'should save the difference of total minus first lap', ->
+      fakeTimer = sinon.useFakeTimers()
+      @gameController.restartGame()
+      
+      fakeTimer.tick 5000 # 3 seconds count down - 2 seconds lap
+      @gameController._setCurrentTime() # normaly caused by game loop
+      @gameController.onLapChange()
+      
+      fakeTimer.tick 3000
+      @gameController._setCurrentTime() # normaly caused by game loop
+      @gameController.onLapChange()
+
+      (expect @gameController.lapTimes[1]).toBe 3000
+      
+      fakeTimer.restore()
+
+    it 'should not save lap time if lap time is zero', ->
+      # this test sounds weird but it´s neccessary to check
+      fakeTimer = sinon.useFakeTimers()
+      @gameController.restartGame()
+
+      @gameController._setCurrentTime() # normaly caused by game loop
+      @gameController.onLapChange()
+      
+      (expect @gameController.lapTimes.length).toBe 0
+
+      fakeTimer.restore()
