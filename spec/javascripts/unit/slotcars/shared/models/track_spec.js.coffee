@@ -103,7 +103,7 @@ describe 'slotcars.shared.models.Track', ->
 
     it 'should rasterize the raphael path after an short delay', ->
       runs -> @track.cleanPath()
-      waits 20
+      waits 200
       runs -> (expect @raphaelPathMock.rasterize).toHaveBeenCalled()
 
 
