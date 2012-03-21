@@ -1,5 +1,5 @@
 <ul id="home-navigation">
-    <li><a id="register-button" class="override-button" href="users/sign_up">Register</a></li>
+    <li><a id="register-button" target="_self" class="override-button" href="users/sign_up">Register</a></li>
     <li><a id="tracks-button" class="override-button js-route" href="tracks">Tracks</a></li>
     <li><a id="build-button" class="override-button js-route" href="build">Build</a></li>
 </ul>
