@@ -28,9 +28,3 @@ describe 'slotcars.play.views.ResultView (unit)', ->
     @gameControllerMock.set 'lapTimes', [12, 12]
     
     (expect @resultView.onLapTimesChange).toHaveBeenCalled()
-  
-  # it 'should listen to the controller wether the race is over or not', ->
-  #   # @resultView.onRaceStatusChange = sinon.spy()
-  #   # @gameControllerMock.set 'isRaceFinished', true
-
-  #   (expect @resultView.onRaceStatusChange).toHaveBeenCalled()
