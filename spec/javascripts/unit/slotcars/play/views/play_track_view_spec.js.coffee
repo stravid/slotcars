@@ -13,8 +13,7 @@ describe 'slotcars.play.views.PlayTrackView (unit)', ->
     @raphaelBackup = window.Raphael
     @raphaelElementStub = sinon.stub().returns 
       attr: ->
-      translate: ->
-      rotate: ->
+      transform: ->
     @paperClearSpy = sinon.spy()
 
     @raphaelStub = window.Raphael = sinon.stub().returns

@@ -19,7 +19,7 @@ describe 'slotcars.build.views.DrawView', ->
   beforeEach ->
     @raphaelBackup = window.Raphael
 
-    raphaelElementStub = attr: sinon.spy()
+    raphaelElementStub = attr: sinon.spy(), transform: ->
 
     @paperStub =
       path: sinon.stub().returns raphaelElementStub
