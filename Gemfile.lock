@@ -43,7 +43,7 @@ GEM
     emberjs-rails (2012.2.22)
       hamlbars
       rails (~> 3.1)
-    embient (0.0.6)
+    embient (0.0.8)
       emberjs-rails
       rails (>= 3.1.0)
     erubis (2.7.0)
@@ -65,7 +65,8 @@ GEM
       multi_json
       thor
     haml (3.1.4)
-    hamlbars (2012.2.22)
+    hamlbars (2012.3.21)
+      execjs (>= 1.2)
       haml
       sprockets
       tilt
@@ -78,11 +79,11 @@ GEM
       railties (>= 3.2.0, < 5.0)
       thor (~> 0.14)
     json (1.6.5)
-    mail (2.4.3)
+    mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    mime-types (1.17.2)
+    mime-types (1.18)
     multi_json (1.1.0)
     pg (0.13.2)
     pg (0.13.2-x86-mingw32)
@@ -153,7 +154,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
-  embient (= 0.0.6)
+  embient (= 0.0.8)
   factory_girl_rails
   growl
   guard-jasmine
