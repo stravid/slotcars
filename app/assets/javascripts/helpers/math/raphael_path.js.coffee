@@ -109,6 +109,10 @@ RaphaelPath = (namespace 'helpers.math').RaphaelPath = Ember.Object.extend
 
     @set 'path', pathString
 
+  setRaphaelPath: (path) -> @set 'path', path
+
+  setRasterizedPath: (points) -> @set '_rasterizedPath', Path.create points
+
 # provide static class properties
 RaphaelPath.reopenClass
   EMPTY_PATH_STRING: EMPTY_RAPHAEL_PATH_STRING

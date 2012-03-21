@@ -271,3 +271,30 @@ describe 'raphael path', ->
       # check that rasterization was cancelled correctly
       (expect @parameters.onProgress).toHaveBeenCalledOnce()
       (expect @parameters.onFinished).not.toHaveBeenCalled()
+
+  describe 'setting the raphael path', ->
+
+    it 'should set the raphael path', ->
+      raphaelPath = RaphaelPath.create()
+      path = "M0,0L1,0z"
+
+      raphaelPath.setRaphaelPath path
+
+      (expect raphaelPath.get 'path').toEqual path
+
+  describe 'setting the rasterized path', ->
+
+    it 'should set the rasterized path', ->
+      @pathMock.restore()
+
+      raphaelPath = RaphaelPath.create()
+      points =
+        points: [
+          { x: '1', y: '2', angle: '3' }
+        ]
+
+      raphaelPath.setRasterizedPath points
+
+      (expect (raphaelPath.get '_rasterizedPath').head.x).toEqual 1
+      (expect (raphaelPath.get '_rasterizedPath').head.y).toEqual 2
+      (expect (raphaelPath.get '_rasterizedPath').head.angle).toEqual 3
