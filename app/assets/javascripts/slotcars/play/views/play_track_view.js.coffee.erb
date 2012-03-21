@@ -44,5 +44,4 @@ namespace('slotcars.play.views').PlayTrackView = slotcars.shared.views.TrackView
     
     @_finishLine.remove() if @_finishLine
     @_finishLine = @_paper.image "<%= asset_path('views/play/finish-line.jpg') %>", pointA.x, pointA.y, 70, 20
-    @_finishLine.translate -35, -10
-    @_finishLine.rotate vector.clockwiseAngle()
+    @_finishLine.transform "t#{-35},#{-10}r#{vector.clockwiseAngle()}"
