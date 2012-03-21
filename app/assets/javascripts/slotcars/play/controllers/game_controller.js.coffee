@@ -5,13 +5,11 @@
 
 #= require helpers/event_normalize
 
-namespace 'slotcars.play.controllers'
-
 Car = slotcars.shared.models.Car
 CarView = slotcars.play.views.CarView
 GameLoopController = slotcars.play.controllers.GameLoopController
 
-slotcars.play.controllers.GameController = Ember.Object.extend
+(namespace 'slotcars.play.controllers').GameController = Ember.Object.extend
 
   car: null
   track: null

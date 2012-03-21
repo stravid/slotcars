@@ -1,14 +1,11 @@
 
-#= require helpers/namespace
 #= require helpers/math/vector
 #= require helpers/math/linked_list
-
-namespace 'helpers.math'
 
 Vector = helpers.math.Vector
 LinkedList = helpers.math.LinkedList
 
-class helpers.math.Path extends LinkedList
+class (namespace 'helpers.math').Path extends LinkedList
 
   totalLength: 0
   _lengthDirty: false
