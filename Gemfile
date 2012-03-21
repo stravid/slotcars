@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.0'
+gem 'devise' # authentication
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -9,7 +10,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'embient', '0.0.6'
+gem 'embient', '0.0.8'
 
 group :development, :test do
   gem 'sqlite3'
