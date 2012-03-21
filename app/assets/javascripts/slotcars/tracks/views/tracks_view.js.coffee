@@ -1,4 +1,5 @@
 
+#= require slotcars/shared/views/thumbnail_track_view
 #= require slotcars/tracks/templates/tracks_view_template
 
 #= require helpers/namespace

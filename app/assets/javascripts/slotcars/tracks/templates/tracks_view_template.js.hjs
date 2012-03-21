@@ -1,5 +1,6 @@
 {{#each controller.tracks}}
-  <div style="background-color: rgba(0,0,0,0.3); width:200px; height:200px; margin: 10px; float: left;">
+  <div style="background-color: rgba(0,0,0,0.3); width:320px; height:320px; margin: 10px; float: left;">
     Track #{{id}}
+    {{view Slotcars.shared.views.ThumbnailTrackView trackBinding="this" }}
   </div>
 {{/each}}
