@@ -5,10 +5,11 @@ Vector = helpers.math.Vector
 
 (namespace 'slotcars.shared.views').TrackView = Ember.View.extend
 
-  elementId: 'track-view'
   track: null
   
   _paper: null
+
+  scaleFactor: 1
 
   DASHED_LINE_WIDTH: 3
   ASPHALT_WIDTH: 70
@@ -21,7 +22,9 @@ Vector = helpers.math.Vector
   DIRT_COLOR: '#A67B52'
 
   didInsertElement: ->
-    @_paper = Raphael @$()[0], 1024, 768
+    @_paper = Raphael @$()[0], 1024 * @scaleFactor, 768 * @scaleFactor
+
+    @drawTrack @track.get 'raphaelPath' if @drawTrackOnDidInsertElement
 
   onTrackChange: ( -> 
     return unless @track?
@@ -33,20 +36,22 @@ Vector = helpers.math.Vector
 
     @_paper.clear()
 
-    @_drawPath path, @DIRT_WIDTH, @DIRT_COLOR
-    @_drawPath path, @BORDER_ASPHALT_WIDTH, @ASPHALT_COLOR
-    @_drawPath path, @BORDER_LINE_WIDTH, @LINE_COLOR
-    @_drawPath path, @ASPHALT_WIDTH, @ASPHALT_COLOR
+    @_drawPath path, @DIRT_WIDTH * @scaleFactor, @DIRT_COLOR
+    @_drawPath path, @BORDER_ASPHALT_WIDTH * @scaleFactor, @ASPHALT_COLOR
+    @_drawPath path, @BORDER_LINE_WIDTH * @scaleFactor, @LINE_COLOR
+    @_drawPath path, @ASPHALT_WIDTH * @scaleFactor, @ASPHALT_COLOR
     @_drawDashedLine path
 
   _drawPath: (path, width, color) ->
     path = @_paper.path path;
     path.attr 'stroke', color
     path.attr 'stroke-width', width
-    
+
+    path.transform "s#{@scaleFactor},#{@scaleFactor},0,0"
+
     path
-  
+
   _drawDashedLine: (path) ->
-    path = @_drawPath path, @DASHED_LINE_WIDTH, @LINE_COLOR
+    path = @_drawPath path, @DASHED_LINE_WIDTH * @scaleFactor, @LINE_COLOR
     path.attr 'stroke-dasharray', '- '
     path.attr 'stroke-linecap', 'square'
