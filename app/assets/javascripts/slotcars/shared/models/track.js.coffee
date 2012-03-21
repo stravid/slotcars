@@ -1,18 +1,19 @@
 
-#= require helpers/namespace
 #= require embient/ember-data
 #= require helpers/math/raphael_path
 #= require vendor/raphael
 
-namespace 'slotcars.shared.models'
-
 RaphaelPath = helpers.math.RaphaelPath
 
-slotcars.shared.models.Track = DS.Model.extend
+(namespace 'slotcars.shared.models').Track = DS.Model.extend
 
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'
+
   numberOfLaps: 3
+
+  isRasterizing: false
+  rasterizedPath: null
 
   playRoute: (->
     clientId = @get('clientId')
@@ -31,13 +32,7 @@ slotcars.shared.models.Track = DS.Model.extend
 
   clearPath: -> (@get '_raphaelPath').clear()
 
-  cleanPath: ->
-    raphaelPath = (@get '_raphaelPath')
-    raphaelPath.clean minAngle: 10, minLength: 100, maxLength: 400
-
-    # defer rasterization for 10 milliseconds since it is time
-    # costly and would block other operations
-    Ember.run.later (=> raphaelPath.rasterize 5), 10
+  cleanPath: -> (@get '_raphaelPath').clean minAngle: 10, minLength: 100, maxLength: 400
 
   isLengthAfterFinishLine: (length) ->
     @getTotalLength() * (@get 'numberOfLaps') < length
@@ -49,6 +44,27 @@ slotcars.shared.models.Track = DS.Model.extend
     # clamp return value to maximum number of laps
     if lap > numberOfLaps then lap = numberOfLaps
     if lap is 0 then return 1 else return lap
+
+  rasterize: (finishCallback) ->
+    @set 'isRasterizing', true
+    Ember.run.later (=>
+      (@get '_raphaelPath').rasterize
+        stepSize: 10
+        pointsPerTick: 50
+        onProgress: ($.proxy @_onRasterizationProgress, this)
+        onFinished: =>
+          @set 'isRasterizing', false
+          finishCallback() if finishCallback?
+    ), 50
+
+  cancelRasterization: ->
+    (@get '_raphaelPath').cancelRasterization()
+    @set 'isRasterizing', false
+    @set 'rasterizedPath', null
+
+  _onRasterizationProgress: (rasterizedLength) ->
+    @set 'rasterizedPath', Raphael.getSubpath (@get 'raphaelPath'), 0, rasterizedLength
+
 
 slotcars.shared.models.Track.reopenClass
   url: 'api/tracks'

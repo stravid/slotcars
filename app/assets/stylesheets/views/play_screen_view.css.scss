@@ -47,3 +47,34 @@
   top: 40px;
   left: 31px;
 }
+
+#result-overlay {
+  position: absolute; 
+  top: 200px; 
+  left: 300px; 
+  color: white; 
+  font-size: 32px; 
+  font-family: sans-serif; 
+  background-color: rgba(0, 0, 0, 0.7); 
+  -webkit-box-shadow: 0 0 40px rgba(0, 0, 0, 0.7); 
+  width: 400px; 
+  text-align: center; 
+  padding: 30px;
+  
+  ul {
+    list-style: none;
+  }
+}
+
+#countdown {
+  color: white;
+  font-size: 270px;
+  position: absolute;
+  top: 210px;
+  left: 300px;
+  font-weight: bold;
+  font-family: sans-serif;
+  width: 400px;
+  text-align: center;
+  text-shadow: 0 0 15px #eee;
+}

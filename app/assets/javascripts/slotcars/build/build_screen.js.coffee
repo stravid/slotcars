@@ -1,13 +1,10 @@
 
-#= require helpers/namespace
 #= require slotcars/build/views/build_screen_view
 #= require slotcars/build/builder
 
-namespace 'slotcars.build'
-
 Builder = slotcars.build.Builder
 
-slotcars.build.BuildScreen = Ember.Object.extend
+(namespace 'slotcars.build').BuildScreen = Ember.Object.extend
 
   _buildScreenView: null
   _builder: null

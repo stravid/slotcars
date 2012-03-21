@@ -1,19 +1,17 @@
 
-#= require helpers/namespace
 #= require helpers/math/path
 #= require vendor/raphael
-
-namespace 'helpers.math'
 
 EMPTY_RAPHAEL_PATH_STRING = 'M0,0z'
 
 Path = helpers.math.Path
 
-RaphaelPath = helpers.math.RaphaelPath = Ember.Object.extend
+RaphaelPath = (namespace 'helpers.math').RaphaelPath = Ember.Object.extend
 
   path: EMPTY_RAPHAEL_PATH_STRING
   _path: null
   _rasterizedPath: null
+  _cancelRasterization: false
 
   init: ->
     @set '_path', Path.create()
@@ -40,14 +38,48 @@ RaphaelPath = helpers.math.RaphaelPath = Ember.Object.extend
     @_path.clean parameters
     @_updateCatmullRomPath()
 
-  rasterize: (rasterizationSize)->
-    @_rasterizedPath = Path.create()
+  rasterize: (parameters) ->
+    if @_cancelRasterization
+      @_cancelRasterization = false
+      return @_rasterizedPath = null
 
+    parameters ?= {}
+    totalLength = parameters.totalLength ?= @get 'totalLength'
+
+    # stop immediately if total length is zero
+    return if totalLength <= 0
+
+    parameters.currentLength ?= 0
+
+    stepSize = parameters.stepSize
+    pointsPerTick = parameters.pointsPerTick
+    currentStartLength = parameters.currentLength
+
+    # clamp next current length to total length
+    currentEndLength = currentStartLength + pointsPerTick * stepSize
+    currentEndLength = totalLength if currentEndLength > totalLength
+
+    # create and fill rasterized path with points
+    @_rasterizedPath ?= Path.create()
+    @_rasterizePointsFromTo currentStartLength, currentEndLength, stepSize
+
+    # tell progress handler the current rasterization length
+    parameters.onProgress currentEndLength if parameters.onProgress
+
+    nextCurrentStartLength = currentEndLength + stepSize
+
+    # keep rasterizing if not finished yet
+    if totalLength > nextCurrentStartLength
+      parameters.currentLength = nextCurrentStartLength
+      Ember.run.next => @rasterize parameters
+    else
+      parameters.onFinished() if parameters.onFinished?
+
+  cancelRasterization: -> @_cancelRasterization = true
+
+  _rasterizePointsFromTo: (start, end, stepSize) ->
     path = @get 'path'
-    totalLength = @get 'totalLength'
-
-    # there is no optimization for curves vs. straight parts yet
-    for length in [0..totalLength] by rasterizationSize
+    for length in [start..end] by stepSize
       @_rasterizedPath.push (Raphael.getPointAtLength path, length), true
 
   # Generates catmull-rom paths for raphel with format: x1 y1 (x y)+

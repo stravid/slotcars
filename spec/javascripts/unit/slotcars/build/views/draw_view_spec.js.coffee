@@ -2,18 +2,19 @@
 #= require slotcars/build/views/draw_view
 #= require slotcars/shared/views/track_view
 #= require slotcars/build/controllers/draw_controller
+#= require slotcars/shared/models/track
 
 describe 'slotcars.build.views.DrawView', ->
 
   TrackView = slotcars.shared.views.TrackView
   DrawView = slotcars.build.views.DrawView
   DrawController = slotcars.build.controllers.DrawController
+  Track = slotcars.shared.models.Track
 
   DRAW_VIEW_PAPER_WRAPPER_ID = '#draw-view-paper'
 
   it 'should extend TrackView', ->
     (expect DrawView).toExtend TrackView
-
 
   beforeEach ->
     @raphaelBackup = window.Raphael
@@ -39,17 +40,20 @@ describe 'slotcars.build.views.DrawView', ->
 
       (expect -> Ember.run.end()).not.toThrow()
 
-
   describe 'rendering of track', ->
 
     beforeEach ->
       @originalTestPath = 'M0,0L3,4Z'
-      @drawController = DrawController.create()
+      @track = mockEmberClass Track
+      @drawController = DrawController.create
+        track: @track
 
-      @drawView = DrawView.create drawController: @drawController
-
+      @drawView = DrawView.create drawController: @drawController, track: @track
       @drawView.appendTo '<div>'
+      
       Ember.run.end()
+      
+    afterEach -> @track.restore()
 
     it 'should create raphael paper view is appended to DOM', ->
       (expect @raphaelStub).toHaveBeenCalledWith @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)[0], 1024, 768
@@ -73,8 +77,9 @@ describe 'slotcars.build.views.DrawView', ->
   describe 'event handling in draw view when appended to DOM', ->
 
     beforeEach ->
+      @track = Track.createRecord()
       @drawControllerMock = mockEmberClass DrawController
-      @drawView = DrawView.create drawController: @drawControllerMock
+      @drawView = DrawView.create drawController: @drawControllerMock, track: @track
 
       # append it into DOM to test real jQuery events
       @drawView.appendTo '<div>'
@@ -83,12 +88,10 @@ describe 'slotcars.build.views.DrawView', ->
 
     afterEach -> @drawControllerMock.restore()
 
-
     describe 'mouse move events', ->
 
       beforeEach ->
         @drawControllerMock.onTouchMouseMove = sinon.spy()
-
 
       it 'should not bind mouse move before mouse down happened', ->
         (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseMove'
@@ -149,3 +152,13 @@ describe 'slotcars.build.views.DrawView', ->
         @drawView.onClearButtonClicked()
 
         (expect @drawControllerMock.onClearTrack).toHaveBeenCalled()
+
+
+    describe 'playing created track', ->
+
+      it 'should tell the controller when the user wants to play the created track', ->
+        @drawControllerMock.onPlayCreatedTrack = sinon.spy()
+
+        @drawView.onPlayCreatedTrackButtonClicked()
+
+        (expect @drawControllerMock.onPlayCreatedTrack).toHaveBeenCalled()

@@ -1,9 +1,7 @@
-#= require helpers/namespace
+
 #= require embient/ember-routemanager
 
-namespace 'slotcars'
-
-slotcars.RouteManager = Ember.RouteManager.extend
+(namespace 'slotcars').RouteManager = Ember.RouteManager.extend
 
   wantsHistory: true # use html5 push state
   delegate: null
