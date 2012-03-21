@@ -1,5 +1,7 @@
 Slotcars::Application.routes.draw do
 
+  devise_for :users
+
   root :to => 'tracks#index'
 
   get '/tracks' => 'tracks#index'
