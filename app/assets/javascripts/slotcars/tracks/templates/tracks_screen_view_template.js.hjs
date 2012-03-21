@@ -1,2 +1,2 @@
 {{dynamicView contentView id="tracks-screen-content-view"}}
-<a id="home-button" class="override-button" href="">Home</a>
+<a id="home-button" class="override-button js-route" href="">Home</a>

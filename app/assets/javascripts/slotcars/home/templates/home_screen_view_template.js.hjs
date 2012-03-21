@@ -1,7 +1,7 @@
 <ul id="home-navigation">
-    <li><a id="quick-play-button" class="override-button" href="play/0">Play</a></li>
-    <li><a id="tracks-button" class="override-button" href="tracks">Tracks</a></li>
-    <li><a id="build-button" class="override-button" href="build">Build</a></li>
+    <li><a id="register-button" href="users/sign_up">Register</a></li>
+    <li><a id="tracks-button" class="override-button js-route" href="tracks">Tracks</a></li>
+    <li><a id="build-button" class="override-button js-route" href="build">Build</a></li>
 </ul>
 
 <img id="top-curve" src="assets/views/home/top-curve.png">
