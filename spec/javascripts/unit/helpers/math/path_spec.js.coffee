@@ -24,6 +24,16 @@ describe 'helpers.math.Path', ->
     it 'should be possible to create path without parameters', ->
       (expect => Path.create()).not.toThrow()
 
+    it 'should convert point attributes to float', ->
+      points = [
+        { x: '0.00', y: '1.37', angle: '1.00' }
+      ]
+
+      path = Path.create points: points
+
+      (expect path.head.x).toEqual 0
+      (expect path.head.y).toEqual 1.37
+      (expect path.head.angle).toEqual 1
 
   describe '#push', ->
 
@@ -56,6 +66,21 @@ describe 'helpers.math.Path', ->
       path = Path.create points: points
 
       (expect path.asPointArray()).toEqual points
+
+  describe '#asFixedLengthPointArray', ->
+
+    it 'should return all elements with a fixed length as array', ->
+      inputPoints = [
+        { x: 1.555, y: 4.22, angle: 3.1 }
+      ]
+
+      outputPoints = [
+        { x: '1.55', y: '4.22', angle: '3.10' }
+      ]
+
+      path = Path.create points: inputPoints
+
+      (expect path.asFixedLengthPointArray()).toEqual outputPoints
 
   describe '#clean', ->
 

@@ -16,7 +16,7 @@ class (namespace 'helpers.math').Path extends LinkedList
 
   constructor: (points) ->
     for point in points
-      @push x: point.x, y: point.y, angle: point.angle
+      @push x: (parseFloat point.x, 10), y: (parseFloat point.y, 10), angle: (parseFloat point.angle, 10)
 
   clean: (parameters) ->
     next = @head
@@ -45,6 +45,9 @@ class (namespace 'helpers.math').Path extends LinkedList
       next = current.next
 
     return elements
+
+  asFixedLengthPointArray: ->
+    @asPointArray().map (point) -> { x: (point.x.toFixed 2), y: (point.y.toFixed 2), angle: (point.angle.toFixed 2) }
 
   push: (point, shouldCalculateAngles) ->
     super point
