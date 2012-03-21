@@ -1,15 +1,12 @@
 
-#= require helpers/namespace
 #= require helpers/math/path
 #= require vendor/raphael
-
-namespace 'helpers.math'
 
 EMPTY_RAPHAEL_PATH_STRING = 'M0,0z'
 
 Path = helpers.math.Path
 
-RaphaelPath = helpers.math.RaphaelPath = Ember.Object.extend
+RaphaelPath = (namespace 'helpers.math').RaphaelPath = Ember.Object.extend
 
   path: EMPTY_RAPHAEL_PATH_STRING
   _path: null
@@ -52,9 +49,11 @@ RaphaelPath = helpers.math.RaphaelPath = Ember.Object.extend
     # stop immediately if total length is zero
     return if totalLength <= 0
 
-    stepSize = parameters.stepSize ?= 5
-    pointsPerTick = parameters.pointsPerTick ?= 50
-    currentStartLength = parameters.currentLength ?= 0
+    parameters.currentLength ?= 0
+
+    stepSize = parameters.stepSize
+    pointsPerTick = parameters.pointsPerTick
+    currentStartLength = parameters.currentLength
 
     # clamp next current length to total length
     currentEndLength = currentStartLength + pointsPerTick * stepSize

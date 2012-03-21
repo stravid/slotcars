@@ -3,7 +3,8 @@
 
 describe 'namespace', ->
   
-  it 'should create nested objects for namespace string', ->
-    namespace('nested.objects.test')
-    
-    (expect nested.objects.test).toEqual {}
+  it 'should create and return nested objects for namespace string', ->
+    returnValue = namespace 'nested.name.space.last'
+
+    (expect nested.name.space.last).toEqual {}
+    (expect returnValue).toBe nested.name.space.last
