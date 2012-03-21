@@ -17,7 +17,7 @@
   puffStep: 0
 
   didInsertElement: ->
-    #@exhaust = helpers.graphic.Exhaust.create(@paper)
+    # @exhaust = helpers.graphic.Exhaust.create(@paper)
 
     # if @offset?
     #   (jQuery @$()).css 'top', @offset.top
@@ -38,7 +38,7 @@
     (jQuery '#car').css '-webkit-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
     (jQuery '#car').css '-moz-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
     
-    #@puffStep = ++@puffStep % @puffInterval
-    #@exhaust.puff(position.x + @width - 6, position.y + @height) unless @puffStep > 0
+    # @puffStep = ++@puffStep % @puffInterval
+    # @exhaust.puff(position.x + @width - 6, position.y + @height) unless @puffStep > 0
 
-    #@exhaust.update()
+    # @exhaust.update() if @exhaust?

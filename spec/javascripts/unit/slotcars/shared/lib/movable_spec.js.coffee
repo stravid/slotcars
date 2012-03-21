@@ -21,3 +21,9 @@ describe 'slotcars.shared.lib.Movable', ->
       @movable.moveTo x: 1, y: 0
 
       (expect @movable.rotation).toBeApproximatelyEqual 90
+      
+    it 'should update its torque', ->
+      @movable.position = { x: 1, y: 2 }
+      @movable.moveTo x: 3, y: 4
+      
+      (expect @movable.torque).not.toBe 0

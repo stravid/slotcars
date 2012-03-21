@@ -7,12 +7,19 @@ Vector = helpers.math.Vector
 
   position: x: 0, y: 0
   rotation: 0
+  torque: 0
 
   moveTo: (newPosition) ->
     previousPosition = @get 'position'
 
     @set 'position', newPosition
 
-    direction = Vector.create from: previousPosition, to: newPosition
-    @set 'rotation', direction.clockwiseAngle()
+    if @get 'isCrashing'
+      @set 'rotation', (@rotation + @torque)
+      @torque *= 0.9
+    else
+      direction = Vector.create from: previousPosition, to: newPosition
+      angle = direction.clockwiseAngle()
+      @torque = angle - @rotation
+      @set 'rotation', angle
 
