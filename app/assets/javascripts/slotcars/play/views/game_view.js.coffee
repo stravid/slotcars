@@ -2,6 +2,8 @@
 #= require slotcars/play/templates/game_view_template
 #= require slotcars/play/views/result_view
 
+ResultView = slotcars.play.views.ResultView
+
 (namespace 'slotcars.play.views').GameView = Ember.View.extend
 
   elementId: 'game-view'
