@@ -12,9 +12,3 @@ slotcars.shared.adapters.ApiAdapter = DS.Adapter.extend
       success: (json) -> store.loadMany type, json
 
     jQuery.ajax hash
-
-  createRecord: (store, type, model) ->
-    console.log model
-    data = model.toJSON()
-
-    console.log data
