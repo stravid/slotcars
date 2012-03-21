@@ -1,0 +1,10 @@
+<div id="result-overlay">
+  <p>Your lap times:</p>
+  <p>race time: {{raceTime}}</p>
+  
+  <ul>
+  {{#each lapTimes}}
+    <li>{{this}}</li>
+  {{/each}}
+  </ul>
+</div>

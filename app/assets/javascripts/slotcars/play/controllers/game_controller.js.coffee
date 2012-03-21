@@ -5,13 +5,11 @@
 
 #= require helpers/event_normalize
 
-namespace 'slotcars.play.controllers'
-
 Car = slotcars.shared.models.Car
 CarView = slotcars.play.views.CarView
 GameLoopController = slotcars.play.controllers.GameLoopController
 
-slotcars.play.controllers.GameController = Ember.Object.extend
+(namespace 'slotcars.play.controllers').GameController = Ember.Object.extend
 
   car: null
   track: null
@@ -20,6 +18,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   carControlsEnabled: false
   
   isCountdownVisible: false
+  isRaceFinished: false
   currentCountdownValue: null
 
   startTime: null
@@ -27,6 +26,7 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   raceTime: null
 
   timeouts: []
+  lapTimes: []
 
   init: ->
     (@get 'car').set 'track', (@get 'track')
@@ -43,19 +43,27 @@ slotcars.play.controllers.GameController = Ember.Object.extend
 
   finish: ->
     @_setCurrentTime()
+    @onLapChange()
 
+    @set 'isRaceFinished', true
     @set 'carControlsEnabled', false
     @isTouchMouseDown = false
-
-  _setCurrentTime: ->
-    @endTime = new Date().getTime()
-    if @get 'carControlsEnabled'
-      @set 'raceTime', @endTime - @startTime
 
   onCarCrossedFinishLine: (->
     car = @get 'car'
     if car.get 'crossedFinishLine' then @finish()
   ).observes 'car.crossedFinishLine'
+  
+  onLapChange: (->
+    lapTimes = @get 'lapTimes'
+    sum = lapTimes.reduce (previous, current) -> 
+      previous + current
+    , 0
+    unless (@get 'raceTime') == sum
+      lapTimes.push (@get 'raceTime') - sum
+    @set 'lapTimes', lapTimes
+
+  ).observes 'car.currentLap'
 
   update: ->
     unless @car.isCrashing
@@ -91,7 +99,9 @@ slotcars.play.controllers.GameController = Ember.Object.extend
 
   restartGame: ->
     @set 'carControlsEnabled', false
+    @set 'isRaceFinished', false
     @set 'raceTime', 0
+    @set 'lapTimes', []
 
     position = @track.getPointAtLength 0
     @car.moveTo { x: position.x, y: position.y }
@@ -117,3 +127,8 @@ slotcars.play.controllers.GameController = Ember.Object.extend
   _clearTimeouts: ->
     for timeout in @timeouts
       clearTimeout timeout
+
+  _setCurrentTime: ->
+    @endTime = new Date().getTime()
+    if @get 'carControlsEnabled'
+      @set 'raceTime', @endTime - @startTime

@@ -11,6 +11,7 @@
 #= require sinon
 #= require jasmine-sinon
 #= require_tree ./helpers
+#= require helpers/namespace
 
 # ------ load all specs ------
 #= require_tree ./unit
