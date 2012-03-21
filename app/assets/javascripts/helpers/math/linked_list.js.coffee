@@ -1,9 +1,5 @@
 
-#= require helpers/namespace
-
-namespace 'helpers.math'
-
-class helpers.math.LinkedList
+class (namespace 'helpers.math').LinkedList
 
   head: null
   tail: null
@@ -32,6 +28,7 @@ class helpers.math.LinkedList
     # last element is special case
     if element is @head and element is @tail
       @head = @tail = null
+      console.warn "Last element removed from linked list"
       return
 
     if element.next?

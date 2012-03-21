@@ -1,0 +1,6 @@
+<a id="retry-button" class="override-button" {{action "onRestartClick"}}>Retry</a>
+<div id="countdown">{{gameController.currentCountdownValue}}</div>
+
+{{#if gameController.isRaceFinished}}
+    {{dynamicView overlayView}}
+{{/if}} 

@@ -1,0 +1,50 @@
+/*
+ *= require helpers/utilities 
+ *= require shared/home_button
+ */
+
+@import "config";
+
+#clear-track-button, #test-track-button {
+  position: absolute;
+  bottom: $border-padding;
+  cursor: pointer;
+}
+
+#clear-track-button {
+  width: 163px;
+  height: 66px;
+  background-image: image-url("buttons/clear.png");
+  background-repeat: no-repeat;
+  
+  right: $border-padding;
+ 
+}
+
+#test-track-button {
+  width: 146px;
+  height: 66px;
+  background-image: image-url("buttons/test.png");
+  background-repeat: no-repeat;
+
+  left: $border-padding;
+}
+
+#rasterizing-notification {
+  position: absolute;
+  left: 300px;
+  top: 250px;
+  padding: 60px;
+  background: rgba(0,0,0,0.7);
+  -webkit-box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow:    0px 0px 11px rgba(0, 0, 0, 0.7);
+  box-shadow:         0px 0px 11px rgba(0, 0, 0, 0.7);
+
+  p {
+    text-align: center;
+    font-family: sans-serif;
+    color: white;
+    font-size: 30px;
+    text-shadow: 0 0 15px #EEE;
+  }
+}

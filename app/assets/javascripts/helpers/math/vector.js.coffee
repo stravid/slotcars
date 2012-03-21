@@ -1,9 +1,5 @@
 
-#= require helpers/namespace
-
-namespace 'helpers.math'
-
-class helpers.math.Vector
+class (namespace 'helpers.math').Vector
 
   constructor: (@x, @y) ->
 
@@ -20,8 +16,20 @@ class helpers.math.Vector
 
     degrees = Math.acos(theta) * 180 / Math.PI
 
+  clockwiseAngle: ->
+    upVector = Vector.create x: 0, y: -1
+    angle = upVector.angleFrom this
+
+    if @x < 0 then 360 - angle else angle
+
   center: ->
     new Vector @x/2, @y/2
+
+  normalize: ->
+    new Vector @x/@length(), @y/@length()
+
+  scale: (factor) ->
+    new Vector @x*factor, @y*factor
 
   @create: (parameters) ->
     if parameters.x? and parameters.y?

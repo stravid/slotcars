@@ -1,0 +1,3 @@
+{{dynamicView contentView id="build-screen-content-view"}}
+
+<a id="home-button" class="override-button" href="">Home</a>

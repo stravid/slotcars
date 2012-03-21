@@ -1,0 +1,80 @@
+/*
+ *= require helpers/utilities
+ *= require helpers/font_ds_digital_42
+ *= require helpers/font_ds_digital_22
+ *= require shared/home_button
+ */
+
+@import "config";
+
+#retry-button {
+  width: 163px;
+  height: 66px;
+  background-image: image-url("buttons/retry.png");
+  background-repeat: no-repeat;
+  
+  position: absolute;
+  top: $border-top-padding;
+  right: $border-padding;
+
+  cursor: pointer;
+}
+
+#clock {
+  width: 255px;
+  height: 86px;
+  background-image: image-url("views/play/clock-background.png");
+  background-repeat: no-repeat;
+  
+  position: absolute;
+  top: $border-top-padding - 5px;
+  left: $center-x - 127px;
+}
+
+#clock-minutes, #clock-dot-one, #clock-seconds, #clock-dot-two, #clock-milliseconds {
+  position: absolute;
+  top: 29px;
+}
+
+#clock-minutes { left: 74px; }
+#clock-dot-one { left: 112px; }
+#clock-seconds { left: 127px; }
+#clock-dot-two { left: 165px; }
+#clock-milliseconds { left: 181px; }
+
+#clock-lap {
+  position: absolute;
+  top: 40px;
+  left: 31px;
+}
+
+#result-overlay {
+  position: absolute; 
+  top: 200px; 
+  left: 300px; 
+  color: white; 
+  font-size: 32px; 
+  font-family: sans-serif; 
+  background-color: rgba(0, 0, 0, 0.7); 
+  -webkit-box-shadow: 0 0 40px rgba(0, 0, 0, 0.7); 
+  width: 400px; 
+  text-align: center; 
+  padding: 30px;
+  
+  ul {
+    list-style: none;
+  }
+}
+
+#countdown {
+  color: white;
+  font-size: 270px;
+  position: absolute;
+  top: 210px;
+  left: 300px;
+  font-weight: bold;
+  font-family: sans-serif;
+  width: 400px;
+  text-align: center;
+  text-shadow: 0 0 15px #eee;
+}

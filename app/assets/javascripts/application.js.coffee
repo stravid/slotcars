@@ -1,7 +1,10 @@
 #= require jquery
 #= require jquery_ujs
-#= require ember
-#= require community/community_application
+#= require embient/ember
+#= require helpers/namespace
+#= require slotcars/factories/screen_factory
+#= require slotcars/slotcars_application
 
-community.CommunityApplication.create()
+slotcars.SlotcarsApplication.create
+  screenFactory: slotcars.factories.ScreenFactory.create()
 
