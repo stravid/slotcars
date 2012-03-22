@@ -56,13 +56,15 @@ GameLoopController = slotcars.play.controllers.GameLoopController
   
   onLapChange: (->
     lapTimes = @get 'lapTimes'
+    
     sum = lapTimes.reduce (previous, current) -> 
       previous + current
     , 0
+    
     unless (@get 'raceTime') == sum
       lapTimes.push (@get 'raceTime') - sum
+      
     @set 'lapTimes', lapTimes
-
   ).observes 'car.currentLap'
 
   update: ->

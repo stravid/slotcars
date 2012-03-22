@@ -78,3 +78,10 @@
   text-align: center;
   text-shadow: 0 0 15px #eee;
 }
+
+#car {
+  top: 0;
+  left: 0;
+  -webkit-transform-origin: 50% 20%;
+  -moz-transform-origin: 50% 20%;
+}
