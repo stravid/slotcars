@@ -1,6 +1,7 @@
 
 #= require embient/ember-data
 #= require slotcars/shared/models/track
+#= require slotcars/shared/models/model_store
 #= require helpers/math/path
 #= require helpers/math/raphael_path
 
@@ -8,6 +9,7 @@ describe 'slotcars.shared.models.Track', ->
 
   Track = slotcars.shared.models.Track
   RaphaelPath = helpers.math.RaphaelPath
+  ModelStore = slotcars.shared.models.ModelStore
 
   it 'should be a subclass of an ember-data Model', ->
     (expect Track).toExtend DS.Model
@@ -16,7 +18,7 @@ describe 'slotcars.shared.models.Track', ->
     (expect Track.url).toBeDefined()
 
   beforeEach ->
-    @raphaelPathMock = mockEmberClass RaphaelPath
+    @raphaelPathMock = mockEmberClass RaphaelPath, setRaphaelPath: sinon.spy(), setRasterizedPath: sinon.spy()
 
   afterEach ->
     @raphaelPathMock.restore()
@@ -100,11 +102,6 @@ describe 'slotcars.shared.models.Track', ->
       @track.cleanPath()
 
       (expect @raphaelPathMock.rasterize).not.toHaveBeenCalled()
-
-    it 'should rasterize the raphael path after an short delay', ->
-      runs -> @track.cleanPath()
-      waits 200
-      runs -> (expect @raphaelPathMock.rasterize).toHaveBeenCalled()
 
   describe 'route to the track resource', ->
 
@@ -265,3 +262,54 @@ describe 'slotcars.shared.models.Track', ->
         @track.cancelRasterization()
 
         (expect @raphaelPathMock.cancelRasterization).toHaveBeenCalled()
+
+    describe '#didLoad', ->
+
+      it 'should setup the raphael path', ->
+        raphael = 'M0,0L1,0z'
+        rasterized = '[{"x":"1.00","y":"1.00","angle":"1.00"}]'
+        points =
+          points: JSON.parse rasterized
+
+        track = Track.createRecord()
+
+        track.set 'raphael', raphael
+        track.set 'rasterized', rasterized
+
+        track.didLoad()
+
+        (expect @raphaelPathMock.setRaphaelPath).toHaveBeenCalledWith raphael
+        (expect @raphaelPathMock.setRasterizedPath).toHaveBeenCalledWith points
+
+    describe '#save', ->
+
+      beforeEach ->
+        @track = Track.createRecord()
+        @raphaelPathMock.get = sinon.stub()
+        @raphaelPathMock.get.withArgs('_rasterizedPath').returns { asFixedLengthPointArray: -> }
+        @raphaelPathMock.get.withArgs('path').returns ''
+
+      it 'should call commit on the model store', ->
+        ModelStore.commit = sinon.spy()
+
+        @track.save()
+
+        (expect ModelStore.commit).toHaveBeenCalled()
+
+      it 'should set the raphael property', ->
+        path = 'M0,0L1,1z'
+        @raphaelPathMock.get.withArgs('path').returns path
+
+        @track.save()
+
+        (expect @track.get 'raphael').toBe path
+
+      it 'should set the rasterized property', ->
+        fixedLengthPointArray = [
+          { x: '1.00', y: '1.00', angle: '1.00' }
+        ]
+        @raphaelPathMock.get.withArgs('_rasterizedPath').returns { asFixedLengthPointArray: -> fixedLengthPointArray }
+
+        @track.save()
+
+        (expect @track.get 'rasterized').toBe JSON.stringify fixedLengthPointArray

@@ -14,8 +14,8 @@ ModelStore = slotcars.shared.models.ModelStore
 
   numberOfLaps: 3
 
-  raphaelPath: DS.attr 'string'
-  rasterizedPath: DS.attr 'string'
+  raphael: DS.attr 'string'
+  rasterized: DS.attr 'string'
 
   isRasterizing: false
   rasterizedPath: null
@@ -30,15 +30,17 @@ ModelStore = slotcars.shared.models.ModelStore
     @set '_raphaelPath', RaphaelPath.create()
 
   save: ->
-    console.log 'SAVED'
-
-    @set 'raphaelPath', @_raphaelPath.get 'path'
-    @set 'rasterizedPath', JSON.stringify (@_raphaelPath.get '_rasterizedPath')
+    @set 'raphael', @_raphaelPath.get 'path'
+    @set 'rasterized', JSON.stringify (@_raphaelPath.get '_rasterizedPath').asFixedLengthPointArray()
 
     ModelStore.commit()
 
   didLoad: ->
-    # setup the raphaelPath
+    points =
+      points: JSON.parse (@get 'rasterized')
+
+    @_raphaelPath.setRaphaelPath @get 'raphael'
+    @_raphaelPath.setRasterizedPath points
 
   addPathPoint: (point) -> (@get '_raphaelPath').addPoint point
 
