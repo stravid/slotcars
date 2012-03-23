@@ -119,6 +119,15 @@ describe 'slotcars.shared.models.Car', ->
       @car.reset()
 
       (expect @car.lengthAtTrack).toEqual 0
+      
+    it 'should reset movable', ->
+      backup = @car.resetMovable
+      @car.resetMovable = sinon.spy()
+      
+      @car.reset()
+      (expect @car.resetMovable).toHaveBeenCalled()
+      
+      @car.resetMovable = backup;
 
   describe '#drive', ->
 

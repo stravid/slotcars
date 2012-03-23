@@ -31,7 +31,7 @@ Movable = slotcars.shared.lib.Movable
   crash: ->
     if @speed == 0
       @isCrashing = false
-      
+     
     crashVector = (@previousDirection.normalize()).scale @speed
     position =
       x: @position.x + crashVector.x

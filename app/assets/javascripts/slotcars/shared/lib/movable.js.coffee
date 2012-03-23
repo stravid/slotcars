@@ -11,10 +11,12 @@ Vector = helpers.math.Vector
   rotation: 0
   torque: 0
   
-  inertia: 0.89
-  k: 0.19
-  xp: 0
-  yp: 0
+  # constants for bounce calculation
+  INERTIA: 0.885
+  K: 0.1
+  
+  # current drift
+  driftValue: x: 0, y: 0
 
   moveTo: (newPosition, tailPosition) ->
     previousPosition = @get 'position'
@@ -27,9 +29,9 @@ Vector = helpers.math.Vector
       @bouncePosition = null
     else
       unless tailPosition
+        return unless @oldTailPosition
         @bouncePosition = @oldTailPosition
-        @xp = 0
-        @yp = 0
+        @driftValue = x: 0, y: 0
       else
         unless @bouncePosition
           @bouncePosition = tailPosition 
@@ -49,6 +51,11 @@ Vector = helpers.math.Vector
       
       @oldTailPosition = tailPosition
 
+  resetMovable: ->
+    @bouncePosition = null
+    @oldTailPosition = null
+    @driftValue = x: 0, y: 0
+  
   _calculateTorque: (newAngle) ->
     torque = (newAngle - @angle) * 3
     torque or= 0
@@ -57,9 +64,9 @@ Vector = helpers.math.Vector
     x = position.x - @bouncePosition.x
     y = position.y - @bouncePosition.y
     
-    @xp = @xp * @inertia + x*@k
-    @yp = @yp * @inertia + y*@k
+    @driftValue.x = @driftValue.x * @INERTIA + x*@K
+    @driftValue.y = @driftValue.y * @INERTIA + y*@K
   
-    @bouncePosition.x += @xp
-    @bouncePosition.y += @yp
+    @bouncePosition.x += @driftValue.x
+    @bouncePosition.y += @driftValue.y
     
