@@ -1,10 +1,12 @@
 Slotcars::Application.routes.draw do
 
-  root :to => 'tracks#index'
+  devise_for :users
 
-  get '/tracks' => 'tracks#index'
-  get '/build' => 'tracks#index'
-  get '/play/:id' => 'tracks#index'
+  root :to => 'slotcars#index'
+
+  get '/tracks' => 'slotcars#index'
+  get '/build' => 'slotcars#index'
+  get '/play/:id' => 'slotcars#index'
 
   namespace :api do
     resources :tracks, :only => [:index]

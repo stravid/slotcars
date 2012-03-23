@@ -55,5 +55,9 @@ module Slotcars
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # force the applicatin not to access the database or load models
+    # when precompiling the assets
+    config.assets.initialize_on_precompile = false
   end
 end
