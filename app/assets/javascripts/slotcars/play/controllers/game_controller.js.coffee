@@ -76,6 +76,10 @@ GameLoopController = slotcars.play.controllers.GameLoopController
   
       newLengthAtTrack = (@car.get 'lengthAtTrack') + (@car.get 'speed')
       nextPosition = @track.getPointAtLength newLengthAtTrack
+      
+      tailLength = newLengthAtTrack - 10
+      tailLength = if tailLength < 0 then tailLength + @track.getTotalLength() else tailLength
+      tailPosition = @track.getPointAtLength tailLength
 
       @car.checkForCrash nextPosition # isCrashing can be modified inside
 
@@ -87,7 +91,7 @@ GameLoopController = slotcars.play.controllers.GameLoopController
 
       # cares for correct orientation
       @car.jumpstart()
-      @car.moveTo { x: nextPosition.x, y: nextPosition.y }
+      @car.moveTo { x: nextPosition.x, y: nextPosition.y}, {x: tailPosition.x, y: tailPosition.y}
 
     @_setCurrentTime()
 
@@ -106,7 +110,8 @@ GameLoopController = slotcars.play.controllers.GameLoopController
     @set 'lapTimes', []
 
     position = @track.getPointAtLength 0
-    @car.moveTo { x: position.x, y: position.y }
+    tailPosition = @track.getPointAtLength @track.getTotalLength() - 10
+    @car.moveTo { x: position.x, y: position.y }, {x: tailPosition.x, y: tailPosition.y}
 
     @car.jumpstart()
     @car.reset()
