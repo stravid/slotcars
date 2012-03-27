@@ -13,7 +13,7 @@ Vector = helpers.math.Vector
   
   # constants for bounce calculation
   INERTIA: 0.8
-  OFFSET: 0.085
+  OFFSET: 0.085 
   K: 0.1
   
   # current drift
@@ -57,7 +57,7 @@ Vector = helpers.math.Vector
     @driftValue = x: 0, y: 0
   
   _calculateTorque: (newAngle) ->
-    torque = (newAngle - @angle) * 3
+    torque = (newAngle - @angle) * 3 * @_relativeSpeed()
     torque or= 0
     
   _calculateBouncePosition: (position) ->
@@ -71,8 +71,13 @@ Vector = helpers.math.Vector
   
     @bouncePosition.x += @driftValue.x
     @bouncePosition.y += @driftValue.y
-    
+  
+  _relativeSpeed: ->
+    @speed / @maxSpeed
+  
   _calculateSpeedFactor: ->
-    value = @speed / @maxSpeed
+    value = @_relativeSpeed()
+    return 0.5 if value < 0.1
+    return @INERTIA + @OFFSET if value > 0.6 
     @INERTIA + value * @OFFSET
     
