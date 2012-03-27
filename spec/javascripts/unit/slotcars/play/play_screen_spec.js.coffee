@@ -4,6 +4,7 @@
 #= require slotcars/play/play_screen_state_manager
 #= require slotcars/shared/models/track
 #= require slotcars/play/game
+#= require slotcars/shared/models/model_store
 
 describe 'play screen', ->
 
@@ -13,14 +14,18 @@ describe 'play screen', ->
   Track = slotcars.shared.models.Track
   Car = slotcars.shared.models.Car
   Game = slotcars.play.Game
+  ModelStore = slotcars.shared.models.ModelStore
 
   beforeEach ->
+    sinon.stub ModelStore, 'find', -> Track.createRecord()
+
     @playScreenViewMock = mockEmberClass PlayScreenView, append: sinon.spy()
     @playScreenStateManagerMock = mockEmberClass PlayScreenStateManager, send: sinon.spy()
     @GameMock = mockEmberClass Game, start: sinon.spy()
     @playScreen = PlayScreen.create()
 
   afterEach ->
+    ModelStore.find.restore()
     @playScreenViewMock.restore()
     @playScreenStateManagerMock.restore()
     @GameMock.restore()
