@@ -12,7 +12,8 @@ Vector = helpers.math.Vector
   torque: 0
   
   # constants for bounce calculation
-  INERTIA: 0.885
+  INERTIA: 0.8
+  OFFSET: 0.085
   K: 0.1
   
   # current drift
@@ -45,11 +46,10 @@ Vector = helpers.math.Vector
       staticAngle = staticDirection.clockwiseAngle()
       
       @torque = @_calculateTorque staticAngle
-
-      @set 'rotation', newAngle
-      @set 'angle', staticAngle
-      
+      @angle = staticAngle
       @oldTailPosition = tailPosition
+      
+      @set 'rotation', newAngle
 
   resetMovable: ->
     @bouncePosition = null
@@ -61,12 +61,18 @@ Vector = helpers.math.Vector
     torque or= 0
     
   _calculateBouncePosition: (position) ->
+    inertia = @_calculateSpeedFactor()
+    
     x = position.x - @bouncePosition.x
     y = position.y - @bouncePosition.y
     
-    @driftValue.x = @driftValue.x * @INERTIA + x*@K
-    @driftValue.y = @driftValue.y * @INERTIA + y*@K
+    @driftValue.x = @driftValue.x * inertia + x * @K
+    @driftValue.y = @driftValue.y * inertia + y * @K
   
     @bouncePosition.x += @driftValue.x
     @bouncePosition.y += @driftValue.y
+    
+  _calculateSpeedFactor: ->
+    value = @speed / @maxSpeed
+    @INERTIA + value * @OFFSET
     

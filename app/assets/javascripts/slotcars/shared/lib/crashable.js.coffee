@@ -15,7 +15,6 @@ Movable = slotcars.shared.lib.Movable
       throw new Error 'Crashable requires Movable'
 
   checkForCrash: (nextPosition) ->
-
     direction = Vector.create from: @position, to: nextPosition
 
     unless @previousDirection?
