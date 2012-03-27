@@ -80,8 +80,19 @@
 }
 
 #car {
+  position: absolute;
   top: 0;
   left: 0;
-  -webkit-transform-origin: 50% 20%;
-  -moz-transform-origin: 50% 20%;
+  width: 1px;
+  height: 1px;
+  
+  #car-graphic {
+    position: absolute;
+    top: -8px;
+    left: -13px;
+    width: 27px;
+    height: 39px;
+    background-image: image-url("car/car-red.png");
+    background-repeat: no-repeat;
+  }
 }
