@@ -14,10 +14,20 @@ describe 'slotcars.shared.models.Car', ->
   Crashable = slotcars.shared.lib.Crashable
   Track = slotcars.shared.models.Track
 
+  beforeEach ->
+    @trackMock = mockEmberClass Track,
+      lapForLength: sinon.spy()
+      isLengthAfterFinishLine: sinon.spy()
+      getPointAtLength: sinon.spy()
+    
+  afterEach ->
+    @trackMock.restore()
+
   describe 'usage of mixins', ->
 
     beforeEach ->
-      @car = Car.create()
+      @car = Car.create
+        track: @trackMock
 
     it 'should use Movable', ->
       (expect Movable.detect @car).toBe true
@@ -29,7 +39,8 @@ describe 'slotcars.shared.models.Car', ->
   describe 'defaults on creation', ->
 
     beforeEach ->
-      @car = Car.create()
+      @car = Car.create
+        track: @trackMock
 
     it 'should set speed to zero', ->
       (expect @car.speed).toBe 0
@@ -51,6 +62,7 @@ describe 'slotcars.shared.models.Car', ->
         acceleration: 1
         speed: 0
         maxSpeed: 1
+        track: @trackMock
 
     it 'should add acceleration value to speed', ->
       @car.accelerate()
@@ -71,6 +83,7 @@ describe 'slotcars.shared.models.Car', ->
         crashDeceleration: 3
         deceleration: 4
         speed: 5
+        track: @trackMock
 
     it 'should decelerate with standard deceleration when car is on track', ->
       @car.decelerate()
@@ -90,6 +103,7 @@ describe 'slotcars.shared.models.Car', ->
       @car = Car.create
         crashDeceleration: 3
         speed: 5
+        track: @trackMock
 
     it 'should decelerate with crashDeceleration', ->
       @car.crashcelerate()
@@ -106,9 +120,12 @@ describe 'slotcars.shared.models.Car', ->
   describe '#reset', ->
 
     beforeEach ->
+      @trackMock.getPointAtLength = sinon.stub().returns { x: 0, y: 0, angle: 10 }
+
       @car = Car.create
         speed: 10
         lengthAtTrack: 293
+        track: @trackMock
 
     it 'should reset speed', ->
       @car.reset()
@@ -123,7 +140,9 @@ describe 'slotcars.shared.models.Car', ->
   describe '#drive', ->
 
     beforeEach ->
-      @car = Car.create speed: 1
+      @car = Car.create
+        speed: 1
+        track: @trackMock
 
     it 'should update lengthAtTrack', ->
       @car.drive()
@@ -134,14 +153,14 @@ describe 'slotcars.shared.models.Car', ->
   describe 'reactions to changes of length at track', ->
 
     beforeEach ->
-      @trackMock = mockEmberClass Track
-      @trackMock.lapForLength = sinon.stub().returns 1
-      @trackMock.isLengthAfterFinishLine = sinon.stub().returns false
+      # @trackMock = mockEmberClass Track
+      # @trackMock.lapForLength = sinon.stub().returns 1
+      # @trackMock.isLengthAfterFinishLine = sinon.stub().returns false
 
       @car = Car.create track: @trackMock
 
     afterEach ->
-      @trackMock.restore()
+      # @trackMock.restore()
 
 
     describe 'current lap of car', ->
@@ -161,7 +180,7 @@ describe 'slotcars.shared.models.Car', ->
 
       it 'should be set to true if lengthAtTrack gets bigger than length of finish line', ->
         testLength = 3
-        @trackMock.isLengthAfterFinishLine.withArgs(testLength).returns true
+        @trackMock.isLengthAfterFinishLine = sinon.stub().withArgs(testLength).returns true
 
         @car.set 'lengthAtTrack', testLength
 

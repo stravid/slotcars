@@ -33,12 +33,33 @@ Crashable = slotcars.shared.lib.Crashable
       if isLengthAfterFinishLine isnt @get 'crossedFinishLine' then @set 'crossedFinishLine', isLengthAfterFinishLine
   ).observes 'lengthAtTrack'
 
+  init: ->
+    throw 'No track specified' unless @track?
+
+  update: (isTouchMouseDown) ->
+    unless @isCrashing
+      if isTouchMouseDown
+        @accelerate()
+      else
+        @decelerate()
+
+      newLengthAtTrack = (@get 'lengthAtTrack') + (@get 'speed')
+      nextPosition = @track.getPointAtLength newLengthAtTrack
+
+      @checkForCrash nextPosition # isCrashing can be modified inside
+
+    if @isCrashing
+      @crashcelerate()
+      @crash()
+    else
+      @drive()      # automatically handles 'respawn'
+
+      previousPosition = @track.getPointAtLength newLengthAtTrack - 0.1
+      @moveTo { x: nextPosition.x, y: nextPosition.y }, { x: previousPosition.x , y: previousPosition.y }
+
   drive: ->
     newLength = (@get 'lengthAtTrack') + (@get 'speed')
     @set 'lengthAtTrack', newLength
-
-  jumpstart: ->
-    @speed = @deceleration + .0001 unless @speed > 0
 
   accelerate: ->
     @speed += @acceleration
@@ -55,3 +76,6 @@ Crashable = slotcars.shared.lib.Crashable
   reset: ->
     @speed = 0
     @set 'lengthAtTrack', 0
+
+    position = @track.getPointAtLength 0
+    @moveTo { x: position.x, y: position.y }
