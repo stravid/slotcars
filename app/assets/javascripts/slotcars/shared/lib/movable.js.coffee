@@ -14,7 +14,7 @@ Vector = helpers.math.Vector
   # constants for bounce calculation
   INERTIA: 0.8
   OFFSET: 0.1
-  K: 0.12
+  K: 0.16
   
   # current drift
   driftValue: x: 0, y: 0
