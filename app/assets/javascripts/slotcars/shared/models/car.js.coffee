@@ -18,7 +18,7 @@ Crashable = slotcars.shared.lib.Crashable
   crashDeceleration: 0
 
   track: null
-  lengthAtTrack: 0
+  lengthAtTrack: null
 
   currentLap: 0
   crossedFinishLine: false
