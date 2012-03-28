@@ -30,6 +30,7 @@ Game = slotcars.play.Game
   destroy: ->
     @_super()
     @_playScreenView.remove()
+    @_game.destroy() if @_game?
 
   load: ->
     @track = ModelStore.find Track, @trackId
