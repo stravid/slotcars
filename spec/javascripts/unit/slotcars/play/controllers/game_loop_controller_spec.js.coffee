@@ -22,6 +22,12 @@ describe 'slotcars.play.controllers.GameLoopController (unit)', ->
 
       (expect renderCallbackSpy).toHaveBeenCalled()
 
+    it 'should set the stop loop flag to false', ->
+      @gameLoop.set 'stopLoop', true
+      @gameLoop.start ->
+
+      (expect @gameLoop.get 'stopLoop').toBe false
+
     it 'should use requestFrame for running the loop', ->
       @gameLoop.start ->
 
@@ -41,3 +47,21 @@ describe 'slotcars.play.controllers.GameLoopController (unit)', ->
       @gameLoop.start renderCallbackSpy
 
       (expect renderCallbackSpy).toHaveBeenCalledThrice()
+
+    it 'should stop the loop if the stop loop flag is set', ->
+      count = 0
+      callback = -> count++
+
+      @gameLoop.start callback
+
+      numberOfCalls = count
+      @gameLoop.set 'stopLoop', true
+
+      (expect count).toEqual numberOfCalls
+
+  describe '#destroy', ->
+
+    it 'should set the stop loop flag to true', ->
+      @gameLoop.destroy()
+
+      (expect @gameLoop.get 'stopLoop').toBe true
