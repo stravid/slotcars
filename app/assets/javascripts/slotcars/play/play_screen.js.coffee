@@ -32,7 +32,7 @@ Game = slotcars.play.Game
     @_playScreenView.remove()
 
   load: ->
-    @track = ModelStore.findByClientId Track, @trackId
+    @track = ModelStore.find Track, @trackId
 
     @car = Car.create
       acceleration: 0.1
