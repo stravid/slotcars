@@ -38,9 +38,6 @@ describe 'slotcars.shared.models.Car', ->
     it 'should set speed to zero', ->
       (expect @car.speed).toBe 0
 
-    it 'should set lengthAtTrack', ->
-      (expect @car.get 'lengthAtTrack').toBe 0
-
     it 'should set crashing to false', ->
       (expect @car.isCrashing).toBe false
 
