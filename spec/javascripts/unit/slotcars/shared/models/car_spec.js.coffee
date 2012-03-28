@@ -1,15 +1,13 @@
 
-#= require slotcars/shared/models/car
 #= require slotcars/shared/lib/movable
 #= require slotcars/shared/lib/crashable
 
-#= require helpers/math/vector
+#= require slotcars/shared/models/car
 #= require slotcars/shared/models/track
 
 describe 'slotcars.shared.models.Car', ->
 
   Car = slotcars.shared.models.Car
-  Vector = helpers.math.Vector
   Movable = slotcars.shared.lib.Movable
   Crashable = slotcars.shared.lib.Crashable
   Track = slotcars.shared.models.Track
@@ -19,15 +17,14 @@ describe 'slotcars.shared.models.Car', ->
       lapForLength: sinon.spy()
       isLengthAfterFinishLine: sinon.spy()
       getPointAtLength: sinon.spy()
-    
+
+    @car = Car.create
+      track: @trackMock
+
   afterEach ->
     @trackMock.restore()
 
   describe 'usage of mixins', ->
-
-    beforeEach ->
-      @car = Car.create
-        track: @trackMock
 
     it 'should use Movable', ->
       (expect Movable.detect @car).toBe true
@@ -38,15 +35,11 @@ describe 'slotcars.shared.models.Car', ->
 
   describe 'defaults on creation', ->
 
-    beforeEach ->
-      @car = Car.create
-        track: @trackMock
-
     it 'should set speed to zero', ->
       (expect @car.speed).toBe 0
 
     it 'should set lengthAtTrack', ->
-      (expect @car.lengthAtTrack).toBe 0
+      (expect @car.get 'lengthAtTrack').toBe 0
 
     it 'should set crashing to false', ->
       (expect @car.isCrashing).toBe false
@@ -55,77 +48,13 @@ describe 'slotcars.shared.models.Car', ->
       (expect @car.get 'currentLap').toBe 0
 
 
-  describe '#accelerate', ->
-
-    beforeEach ->
-      @car = Car.create
-        acceleration: 1
-        speed: 0
-        maxSpeed: 1
-        track: @trackMock
-
-    it 'should add acceleration value to speed', ->
-      @car.accelerate()
-
-      (expect @car.speed).toBe 1
-
-    it 'should not increase speed higher than maxSpeed', ->
-      @car.accelerate()
-      @car.accelerate()
-
-      (expect @car.speed).toBe 1
-
-
-  describe '#decelerate', ->
-
-    beforeEach ->
-      @car = Car.create
-        crashDeceleration: 3
-        deceleration: 4
-        speed: 5
-        track: @trackMock
-
-    it 'should decelerate with standard deceleration when car is on track', ->
-      @car.decelerate()
-
-      (expect @car.speed).toBe 1
-
-    it 'should not decrease speed below zero', ->
-      @car.decelerate()
-      @car.decelerate()
-
-      (expect @car.speed).toBe 0
-
-
-  describe '#crashcelerate', ->
-
-    beforeEach ->
-      @car = Car.create
-        crashDeceleration: 3
-        speed: 5
-        track: @trackMock
-
-    it 'should decelerate with crashDeceleration', ->
-      @car.crashcelerate()
-
-      (expect @car.speed).toBe 2
-
-    it 'should not let speed get below zero after crashing', ->
-      @car.crashDeceleration = 8
-      @car.crashcelerate()
-
-      (expect @car.speed).toBe 0
-
-
   describe '#reset', ->
 
     beforeEach ->
       @trackMock.getPointAtLength = sinon.stub().returns { x: 0, y: 0, angle: 10 }
 
-      @car = Car.create
-        speed: 10
-        lengthAtTrack: 293
-        track: @trackMock
+      @car.speed = 10
+      @car.set 'lengthAtTrack', 293
 
     it 'should reset speed', ->
       @car.reset()
@@ -135,33 +64,20 @@ describe 'slotcars.shared.models.Car', ->
     it 'should reset lengthAtTrack', ->
       @car.reset()
 
-      (expect @car.lengthAtTrack).toEqual 0
+      (expect @car.get 'lengthAtTrack').toEqual 0
 
-  describe '#drive', ->
+    it 'should move car to start', ->
+      sinon.spy @car, 'moveTo'
+      @car.reset()
 
-    beforeEach ->
-      @car = Car.create
-        speed: 1
-        track: @trackMock
-
-    it 'should update lengthAtTrack', ->
-      @car.drive()
-
-      (expect @car.lengthAtTrack).toBe 1
+      (expect @car.moveTo).toHaveBeenCalledWith { x: 0, y: 0 }
 
 
   describe 'reactions to changes of length at track', ->
 
     beforeEach ->
-      # @trackMock = mockEmberClass Track
-      # @trackMock.lapForLength = sinon.stub().returns 1
-      # @trackMock.isLengthAfterFinishLine = sinon.stub().returns false
-
-      @car = Car.create track: @trackMock
-
-    afterEach ->
-      # @trackMock.restore()
-
+      @trackMock.lapForLength = sinon.stub().returns 1
+      @trackMock.isLengthAfterFinishLine = sinon.stub().returns false
 
     describe 'current lap of car', ->
 
@@ -185,3 +101,92 @@ describe 'slotcars.shared.models.Car', ->
         @car.set 'lengthAtTrack', testLength
 
         (expect @car.get 'crossedFinishLine').toBe true
+
+
+  describe 'updating car while moving', ->
+
+    beforeEach ->
+      @trackMock.getPointAtLength = sinon.stub().returns { x: 0, y: 0, angle: 10 }
+
+      @car.acceleration = 0.2
+      @car.deceleration = 0.4
+      @car.crashDeceleration = 0.5
+      @car.speed = 5
+      @car.maxSpeed = 10
+
+    describe 'when car is on track', ->
+
+      beforeEach ->
+        @car.set 'isCrashing', false
+
+      it 'should accelerate car when update is called with true', ->
+        currentSpeed = @car.get 'speed'
+        @car.update true
+
+        (expect @car.get 'speed').toEqual currentSpeed + @car.acceleration
+
+      it 'should not accelerate above maximum speed', ->
+        currentSpeed = @car.get 'speed'
+        @car.acceleration = 10
+        @car.update true
+
+        (expect @car.get 'speed').toEqual @car.maxSpeed
+
+      it 'should decelerate car when update is called with false', ->
+        currentSpeed = @car.get 'speed'
+        @car.update false
+
+        (expect @car.get 'speed').toEqual currentSpeed - @car.deceleration
+
+      it 'should not decelerate car below zero', ->
+        currentSpeed = @car.get 'speed'
+        @car.deceleration = 10
+        @car.update false
+
+        (expect @car.get 'speed').toEqual 0
+
+      it 'should move car', ->
+        sinon.spy @car, 'set'
+        sinon.spy @car, 'moveTo'
+        @car.update false  # does not matter wether true or false
+
+        (expect @car.set).toHaveBeenCalledWith 'lengthAtTrack'
+        (expect @car.moveTo).toHaveBeenCalled()
+
+      it 'should check for crash', ->
+        @trackMock.getPointAtLength = sinon.stub().returns { x: 5, y: 5, angle: 15 }
+        sinon.spy @car, 'checkForCrash'
+        @car.update false # does not matter wether true or false
+
+        (expect @car.checkForCrash).toHaveBeenCalledWith { x: 5, y: 5, angle: 15 }
+
+    describe 'when car is crashing', ->
+
+      beforeEach ->
+        @car.update false # simulates normal driving mode
+        @car.set 'isCrashing', true
+
+      it 'should slow down', ->
+        currentSpeed = @car.get 'speed'
+        @car.update false
+
+        (expect @car.get 'speed').toEqual currentSpeed - @car.crashDeceleration
+
+      it 'should not decelerate car below zero', ->
+        currentSpeed = @car.get 'speed'
+        @car.crashDeceleration = 10
+        @car.update false
+
+        (expect @car.get 'speed').toEqual 0
+
+      it 'should not be possible to accelerate the car', ->
+        currentSpeed = @car.get 'speed'
+        @car.update true
+
+        (expect @car.get 'speed').toEqual currentSpeed - @car.crashDeceleration
+
+      it 'should update the car´s position', ->
+        sinon.spy @car, 'crash'
+        @car.update false
+
+        (expect @car.crash).toHaveBeenCalledOnce()

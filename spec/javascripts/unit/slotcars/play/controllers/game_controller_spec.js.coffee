@@ -80,110 +80,36 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
       (expect @carMock.update).toHaveBeenCalledWith @gameController.isTouchMouseDown
 
-  #   beforeEach ->
-  #     @carMock = mockEmberClass Car,
-  #       # accelerate: sinon.spy()
-  #       # decelerate: sinon.spy()
-  #       crashcelerate: sinon.spy()
-  #       update: sinon.spy()
-  #       # moveTo: sinon.spy()
-  #       # checkForCrash: sinon.spy()
-  #       # drive: sinon.spy()
-  #       # jumpstart: sinon.spy()
-  #       # crash: sinon.spy()
-  #       reset: sinon.spy()
-  #       get: sinon.stub().returns 0
+    describe 'updating race time', ->
 
-  #     @GameLoopControllerMock = mockEmberClass GameLoopController,
-  #       start: sinon.spy()
+      beforeEach ->
+        @fakeTimer = sinon.useFakeTimers()
 
-  #     @gameController.set 'car', @carMock
+      afterEach ->
+        @fakeTimer.restore()
 
-  #   afterEach ->
-  #     @GameLoopControllerMock.restore()
-  #     @carMock.restore()
+      it 'should update race time as long car is allowed to drive', ->
+        @gameController.set 'carControlsEnabled', true
 
-  #   describe 'updating race time', ->
+        @gameController.set 'raceTime', 0
+        @gameController.set 'startTime', new Date().getTime()
 
-  #     beforeEach ->
-  #       @fakeTimer = sinon.useFakeTimers()
+        @fakeTimer.tick 1000
+        @gameController.update()
 
-  #     afterEach ->
-  #       @fakeTimer.restore()
+        (expect @gameController.get 'raceTime').toEqual 1000
 
-  #     it 'should update race time as long car is allowed to drive', ->
-  #       @gameController.set 'carControlsEnabled', true
+      it 'should not update race time when car isn´t allowed to drive', ->
+        @gameController.set 'carControlsEnabled', false
 
-  #       @gameController.set 'raceTime', 0
-  #       @gameController.set 'startTime', new Date().getTime()
+        @gameController.set 'raceTime', 0
+        @gameController.set 'startTime', new Date().getTime()
 
-  #       @fakeTimer.tick 1000
-  #       @gameController.update()
+        @fakeTimer.tick 1000
+        @gameController.update()
 
-  #       (expect @gameController.get 'raceTime').toEqual 1000
+        (expect @gameController.get 'raceTime').toEqual 0
 
-  #     it 'should not update race time when car isn´t allowed to drive', ->
-  #       @gameController.set 'carControlsEnabled', false
-
-  #       @gameController.set 'raceTime', 0
-  #       @gameController.set 'startTime', new Date().getTime()
-
-  #       @fakeTimer.tick 1000
-  #       @gameController.update()
-
-  #       (expect @gameController.get 'raceTime').toEqual 0
-
-  #   describe 'when car is on track', ->
-
-  #     beforeEach ->
-  #       @gameController.car.isCrashing = false
-
-  #     it 'should accelerate car when isTouchMouseDown is true', ->
-  #       @gameController.isTouchMouseDown = true
-  #       @gameController.update()
-
-  #       (expect @carMock.accelerate).toHaveBeenCalledOnce()
-
-  #     it 'should slow down when isTouchMouseDown is false', ->
-  #       @gameController.isTouchMouseDown = false
-  #       @gameController.update()
-
-  #       (expect @carMock.decelerate).toHaveBeenCalledOnce()
-  #       (expect @carMock.accelerate).not.toHaveBeenCalled()
-
-  #     it 'should move car', ->
-  #       @gameController.update()
-
-  #       (expect @carMock.drive).toHaveBeenCalledOnce()
-  #       (expect @carMock.jumpstart).toHaveBeenCalledOnce()
-  #       (expect @carMock.moveTo).toHaveBeenCalledOnce()
-
-  #     it 'should check for crash', ->
-  #       @gameController.update()
-
-  #       (expect @carMock.checkForCrash).toHaveBeenCalledOnce()
-
-  #   describe 'when car is crashing', ->
-  
-  #     beforeEach ->
-  #       @gameController.update() # simulates normal driving mode
-  #       @gameController.car.isCrashing = true
-
-  #     it 'should slow down', ->
-  #       @gameController.update()
-
-  #       (expect @carMock.crashcelerate).toHaveBeenCalledOnce()
-
-  #     it 'should not be possible to accelerate the car', ->
-  #       @gameController.isTouchMouseDown = true
-  #       @gameController.update()
-
-  #       (expect @carMock.accelerate).not.toHaveBeenCalled()
-
-  #     it 'should update the car´s position', ->
-  #       @gameController.update()
-
-  #       (expect @carMock.crash).toHaveBeenCalledOnce()
 
   describe '#start', ->
 
