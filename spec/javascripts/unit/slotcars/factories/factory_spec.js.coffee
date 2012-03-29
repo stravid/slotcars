@@ -42,3 +42,22 @@ describe 'abstract factory', ->
 
       (expect secondInstance).toBeInstanceOf @SecondType
       (expect thirdInstance).toBeInstanceOf @ThirdType
+
+
+  describe 'getting singleton instance of factory', ->
+
+    it 'should provide a method to always retrieve the same instance', ->
+      firstInstance = Factory.get()
+      secondInstance = Factory.get()
+
+      (expect firstInstance).toBeInstanceOf Factory
+      (expect secondInstance).toBe firstInstance
+
+    it 'should correctly inherit static method to subclasses', ->
+      FirstFactory = Factory.extend()
+      SecondFactory = Factory.extend()
+
+      instanceOfFirstFactory = FirstFactory.get()
+      instanceOfSecondFactory = SecondFactory.get()
+
+      (expect instanceOfFirstFactory).not.toBe instanceOfSecondFactory

@@ -10,3 +10,9 @@ Factory = (namespace 'Slotcars.factories').Factory = Ember.Object.extend
       @_registeredTypes[typeId].create createParamters
     else
       throw "#{typeId} was not registered in factory."
+
+Factory.reopenClass
+
+  instance: null
+
+  get: -> if @instance? then @instance else @instance = @create()
