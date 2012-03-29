@@ -35,17 +35,15 @@ describe 'play screen', ->
 
     beforeEach ->
       @playScreen.load = sinon.spy()
+      @playScreen.appendView = sinon.spy()
+      
+      @playScreen.appendToApplication()
 
     it 'should create the play screen state manager', ->
-      @playScreen.appendToApplication()
-
       (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
 
-    it 'should append the play screen view to the DOM', ->
-      @playScreen.appendToApplication()
-
-      (expect @playScreenViewMock.append).toHaveBeenCalled()
-
+    it 'should call appendView method on itself', ->
+      (expect @playScreen.appendView).toHaveBeenCalled()
 
   describe 'loading', ->
 
@@ -92,15 +90,3 @@ describe 'play screen', ->
 
     it 'should start the game', ->
       (expect @GameMock.start).toHaveBeenCalled()
-
-
-  describe 'destroying', ->
-
-    beforeEach ->
-      @playScreenViewMock.remove = sinon.spy()
-      @playScreen.appendToApplication()
-
-    it 'should tell the play screen view to remove itself', ->
-      @playScreen.destroy()
-
-      (expect @playScreenViewMock.remove).toHaveBeenCalled()

@@ -26,6 +26,7 @@ describe 'tracks screen', ->
   describe 'appending tracks screen to application', ->
 
     beforeEach ->
+      @tracksScreen.appendView = sinon.spy()
       @tracksScreen.appendToApplication()
 
     it 'should create the tracks controller', ->
@@ -34,8 +35,8 @@ describe 'tracks screen', ->
     it 'should create the tracks screen view', ->
       (expect @TracksScreenViewMock.create).toHaveBeenCalled()
 
-    it 'should append the tracks screen view', ->
-      (expect @TracksScreenViewMock.append).toHaveBeenCalled()
+    it 'should call appendView method on itself', ->
+      (expect @tracksScreen.appendView).toHaveBeenCalled()
 
   describe 'destroying', ->
 

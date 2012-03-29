@@ -1,17 +1,19 @@
 
 #= require slotcars/home/views/home_screen_view
+#= require slotcars/shared/lib/appendable
 
-(namespace 'slotcars.home').HomeScreen = Ember.Object.extend
+Appendable = slotcars.shared.lib.Appendable
 
-  _homeScreenView: null
+(namespace 'slotcars.home').HomeScreen = Ember.Object.extend Appendable,
 
   appendToApplication: ->
     @_appendScreen()
 
   _appendScreen: ->
-    @_homeScreenView = slotcars.home.views.HomeScreenView.create()
-    @_homeScreenView.append()
+    @view = slotcars.home.views.HomeScreenView.create()
+    @appendView()
 
   destroy: ->
     @_super()
-    @_homeScreenView.remove()
+    @removeView()
+    

@@ -16,18 +16,10 @@ describe 'home screen', ->
 
   describe 'append to application', ->
 
-    it 'should append the home screen view to the DOM body', ->
-      @homeScreen.appendToApplication()
-
-      (expect @homeScreenViewMock.append).toHaveBeenCalled()
-
-  describe 'destroy', ->
-
     beforeEach ->
-      @homeScreenViewMock.remove = sinon.spy()
+      @homeScreen.appendView = sinon.spy()
+
+    it 'should call appendView method on itself', ->
       @homeScreen.appendToApplication()
 
-    it 'should tell the home screen view to remove itself', ->
-      @homeScreen.destroy()
-
-      (expect @homeScreenViewMock.remove).toHaveBeenCalled()
+      (expect @homeScreen.appendView).toHaveBeenCalled()

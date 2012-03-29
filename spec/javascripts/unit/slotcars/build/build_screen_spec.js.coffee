@@ -20,10 +20,13 @@ describe 'slotcars.build.BuildScreen', ->
 
   describe 'append to application', ->
 
-    it 'should append the build screen view to the DOM body', ->
+    beforeEach ->
+      @buildScreen.appendView = sinon.spy()
+
+    it 'should call appendView method on itself', ->
       @buildScreen.appendToApplication()
 
-      (expect @buildScreenViewMock.append).toHaveBeenCalled()
+      (expect @buildScreen.appendView).toHaveBeenCalled()
 
     it 'should create builder and provide build screen view', ->
       @buildScreen.appendToApplication()
@@ -37,11 +40,6 @@ describe 'slotcars.build.BuildScreen', ->
       @builderControllerMock.destroy = sinon.spy()
       @buildScreenViewMock.remove = sinon.spy()
       @buildScreen.appendToApplication()
-
-    it 'should tell the build screen view to remove itself', ->
-      @buildScreen.destroy()
-
-      (expect @buildScreenViewMock.remove).toHaveBeenCalled()
 
     it 'should tell the builder to destroy itself', ->
       @buildScreen.destroy()
