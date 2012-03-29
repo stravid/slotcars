@@ -36,6 +36,7 @@ Game = slotcars.play.Game
     @track = ModelStore.find Track, @trackId
 
     @car = Car.create
+      track: @track
       acceleration: 0.1
       deceleration: 0.2
       crashDeceleration: 0.15
