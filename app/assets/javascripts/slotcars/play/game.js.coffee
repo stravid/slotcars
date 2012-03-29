@@ -42,3 +42,6 @@ PlayTrackView = slotcars.play.views.PlayTrackView
     @playScreenView.set 'carView', @_carView
     @playScreenView.set 'gameView', @_gameView
     @playScreenView.set 'clockView', @_clockView
+
+  destroy: ->
+    @_gameController.destroy()

@@ -373,3 +373,14 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       (expect @gameController.lapTimes.length).toBe 0
 
       fakeTimer.restore()
+
+  describe 'destroy', ->
+
+    it 'should call destroy of the game loop controller', ->
+      gameLoopControllerStub =
+        destroy: sinon.spy()
+
+      @gameController.set 'gameLoopController', gameLoopControllerStub
+      @gameController.destroy()
+
+      (expect gameLoopControllerStub.destroy).toHaveBeenCalled()

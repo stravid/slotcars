@@ -21,7 +21,10 @@ describe 'play screen', ->
 
     @playScreenViewMock = mockEmberClass PlayScreenView, append: sinon.spy()
     @playScreenStateManagerMock = mockEmberClass PlayScreenStateManager, send: sinon.spy()
-    @GameMock = mockEmberClass Game, start: sinon.spy()
+    @GameMock = mockEmberClass Game,
+      start: sinon.spy()
+      destroy: sinon.spy()
+
     @playScreen = PlayScreen.create()
 
   afterEach ->
@@ -93,14 +96,26 @@ describe 'play screen', ->
     it 'should start the game', ->
       (expect @GameMock.start).toHaveBeenCalled()
 
-
   describe 'destroying', ->
 
     beforeEach ->
       @playScreenViewMock.remove = sinon.spy()
       @playScreen.appendToApplication()
+      @gameStub =
+        destroy: sinon.spy()
 
     it 'should tell the play screen view to remove itself', ->
       @playScreen.destroy()
 
       (expect @playScreenViewMock.remove).toHaveBeenCalled()
+
+    it 'should tell the game to destroy itself', ->
+      @playScreen.set '_game', @gameStub
+      @playScreen.destroy()
+
+      (expect @gameStub.destroy).toHaveBeenCalled()
+
+    it 'should only destroy the game if it is present', ->
+      @playScreen.destroy()
+
+      (expect @gameStub.destroy).not.toHaveBeenCalled()

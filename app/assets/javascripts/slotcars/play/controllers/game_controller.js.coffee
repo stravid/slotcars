@@ -132,3 +132,12 @@ GameLoopController = slotcars.play.controllers.GameLoopController
     @endTime = new Date().getTime()
     if @get 'carControlsEnabled'
       @set 'raceTime', @endTime - @startTime
+
+  destroy: ->
+    # clear all timeouts
+    @_clearTimeouts()
+
+    # force unbinding of car controls
+    @set 'carControlsEnabled', false
+
+    @gameLoopController.destroy()
