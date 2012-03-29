@@ -10,7 +10,10 @@ describe 'slotcars.build.BuildScreen', ->
   BuilderScreenView = slotcars.build.views.BuildScreenView
 
   beforeEach ->
-    @buildScreenViewMock = mockEmberClass BuilderScreenView, append: sinon.spy()
+    @buildScreenViewMock = mockEmberClass BuilderScreenView,
+      append: sinon.spy()
+      remove: sinon.spy()
+
     @builderControllerMock = mockEmberClass BuilderController
     @buildScreen = BuildScreen.create()
 
