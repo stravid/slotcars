@@ -5,6 +5,7 @@
 #= require slotcars/shared/models/track
 #= require slotcars/play/game
 #= require slotcars/shared/models/model_store
+#= require slotcars/factories/screen_factory
 
 describe 'play screen', ->
 
@@ -15,6 +16,7 @@ describe 'play screen', ->
   Car = slotcars.shared.models.Car
   Game = slotcars.play.Game
   ModelStore = slotcars.shared.models.ModelStore
+  ScreenFactory = slotcars.factories.ScreenFactory
 
   beforeEach ->
     sinon.stub ModelStore, 'find', -> Track.createRecord()
@@ -29,6 +31,12 @@ describe 'play screen', ->
     @playScreenViewMock.restore()
     @playScreenStateManagerMock.restore()
     @GameMock.restore()
+
+
+  it 'should register itself at the screen factory', ->
+    playScreen = ScreenFactory.get().getInstanceOf 'PlayScreen'
+
+    (expect playScreen).toBeInstanceOf PlayScreen
 
 
   describe 'append to application', ->

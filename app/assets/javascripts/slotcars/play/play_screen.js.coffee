@@ -5,6 +5,7 @@
 #= require slotcars/shared/models/model_store
 #= require slotcars/shared/models/car
 #= require slotcars/play/game
+#= require slotcars/factories/screen_factory
 
 ModelStore = slotcars.shared.models.ModelStore
 Track = slotcars.shared.models.Track
@@ -12,8 +13,9 @@ PlayScreenView = slotcars.play.views.PlayScreenView
 PlayScreenStateManager = slotcars.play.PlayScreenStateManager
 Car = slotcars.shared.models.Car
 Game = slotcars.play.Game
+ScreenFactory = slotcars.factories.ScreenFactory
 
-(namespace 'slotcars.play').PlayScreen = Ember.Object.extend
+PlayScreen = (namespace 'slotcars.play').PlayScreen = Ember.Object.extend
 
   trackId: null
   _playScreenView: null
@@ -53,3 +55,6 @@ Game = slotcars.play.Game
 
   play: ->
     @_game.start()
+
+
+ScreenFactory.get().registerScreen 'PlayScreen', PlayScreen
