@@ -4,6 +4,7 @@
 #= require slotcars/shared/lib/appendable
 
 Builder = slotcars.build.Builder
+BuildScreenView = slotcars.build.views.BuildScreenView
 Appendable = slotcars.shared.lib.Appendable
 
 (namespace 'slotcars.build').BuildScreen = Ember.Object.extend Appendable,
@@ -15,7 +16,7 @@ Appendable = slotcars.shared.lib.Appendable
     @_setupBuilder()
 
   _appendScreen: ->
-    @view = slotcars.build.views.BuildScreenView.create()
+    @view = BuildScreenView.create()
     @appendView()
 
   _setupBuilder: ->
@@ -25,6 +26,5 @@ Appendable = slotcars.shared.lib.Appendable
   destroy: ->
     @_super()
     @_builder.destroy()
-    @removeView()
 
   toString: -> '<Instance of slotcars.build.BuildScreen>'

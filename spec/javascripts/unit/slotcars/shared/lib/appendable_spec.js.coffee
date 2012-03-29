@@ -32,3 +32,11 @@ describe 'Appendable', ->
       @appendable.removeView()
 
       (expect @viewMock.remove).toHaveBeenCalled()
+
+  describe 'destroying', ->
+
+    it 'should call removeView method on itself', ->
+      sinon.spy @appendable, 'removeView'
+      @appendable.destroy()
+
+      (expect @appendable.removeView).toHaveBeenCalled()

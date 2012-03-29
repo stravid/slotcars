@@ -23,7 +23,7 @@ describe 'tracks screen', ->
   it 'should extend Ember.Object', ->
     (expect TracksScreen).toExtend Ember.Object
 
-  describe 'appending tracks screen to application', ->
+  describe 'append to application', ->
 
     beforeEach ->
       @tracksScreen.appendView = sinon.spy()
@@ -37,14 +37,3 @@ describe 'tracks screen', ->
 
     it 'should call appendView method on itself', ->
       (expect @tracksScreen.appendView).toHaveBeenCalled()
-
-  describe 'destroying', ->
-
-    beforeEach ->
-      @TracksScreenViewMock.remove = sinon.spy()
-      @tracksScreen.appendToApplication()
-
-    it 'should tell the tracks screen view to remove itself', ->
-      @tracksScreen.destroy()
-      
-      (expect @TracksScreenViewMock.remove).toHaveBeenCalled()

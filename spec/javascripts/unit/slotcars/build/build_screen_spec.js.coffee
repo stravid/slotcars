@@ -38,7 +38,6 @@ describe 'slotcars.build.BuildScreen', ->
 
     beforeEach ->
       @builderControllerMock.destroy = sinon.spy()
-      @buildScreenViewMock.remove = sinon.spy()
       @buildScreen.appendToApplication()
 
     it 'should tell the builder to destroy itself', ->

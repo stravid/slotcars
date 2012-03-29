@@ -10,12 +10,11 @@ Appendable = slotcars.shared.lib.Appendable
 (namespace 'slotcars.tracks').TracksScreen = Ember.Object.extend Appendable,
 
   appendToApplication: ->
-    @view = TracksScreenView.create()
-    @appendView()
+    @_appendScreen()
 
     TracksController.create
       tracksScreenView: @view
 
-  destroy: ->
-    @_super()
-    @removeView()
+  _appendScreen: ->
+    @view = TracksScreenView.create()
+    @appendView()

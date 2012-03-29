@@ -8,3 +8,7 @@
 
   removeView: ->
     @view.remove()
+
+  destroy: ->
+    @_super()
+    @removeView()
