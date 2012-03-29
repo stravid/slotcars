@@ -15,7 +15,6 @@ Movable = slotcars.shared.lib.Movable
       throw new Error 'Crashable requires Movable'
 
   checkForCrash: (nextPosition) ->
-
     direction = Vector.create from: @position, to: nextPosition
 
     unless @previousDirection?
@@ -31,10 +30,11 @@ Movable = slotcars.shared.lib.Movable
   crash: ->
     if @speed == 0
       @isCrashing = false
-
+     
     crashVector = (@previousDirection.normalize()).scale @speed
     position =
       x: @position.x + crashVector.x
       y: @position.y + crashVector.y
 
     @moveTo position
+    

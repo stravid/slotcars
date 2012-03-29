@@ -54,4 +54,5 @@ Crashable = slotcars.shared.lib.Crashable
 
   reset: ->
     @speed = 0
+    @resetMovable()
     @set 'lengthAtTrack', 0
