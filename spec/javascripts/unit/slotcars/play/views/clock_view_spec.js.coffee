@@ -22,6 +22,7 @@ describe 'slotcars.play.views.ClockView (unit)', ->
       crashDeceleration: 0.15
       maxSpeed: 20
       traction: 100
+      track: @trackModel
 
     @clockView = ClockView.create
       gameController: @gameController
