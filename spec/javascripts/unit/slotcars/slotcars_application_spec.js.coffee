@@ -22,16 +22,16 @@ describe 'slotcars application screen management', ->
       @screenFactoryStub =
 
         getBuildScreen: sinon.stub().returns
-          appendToApplication: @buildScreenAppendToApplicationSpy
+          append: @buildScreenAppendToApplicationSpy
 
         getPlayScreen: sinon.stub().withArgs('42').returns
-          appendToApplication: @playScreenAppendToApplicationSpy
+          append: @playScreenAppendToApplicationSpy
 
         getTracksScreen: sinon.stub().returns
-          appendToApplication: @tracksScreenAppendToApplicationSpy
+          append: @tracksScreenAppendToApplicationSpy
 
         getHomeScreen: sinon.stub().returns
-          appendToApplication: @homeScreenAppendToApplicationSpy
+          append: @homeScreenAppendToApplicationSpy
 
       @slotcarsApplication = SlotcarsApplication.create
         screenFactory: @screenFactoryStub
@@ -65,7 +65,7 @@ describe 'slotcars application screen management', ->
       homeScreenDestroySpy = sinon.spy()
 
       @screenFactoryStub.getHomeScreen = sinon.stub().returns
-        appendToApplication: homeScreenAppendToApplicationSpy
+        append: homeScreenAppendToApplicationSpy
         destroy: homeScreenDestroySpy
 
       @slotcarsApplication.showHomeScreen()

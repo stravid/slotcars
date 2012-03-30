@@ -8,26 +8,11 @@ describe 'home screen', ->
   HomeScreenView = slotcars.home.views.HomeScreenView
 
   beforeEach ->
-    @homeScreenViewMock = mockEmberClass HomeScreenView, append: sinon.spy()
+    @homeScreenViewMock = mockEmberClass HomeScreenView
     @homeScreen = HomeScreen.create()
 
   afterEach ->
     @homeScreenViewMock.restore()
 
-  describe 'append to application', ->
-
-    it 'should append the home screen view to the DOM body', ->
-      @homeScreen.appendToApplication()
-
-      (expect @homeScreenViewMock.append).toHaveBeenCalled()
-
-  describe 'destroy', ->
-
-    beforeEach ->
-      @homeScreenViewMock.remove = sinon.spy()
-      @homeScreen.appendToApplication()
-
-    it 'should tell the home screen view to remove itself', ->
-      @homeScreen.destroy()
-
-      (expect @homeScreenViewMock.remove).toHaveBeenCalled()
+  it 'should create home screen view', ->
+    (expect @homeScreenViewMock.create).toHaveBeenCalled()

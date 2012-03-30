@@ -13,21 +13,21 @@
   showBuildScreen: ->
     @_destroyCurrentScreen()
     @_currentScreen = @screenFactory.getBuildScreen()
-    @_currentScreen.appendToApplication()
+    @_currentScreen.append()
 
   showPlayScreen: (trackId) ->
     @_destroyCurrentScreen()
     @_currentScreen = @screenFactory.getPlayScreen trackId
-    @_currentScreen.appendToApplication()
+    @_currentScreen.append()
 
   showTracksScreen: ->
     @_destroyCurrentScreen()
     @_currentScreen = @screenFactory.getTracksScreen()
-    @_currentScreen.appendToApplication()
+    @_currentScreen.append()
 
   showHomeScreen: ->
     @_destroyCurrentScreen()
     @_currentScreen = @screenFactory.getHomeScreen()
-    @_currentScreen.appendToApplication()
+    @_currentScreen.append()
 
   _destroyCurrentScreen: -> @_currentScreen.destroy() if @_currentScreen
