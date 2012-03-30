@@ -29,7 +29,6 @@ GameLoopController = slotcars.play.controllers.GameLoopController
   lapTimes: []
 
   init: ->
-    (@get 'car').set 'track', (@get 'track')
     @gameLoopController = GameLoopController.create()
 
     unless @track?
@@ -66,26 +65,7 @@ GameLoopController = slotcars.play.controllers.GameLoopController
   ).observes 'car.currentLap'
 
   update: ->
-    unless @car.isCrashing
-      if @isTouchMouseDown
-        @car.accelerate()
-      else
-        @car.decelerate()
-  
-      newLengthAtTrack = (@car.get 'lengthAtTrack') + (@car.get 'speed')
-      nextPosition = @track.getPointAtLength newLengthAtTrack
-
-      @car.checkForCrash nextPosition # isCrashing can be modified inside
-
-    if @car.isCrashing
-      @car.crashcelerate()
-      @car.crash()
-    else
-      @car.drive()      # automatically handles 'respawn'
-
-      # cares for correct orientation
-      @car.jumpstart()
-      @car.moveTo { x: nextPosition.x, y: nextPosition.y }
+    @car.update @isTouchMouseDown
 
     @_setCurrentTime()
 
@@ -103,10 +83,6 @@ GameLoopController = slotcars.play.controllers.GameLoopController
     @set 'raceTime', 0
     @set 'lapTimes', []
 
-    position = @track.getPointAtLength 0
-    @car.moveTo { x: position.x, y: position.y }
-
-    @car.jumpstart()
     @car.reset()
 
     @set 'currentCountdownValue', 3
@@ -132,3 +108,12 @@ GameLoopController = slotcars.play.controllers.GameLoopController
     @endTime = new Date().getTime()
     if @get 'carControlsEnabled'
       @set 'raceTime', @endTime - @startTime
+
+  destroy: ->
+    # clear all timeouts
+    @_clearTimeouts()
+
+    # force unbinding of car controls
+    @set 'carControlsEnabled', false
+
+    @gameLoopController.destroy()

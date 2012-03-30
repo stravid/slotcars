@@ -27,10 +27,15 @@ Appendable = slotcars.shared.lib.Appendable
     @_playScreenStateManager = PlayScreenStateManager.create delegate: this
     @_playScreenStateManager.send 'load'
 
+  destroy: ->
+    @_super()
+    @_game.destroy() if @_game?
+
   load: ->
     @track = ModelStore.find Track, @trackId
 
     @car = Car.create
+      track: @track
       acceleration: 0.1
       deceleration: 0.2
       crashDeceleration: 0.15

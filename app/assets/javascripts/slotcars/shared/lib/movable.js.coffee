@@ -8,8 +8,8 @@ Vector = helpers.math.Vector
   position: x: 0, y: 0
   rotation: 0
 
-  moveTo: (newPosition) ->
-    previousPosition = @get 'position'
+  moveTo: (newPosition, previousPosition = null) ->
+    previousPosition = @get 'position' unless previousPosition?
 
     @set 'position', newPosition
 
