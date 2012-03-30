@@ -1,10 +1,6 @@
 
 #= require slotcars/route_manager
 #= require helpers/routing/route_local_links
-#= require slotcars/build/build_screen
-#= require slotcars/home/home_screen
-#= require slotcars/play/play_screen
-#= require slotcars/tracks/tracks_screen
 #= require slotcars/factories/screen_factory
 
 ScreenFactory = slotcars.factories.ScreenFactory
