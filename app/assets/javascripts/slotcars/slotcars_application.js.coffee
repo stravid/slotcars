@@ -16,24 +16,9 @@ ScreenFactory = slotcars.factories.ScreenFactory
     slotcars.routeManager = slotcars.RouteManager.create delegate: this
     helpers.routing.routeLocalLinks slotcars.routeManager
 
-  showBuildScreen: ->
+  showScreen: (screenId, createParamters) ->
     @_destroyCurrentScreen()
-    @_currentScreen = ScreenFactory.get().getInstanceOf 'BuildScreen'
-    @_currentScreen.appendToApplication()
-
-  showPlayScreen: (trackId) ->
-    @_destroyCurrentScreen()
-    @_currentScreen = ScreenFactory.get().getInstanceOf 'PlayScreen', trackId: trackId
-    @_currentScreen.appendToApplication()
-
-  showTracksScreen: ->
-    @_destroyCurrentScreen()
-    @_currentScreen = ScreenFactory.get().getInstanceOf 'TracksScreen'
-    @_currentScreen.appendToApplication()
-
-  showHomeScreen: ->
-    @_destroyCurrentScreen()
-    @_currentScreen = ScreenFactory.get().getInstanceOf 'HomeScreen'
+    @_currentScreen = ScreenFactory.getInstance().getInstanceOf screenId, createParamters
     @_currentScreen.appendToApplication()
 
   _destroyCurrentScreen: -> @_currentScreen.destroy() if @_currentScreen

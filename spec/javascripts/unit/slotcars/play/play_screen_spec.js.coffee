@@ -34,7 +34,7 @@ describe 'play screen', ->
 
 
   it 'should register itself at the screen factory', ->
-    playScreen = ScreenFactory.get().getInstanceOf 'PlayScreen'
+    playScreen = ScreenFactory.getInstance().getInstanceOf 'PlayScreen'
 
     (expect playScreen).toBeInstanceOf PlayScreen
 

@@ -20,4 +20,4 @@ Factory.reopenClass
 
   # all subclasses will have their own singleton @instance because
   # 'this' points to the class that 'get' is called on.
-  get: -> if @instance? then @instance else @instance = @create()
+  getInstance: -> if @instance? then @instance else @instance = @create()

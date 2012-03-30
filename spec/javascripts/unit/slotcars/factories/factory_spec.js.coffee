@@ -47,8 +47,8 @@ describe 'abstract factory', ->
   describe 'getting singleton instance of factory', ->
 
     it 'should provide a method to always retrieve the same instance', ->
-      firstInstance = Factory.get()
-      secondInstance = Factory.get()
+      firstInstance = Factory.getInstance()
+      secondInstance = Factory.getInstance()
 
       (expect firstInstance).toBeInstanceOf Factory
       (expect secondInstance).toBe firstInstance
@@ -57,7 +57,7 @@ describe 'abstract factory', ->
       FirstFactory = Factory.extend()
       SecondFactory = Factory.extend()
 
-      instanceOfFirstFactory = FirstFactory.get()
-      instanceOfSecondFactory = SecondFactory.get()
+      instanceOfFirstFactory = FirstFactory.getInstance()
+      instanceOfSecondFactory = SecondFactory.getInstance()
 
       (expect instanceOfFirstFactory).not.toBe instanceOfSecondFactory

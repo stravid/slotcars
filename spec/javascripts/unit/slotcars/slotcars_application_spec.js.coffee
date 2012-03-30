@@ -20,48 +20,33 @@ describe 'slotcars application screen management', ->
       @screenMock = appendToApplication: sinon.spy()
       @screenFactoryMock = getInstanceOf: sinon.stub().returns @screenMock
 
-      (sinon.stub ScreenFactory, 'get').returns @screenFactoryMock
+      (sinon.stub ScreenFactory, 'getInstance').returns @screenFactoryMock
 
       @slotcarsApplication = SlotcarsApplication.create()
 
     afterEach ->
       @slotcarsApplication.destroy()
-      ScreenFactory.get.restore()
+      ScreenFactory.getInstance.restore()
 
 
-    it 'should get the BuildScreen and tell it to append', ->
-      @slotcarsApplication.showBuildScreen()
+    it 'should get the correct screen from factory and tell it to append', ->
+      createParameters = {}
+      @slotcarsApplication.showScreen 'ExampleScreen', createParameters
 
-      (expect @screenFactoryMock.getInstanceOf).toHaveBeenCalledWith 'BuildScreen'
-      (expect @screenMock.appendToApplication).toHaveBeenCalled()
-
-    it 'should get the PlayScreen and tell it to append', ->
-      randomId = Math.round(Math.random() * 100) + 1
-      @slotcarsApplication.showPlayScreen randomId
-
-      (expect @screenFactoryMock.getInstanceOf).toHaveBeenCalledWith 'PlayScreen', trackId: randomId
-      (expect @screenMock.appendToApplication).toHaveBeenCalled()
-
-    it 'should get the TracksScreen and tell it to append', ->
-      @slotcarsApplication.showTracksScreen()
-
-      (expect @screenFactoryMock.getInstanceOf).toHaveBeenCalledWith 'TracksScreen'
-      (expect @screenMock.appendToApplication).toHaveBeenCalled()
-
-    it 'should get the HomeScreen and tell it to append', ->
-      @slotcarsApplication.showHomeScreen()
-
-      (expect @screenFactoryMock.getInstanceOf).toHaveBeenCalledWith 'HomeScreen'
+      (expect @screenFactoryMock.getInstanceOf).toHaveBeenCalledWith 'ExampleScreen', createParameters
       (expect @screenMock.appendToApplication).toHaveBeenCalled()
 
     it 'should call the destroy method on the old screen when the screens get switched', ->
-      @homeScreenMock = appendToApplication: sinon.spy(), destroy: sinon.spy()
-      (@screenFactoryMock.getInstanceOf.withArgs 'HomeScreen').returns @homeScreenMock
+      @firstScreenMock = 
+        appendToApplication: sinon.spy(), 
+        destroy: sinon.spy()
+      
+      (@screenFactoryMock.getInstanceOf.withArgs 'FirstScreen').returns @firstScreenMock
 
-      @slotcarsApplication.showHomeScreen()
-      @slotcarsApplication.showBuildScreen()
+      @slotcarsApplication.showScreen 'FirstScreen'
+      @slotcarsApplication.showScreen 'SecondScreen'
 
-      (expect @homeScreenMock.destroy).toHaveBeenCalled()
+      (expect @firstScreenMock.destroy).toHaveBeenCalled()
 
 
   describe 'integration with the route manager', ->

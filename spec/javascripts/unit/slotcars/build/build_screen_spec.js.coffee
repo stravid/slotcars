@@ -21,7 +21,7 @@ describe 'slotcars.build.BuildScreen', ->
     @builderControllerMock.restore()
 
   it 'should register itself at the screen factory', ->
-    buildScreen = ScreenFactory.get().getInstanceOf 'BuildScreen'
+    buildScreen = ScreenFactory.getInstance().getInstanceOf 'BuildScreen'
 
     (expect buildScreen).toBeInstanceOf BuildScreen
 

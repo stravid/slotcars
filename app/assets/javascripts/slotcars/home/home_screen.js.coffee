@@ -20,4 +20,4 @@ HomeScreen = (namespace 'slotcars.home').HomeScreen = Ember.Object.extend
     @_homeScreenView.remove()
 
 
-ScreenFactory.get().registerScreen 'HomeScreen', HomeScreen
+ScreenFactory.getInstance().registerScreen 'HomeScreen', HomeScreen

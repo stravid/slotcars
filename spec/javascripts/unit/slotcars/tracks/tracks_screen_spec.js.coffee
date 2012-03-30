@@ -24,7 +24,7 @@ describe 'tracks screen', ->
 
 
   it 'should register itself at the screen factory', ->
-    tracksScreen = ScreenFactory.get().getInstanceOf 'TracksScreen'
+    tracksScreen = ScreenFactory.getInstance().getInstanceOf 'TracksScreen'
 
     (expect tracksScreen).toBeInstanceOf TracksScreen
 

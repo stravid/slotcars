@@ -57,4 +57,4 @@ PlayScreen = (namespace 'slotcars.play').PlayScreen = Ember.Object.extend
     @_game.start()
 
 
-ScreenFactory.get().registerScreen 'PlayScreen', PlayScreen
+ScreenFactory.getInstance().registerScreen 'PlayScreen', PlayScreen

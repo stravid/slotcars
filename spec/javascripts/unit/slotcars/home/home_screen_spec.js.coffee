@@ -18,7 +18,7 @@ describe 'home screen', ->
 
 
   it 'should register itself at the screen factory', ->
-    homeScreen = ScreenFactory.get().getInstanceOf 'HomeScreen'
+    homeScreen = ScreenFactory.getInstance().getInstanceOf 'HomeScreen'
 
     (expect homeScreen).toBeInstanceOf HomeScreen
 

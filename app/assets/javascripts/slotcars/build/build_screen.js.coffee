@@ -31,4 +31,4 @@ BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend
   toString: -> '<Instance of slotcars.build.BuildScreen>'
 
 
-ScreenFactory.get().registerScreen 'BuildScreen', BuildScreen
+ScreenFactory.getInstance().registerScreen 'BuildScreen', BuildScreen

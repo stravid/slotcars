@@ -22,4 +22,4 @@ TracksScreen = (namespace 'slotcars.tracks').TracksScreen = Ember.Object.extend
     @_tracksScreenView.remove()
 
 
-ScreenFactory.get().registerScreen 'TracksScreen', TracksScreen
+ScreenFactory.getInstance().registerScreen 'TracksScreen', TracksScreen
