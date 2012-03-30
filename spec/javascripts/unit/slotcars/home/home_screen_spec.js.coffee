@@ -1,11 +1,13 @@
 
 #= require slotcars/home/home_screen
 #= require slotcars/home/views/home_screen_view
+#= require slotcars/factories/screen_factory
 
 describe 'home screen', ->
 
   HomeScreen = slotcars.home.HomeScreen
   HomeScreenView = slotcars.home.views.HomeScreenView
+  ScreenFactory = slotcars.factories.ScreenFactory
 
   beforeEach ->
     @homeScreenViewMock = mockEmberClass HomeScreenView, append: sinon.spy()
@@ -13,6 +15,13 @@ describe 'home screen', ->
 
   afterEach ->
     @homeScreenViewMock.restore()
+
+
+  it 'should register itself at the screen factory', ->
+    homeScreen = ScreenFactory.getInstance().getInstanceOf 'HomeScreen'
+
+    (expect homeScreen).toBeInstanceOf HomeScreen
+
 
   describe 'append to application', ->
 

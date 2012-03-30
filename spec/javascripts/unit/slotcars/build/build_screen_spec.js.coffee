@@ -2,12 +2,14 @@
 #= require slotcars/build/build_screen
 #= require slotcars/build/views/build_screen_view
 #= require slotcars/build/builder
+#= require slotcars/factories/screen_factory
 
 describe 'slotcars.build.BuildScreen', ->
 
   BuildScreen = slotcars.build.BuildScreen
   BuilderController = slotcars.build.Builder
   BuilderScreenView = slotcars.build.views.BuildScreenView
+  ScreenFactory = slotcars.factories.ScreenFactory
 
   beforeEach ->
     @buildScreenViewMock = mockEmberClass BuilderScreenView, append: sinon.spy()
@@ -17,6 +19,12 @@ describe 'slotcars.build.BuildScreen', ->
   afterEach ->
     @buildScreenViewMock.restore()
     @builderControllerMock.restore()
+
+  it 'should register itself at the screen factory', ->
+    buildScreen = ScreenFactory.getInstance().getInstanceOf 'BuildScreen'
+
+    (expect buildScreen).toBeInstanceOf BuildScreen
+
 
   describe 'append to application', ->
 
