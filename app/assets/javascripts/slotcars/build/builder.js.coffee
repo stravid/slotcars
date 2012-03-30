@@ -26,5 +26,6 @@ DrawView = slotcars.build.views.DrawView
 
   destroy: ->
     @_super()
+    @buildScreenView.set 'contentView', null
     @drawController.destroy()
-    @_drawView.remove()
+    @_drawView.destroy()

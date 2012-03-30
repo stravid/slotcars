@@ -19,9 +19,6 @@ describe 'Appendable', ->
     # Ember.required() just works/fires when the mixin is applied after creation
     (expect => Appendable.apply Ember.Object.create()).toThrow()
 
-  # it 'should create a view', ->
-  #   (expect @appendable.view).toExtend Ember.View
-
   describe 'appending', ->
 
     it 'should append the view to the DOM', ->
