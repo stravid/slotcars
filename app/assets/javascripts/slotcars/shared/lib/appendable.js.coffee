@@ -3,12 +3,10 @@
   
   view: Ember.required()
 
-  appendView: ->
+  append: ->
     @view.append()
-
-  removeView: ->
-    @view.remove()
 
   destroy: ->
     @_super()
-    @removeView()
+    @view.remove()
+    @view.destroy()

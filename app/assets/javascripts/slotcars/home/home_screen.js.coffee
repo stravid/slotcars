@@ -7,9 +7,5 @@ Appendable = slotcars.shared.lib.Appendable
 
 (namespace 'slotcars.home').HomeScreen = Ember.Object.extend Appendable,
 
-  appendToApplication: ->
-    @_appendScreen()
-
-  _appendScreen: ->
+  init: ->
     @view = HomeScreenView.create()
-    @appendView()

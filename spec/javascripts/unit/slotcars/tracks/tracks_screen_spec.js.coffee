@@ -23,17 +23,9 @@ describe 'tracks screen', ->
   it 'should extend Ember.Object', ->
     (expect TracksScreen).toExtend Ember.Object
 
-  describe 'append to application', ->
+  it 'should create tracks screen view', ->
+    (expect @TracksScreenViewMock.create).toHaveBeenCalled()
 
-    beforeEach ->
-      @tracksScreen.appendView = sinon.spy()
-      @tracksScreen.appendToApplication()
+  it 'should create the tracks controller and provide view', ->
+    (expect @TracksControllerMock.create).toHaveBeenCalledWithAnObjectLike tracksScreenView: @TracksScreenViewMock
 
-    it 'should create the tracks controller', ->
-      (expect @TracksControllerMock.create).toHaveBeenCalled()
-
-    it 'should create the tracks screen view', ->
-      (expect @TracksScreenViewMock.create).toHaveBeenCalled()
-
-    it 'should call appendView method on itself', ->
-      (expect @tracksScreen.appendView).toHaveBeenCalled()

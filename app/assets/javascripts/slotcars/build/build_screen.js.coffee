@@ -11,15 +11,9 @@ Appendable = slotcars.shared.lib.Appendable
 
   _builder: null
 
-  appendToApplication: ->
-    @_appendScreen()
-    @_setupBuilder()
-
-  _appendScreen: ->
+  init: ->
     @view = BuildScreenView.create()
-    @appendView()
 
-  _setupBuilder: ->
     @_builder = Builder.create
       buildScreenView: @view
 

@@ -21,15 +21,11 @@ Appendable = slotcars.shared.lib.Appendable
   _playScreenStateManager: null
   _game: null
 
-  appendToApplication: ->
-    @_appendScreen()
+  init: ->
+    @view = PlayScreenView.create()
 
     @_playScreenStateManager = PlayScreenStateManager.create delegate: this
     @_playScreenStateManager.send 'load'
-
-  _appendScreen: ->
-    @view = PlayScreenView.create()
-    @appendView()
 
   load: ->
     @track = ModelStore.find Track, @trackId

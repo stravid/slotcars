@@ -30,25 +30,13 @@ describe 'play screen', ->
     @playScreenStateManagerMock.restore()
     @GameMock.restore()
 
+  it 'should create play screen view', ->
+    (expect @playScreenViewMock.create).toHaveBeenCalled()
 
-  describe 'append to application', ->
-
-    beforeEach ->
-      @playScreen.load = sinon.spy()
-      @playScreen.appendView = sinon.spy()
-      
-      @playScreen.appendToApplication()
-
-    it 'should create the play screen state manager', ->
-      (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
-
-    it 'should call appendView method on itself', ->
-      (expect @playScreen.appendView).toHaveBeenCalled()
+  it 'should create the play screen state manager', ->
+    (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
 
   describe 'loading', ->
-
-    beforeEach ->
-      @playScreen.appendToApplication()
 
     it 'should load a track', ->
       @playScreen.load()
@@ -69,7 +57,6 @@ describe 'play screen', ->
   describe 'initializing', ->
 
     beforeEach ->
-      @playScreen.appendToApplication()
       @playScreen.load()
       @playScreen.initialize()
 
@@ -83,7 +70,6 @@ describe 'play screen', ->
   describe 'playing', ->
 
     beforeEach ->
-      @playScreen.appendToApplication()
       @playScreen.load()
       @playScreen.initialize()
       @playScreen.play()

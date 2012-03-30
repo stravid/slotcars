@@ -7,10 +7,10 @@ describe 'slotcars.build.BuildScreen', ->
 
   BuildScreen = slotcars.build.BuildScreen
   BuilderController = slotcars.build.Builder
-  BuilderScreenView = slotcars.build.views.BuildScreenView
+  BuildScreenView = slotcars.build.views.BuildScreenView
 
   beforeEach ->
-    @buildScreenViewMock = mockEmberClass BuilderScreenView,
+    @buildScreenViewMock = mockEmberClass BuildScreenView,
       append: sinon.spy()
       remove: sinon.spy()
 
@@ -21,27 +21,16 @@ describe 'slotcars.build.BuildScreen', ->
     @buildScreenViewMock.restore()
     @builderControllerMock.restore()
 
-  describe 'append to application', ->
+  it 'should create build screen view', ->
+    (expect @buildScreenViewMock.create).toHaveBeenCalled()
 
-    beforeEach ->
-      @buildScreen.appendView = sinon.spy()
-
-    it 'should call appendView method on itself', ->
-      @buildScreen.appendToApplication()
-
-      (expect @buildScreen.appendView).toHaveBeenCalled()
-
-    it 'should create builder and provide build screen view', ->
-      @buildScreen.appendToApplication()
-
-      (expect @builderControllerMock.create).toHaveBeenCalledWithAnObjectLike buildScreenView: @buildScreenViewMock
-
+  it 'should create builder and provide build screen view', ->
+    (expect @builderControllerMock.create).toHaveBeenCalledWithAnObjectLike buildScreenView: @buildScreenViewMock
 
   describe 'destroy', ->
 
     beforeEach ->
       @builderControllerMock.destroy = sinon.spy()
-      @buildScreen.appendToApplication()
 
     it 'should tell the builder to destroy itself', ->
       @buildScreen.destroy()

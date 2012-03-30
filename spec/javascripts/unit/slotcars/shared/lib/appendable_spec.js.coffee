@@ -9,34 +9,35 @@ describe 'Appendable', ->
     @viewMock =
       append: sinon.spy()
       remove: sinon.spy()
+      destroy: sinon.spy()
 
-    @appendable = Ember.Object.extend(Appendable).create()
-    @appendable.view = @viewMock
+    @appendable = Ember.Object.extend(Appendable).create
+      view: @viewMock
 
-  it 'should require a view', ->
-    (expect => Appendable.apply {}).toThrow()
+  it 'should always require a view', ->
+    # applies the Appendable mixin on an object - assumes an error when 'view' property is not set
+    # Ember.required() just works/fires when the mixin is applied after creation
+    (expect => Appendable.apply Ember.Object.create()).toThrow()
 
-  describe 'append to application', ->
+  # it 'should create a view', ->
+  #   (expect @appendable.view).toExtend Ember.View
+
+  describe 'appending', ->
 
     it 'should append the view to the DOM', ->
-      @appendable.appendView()
+      @appendable.append()
 
       (expect @viewMock.append).toHaveBeenCalled()
 
-  describe 'remove', ->
-
-    beforeEach ->
-      @appendable.appendView()
-
-    it 'should remove the view from DOM', ->
-      @appendable.removeView()
-
-      (expect @viewMock.remove).toHaveBeenCalled()
 
   describe 'destroying', ->
 
-    it 'should call removeView method on itself', ->
-      sinon.spy @appendable, 'removeView'
+    it 'should remove the view from DOM', ->
       @appendable.destroy()
 
-      (expect @appendable.removeView).toHaveBeenCalled()
+      (expect @viewMock.remove).toHaveBeenCalled()
+
+    it 'should destroy the view', ->
+      @appendable.destroy()
+
+      (expect @viewMock.destroy).toHaveBeenCalled()
