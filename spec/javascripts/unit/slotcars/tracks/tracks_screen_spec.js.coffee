@@ -29,27 +29,9 @@ describe 'tracks screen', ->
     (expect tracksScreen).toBeInstanceOf TracksScreen
 
 
-  describe 'appending tracks screen to application', ->
+  it 'should create tracks screen view', ->
+    (expect @TracksScreenViewMock.create).toHaveBeenCalled()
 
-    beforeEach ->
-      @tracksScreen.appendToApplication()
+  it 'should create the tracks controller and provide view', ->
+    (expect @TracksControllerMock.create).toHaveBeenCalledWithAnObjectLike tracksScreenView: @TracksScreenViewMock
 
-    it 'should create the tracks controller', ->
-      (expect @TracksControllerMock.create).toHaveBeenCalled()
-
-    it 'should create the tracks screen view', ->
-      (expect @TracksScreenViewMock.create).toHaveBeenCalled()
-
-    it 'should append the tracks screen view', ->
-      (expect @TracksScreenViewMock.append).toHaveBeenCalled()
-
-  describe 'destroying', ->
-
-    beforeEach ->
-      @TracksScreenViewMock.remove = sinon.spy()
-      @tracksScreen.appendToApplication()
-
-    it 'should tell the tracks screen view to remove itself', ->
-      @tracksScreen.destroy()
-      
-      (expect @TracksScreenViewMock.remove).toHaveBeenCalled()

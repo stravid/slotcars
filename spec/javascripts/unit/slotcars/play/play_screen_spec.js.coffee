@@ -21,7 +21,9 @@ describe 'play screen', ->
   beforeEach ->
     sinon.stub ModelStore, 'find', -> Track.createRecord()
 
-    @playScreenViewMock = mockEmberClass PlayScreenView, append: sinon.spy()
+    @playScreenViewMock = mockEmberClass PlayScreenView,
+      append: sinon.spy()
+      remove: sinon.spy()
     @playScreenStateManagerMock = mockEmberClass PlayScreenStateManager, send: sinon.spy()
     @GameMock = mockEmberClass Game,
       start: sinon.spy()
@@ -35,33 +37,22 @@ describe 'play screen', ->
     @playScreenStateManagerMock.restore()
     @GameMock.restore()
 
+  it 'should create play screen view', ->
+    (expect @playScreenViewMock.create).toHaveBeenCalled()
 
   it 'should register itself at the screen factory', ->
     playScreen = ScreenFactory.getInstance().getInstanceOf 'PlayScreen'
 
     (expect playScreen).toBeInstanceOf PlayScreen
 
+  it 'should create the play screen state manager', ->
+    (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
 
-  describe 'append to application', ->
-
-    beforeEach ->
-      @playScreen.load = sinon.spy()
-
-    it 'should create the play screen state manager', ->
-      @playScreen.appendToApplication()
-
-      (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
-
-    it 'should append the play screen view to the DOM', ->
-      @playScreen.appendToApplication()
-
-      (expect @playScreenViewMock.append).toHaveBeenCalled()
+  it 'should create the play screen state manager', ->
+    (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
 
 
   describe 'loading', ->
-
-    beforeEach ->
-      @playScreen.appendToApplication()
 
     it 'should load a track', ->
       @playScreen.load()
@@ -82,7 +73,6 @@ describe 'play screen', ->
   describe 'initializing', ->
 
     beforeEach ->
-      @playScreen.appendToApplication()
       @playScreen.load()
       @playScreen.initialize()
 
@@ -96,7 +86,6 @@ describe 'play screen', ->
   describe 'playing', ->
 
     beforeEach ->
-      @playScreen.appendToApplication()
       @playScreen.load()
       @playScreen.initialize()
       @playScreen.play()
@@ -106,16 +95,7 @@ describe 'play screen', ->
 
   describe 'destroying', ->
 
-    beforeEach ->
-      @playScreenViewMock.remove = sinon.spy()
-      @playScreen.appendToApplication()
-      @gameStub =
-        destroy: sinon.spy()
-
-    it 'should tell the play screen view to remove itself', ->
-      @playScreen.destroy()
-
-      (expect @playScreenViewMock.remove).toHaveBeenCalled()
+    beforeEach -> @gameStub = destroy: sinon.spy()
 
     it 'should tell the game to destroy itself', ->
       @playScreen.set '_game', @gameStub

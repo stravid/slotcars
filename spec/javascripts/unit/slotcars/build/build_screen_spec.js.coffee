@@ -8,11 +8,14 @@ describe 'slotcars.build.BuildScreen', ->
 
   BuildScreen = slotcars.build.BuildScreen
   BuilderController = slotcars.build.Builder
-  BuilderScreenView = slotcars.build.views.BuildScreenView
   ScreenFactory = slotcars.factories.ScreenFactory
+  BuildScreenView = slotcars.build.views.BuildScreenView
 
   beforeEach ->
-    @buildScreenViewMock = mockEmberClass BuilderScreenView, append: sinon.spy()
+    @buildScreenViewMock = mockEmberClass BuildScreenView,
+      append: sinon.spy()
+      remove: sinon.spy()
+
     @builderControllerMock = mockEmberClass BuilderController
     @buildScreen = BuildScreen.create()
 
@@ -20,36 +23,23 @@ describe 'slotcars.build.BuildScreen', ->
     @buildScreenViewMock.restore()
     @builderControllerMock.restore()
 
+
   it 'should register itself at the screen factory', ->
     buildScreen = ScreenFactory.getInstance().getInstanceOf 'BuildScreen'
 
     (expect buildScreen).toBeInstanceOf BuildScreen
 
+  it 'should create builder and provide build screen view', ->
+    (expect @builderControllerMock.create).toHaveBeenCalledWithAnObjectLike buildScreenView: @buildScreenViewMock
 
-  describe 'append to application', ->
-
-    it 'should append the build screen view to the DOM body', ->
-      @buildScreen.appendToApplication()
-
-      (expect @buildScreenViewMock.append).toHaveBeenCalled()
-
-    it 'should create builder and provide build screen view', ->
-      @buildScreen.appendToApplication()
-
-      (expect @builderControllerMock.create).toHaveBeenCalledWithAnObjectLike buildScreenView: @buildScreenViewMock
+  it 'should create build screen view', ->
+    (expect @buildScreenViewMock.create).toHaveBeenCalled()
 
 
   describe 'destroy', ->
 
     beforeEach ->
       @builderControllerMock.destroy = sinon.spy()
-      @buildScreenViewMock.remove = sinon.spy()
-      @buildScreen.appendToApplication()
-
-    it 'should tell the build screen view to remove itself', ->
-      @buildScreen.destroy()
-
-      (expect @buildScreenViewMock.remove).toHaveBeenCalled()
 
     it 'should tell the builder to destroy itself', ->
       @buildScreen.destroy()

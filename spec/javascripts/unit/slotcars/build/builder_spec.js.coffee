@@ -62,16 +62,20 @@ describe 'builder', ->
 
     beforeEach ->
       @DrawControllerMock.destroy = sinon.spy()
-      @DrawViewMock.remove = sinon.spy()
+      @DrawViewMock.destroy = sinon.spy()
       @builder = Builder.create buildScreenView: @buildScreenViewStub
 
+    it 'should unset content view property of build screen view', ->
+      @builder.destroy()
+
+      (expect @buildScreenViewStub.set).toHaveBeenCalledWith 'contentView', null
 
     it 'should tell the draw controller to destroy itself', ->
       @builder.destroy()
 
       (expect @DrawControllerMock.destroy).toHaveBeenCalled()
 
-    it 'should tell the draw view to remove itself', ->
+    it 'should tell the draw view to destroy itself', ->
       @builder.destroy()
 
-      (expect @DrawViewMock.remove).toHaveBeenCalled()
+      (expect @DrawViewMock.destroy).toHaveBeenCalled()

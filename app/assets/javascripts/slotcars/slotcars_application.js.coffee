@@ -19,6 +19,6 @@ ScreenFactory = slotcars.factories.ScreenFactory
   showScreen: (screenId, createParamters) ->
     @_destroyCurrentScreen()
     @_currentScreen = ScreenFactory.getInstance().getInstanceOf screenId, createParamters
-    @_currentScreen.appendToApplication()
+    @_currentScreen.append()
 
   _destroyCurrentScreen: -> @_currentScreen.destroy() if @_currentScreen

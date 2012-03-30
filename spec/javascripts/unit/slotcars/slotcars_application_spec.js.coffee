@@ -17,7 +17,7 @@ describe 'slotcars application screen management', ->
   describe 'interaction with screens', ->
 
     beforeEach ->
-      @screenMock = appendToApplication: sinon.spy()
+      @screenMock = append: sinon.spy()
       @screenFactoryMock = getInstanceOf: sinon.stub().returns @screenMock
 
       (sinon.stub ScreenFactory, 'getInstance').returns @screenFactoryMock
@@ -34,11 +34,11 @@ describe 'slotcars application screen management', ->
       @slotcarsApplication.showScreen 'ExampleScreen', createParameters
 
       (expect @screenFactoryMock.getInstanceOf).toHaveBeenCalledWith 'ExampleScreen', createParameters
-      (expect @screenMock.appendToApplication).toHaveBeenCalled()
+      (expect @screenMock.append).toHaveBeenCalled()
 
     it 'should call the destroy method on the old screen when the screens get switched', ->
       @firstScreenMock = 
-        appendToApplication: sinon.spy(), 
+        append: sinon.spy(), 
         destroy: sinon.spy()
       
       (@screenFactoryMock.getInstanceOf.withArgs 'FirstScreen').returns @firstScreenMock
