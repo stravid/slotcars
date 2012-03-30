@@ -25,7 +25,7 @@ describe 'routing', ->
   it 'should show the play screen with the correct id on /play/:id', ->
     @routeManager.set 'location', 'play/42'
 
-    (expect @slotcarsApplicationStub.showScreen).toHaveBeenCalledWith 'PlayScreen', 42
+    (expect @slotcarsApplicationStub.showScreen).toHaveBeenCalledWith 'PlayScreen', trackId: 42
 
   it 'should show the tracks screen on /tracks', ->
     @routeManager.set 'location', 'tracks'
