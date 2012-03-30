@@ -19,7 +19,9 @@ describe 'play screen', ->
   beforeEach ->
     sinon.stub ModelStore, 'find', -> Track.createRecord()
 
-    @playScreenViewMock = mockEmberClass PlayScreenView, append: sinon.spy()
+    @playScreenViewMock = mockEmberClass PlayScreenView,
+      append: sinon.spy()
+      remove: sinon.spy()
     @playScreenStateManagerMock = mockEmberClass PlayScreenStateManager, send: sinon.spy()
     @GameMock = mockEmberClass Game,
       start: sinon.spy()
