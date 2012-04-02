@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe Api::TracksController do
 
-  let(:tracks) { FactoryGirl.create_list(:track, 10) }
+  let(:track) { FactoryGirl.create :track }
+  let(:tracks) { FactoryGirl.create_list :track, 10 }
 
   describe '#index' do
 
@@ -21,7 +22,6 @@ describe Api::TracksController do
   describe '#show' do
 
     it 'should serialize the track with given id and return it as JSON' do
-      track = FactoryGirl.create :track
       serializer = TrackSerializer.new track, :root => "track"
       serialized_track = serializer.as_json
 
