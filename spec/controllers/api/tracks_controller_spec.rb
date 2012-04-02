@@ -6,12 +6,13 @@ describe Api::TracksController do
 
   describe '#index' do
 
-    it 'should respond with all tracks as JSON' do
-      json_tracks = tracks.to_json
+    it 'should serialize all tracks and return them as JSON' do
+      serializer = ActiveModel::ArraySerializer.new tracks, :root => "tracks"
+      serialized_tracks = serializer.as_json
 
       get :index
 
-      response.body.should == json_tracks
+      response.body.should == serialized_tracks.to_json
       response.should be_success
     end
 
