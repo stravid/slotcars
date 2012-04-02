@@ -17,4 +17,19 @@ describe Api::TracksController do
     end
 
   end
+
+  describe '#show' do
+
+    it 'should serialize the track with given id and return it as JSON' do
+      track = FactoryGirl.create :track
+      serializer = TrackSerializer.new track, :root => "track"
+      serialized_track = serializer.as_json
+
+      get :show, :id => track.id
+
+      response.body.should == serialized_track.to_json
+    end
+
+  end
+
 end
