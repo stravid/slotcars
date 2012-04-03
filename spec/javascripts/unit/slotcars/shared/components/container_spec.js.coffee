@@ -8,7 +8,7 @@ describe 'Slotcars.shared.components.Container', ->
   it 'should always require a view', ->
     # applies the Appendable mixin on an object - assumes an error when 'view' property is not set
     # Ember.required() just works/fires when the mixin is applied after creation
-    (expect => Container.apply Ember.Object.create()).toThrow 'Required property not defined: view'
+    (expect => Container.apply Ember.Object.create()).toThrow()
 
 
   describe 'adding views to locations', ->
