@@ -1,21 +1,15 @@
 
+#= require slotcars/shared/controllers/base_game_controller
 #= require slotcars/play/controllers/game_loop_controller
-#= require slotcars/shared/models/car
 #= require slotcars/play/views/car_view
 
 #= require helpers/event_normalize
 
-Car = slotcars.shared.models.Car
 CarView = slotcars.play.views.CarView
 GameLoopController = slotcars.play.controllers.GameLoopController
+BaseGameController = Slotcars.shared.controllers.BaseGameController
 
-(namespace 'slotcars.play.controllers').GameController = Ember.Object.extend
-
-  car: null
-  track: null
-  gameLoopController: null
-  isTouchMouseDown: false
-  carControlsEnabled: false
+(namespace 'slotcars.play.controllers').GameController = BaseGameController.extend
   
   isCountdownVisible: false
   isRaceFinished: false
@@ -28,17 +22,9 @@ GameLoopController = slotcars.play.controllers.GameLoopController
   timeouts: []
   lapTimes: []
 
-  init: ->
-    @gameLoopController = GameLoopController.create()
-
-    unless @track?
-      throw new Error 'track has to be provided'
-    unless @car?
-      throw new Error 'car has to be provided'
-
   start: ->
+    @_super()
     @restartGame()
-    @gameLoopController.start => @update()
 
   finish: ->
     @_setCurrentTime()
@@ -65,17 +51,8 @@ GameLoopController = slotcars.play.controllers.GameLoopController
   ).observes 'car.currentLap'
 
   update: ->
-    @car.update @isTouchMouseDown
-
+    @_super()
     @_setCurrentTime()
-
-  onTouchMouseDown: (event) ->
-    event.originalEvent.preventDefault()
-    @isTouchMouseDown = true
-
-  onTouchMouseUp: (event) ->
-    event.originalEvent.preventDefault()
-    @isTouchMouseDown = false
 
   restartGame: ->
     @set 'carControlsEnabled', false

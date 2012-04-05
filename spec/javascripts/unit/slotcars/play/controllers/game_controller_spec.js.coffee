@@ -29,56 +29,7 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
     @carMock.restore()
     @trackMock.restore()
 
-  it 'should extend Ember.Object', ->
-    (expect GameController).toExtend Ember.Object
-
-  it 'should set isTouchMouseDown to false by default', ->
-    (expect @gameController.isTouchMouseDown).toBe false
-
-  it 'should set carControlsEnabled to false by default', ->
-    (expect @gameController.carControlsEnabled).toBe false
-
-  it 'should throw an error when no track is provided', ->
-    (expect => GameController.create car: Car.create()).toThrow()
-
-  it 'should throw an error when no car is provided', ->
-    (expect => GameController.create track: @trackMock).toThrow()
-
-  it 'should create a game loop controller', ->
-    @GameLoopControllerMock = mockEmberClass GameLoopController
-    GameController.create
-      track: @trackMock
-      car: Car.create()
-
-    (expect @GameLoopControllerMock.create).toHaveBeenCalledOnce()
-    
-    @GameLoopControllerMock.restore()
-
-  describe '#onTouchMouseDown', ->
-
-    it 'should set isTouchMouseDown to true', ->
-      eventStub = originalEvent: preventDefault: ->
-
-      @gameController.onTouchMouseDown eventStub
-
-      (expect @gameController.isTouchMouseDown).toBe true
-
-  describe '#onTouchMouseUp', ->
-
-    it 'should set isTouchMouseDown to false', ->
-      eventStub = originalEvent:
-        preventDefault: ->
-
-      @gameController.onTouchMouseUp eventStub
-
-      (expect @gameController.isTouchMouseDown).toBe false
-
   describe '#update', ->
-
-    it 'should call the update function of the car', ->
-      @gameController.update()
-
-      (expect @carMock.update).toHaveBeenCalledWith @gameController.isTouchMouseDown
 
     describe 'updating race time', ->
 
@@ -129,12 +80,6 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
     afterEach ->
       @gameLoopControllerMock.restore()
-
-    it 'should start the game loop with #update method as renderCallback', ->
-      @gameController.gameLoopController = @gameLoopControllerMock
-      @gameController.start()
-
-      (expect @gameController.update).toHaveBeenCalled()
 
     it 'should call the restart game function', ->
       @gameController.start()
