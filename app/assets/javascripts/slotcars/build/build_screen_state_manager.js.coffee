@@ -1,7 +1,6 @@
 
 (namespace 'Slotcars.build').BuildScreenStateManager = Ember.StateManager.extend
 
-  initialState: 'Drawing'
   delegate: null
 
   Drawing: Ember.State.create

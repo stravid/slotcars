@@ -15,17 +15,13 @@ describe 'build screen state manager', ->
   it 'should extend Ember.StateManager', ->
     (expect BuildScreenStateManager).toExtend Ember.StateManager
 
-  it 'should go drawing state by default', ->
-    buildScreenStateManager = BuildScreenStateManager.create
-      delegate: @delegateMock
-
-    (expect buildScreenStateManager.currentState.name).toEqual 'Drawing'
-
   describe 'drawing', ->
 
     beforeEach ->
       @buildScreenStateManager = BuildScreenStateManager.create
         delegate: @delegateMock
+
+      @buildScreenStateManager.goToState 'Drawing'
 
     it 'should prepare drawing environment on entering the state', ->
       (expect @delegateMock.prepareDrawing).toHaveBeenCalled()

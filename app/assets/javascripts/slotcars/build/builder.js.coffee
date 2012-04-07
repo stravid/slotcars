@@ -9,13 +9,12 @@ DrawView = slotcars.build.views.DrawView
 (namespace 'slotcars.build').Builder = Ember.Object.extend
 
   track: null
-  drawController: null
   buildScreenView: null
+  drawController: null
 
   init: ->
-    @track = slotcars.shared.models.Track.createRecord()
-
     @drawController = DrawController.create
+      stateManager: @stateManager
       track: @track
 
     @_drawView = DrawView.create

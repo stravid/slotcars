@@ -1,18 +1,25 @@
 
 #= require slotcars/build/controllers/draw_controller
+#= require slotcars/build/build_screen_state_manager
 
 describe 'slotcars.build.controllers.DrawController', ->
 
   DrawController = slotcars.build.controllers.DrawController
+  BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
 
   it 'should be an Ember.Object', ->
     (expect DrawController).toExtend Ember.Object
 
   beforeEach ->
+    @buildScreenStateManagerMock = mockEmberClass BuildScreenStateManager, goToState: sinon.spy()
     @trackMock = Ember.Object.create addPathPoint: sinon.spy()
+
     @drawController = DrawController.create
       track: @trackMock
+      stateManager: @buildScreenStateManagerMock
 
+  afterEach ->
+    @buildScreenStateManagerMock.restore()
 
   describe 'important default values', ->
 
@@ -121,7 +128,7 @@ describe 'slotcars.build.controllers.DrawController', ->
       rasterizationFinishCallback = @trackMock.rasterize.args[0][0]
       rasterizationFinishCallback() # normally called by track
 
-      (expect slotcars.routeManager.set).toHaveBeenCalledWith 'location', @trackMock.playRoute
+      (expect @buildScreenStateManagerMock.goToState).toHaveBeenCalledWith 'Testing'
 
     it 'should not tell the track to rasterize again during the process', ->
       @drawController.onPlayCreatedTrack()

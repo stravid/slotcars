@@ -45,4 +45,4 @@ ADD_POINT_MIN_DISTANCE = 30
 
   _finishedRasterization: ->
     @set 'isRasterizing', false
-    slotcars.routeManager.set 'location', @track.get 'playRoute'
+    @stateManager.goToState 'Testing'
