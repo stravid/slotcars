@@ -32,7 +32,8 @@ describe 'game', ->
     @GameControllerMock = mockEmberClass GameController
     @CarViewMock = mockEmberClass CarView
     @GameViewMock = mockEmberClass GameView
-    @PlayTrackViewMock = mockEmberClass PlayTrackView
+    @PlayTrackViewMock = mockEmberClass PlayTrackView,
+      gameController: {}  # gameController is required by Controllable mixin which is used here
     @ClockViewMock = mockEmberClass ClockView
 
     @game = Game.create

@@ -14,17 +14,17 @@ describe 'test drive', ->
   Track = slotcars.shared.models.Track
   BaseGameController = Slotcars.shared.controllers.BaseGameController
   CarView = slotcars.play.views.CarView
-  TestTrackView = slotcars.play.views.PlayTrackView
+  TrackView = slotcars.shared.views.TrackView
 
   beforeEach ->
     @carMock = mockEmberClass Car
     @trackMock = mockEmberClass Track
 
     @BaseGameControllerMock = mockEmberClass BaseGameController
-    @TestTrackViewMock = mockEmberClass TestTrackView
+    @TestTrackViewMock = mockEmberClass TrackView, gameController: {}
     @CarViewMock = mockEmberClass CarView
 
-    @buildScreenViewMock = mockEmberClass Ember.View,
+    @buildScreenViewMock =
       set: sinon.spy()
 
     @testDrive = TestDrive.create
@@ -38,7 +38,6 @@ describe 'test drive', ->
     @BaseGameControllerMock.restore()
     @TestTrackViewMock.restore()
     @CarViewMock.restore()
-    @buildScreenViewMock.restore()
 
   it 'should extend Ember.Object', ->
     (expect TestDrive).toExtend Ember.Object
