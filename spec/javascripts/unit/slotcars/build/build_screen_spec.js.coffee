@@ -1,12 +1,5 @@
 
 #= require slotcars/build/build_screen
-#= require slotcars/build/views/build_screen_view
-#= require slotcars/build/builder
-#= require slotcars/build/test_drive
-#= require slotcars/shared/models/track
-#= require slotcars/shared/models/car
-#= require slotcars/build/build_screen_state_manager
-#= require slotcars/factories/screen_factory
 
 describe 'slotcars.build.BuildScreen', ->
 
@@ -21,7 +14,6 @@ describe 'slotcars.build.BuildScreen', ->
 
   beforeEach ->
     @buildScreenViewMock = mockEmberClass BuildScreenView,
-      append: sinon.spy()
       remove: sinon.spy()
 
     @BuildScreenStateManagerMock = mockEmberClass BuildScreenStateManager, goToState: sinon.spy()
@@ -30,7 +22,6 @@ describe 'slotcars.build.BuildScreen', ->
     @testDriveMock = mockEmberClass TestDrive
 
     @TrackBackup = slotcars.shared.models.Track
-
     @fakeTrack = {}
     @TrackMock = slotcars.shared.models.Track =
       createRecord: sinon.stub().returns @fakeTrack
@@ -58,12 +49,14 @@ describe 'slotcars.build.BuildScreen', ->
   it 'should create a build screen state manager', ->
     (expect @BuildScreenStateManagerMock.create).toHaveBeenCalledWithAnObjectLike delegate: @buildScreen
 
+  it 'should send build screen state manager to Drawing state', ->
+    (expect @BuildScreenStateManagerMock.goToState).toHaveBeenCalledWith 'Drawing'
+
   describe 'destroy', ->
 
     beforeEach ->
       @BuildScreenStateManagerMock.destroy = sinon.spy()
-
-      @buildScreen.prepareDrawing() # builder gets created in here
+      @buildScreen.prepareDrawing() # creates Builder
 
     it 'should destroy the build screen state manager', ->
       @buildScreen.destroy()
@@ -76,9 +69,9 @@ describe 'slotcars.build.BuildScreen', ->
       @buildScreen.prepareDrawing()
 
       (expect @builderMock.create).toHaveBeenCalledWithAnObjectLike
+        stateManager: @BuildScreenStateManagerMock
         buildScreenView: @buildScreenViewMock
         track: @fakeTrack
-        stateManager: @BuildScreenStateManagerMock
 
   describe 'cleaning up drawing', ->
 
@@ -92,41 +85,26 @@ describe 'slotcars.build.BuildScreen', ->
   describe 'prepare for test drive', ->
 
     beforeEach ->
-      @carMock = mockEmberClass Car,
-        track: {}
+      @testDriveMock.start = sinon.spy()
 
-    afterEach ->
-      @carMock.restore()
-
-    it 'should create a car', ->
-      @buildScreen.prepareTesting()
-
-      (expect @carMock.create).toHaveBeenCalled()
-
-    it 'should create the test drive and provide build screen view', ->
+    it 'should create the test drive and provide dependencies', ->
       @buildScreen.prepareTesting()
 
       (expect @testDriveMock.create).toHaveBeenCalledWithAnObjectLike
+        stateManager: @BuildScreenStateManagerMock
         buildScreenView: @buildScreenViewMock
         track: @fakeTrack
-        car: @carMock
+
+    it 'should start the test drive', ->
+      @buildScreen.prepareTesting()
+
+      (expect @testDriveMock.start).toHaveBeenCalled()
 
   describe 'cleaning up test drive', ->
 
     beforeEach ->
-      @carMock = mockEmberClass Car,
-        track: {}
-
-      @buildScreen.prepareTesting()
-
-    afterEach ->
-      @carMock.restore()
-
-    it 'should tell the car to destroy itself', ->
-      @carMock.destroy = sinon.spy()
-      @buildScreen.teardownTesting()
-
-      (expect @carMock.destroy).toHaveBeenCalled()
+      @testDriveMock.start = sinon.spy()
+      @buildScreen.prepareTesting() # creates TestDrive
 
     it 'should tell the test drive to destroy itself', ->
       @testDriveMock.destroy = sinon.spy()

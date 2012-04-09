@@ -31,29 +31,22 @@ BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend App
 
   prepareDrawing: ->
     @_builder = Builder.create
+      stateManager: @_buildScreenStateManager
       buildScreenView: @view
       track: @track
-      stateManager: @_buildScreenStateManager
 
   teardownDrawing: ->
     @_builder.destroy()
 
   prepareTesting: ->
-    @_car = Car.create
-      track: @track
-      acceleration: 0.1
-      deceleration: 0.2
-      crashDeceleration: 0.15
-      maxSpeed: 20
-      traction: 100
-
     @_testDrive = TestDrive.create
+      stateManager: @_buildScreenStateManager
       buildScreenView: @view
       track: @track
-      car: @_car
+
+    @_testDrive.start()
 
   teardownTesting: ->
-    @_car.destroy()
     @_testDrive.destroy()
 
   destroy: ->
