@@ -33,3 +33,7 @@ GameLoopController = slotcars.play.controllers.GameLoopController
 
   update: ->
     @car.update @isTouchMouseDown
+
+  destroy: ->
+    @_super()
+    @gameLoopController.destroy()

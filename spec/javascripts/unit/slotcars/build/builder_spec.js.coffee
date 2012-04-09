@@ -1,8 +1,5 @@
 
 #= require slotcars/build/builder
-#= require slotcars/shared/models/track
-#= require slotcars/build/controllers/draw_controller
-#= require slotcars/build/views/draw_view
 
 describe 'builder', ->
 
@@ -16,7 +13,15 @@ describe 'builder', ->
   beforeEach ->
     @DrawControllerMock = mockEmberClass DrawController
     @DrawViewMock = mockEmberClass DrawView
+
     @buildScreenViewStub = set: sinon.spy()
+    @stateManagerStub = {}
+    @fakeTrack = {}
+
+    @builder = Builder.create
+      stateManager: @stateManagerStub
+      buildScreenView: @buildScreenViewStub
+      track: @fakeTrack
 
   afterEach ->
     @DrawControllerMock.restore()
@@ -24,25 +29,17 @@ describe 'builder', ->
 
   describe 'setting up drawing editor on creation', ->
 
-    beforeEach ->
-      @fakeTrack = {}
-
     it 'should create the draw controller and provide the created track', ->
-      Builder.create buildScreenView: @buildScreenViewStub, track: @fakeTrack
-
       (expect @DrawControllerMock.create).toHaveBeenCalledWithAnObjectLike
+        stateManager: @stateManagerStub
         track: @fakeTrack
 
     it 'should create the draw view and provide the draw controller and track', ->
-      Builder.create buildScreenView: @buildScreenViewStub, track: @fakeTrack
-
       (expect @DrawViewMock.create).toHaveBeenCalledWithAnObjectLike
         track: @fakeTrack
         drawController: @DrawControllerMock
 
     it 'should set content view property of build screen view to draw view', ->
-      Builder.create buildScreenView: @buildScreenViewStub, track: @fakeTrack
-
       (expect @buildScreenViewStub.set).toHaveBeenCalledWith 'contentView', @DrawViewMock
 
   describe 'destroying the builder controller', ->
@@ -50,7 +47,6 @@ describe 'builder', ->
     beforeEach ->
       @DrawControllerMock.destroy = sinon.spy()
       @DrawViewMock.destroy = sinon.spy()
-      @builder = Builder.create buildScreenView: @buildScreenViewStub
 
     it 'should unset content view property of build screen view', ->
       @builder.destroy()

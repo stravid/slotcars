@@ -13,13 +13,8 @@ describe 'base game controller', ->
   Car = slotcars.shared.models.Car
 
   beforeEach ->
-    @carMock = mockEmberClass Car,
-      update: sinon.spy()
-      reset: sinon.spy()
-
-    @trackMock = mockEmberClass Track,
-      getPointAtLength: sinon.stub().returns { x: 0, y: 0 }
-      getTotalLength: sinon.stub().returns 5
+    @carMock = mockEmberClass Car, update: sinon.spy()
+    @trackMock = mockEmberClass Track
 
     @baseGameController = BaseGameController.create
       track: @trackMock
@@ -39,7 +34,7 @@ describe 'base game controller', ->
     (expect @baseGameController.carControlsEnabled).toBe false
 
   it 'should throw an error when no track is provided', ->
-    (expect => BaseGameController.create car: Car.create()).toThrow()
+    (expect => BaseGameController.create car: @carMock).toThrow()
 
   it 'should throw an error when no car is provided', ->
     (expect => BaseGameController.create track: @trackMock).toThrow()
@@ -48,7 +43,7 @@ describe 'base game controller', ->
     @GameLoopControllerMock = mockEmberClass GameLoopController
     BaseGameController.create
       track: @trackMock
-      car: Car.create()
+      car: @carMock
 
     (expect @GameLoopControllerMock.create).toHaveBeenCalledOnce()
     
@@ -66,8 +61,7 @@ describe 'base game controller', ->
   describe '#onTouchMouseUp', ->
 
     it 'should set isTouchMouseDown to false', ->
-      eventStub = originalEvent:
-        preventDefault: ->
+      eventStub = originalEvent: preventDefault: ->
 
       @baseGameController.onTouchMouseUp eventStub
 
@@ -84,10 +78,9 @@ describe 'base game controller', ->
 
     beforeEach ->
       @gameLoopControllerMock = mockEmberClass GameLoopController,
-        start: (renderCallback) ->
-          renderCallback()
+        start: (renderCallback) -> renderCallback()
 
-      @updateSpy = sinon.spy @baseGameController, 'update'
+      sinon.spy @baseGameController, 'update'
 
     afterEach ->
       @gameLoopControllerMock.restore()
@@ -96,4 +89,16 @@ describe 'base game controller', ->
       @baseGameController.gameLoopController = @gameLoopControllerMock
       @baseGameController.start()
 
-      (expect @updateSpy).toHaveBeenCalled()
+      (expect @baseGameController.update).toHaveBeenCalled()
+
+  describe '#destroy', ->
+
+    beforeEach ->
+      @gameLoopControllerStub =
+        destroy: sinon.spy()
+
+    it 'should tell the game loop controller to destroy itself', ->
+      @baseGameController.gameLoopController = @gameLoopControllerStub
+      @baseGameController.destroy()
+
+      (expect @gameLoopControllerStub.destroy).toHaveBeenCalled()

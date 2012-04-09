@@ -87,10 +87,9 @@ BaseGameController = Slotcars.shared.controllers.BaseGameController
       @set 'raceTime', @endTime - @startTime
 
   destroy: ->
+    @_super()
     # clear all timeouts
     @_clearTimeouts()
 
     # force unbinding of car controls
     @set 'carControlsEnabled', false
-
-    @gameLoopController.destroy()

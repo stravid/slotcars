@@ -1,6 +1,5 @@
 
 #= require slotcars/play/controllers/game_controller
-#= require slotcars/play/controllers/game_loop_controller
 
 #= require slotcars/shared/models/track
 #= require slotcars/shared/models/car
@@ -8,7 +7,6 @@
 describe 'slotcars.play.controllers.GameController (unit)', ->
 
   GameController = slotcars.play.controllers.GameController
-  GameLoopController = slotcars.play.controllers.GameLoopController
   Track = slotcars.shared.models.Track
   Car = slotcars.shared.models.Car
 
@@ -64,24 +62,8 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
   describe '#start', ->
 
-    beforeEach ->
-      @trackStub = Track.createRecord()
-      @trackStub.addPathPoint { x: 10, y: 10 }
-      @trackStub.addPathPoint { x: 20, y: 50 }
-      @trackStub.addPathPoint { x: 30, y: 40 }
-
-      @gameLoopControllerMock = mockEmberClass GameLoopController,
-        start: (renderCallback) ->
-          renderCallback()
-
-      @gameController.track = @trackStub
-      @gameController.update = sinon.spy()
-      sinon.spy @gameController, 'restartGame'
-
-    afterEach ->
-      @gameLoopControllerMock.restore()
-
     it 'should call the restart game function', ->
+      sinon.spy @gameController, 'restartGame'
       @gameController.start()
 
       (expect @gameController.restartGame).toHaveBeenCalled()
@@ -105,12 +87,12 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
       (expect @gameController.carControlsEnabled).toBe false
 
-    it 'should disable stop acceleration', ->
+    it 'should stop acceleration', ->
       @gameController.finish()
 
       (expect @gameController.isTouchMouseDown).toBe false
       
-    it 'should set a flag when race is over', ->
+    it 'should set a flag that race is over', ->
       @gameController.finish()
       
       (expect @gameController.get 'isRaceFinished').toBe true
@@ -240,11 +222,8 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
   describe 'destroy', ->
 
-    it 'should call destroy of the game loop controller', ->
-      gameLoopControllerStub =
-        destroy: sinon.spy()
-
-      @gameController.set 'gameLoopController', gameLoopControllerStub
+    it 'should disable car controls', ->
+      sinon.spy @gameController, 'set'
       @gameController.destroy()
 
-      (expect gameLoopControllerStub.destroy).toHaveBeenCalled()
+      (expect @gameController.set).toHaveBeenCalledWith 'carControlsEnabled', false
