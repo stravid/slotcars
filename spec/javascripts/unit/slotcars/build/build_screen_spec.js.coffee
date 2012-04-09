@@ -56,7 +56,7 @@ describe 'slotcars.build.BuildScreen', ->
 
     beforeEach ->
       @BuildScreenStateManagerMock.destroy = sinon.spy()
-      @buildScreen.prepareDrawing() # creates Builder
+      @buildScreen.setupDrawing() # creates Builder
 
     it 'should destroy the build screen state manager', ->
       @buildScreen.destroy()
@@ -66,7 +66,7 @@ describe 'slotcars.build.BuildScreen', ->
   describe 'prepare for drawing', ->
 
     it 'should create the builder and provide build screen view and track', ->
-      @buildScreen.prepareDrawing()
+      @buildScreen.setupDrawing()
 
       (expect @builderMock.create).toHaveBeenCalledWithAnObjectLike
         stateManager: @BuildScreenStateManagerMock
@@ -76,7 +76,7 @@ describe 'slotcars.build.BuildScreen', ->
   describe 'cleaning up drawing', ->
 
     it 'should tell the builder to destroy itself', ->
-      @buildScreen.prepareDrawing()
+      @buildScreen.setupDrawing()
       @builderMock.destroy = sinon.spy()
       @buildScreen.teardownDrawing()
 
@@ -88,7 +88,7 @@ describe 'slotcars.build.BuildScreen', ->
       @testDriveMock.start = sinon.spy()
 
     it 'should create the test drive and provide dependencies', ->
-      @buildScreen.prepareTesting()
+      @buildScreen.setupTesting()
 
       (expect @testDriveMock.create).toHaveBeenCalledWithAnObjectLike
         stateManager: @BuildScreenStateManagerMock
@@ -96,7 +96,7 @@ describe 'slotcars.build.BuildScreen', ->
         track: @fakeTrack
 
     it 'should start the test drive', ->
-      @buildScreen.prepareTesting()
+      @buildScreen.setupTesting()
 
       (expect @testDriveMock.start).toHaveBeenCalled()
 
@@ -104,7 +104,7 @@ describe 'slotcars.build.BuildScreen', ->
 
     beforeEach ->
       @testDriveMock.start = sinon.spy()
-      @buildScreen.prepareTesting() # creates TestDrive
+      @buildScreen.setupTesting() # creates TestDrive
 
     it 'should tell the test drive to destroy itself', ->
       @testDriveMock.destroy = sinon.spy()

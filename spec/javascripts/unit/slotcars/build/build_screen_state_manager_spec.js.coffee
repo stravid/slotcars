@@ -7,9 +7,9 @@ describe 'build screen state manager', ->
 
   beforeEach ->
     @delegateMock =
-      prepareDrawing: sinon.spy()
+      setupDrawing: sinon.spy()
       teardownDrawing: sinon.spy()
-      prepareTesting: sinon.spy()
+      setupTesting: sinon.spy()
       teardownTesting: sinon.spy()
 
   it 'should extend Ember.StateManager', ->
@@ -24,7 +24,7 @@ describe 'build screen state manager', ->
       @buildScreenStateManager.goToState 'Drawing'
 
     it 'should prepare drawing environment on entering the state', ->
-      (expect @delegateMock.prepareDrawing).toHaveBeenCalled()
+      (expect @delegateMock.setupDrawing).toHaveBeenCalled()
 
     it 'should tear drawing environment down on leaving the state', ->
       @buildScreenStateManager.send 'exit'
@@ -40,7 +40,7 @@ describe 'build screen state manager', ->
       @buildScreenStateManager.goToState 'Testing'
 
     it 'should prepare test-drive-environment on entering the state', ->
-      (expect @delegateMock.prepareTesting).toHaveBeenCalled()
+      (expect @delegateMock.setupTesting).toHaveBeenCalled()
 
     it 'should tear test-drive-environment down on leavin the state', ->
       @buildScreenStateManager.send 'exit'

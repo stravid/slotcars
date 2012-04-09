@@ -29,7 +29,7 @@ BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend App
     @_buildScreenStateManager = BuildScreenStateManager.create delegate: this
     @_buildScreenStateManager.goToState 'Drawing'
 
-  prepareDrawing: ->
+  setupDrawing: ->
     @_builder = Builder.create
       stateManager: @_buildScreenStateManager
       buildScreenView: @view
@@ -38,7 +38,7 @@ BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend App
   teardownDrawing: ->
     @_builder.destroy()
 
-  prepareTesting: ->
+  setupTesting: ->
     @_testDrive = TestDrive.create
       stateManager: @_buildScreenStateManager
       buildScreenView: @view
