@@ -1,29 +1,29 @@
 
 #= require slotcars/build/views/build_screen_view
 #= require slotcars/build/builder
+#= require slotcars/factories/screen_factory
+#= require slotcars/shared/lib/appendable
 
 Builder = slotcars.build.Builder
+BuildScreenView = slotcars.build.views.BuildScreenView
+ScreenFactory = slotcars.factories.ScreenFactory
+Appendable = slotcars.shared.lib.Appendable
 
-(namespace 'slotcars.build').BuildScreen = Ember.Object.extend
+BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend Appendable,
 
-  _buildScreenView: null
   _builder: null
 
-  appendToApplication: ->
-    @appendScreen()
-    @setupBuilder()
+  init: ->
+    @view = BuildScreenView.create()
 
-  appendScreen: ->
-    @_buildScreenView = slotcars.build.views.BuildScreenView.create()
-    @_buildScreenView.append()
-
-  setupBuilder: ->
     @_builder = Builder.create
-      buildScreenView: @_buildScreenView
+      buildScreenView: @view
 
   destroy: ->
     @_super()
     @_builder.destroy()
-    @_buildScreenView.remove()
 
   toString: -> '<Instance of slotcars.build.BuildScreen>'
+
+
+ScreenFactory.getInstance().registerScreen 'BuildScreen', BuildScreen

@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/josevalim/active_model_serializers.git
+  revision: 5f0bb6d1481478f8aea2111cc14ea286be0bfc95
+  specs:
+    active_model_serializers (0.1.0)
+      activemodel (~> 3.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -163,6 +170,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  active_model_serializers!
   coffee-rails (~> 3.2.1)
   devise
   embient (= 0.0.8)

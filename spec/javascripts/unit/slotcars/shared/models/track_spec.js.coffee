@@ -14,8 +14,8 @@ describe 'slotcars.shared.models.Track', ->
   it 'should be a subclass of an ember-data Model', ->
     (expect Track).toExtend DS.Model
 
-  it 'should define a url', ->
-    (expect Track.url).toBeDefined()
+  it 'should provide correct namespace on toString', ->
+    (expect Track.toString()).toBe 'slotcars.shared.models.Track'
 
   beforeEach ->
     @raphaelPathMock = mockEmberClass RaphaelPath, setRaphaelPath: sinon.spy(), setRasterizedPath: sinon.spy()

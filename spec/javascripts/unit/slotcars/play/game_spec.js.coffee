@@ -92,3 +92,11 @@ describe 'game', ->
       @game.start()
 
       (expect @GameControllerMock.start).toHaveBeenCalled()
+
+  describe 'destroying the game', ->
+
+    it 'should call destroy on the game controller', ->
+      @GameControllerMock.destroy = sinon.spy()
+      @game.destroy()
+
+      (expect @GameControllerMock.destroy).toHaveBeenCalled()

@@ -1,33 +1,26 @@
 
 #= require slotcars/home/home_screen
 #= require slotcars/home/views/home_screen_view
+#= require slotcars/factories/screen_factory
 
 describe 'home screen', ->
 
   HomeScreen = slotcars.home.HomeScreen
   HomeScreenView = slotcars.home.views.HomeScreenView
+  ScreenFactory = slotcars.factories.ScreenFactory
 
   beforeEach ->
-    @homeScreenViewMock = mockEmberClass HomeScreenView, append: sinon.spy()
+    @homeScreenViewMock = mockEmberClass HomeScreenView
     @homeScreen = HomeScreen.create()
 
   afterEach ->
     @homeScreenViewMock.restore()
+    
 
-  describe 'append to application', ->
+  it 'should register itself at the screen factory', ->
+    homeScreen = ScreenFactory.getInstance().getInstanceOf 'HomeScreen'
 
-    it 'should append the home screen view to the DOM body', ->
-      @homeScreen.appendToApplication()
+    (expect homeScreen).toBeInstanceOf HomeScreen
 
-      (expect @homeScreenViewMock.append).toHaveBeenCalled()
-
-  describe 'destroy', ->
-
-    beforeEach ->
-      @homeScreenViewMock.remove = sinon.spy()
-      @homeScreen.appendToApplication()
-
-    it 'should tell the home screen view to remove itself', ->
-      @homeScreen.destroy()
-
-      (expect @homeScreenViewMock.remove).toHaveBeenCalled()
+  it 'should create home screen view', ->
+    (expect @homeScreenViewMock.create).toHaveBeenCalled()

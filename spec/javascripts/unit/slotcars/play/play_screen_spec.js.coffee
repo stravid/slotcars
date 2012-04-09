@@ -5,6 +5,7 @@
 #= require slotcars/shared/models/track
 #= require slotcars/play/game
 #= require slotcars/shared/models/model_store
+#= require slotcars/factories/screen_factory
 
 describe 'play screen', ->
 
@@ -15,13 +16,19 @@ describe 'play screen', ->
   Car = slotcars.shared.models.Car
   Game = slotcars.play.Game
   ModelStore = slotcars.shared.models.ModelStore
+  ScreenFactory = slotcars.factories.ScreenFactory
 
   beforeEach ->
     sinon.stub ModelStore, 'find', -> Track.createRecord()
 
-    @playScreenViewMock = mockEmberClass PlayScreenView, append: sinon.spy()
+    @playScreenViewMock = mockEmberClass PlayScreenView,
+      append: sinon.spy()
+      remove: sinon.spy()
     @playScreenStateManagerMock = mockEmberClass PlayScreenStateManager, send: sinon.spy()
-    @GameMock = mockEmberClass Game, start: sinon.spy()
+    @GameMock = mockEmberClass Game,
+      start: sinon.spy()
+      destroy: sinon.spy()
+
     @playScreen = PlayScreen.create()
 
   afterEach ->
@@ -30,27 +37,22 @@ describe 'play screen', ->
     @playScreenStateManagerMock.restore()
     @GameMock.restore()
 
+  it 'should create play screen view', ->
+    (expect @playScreenViewMock.create).toHaveBeenCalled()
 
-  describe 'append to application', ->
+  it 'should register itself at the screen factory', ->
+    playScreen = ScreenFactory.getInstance().getInstanceOf 'PlayScreen'
 
-    beforeEach ->
-      @playScreen.load = sinon.spy()
+    (expect playScreen).toBeInstanceOf PlayScreen
 
-    it 'should create the play screen state manager', ->
-      @playScreen.appendToApplication()
+  it 'should create the play screen state manager', ->
+    (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
 
-      (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
-
-    it 'should append the play screen view to the DOM', ->
-      @playScreen.appendToApplication()
-
-      (expect @playScreenViewMock.append).toHaveBeenCalled()
+  it 'should create the play screen state manager', ->
+    (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
 
 
   describe 'loading', ->
-
-    beforeEach ->
-      @playScreen.appendToApplication()
 
     it 'should load a track', ->
       @playScreen.load()
@@ -71,7 +73,6 @@ describe 'play screen', ->
   describe 'initializing', ->
 
     beforeEach ->
-      @playScreen.appendToApplication()
       @playScreen.load()
       @playScreen.initialize()
 
@@ -85,7 +86,6 @@ describe 'play screen', ->
   describe 'playing', ->
 
     beforeEach ->
-      @playScreen.appendToApplication()
       @playScreen.load()
       @playScreen.initialize()
       @playScreen.play()
@@ -93,14 +93,17 @@ describe 'play screen', ->
     it 'should start the game', ->
       (expect @GameMock.start).toHaveBeenCalled()
 
-
   describe 'destroying', ->
 
-    beforeEach ->
-      @playScreenViewMock.remove = sinon.spy()
-      @playScreen.appendToApplication()
+    beforeEach -> @gameStub = destroy: sinon.spy()
 
-    it 'should tell the play screen view to remove itself', ->
+    it 'should tell the game to destroy itself', ->
+      @playScreen.set '_game', @gameStub
       @playScreen.destroy()
 
-      (expect @playScreenViewMock.remove).toHaveBeenCalled()
+      (expect @gameStub.destroy).toHaveBeenCalled()
+
+    it 'should only destroy the game if it is present', ->
+      @playScreen.destroy()
+
+      (expect @gameStub.destroy).not.toHaveBeenCalled()

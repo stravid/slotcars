@@ -1,6 +1,11 @@
 
 #= require embient/ember-routemanager
 
+#= require slotcars/build/build_screen
+#= require slotcars/home/home_screen
+#= require slotcars/play/play_screen
+#= require slotcars/tracks/tracks_screen
+
 (namespace 'slotcars').RouteManager = Ember.RouteManager.extend
 
   wantsHistory: true # use html5 push state
@@ -9,17 +14,18 @@
 
   Build: Ember.State.create
     route: 'build'
-    enter: (manager) -> manager.delegate.showBuildScreen()
+    enter: (manager) -> manager.delegate.showScreen 'BuildScreen'
 
   Play: Ember.State.create
     route: 'play/:id'
-    enter: (manager) -> manager.delegate.showPlayScreen (manager.getPath 'params.id')
+    enter: (manager) -> 
+      manager.delegate.showScreen 'PlayScreen', trackId: (parseInt manager.getPath 'params.id')
 
   Tracks: Ember.State.create
     route: 'tracks'
-    enter: (manager) -> manager.delegate.showTracksScreen()
+    enter: (manager) -> manager.delegate.showScreen 'TracksScreen'
 
   Home: Ember.State.create
     route: ''
     enter: (manager) ->
-      manager.delegate.showHomeScreen()
+      manager.delegate.showScreen 'HomeScreen'

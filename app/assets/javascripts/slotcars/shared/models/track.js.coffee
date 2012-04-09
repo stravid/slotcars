@@ -7,7 +7,7 @@
 RaphaelPath = helpers.math.RaphaelPath
 ModelStore = slotcars.shared.models.ModelStore
 
-(namespace 'slotcars.shared.models').Track = DS.Model.extend
+Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend
 
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'
@@ -84,5 +84,4 @@ ModelStore = slotcars.shared.models.ModelStore
     @set 'rasterizedPath', Raphael.getSubpath (@get 'raphaelPath'), 0, rasterizedLength
 
 
-slotcars.shared.models.Track.reopenClass
-  url: 'api/tracks'
+Track.reopenClass toString: -> 'slotcars.shared.models.Track'
