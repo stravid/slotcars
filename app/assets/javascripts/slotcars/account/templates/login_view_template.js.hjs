@@ -1,0 +1,9 @@
+<h2>Login or Sign Up</h2>
+<input type="text" placeholder="Username or Email" disabled="disabled"/>
+<input type="password" placeholder="Password" disabled="disabled"/>
+<button>Log in</button>
+
+<h3>Not Yet Registered?</h3>
+Create your Slotcars account and start building your own tracks and save your highscores!
+
+<button>Sign Up</button>

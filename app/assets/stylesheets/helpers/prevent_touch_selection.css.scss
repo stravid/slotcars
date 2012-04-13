@@ -4,3 +4,11 @@
   -webkit-touch-callout: none;
   -moz-user-select: none;
 }
+
+// exclude input elements in forms
+
+input {
+  -webkit-user-select: auto;
+  -webkit-touch-callout: auto;
+  -moz-user-select: auto;
+}
