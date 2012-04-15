@@ -7,11 +7,11 @@
 #= require slotcars/build/build_screen_state_manager
 #= require slotcars/factories/screen_factory
 #= require slotcars/shared/lib/appendable
+#= require slotcars/build/rasterizer
 
 Builder = slotcars.build.Builder
 TestDrive = Slotcars.build.TestDrive
-Track = slotcars.shared.models.Track
-Car = slotcars.shared.models.Car
+Rasterizer = Slotcars.build.Rasterizer
 BuildScreenView = slotcars.build.views.BuildScreenView
 BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
 ScreenFactory = slotcars.factories.ScreenFactory
@@ -23,13 +23,14 @@ BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend App
   _buildScreenStateManager: null
 
   init: ->
-    @view = BuildScreenView.create()
-    @track = slotcars.shared.models.Track.createRecord()
-
     @_buildScreenStateManager = BuildScreenStateManager.create delegate: this
+    @view = BuildScreenView.create stateManager: @_buildScreenStateManager
+
     @_buildScreenStateManager.goToState 'Drawing'
 
   setupDrawing: ->
+    @track = slotcars.shared.models.Track.createRecord()
+
     @_builder = Builder.create
       stateManager: @_buildScreenStateManager
       buildScreenView: @view
@@ -48,6 +49,18 @@ BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend App
 
   teardownTesting: ->
     @_testDrive.destroy()
+
+  setupRasterizing: ->
+    @_rasterizer = Rasterizer.create
+      stateManager: @_buildScreenStateManager
+      buildScreenView: @view
+      track: @track
+
+  startRasterizing: ->
+    @_rasterizer.start()
+
+  teardownRasterizing: ->
+    @_rasterizer.destroy()
 
   destroy: ->
     @_super()
