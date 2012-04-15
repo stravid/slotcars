@@ -1,6 +1,2 @@
 {{dynamicView trackView tagName=""}}
 {{dynamicView carView tagName=""}}
-
-<span {{action "onEditTrackButtonClicked"}}>
-  edit track
-</span>

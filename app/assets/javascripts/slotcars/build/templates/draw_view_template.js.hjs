@@ -1,9 +1,1 @@
 <div id="draw-view-paper"></div>
-
-<span id="clear-track-button" class="override-button" {{action "onClearButtonClicked"}}>
-  clear track
-</span>
-
-<span id="test-track-button" class="override-button" {{action "onPlayCreatedTrackButtonClicked"}}>
-  play created track
-</span>
