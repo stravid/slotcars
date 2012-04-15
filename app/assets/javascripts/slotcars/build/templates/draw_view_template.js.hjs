@@ -7,7 +7,3 @@
 <span id="test-track-button" class="override-button" {{action "onPlayCreatedTrackButtonClicked"}}>
   play created track
 </span>
-
-{{#if track.isRasterizing}}
-  <div id="rasterizing-notification"><p>Preparing your track..</p></div>
-{{/if}}
