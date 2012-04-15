@@ -25,18 +25,7 @@ PAPER_WRAPPER_ID = '#draw-view-paper'
   drawTrack: (path) ->
     return unless @_paper?
 
-    if @drawController.get 'finishedDrawing'
-      @_super path
-    else
-      @_drawTrackWhileDrawing path
-
-  onClearButtonClicked: (event) ->
-    event.preventDefault() if event?
-    @drawController.onClearTrack()
-
-  onPlayCreatedTrackButtonClicked: (event) ->
-    event.preventDefault() if event?
-    @drawController.onPlayCreatedTrack()
+    @_drawTrackWhileDrawing path
 
   willDestroyElement: ->
     @$(PAPER_WRAPPER_ID).off 'touchMouseDown'

@@ -47,7 +47,6 @@ describe 'slotcars.build.BuildScreen', ->
 
     beforeEach ->
       @BuildScreenStateManagerMock.destroy = sinon.spy()
-      @buildScreen.setupDrawing() # creates Builder
 
     it 'should destroy the build screen state manager', ->
       @buildScreen.destroy()
