@@ -48,3 +48,31 @@
     text-shadow: 0 0 15px #EEE;
   }
 }
+
+#toolbar {
+  position: absolute;
+  top: 25px;
+  left: 320px;
+  width: 400px;
+  text-align: center;
+
+  div {
+    display: inline-block;
+    border: 1px solid white;
+    border-radius: 3px;
+    margin: 3px;
+    padding: 7px 9px;
+    font-size: 13px;
+    font-weight: bold;
+    background-color: green;
+    color: white;
+    cursor: pointer;
+  }
+
+  div.disabled {
+    background-color: gray;
+    cursor: default;
+  }
+
+  div.active { background-color: purple; }
+}

@@ -42,7 +42,7 @@ describe 'builder', ->
     it 'should set content view property of build screen view to draw view', ->
       (expect @buildScreenViewStub.set).toHaveBeenCalledWith 'contentView', @DrawViewMock
 
-  describe 'destroying the builder controller', ->
+  describe 'destroying dependencies', ->
 
     beforeEach ->
       @DrawControllerMock.destroy = sinon.spy()
