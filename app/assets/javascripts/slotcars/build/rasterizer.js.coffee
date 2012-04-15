@@ -1,0 +1,39 @@
+
+#= require slotcars/build/views/rasterization_view
+
+RasterizationView = Slotcars.build.views.RasterizationView
+
+(namespace 'Slotcars.build').Rasterizer = Ember.Object.extend
+  
+  stateManager: null
+  track: null
+  isRasterizing: false
+  buildScreenView: null
+
+  init: ->
+    @rasterizationView = RasterizationView.create
+      rasterizationController: this
+      track: @track
+
+    @buildScreenView.set 'contentView', @rasterizationView
+
+  start: ->
+    # don't start multiple rasterizations
+    return if @get 'isRasterizing'
+
+    @set 'isRasterizing', true
+    @track.rasterize => @_finishedRasterization()
+
+  cancel: ->
+    @set 'isRasterizing', false
+    @track.cancelRasterization()
+    @stateManager.send 'canceledRasterizing'
+
+  _finishedRasterization: ->
+    @set 'isRasterizing', false
+    @stateManager.send 'finishedRasterizing'
+
+  destroy: ->
+    @_super()
+    @buildScreenView.set 'contentView', null
+    @rasterizationView.destroy()
