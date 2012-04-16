@@ -25,7 +25,7 @@ RasterizationView = Slotcars.build.views.RasterizationView
 
   _finishedRasterization: ->
     @set 'isRasterizing', false
-    @stateManager.send 'finishedRasterizing'
+    @stateManager.send 'finishedRasterization'
 
   destroy: ->
     @_super()

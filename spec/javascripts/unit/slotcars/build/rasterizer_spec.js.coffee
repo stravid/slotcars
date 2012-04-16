@@ -54,7 +54,7 @@ describe 'rasterizer', ->
       rasterizationFinishCallback = @trackMock.rasterize.args[0][0]
       rasterizationFinishCallback() # normally called by track
 
-      (expect @buildScreenStateManagerMock.send).toHaveBeenCalledWith 'finishedRasterizing'
+      (expect @buildScreenStateManagerMock.send).toHaveBeenCalledWith 'finishedRasterization'
 
     it 'should not tell the track to rasterize again during the process', ->
       @rasterizer.start()

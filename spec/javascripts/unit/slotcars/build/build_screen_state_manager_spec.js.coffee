@@ -131,6 +131,6 @@ describe 'build screen state manager', ->
       it 'should leave the state towards the state manager´s target state', ->
         sinon.spy @buildScreenStateManager, 'goToState'
 
-        @buildScreenStateManager.send 'finishedRasterizing'
+        @buildScreenStateManager.send 'finishedRasterization'
 
         (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith @targetState

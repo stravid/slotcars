@@ -27,6 +27,6 @@
   Rasterizing: Ember.State.create
     enter: (manager) -> manager.delegate.setupRasterizing()
     rasterize: (manager) -> manager.delegate.startRasterizing()
-    finishedRasterizing: (manager) -> manager.goToState manager.targetState
+    finishedRasterization: (manager) -> manager.goToState manager.targetState
     exit: (manager) -> manager.delegate.teardownRasterizing()
 
