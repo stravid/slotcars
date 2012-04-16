@@ -75,11 +75,6 @@ Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend
           finishCallback() if finishCallback?
     ), 50
 
-  cancelRasterization: ->
-    (@get '_raphaelPath').cancelRasterization()
-    @set 'isRasterizing', false
-    @set 'rasterizedPath', null
-
   _onRasterizationProgress: (rasterizedLength) ->
     @set 'rasterizedPath', Raphael.getSubpath (@get 'raphaelPath'), 0, rasterizedLength
 
