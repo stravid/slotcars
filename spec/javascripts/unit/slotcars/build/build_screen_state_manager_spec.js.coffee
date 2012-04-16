@@ -93,12 +93,6 @@ describe 'build screen state manager', ->
 
         (expect @delegateMock.startRasterizing).toHaveBeenCalled()
 
-      it 'should set the state manager´s origin state to current state', ->
-        currentStateName = @buildScreenStateManager.currentState.name
-        @buildScreenStateManager.send 'clickedTestdriveButton'
-
-        (expect @buildScreenStateManager.originState).toEqual currentStateName
-
       it 'should set the state manager´s target state to Testing', ->
         @buildScreenStateManager.send 'clickedTestdriveButton'
 
@@ -140,16 +134,3 @@ describe 'build screen state manager', ->
         @buildScreenStateManager.send 'finishedRasterizing'
 
         (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith @targetState
-
-    describe 'canceled rasterization', ->
-
-      beforeEach ->
-        @originState = 'RandomState'
-        @buildScreenStateManager.originState = @originState
-
-      it 'should transit back to the state manager´s origin state', ->
-        sinon.spy @buildScreenStateManager, 'goToState'
-
-        @buildScreenStateManager.send 'canceledRasterizing'
-
-        (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith @originState

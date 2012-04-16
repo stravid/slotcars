@@ -3,7 +3,6 @@
 
   delegate: null
   targetState: null
-  originState: null
 
   Drawing: Ember.State.create
     enter: (manager) -> manager.delegate.setupDrawing()
@@ -14,7 +13,6 @@
     accessibleStates: ['Testing']
 
     clickedTestdriveButton: (manager) ->
-      manager.originState = @name
       manager.targetState = 'Testing'
       manager.goToState 'Rasterizing'
       manager.send 'rasterize'
@@ -30,6 +28,5 @@
     enter: (manager) -> manager.delegate.setupRasterizing()
     rasterize: (manager) -> manager.delegate.startRasterizing()
     finishedRasterizing: (manager) -> manager.goToState manager.targetState
-    canceledRasterizing: (manager) -> manager.goToState manager.originState
     exit: (manager) -> manager.delegate.teardownRasterizing()
 

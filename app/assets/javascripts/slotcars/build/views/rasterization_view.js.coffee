@@ -7,7 +7,7 @@ TrackView = slotcars.shared.views.TrackView
 (namespace 'Slotcars.build.views').RasterizationView = TrackView.extend
   
   templateName: 'slotcars_build_templates_rasterization_view_template'
-  rasterizationController: null
+  track: null
 
   onRasterizedPathChanged: (->
     # clean up before drawing anything
@@ -23,7 +23,3 @@ TrackView = slotcars.shared.views.TrackView
     if rasterizedPath
       @_rasterizedTrackPath = @_drawPath rasterizedPath, @ASPHALT_WIDTH, 'rgba(0, 255, 0, 0.5)'
   ).observes 'track.rasterizedPath'
-
-  onCancelButtonClicked: (event) ->
-    event.preventDefault() if event?
-    @rasterizationController.cancel()

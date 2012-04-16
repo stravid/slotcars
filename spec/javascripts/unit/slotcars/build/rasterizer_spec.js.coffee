@@ -12,7 +12,6 @@ describe 'rasterizer', ->
     @trackMock = Ember.Object.create
       clearPath: sinon.spy()
       rasterize: sinon.spy()
-      cancelRasterization: sinon.spy()
 
     @buildScreenStateManagerMock = mockEmberClass BuildScreenStateManager, send: sinon.spy()
     @buildScreenViewMock = mockEmberClass BuildScreenView, set: sinon.spy()
@@ -32,7 +31,7 @@ describe 'rasterizer', ->
     (expect Rasterizer).toExtend Ember.Object
 
   it 'should create a rastrization view and provide the track', ->
-    (expect @RasterizationViewMock.create).toHaveBeenCalledWithAnObjectLike rasterizationController: @rasterizer, track: @trackMock
+    (expect @RasterizationViewMock.create).toHaveBeenCalledWithAnObjectLike track: @trackMock
 
   it 'should append rasterization view to build screen view view', ->
     (expect @buildScreenViewMock.set).toHaveBeenCalledWith 'contentView', @RasterizationViewMock
@@ -71,24 +70,6 @@ describe 'rasterizer', ->
       rasterizationFinishCallback()
 
       (expect @rasterizer.get 'isRasterizing').toBe false
-
-  describe 'cancel rasterization', ->
-
-    it 'should set rasterization flag to false', ->
-      sinon.spy @rasterizer, 'set'
-      @rasterizer.cancel()
-
-      (expect @rasterizer.set).toHaveBeenCalledWith 'isRasterizing', false
-
-    it 'should tell track to cancel rasterization', ->
-      @rasterizer.cancel()
-
-      (expect @trackMock.cancelRasterization).toHaveBeenCalled()
-
-    it 'should inform the state manager to cancel', ->
-      @rasterizer.cancel()
-
-      (expect @buildScreenStateManagerMock.send).toHaveBeenCalledWith 'canceledRasterizing'
 
   describe 'destroying', ->
 

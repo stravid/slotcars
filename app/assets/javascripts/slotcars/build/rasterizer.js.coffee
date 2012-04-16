@@ -12,7 +12,6 @@ RasterizationView = Slotcars.build.views.RasterizationView
 
   init: ->
     @rasterizationView = RasterizationView.create
-      rasterizationController: this
       track: @track
 
     @buildScreenView.set 'contentView', @rasterizationView
@@ -23,11 +22,6 @@ RasterizationView = Slotcars.build.views.RasterizationView
 
     @set 'isRasterizing', true
     @track.rasterize => @_finishedRasterization()
-
-  cancel: ->
-    @set 'isRasterizing', false
-    @track.cancelRasterization()
-    @stateManager.send 'canceledRasterizing'
 
   _finishedRasterization: ->
     @set 'isRasterizing', false
