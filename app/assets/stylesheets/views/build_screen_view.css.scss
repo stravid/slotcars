@@ -51,28 +51,33 @@
 
 #toolbar {
   position: absolute;
-  top: 25px;
-  left: 320px;
-  width: 400px;
+  top: 32px;
+  left: 350px;
+  width: 324px;
   text-align: center;
 
   div {
     display: inline-block;
-    border: 1px solid white;
-    border-radius: 3px;
-    margin: 3px;
-    padding: 7px 9px;
-    font-size: 13px;
-    font-weight: bold;
-    background-color: green;
-    color: white;
+    width: 67px;
+    height: 67px;
+    margin: 0 5px;
+    background-image: image-url("buttons/build-toolbar.png");
+    background-repeat: no-repeat;
+    background-position: left top;
     cursor: pointer;
+
+    &.disabled {
+      background-position-y: -140px;
+      cursor: default;
+    }
+    &.active {
+      background-position-y: -70px;
+      cursor: default;
+    }
   }
 
-  div.disabled {
-    background-color: gray;
-    cursor: default;
-  }
-
-  div.active { background-color: purple; }
+  #draw-button { background-position-x: 0; }
+  #edit-button { background-position-x: -70px; }
+  #testdrive-button { background-position-x: -140px; }
+  #publish-button { background-position-x: -210px; }
 }

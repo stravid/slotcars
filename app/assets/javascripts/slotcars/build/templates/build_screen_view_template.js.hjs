@@ -1,10 +1,10 @@
 {{dynamicView contentView id="build-screen-content-view"}}
 
 <div id="toolbar">
-  <div {{action "onDrawButtonClicked"}} {{bindAttr class="drawButton.active drawButton.disabled"}}>Draw</div>
-  <div {{bindAttr class="editButton.active editButton.disabled"}}>Edit</div>
-  <div {{action "onTestdriveButtonClicked"}} {{bindAttr class="testdriveButton.active testdriveButton.disabled"}}>Testdrive</div>
-  <div {{bindAttr class="publishButton.active publishButton.disabled"}}>Publish</div>
+  <div id="draw-button" {{action "onDrawButtonClicked"}} {{bindAttr class=":override-button drawButton.active drawButton.disabled"}}>Draw</div>
+  <div id="edit-button"  {{bindAttr class=":override-button editButton.active editButton.disabled"}}>Edit</div>
+  <div id="testdrive-button"  {{action "onTestdriveButtonClicked"}} {{bindAttr class=":override-button testdriveButton.active testdriveButton.disabled"}}>Testdrive</div>
+  <div id="publish-button"  {{bindAttr class=":override-button publishButton.active publishButton.disabled"}}>Publish</div>
 </div>
 
 <a id="home-button" class="override-button js-route" href="">Home</a>
