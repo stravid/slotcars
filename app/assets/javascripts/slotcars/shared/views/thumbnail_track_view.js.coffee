@@ -6,7 +6,6 @@ TrackView = slotcars.shared.views.TrackView
 (namespace 'Slotcars.shared.views').ThumbnailTrackView = TrackView.extend
   
   scaleFactor: 0.3
-  drawTrackOnDidInsertElement: true
 
   didInsertElement: ->
     @_super()

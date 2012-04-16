@@ -1,8 +1,5 @@
 
 #= require slotcars/build/builder
-#= require slotcars/shared/models/track
-#= require slotcars/build/controllers/draw_controller
-#= require slotcars/build/views/draw_view
 
 describe 'builder', ->
 
@@ -16,7 +13,15 @@ describe 'builder', ->
   beforeEach ->
     @DrawControllerMock = mockEmberClass DrawController
     @DrawViewMock = mockEmberClass DrawView
+
     @buildScreenViewStub = set: sinon.spy()
+    @stateManagerStub = {}
+    @fakeTrack = {}
+
+    @builder = Builder.create
+      stateManager: @stateManagerStub
+      buildScreenView: @buildScreenViewStub
+      track: @fakeTrack
 
   afterEach ->
     @DrawControllerMock.restore()
@@ -24,46 +29,24 @@ describe 'builder', ->
 
   describe 'setting up drawing editor on creation', ->
 
-    beforeEach ->
-      @TrackBackup = slotcars.shared.models.Track
-
-      @fakeTrack = {}
-      @TrackMock = slotcars.shared.models.Track =
-        createRecord: sinon.stub().returns @fakeTrack
-
-    afterEach ->
-      slotcars.shared.models.Track = @TrackBackup
-
-    it 'should create a new track model', ->
-      Builder.create buildScreenView: @buildScreenViewStub
-     
-      (expect @TrackMock.createRecord).toHaveBeenCalled()
-
     it 'should create the draw controller and provide the created track', ->
-      Builder.create buildScreenView: @buildScreenViewStub
-
       (expect @DrawControllerMock.create).toHaveBeenCalledWithAnObjectLike
+        stateManager: @stateManagerStub
         track: @fakeTrack
 
     it 'should create the draw view and provide the draw controller and track', ->
-      Builder.create buildScreenView: @buildScreenViewStub
-
       (expect @DrawViewMock.create).toHaveBeenCalledWithAnObjectLike
         track: @fakeTrack
         drawController: @DrawControllerMock
 
     it 'should set content view property of build screen view to draw view', ->
-      Builder.create buildScreenView: @buildScreenViewStub
-
       (expect @buildScreenViewStub.set).toHaveBeenCalledWith 'contentView', @DrawViewMock
 
-
-  describe 'destroying the builder controller', ->
+  describe 'destroying dependencies', ->
 
     beforeEach ->
       @DrawControllerMock.destroy = sinon.spy()
       @DrawViewMock.destroy = sinon.spy()
-      @builder = Builder.create buildScreenView: @buildScreenViewStub
 
     it 'should unset content view property of build screen view', ->
       @builder.destroy()

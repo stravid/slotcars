@@ -25,7 +25,6 @@ describe 'track view', ->
       gameController: @gameControllerMock
 
     @trackView.appendTo '<div>'
-
     Ember.run.end()
 
   afterEach ->
@@ -35,8 +34,18 @@ describe 'track view', ->
   it 'should be a subclass of ember view', ->
     (expect TrackView).toExtend Ember.View
 
-  it 'should create raphael paper view is appended to DOM', ->
-    (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], 1024 * @trackView.scaleFactor, 768 * @trackView.scaleFactor
+  describe 'appendeding view to DOM', ->
+
+    it 'should create raphael paper', ->
+      @trackView.didInsertElement()
+
+      (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], 1024 * @trackView.scaleFactor, 768 * @trackView.scaleFactor
+
+    it 'should mime a change of the raphaelPath on the track', ->
+      sinon.spy @trackView, 'onTrackChange'
+      @trackView.didInsertElement()
+
+      (expect @trackView.onTrackChange).toHaveBeenCalled()
 
   describe 'drawing the track', ->
 
@@ -49,24 +58,3 @@ describe 'track view', ->
       @trackView.drawTrack('M0,0Z')
 
       (expect @paperClearSpy).toHaveBeenCalled()
-
-    describe 'drawTrackOnDidInsertElement flag', ->
-
-      beforeEach ->
-        @drawTrackSpy = sinon.spy()
-        @trackView = TrackView.create
-          track:
-            get: ->
-          drawTrack: @drawTrackSpy
-
-      it 'should draw the track if flag is set', ->
-        @trackView.drawTrackOnDidInsertElement = true
-
-        @trackView.didInsertElement()
-
-        (expect @drawTrackSpy).toHaveBeenCalled()
-
-      it 'should not draw the track if flag is not set', ->
-        @trackView.didInsertElement()
-
-        (expect @drawTrackSpy).not.toHaveBeenCalled()
