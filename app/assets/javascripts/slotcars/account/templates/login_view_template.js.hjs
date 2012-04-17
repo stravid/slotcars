@@ -2,7 +2,7 @@
   <h2>Login or Sign Up</h2>
   <input type="text" placeholder="Username or Email" disabled="disabled"/>
   <input type="password" placeholder="Password" disabled="disabled"/>
-  <button>Log in</button>
+  <button disabled="disabled">Log in</button>
 </div>
 
 <div id="not-yet-registered">
