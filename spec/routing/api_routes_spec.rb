@@ -14,3 +14,14 @@ describe "Tracks" do
       )
   end
 end
+
+describe "Users" do
+
+  it "routes post /api/users to devise::registrations#create" do
+      { :post => "api/users" }.should route_to(
+          :controller => "devise/registrations",
+          :action => "create"
+        )
+  end
+
+end
