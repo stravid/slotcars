@@ -7,8 +7,17 @@ input {
 }
 
 button {
-  border: 1px solid white;
+  border: 1px solid #666;
   padding: 0.5em;
   cursor: pointer;
   border-radius: 5px;
+  background-color: #eee;
+}
+
+button:hover {
+  background-color: white;
+}
+
+button[disabled="disabled"]:hover {
+  background-color: #eee;
 }
