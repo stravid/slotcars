@@ -4,6 +4,7 @@
 (namespace 'Slotcars.account.views').SignUpView = Ember.View.extend
 
   delegate: null
+  elementId: 'signup-widget-view'
   templateName: 'slotcars_account_templates_sign_up_view_template'
 
   onCancelSignUpButtonClicked: -> (@get 'delegate').userWantsToCancelSignUp()

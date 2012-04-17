@@ -1,1 +1,1 @@
-{{dynamicView content}}
+{{dynamicView content id="current-account-widget"}}
