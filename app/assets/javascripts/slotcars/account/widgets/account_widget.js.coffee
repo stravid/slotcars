@@ -15,6 +15,9 @@ AccountWidget = (namespace 'Slotcars.account.widgets').AccountWidget = Ember.Obj
 
   init: ->
     @set 'view', AccountWidgetView.create()
+    @showLoginWidget()
+
+  showLoginWidget: ->
     loginWidget = WidgetFactory.getInstance().getInstanceOf 'LoginWidget'
     loginWidget.addToContainerAtLocation this, 'content'
     loginWidget.on 'switchToSignUp', this, 'showSignUpWidget'
@@ -22,5 +25,6 @@ AccountWidget = (namespace 'Slotcars.account.widgets').AccountWidget = Ember.Obj
   showSignUpWidget: ->
     signUpWidget = WidgetFactory.getInstance().getInstanceOf 'SignUpWidget'
     signUpWidget.addToContainerAtLocation this, 'content'
+    signUpWidget.on 'cancelSignUp', this, 'showLoginWidget'
 
 WidgetFactory.getInstance().registerWidget 'AccountWidget', AccountWidget
