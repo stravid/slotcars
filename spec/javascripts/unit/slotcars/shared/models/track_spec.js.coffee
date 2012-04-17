@@ -290,11 +290,11 @@ describe 'slotcars.shared.models.Track', ->
         @raphaelPathMock.get.withArgs('path').returns ''
 
       it 'should call commit on the model store', ->
-        ModelStore.commit = sinon.spy()
+        spyOn ModelStore, 'commit'
 
         @track.save()
 
-        (expect ModelStore.commit).toHaveBeenCalled()
+        (expect ModelStore.commit.callCount).toBe 1
 
       it 'should set the raphael property', ->
         path = 'M0,0L1,1z'
