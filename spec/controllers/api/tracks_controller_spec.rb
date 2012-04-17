@@ -17,6 +17,16 @@ describe Api::TracksController do
       response.should be_success
     end
 
+    it 'should take offset and limit into account' do
+      serializer = ActiveModel::ArraySerializer.new tracks[1..3], :root => "tracks"
+      serialized_tracks = serializer.as_json
+
+      get :index, :offset => 1, :limit => 3
+
+      response.body.should == serialized_tracks.to_json
+      response.should be_success
+    end
+
   end
 
   describe '#show' do
