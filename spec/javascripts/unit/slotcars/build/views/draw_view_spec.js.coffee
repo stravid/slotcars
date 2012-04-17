@@ -55,18 +55,10 @@ describe 'slotcars.build.views.DrawView', ->
       
     afterEach -> @track.restore()
 
-    it 'should create raphael paper view is appended to DOM', ->
+    it 'should create raphael paper when view is appended to DOM', ->
       (expect @raphaelStub).toHaveBeenCalledWith @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)[0], 1024, 768
 
-    it 'should tell raphael to build a closed track while not in drawing mode', ->
-      @drawController.set 'finishedDrawing', true
-      @drawView.drawTrack @originalTestPath
-
-      (expect @paperStub.path).toHaveBeenCalledWith @originalTestPath
-
     it 'should tell raphael to build an open track while in drawing mode', ->
-
-      @drawController.set 'finishedDrawing', false
       modifiedPathWithoutZ = 'M0,0L3,4'
 
       @drawView.drawTrack @originalTestPath
@@ -142,23 +134,3 @@ describe 'slotcars.build.views.DrawView', ->
         (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseMove'
 
         (expect @drawControllerMock.onTouchMouseMove).not.toHaveBeenCalled()
-
-
-    describe 'clearing the track', ->
-
-      it 'should tell the controller when user clicked the clear button', ->
-        @drawControllerMock.onClearTrack = sinon.spy()
-
-        @drawView.onClearButtonClicked()
-
-        (expect @drawControllerMock.onClearTrack).toHaveBeenCalled()
-
-
-    describe 'playing created track', ->
-
-      it 'should tell the controller when the user wants to play the created track', ->
-        @drawControllerMock.onPlayCreatedTrack = sinon.spy()
-
-        @drawView.onPlayCreatedTrackButtonClicked()
-
-        (expect @drawControllerMock.onPlayCreatedTrack).toHaveBeenCalled()

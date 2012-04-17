@@ -234,35 +234,6 @@ describe 'slotcars.shared.models.Track', ->
 
       (expect finishCallback).toHaveBeenCalled()
 
-
-    describe 'cancelling rasterization', ->
-
-      beforeEach ->
-        @raphaelPathMock.cancelRasterization = sinon.spy()
-
-      it 'should change into not-rasterizing state', ->
-        @track = Track.createRecord()
-        @track.set 'isRasterizing', true
-
-        @track.cancelRasterization()
-
-        (expect @track.get 'isRasterizing').toBe false
-
-      it 'should reset rasterized path to null when cancelled', ->
-        # simulate that there happened some rasterization before
-        @track.set 'rasterizedPath', 'rasterizedTestPath'
-
-        @track.rasterize()
-        @track.cancelRasterization()
-
-        (expect @track.get 'rasterizedPath').toBe null
-
-      it 'should tell the raphael path that rasterization is cancelled', ->
-        @track.rasterize()
-        @track.cancelRasterization()
-
-        (expect @raphaelPathMock.cancelRasterization).toHaveBeenCalled()
-
     describe '#didLoad', ->
 
       it 'should setup the raphael path', ->

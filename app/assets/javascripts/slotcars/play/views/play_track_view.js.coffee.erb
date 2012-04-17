@@ -6,27 +6,9 @@
 Vector = helpers.math.Vector
 
 namespace('slotcars.play.views').PlayTrackView = slotcars.shared.views.TrackView.extend
-
-  gameController: null
   
   _finishLine: null
-  
-  didInsertElement: ->
-    @_super()
     
-    @onTrackChange()
-    @onCarControlsChange()
-
-  onCarControlsChange: (->
-    @$().off 'touchMouseDown'
-    @$().off 'touchMouseUp'
-
-    if @gameController.get 'carControlsEnabled'
-      @$().on 'touchMouseDown', (event) => @gameController.onTouchMouseDown event
-      @$().on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
-
-  ).observes 'gameController.carControlsEnabled'
-  
   drawTrack: (path) ->
     @_super path
     @_drawFinishLine()
@@ -34,8 +16,8 @@ namespace('slotcars.play.views').PlayTrackView = slotcars.shared.views.TrackView
   _drawFinishLine: ->
     return unless @_paper?
   
-    pointA = @track.getPointAtLength(20)
-    pointB = @track.getPointAtLength(23)
+    pointA = @track.getPointAtLength 20
+    pointB = @track.getPointAtLength 23
     
     x = pointB.x - pointA.x
     y = pointB.y - pointA.y

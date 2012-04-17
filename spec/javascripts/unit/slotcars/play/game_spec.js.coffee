@@ -32,7 +32,8 @@ describe 'game', ->
     @GameControllerMock = mockEmberClass GameController
     @CarViewMock = mockEmberClass CarView
     @GameViewMock = mockEmberClass GameView
-    @PlayTrackViewMock = mockEmberClass PlayTrackView
+    @PlayTrackViewMock = mockEmberClass PlayTrackView,
+      gameController: {}  # gameController is required by Controllable mixin which is used here
     @ClockViewMock = mockEmberClass ClockView
 
     @game = Game.create
@@ -62,11 +63,11 @@ describe 'game', ->
     it 'should create a game controller and provide necessary dependencies', ->
       (expect @GameControllerMock.create).toHaveBeenCalledWithAnObjectLike car: @carMock, track: @trackMock
 
-    it 'should create a game view and provide a game controller', ->
-      (expect @GameViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock
-
     it 'should create a track view', ->
       (expect @PlayTrackViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock, track: @trackMock
+
+    it 'should create a game view and provide a game controller', ->
+      (expect @GameViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock
 
     it 'should append car view to play screen view', ->
       (expect @playScreenViewMock.set).toHaveBeenCalledWith 'carView', @CarViewMock
@@ -85,8 +86,6 @@ describe 'game', ->
 
     beforeEach ->
       @GameControllerMock.start = sinon.spy()
-      @trackMock.raphaelPath = {}
-      @trackMock.getPointAtLength = sinon.stub().returns x: 3, y: 4
 
     it 'should start the game controller', ->
       @game.start()
@@ -95,8 +94,10 @@ describe 'game', ->
 
   describe 'destroying the game', ->
 
-    it 'should call destroy on the game controller', ->
+    beforeEach ->
       @GameControllerMock.destroy = sinon.spy()
+
+    it 'should call destroy on the game controller', ->
       @game.destroy()
 
       (expect @GameControllerMock.destroy).toHaveBeenCalled()

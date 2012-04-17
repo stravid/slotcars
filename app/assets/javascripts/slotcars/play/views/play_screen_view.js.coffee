@@ -1,4 +1,5 @@
 
+#= require embient/ember-layout
 #= require slotcars/play/templates/play_screen_view_template
 
 (namespace 'slotcars.play.views').PlayScreenView = Ember.View.extend
