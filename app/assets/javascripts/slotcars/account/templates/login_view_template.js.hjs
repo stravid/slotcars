@@ -6,4 +6,4 @@
 <h3>Not Yet Registered?</h3>
 Create your Slotcars account and start building your own tracks and save your highscores!
 
-<button>Sign Up</button>
+<button {{action "onSignUpButtonClicked"}}>Sign Up</button>

@@ -4,6 +4,7 @@
 #= require slotcars/factories/widget_factory
 #= require slotcars/account/views/account_widget_view
 #= require slotcars/account/widgets/login_widget
+#= require slotcars/account/widgets/sign_up_widget
 
 Widget = Slotcars.shared.components.Widget
 Container = Slotcars.shared.components.Container
@@ -16,5 +17,10 @@ AccountWidget = (namespace 'Slotcars.account.widgets').AccountWidget = Ember.Obj
     @set 'view', AccountWidgetView.create()
     loginWidget = WidgetFactory.getInstance().getInstanceOf 'LoginWidget'
     loginWidget.addToContainerAtLocation this, 'content'
+    loginWidget.on 'switchToSignUp', this, 'showSignUpWidget'
+
+  showSignUpWidget: ->
+    signUpWidget = WidgetFactory.getInstance().getInstanceOf 'SignUpWidget'
+    signUpWidget.addToContainerAtLocation this, 'content'
 
 WidgetFactory.getInstance().registerWidget 'AccountWidget', AccountWidget
