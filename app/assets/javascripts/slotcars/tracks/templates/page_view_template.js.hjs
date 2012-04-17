@@ -1,0 +1,5 @@
+{{#each tracks}}
+  <div class="track" data-track-id="{{unbound id}}">
+    {{view Slotcars.shared.views.ThumbnailTrackView trackBinding="this" class="track-container" }}
+  </div>
+{{/each}}
