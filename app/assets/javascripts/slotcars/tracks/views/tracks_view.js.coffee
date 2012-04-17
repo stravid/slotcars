@@ -19,7 +19,7 @@ slotcars.tracks.views.TracksView = Ember.View.extend
   currentPage: null
   tracksPerPage: null
 
-  swipeStart: null
+  swipeStartPosition: null
   lastSwipePosition: null
   pages: null
   pageViewA: null
@@ -58,7 +58,7 @@ slotcars.tracks.views.TracksView = Ember.View.extend
 
     page.disableTransitions() for page in @pages
 
-    @swipeStart = event.pageX
+    @swipeStartPosition = event.pageX
 
     (@$ '#swiper').on 'touchMouseMove', (event) => @onTouchMouseMove event
     (@$ '#swiper').on 'touchMouseUp', (event) => @onTouchMouseUp event
@@ -66,7 +66,7 @@ slotcars.tracks.views.TracksView = Ember.View.extend
   onTouchMouseMove: (event) ->
     @unbindTrackSelectionHandler()
 
-    @moveWithUserMovement event.pageX - @swipeStart
+    @moveWithUserMovement event.pageX - @swipeStartPosition
 
     @lastSwipePosition = event.pageX
 
@@ -74,7 +74,7 @@ slotcars.tracks.views.TracksView = Ember.View.extend
     (@$ '#swiper').off 'touchMouseMove'
     (@$ '#swiper').off 'touchMouseUp'
 
-    @onSwipeEnd @lastSwipePosition - @swipeStart
+    @onSwipeEnd @lastSwipePosition - @swipeStartPosition
 
   onSwipeEnd: (delta) ->
     return if @currentPage is 1 && delta > 0
