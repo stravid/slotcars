@@ -9,7 +9,7 @@ slotcars.tracks.views.PageView = Ember.View.extend
   templateName: 'slotcars_tracks_templates_page_view_template'
 
   origin: null
-  controller: null
+  tracksController: null
 
   didInsertElement: ->
     @moveToOrigin()

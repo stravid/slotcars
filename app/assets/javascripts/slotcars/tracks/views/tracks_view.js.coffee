@@ -14,7 +14,7 @@ slotcars.tracks.views.TracksView = Ember.View.extend
   templateName: 'slotcars_tracks_templates_tracks_view_template'
   elementId: 'tracks-view'
 
-  controller: null
+  tracksController: null
   swipeTreshhold: null
   currentPage: null
 
@@ -31,18 +31,18 @@ slotcars.tracks.views.TracksView = Ember.View.extend
 
     @pageViewA = PageView.create
       origin: -1 * @width
-      controller: @controller
-      tracksBinding: 'controller.pageATracks'
+      tracksController: @tracksController
+      tracksBinding: 'tracksController.pageATracks'
 
     @pageViewB = PageView.create
       origin: 0
-      controller: @controller
-      tracksBinding: 'controller.pageBTracks'
+      tracksController: @tracksController
+      tracksBinding: 'tracksController.pageBTracks'
 
     @pageViewC = PageView.create
       origin: @width
-      controller: @controller
-      tracksBinding: 'controller.pageCTracks'
+      tracksController: @tracksController
+      tracksBinding: 'tracksController.pageCTracks'
 
     @set 'dynamicViewPageA', @pageViewA
     @set 'dynamicViewPageB', @pageViewB
@@ -123,9 +123,9 @@ slotcars.tracks.views.TracksView = Ember.View.extend
 
   loadData: (page, offset) ->
     switch page
-      when @pageViewA then @controller.reloadPageATracks offset
-      when @pageViewB then @controller.reloadPageBTracks offset
-      when @pageViewC then @controller.reloadPageCTracks offset
+      when @pageViewA then @tracksController.reloadPageATracks offset
+      when @pageViewB then @tracksController.reloadPageBTracks offset
+      when @pageViewC then @tracksController.reloadPageCTracks offset
 
   movePagesToOrigin: ->
     for page in @pages

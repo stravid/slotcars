@@ -15,7 +15,7 @@ TracksView = slotcars.tracks.views.TracksView
 
   init: ->
     @tracksView = TracksView.create
-      controller: this
+      tracksController: this
       swipeTreshhold: 100
       currentPage: 1
 
