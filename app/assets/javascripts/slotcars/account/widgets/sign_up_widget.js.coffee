@@ -15,6 +15,8 @@ SignUpWidget = (namespace 'Slotcars.account.widgets').SignUpWidget = Ember.Objec
 
   userWantsToCancelSignUp: -> @fire 'cancelSignUp'
 
-  userWantsToSignUpWithCredentials: (credentials) -> User.signUp credentials
+  userWantsToSignUpWithCredentials: (credentials) ->
+    User.signUp credentials
+    @fire 'cancelSignUp'
 
 WidgetFactory.getInstance().registerWidget 'SignUpWidget', SignUpWidget
