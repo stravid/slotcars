@@ -17,6 +17,7 @@ slotcars.tracks.views.TracksView = Ember.View.extend
   tracksController: null
   swipeTreshhold: null
   currentPage: null
+  tracksPerPage: null
 
   swipeStart: null
   lastSwipePosition: null
@@ -102,7 +103,7 @@ slotcars.tracks.views.TracksView = Ember.View.extend
 
     # load new data, decrement currentPage
     @currentPage--
-    @loadData @pages[2], 4 * (@currentPage - 2)
+    @loadData @pages[2], @tracksPerPage * (@currentPage - 2)
 
     @pages.unshift @pages.pop()
 
@@ -117,7 +118,7 @@ slotcars.tracks.views.TracksView = Ember.View.extend
 
     # load new data, increment currentPage
     @currentPage++
-    @loadData @pages[0], 4 * @currentPage
+    @loadData @pages[0], @tracksPerPage * @currentPage
 
     @pages.push @pages.shift()
 
