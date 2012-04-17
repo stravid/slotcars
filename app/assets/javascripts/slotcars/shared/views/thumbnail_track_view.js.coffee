@@ -7,8 +7,3 @@ TrackView = slotcars.shared.views.TrackView
 
   scaleFactor: 0.38
   drawTrackOnDidInsertElement: true
-
-  didInsertElement: ->
-    @_super()
-
-    @$().on 'touchMouseUp', => slotcars.routeManager.set 'location', "play/#{@track.get 'id'}"
