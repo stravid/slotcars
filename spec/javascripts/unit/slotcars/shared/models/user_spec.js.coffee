@@ -27,4 +27,4 @@ describe 'Slotcars.shared.models.User', ->
     it 'should tell model store to commit record', ->
       User.signUp()
 
-      (expect ModelStore.commit).toHaveBeenCalled()
+      (expect ModelStore.commit).toHaveBeenCalledOnce()

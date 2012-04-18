@@ -289,12 +289,15 @@ describe 'slotcars.shared.models.Track', ->
         @raphaelPathMock.get.withArgs('_rasterizedPath').returns { asFixedLengthPointArray: -> }
         @raphaelPathMock.get.withArgs('path').returns ''
 
-      it 'should call commit on the model store', ->
-        spyOn ModelStore, 'commit'
+        sinon.stub ModelStore, 'commit'
 
+      afterEach ->
+        ModelStore.commit.restore()
+
+      it 'should call commit on the model store', ->
         @track.save()
 
-        (expect ModelStore.commit.callCount).toBe 1
+        (expect ModelStore.commit).toHaveBeenCalledOnce()
 
       it 'should set the raphael property', ->
         path = 'M0,0L1,1z'

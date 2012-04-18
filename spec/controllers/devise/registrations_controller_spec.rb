@@ -24,14 +24,11 @@ describe Devise::RegistrationsController do
 
       created_user = User.last
 
-      created_user.username.should == username
-      created_user.email.should == email
-
       serializer = UserSerializer.new created_user, :root => "user"
       serialized_user = serializer.as_json
 
       response.body.should == serialized_user.to_json
-      response.code.should eq "201"
+      response.code.should eq '201' #created
     end
 
   end
