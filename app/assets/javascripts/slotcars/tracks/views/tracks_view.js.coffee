@@ -5,11 +5,7 @@
 
 #= require helpers/namespace
 
-namespace 'slotcars.tracks.views'
-
-PageView = slotcars.tracks.views.PageView
-
-slotcars.tracks.views.TracksView = Ember.View.extend
+Tracks.TracksView = Ember.View.extend
 
   templateName: 'slotcars_tracks_templates_tracks_view_template'
   elementId: 'tracks-view'
@@ -30,17 +26,17 @@ slotcars.tracks.views.TracksView = Ember.View.extend
   didInsertElement: ->
     @width = (@$ '#swiper').width()
 
-    @pageViewA = PageView.create
+    @pageViewA = Tracks.PageView.create
       origin: -1 * @width
       tracksController: @tracksController
       tracksBinding: 'tracksController.pageATracks'
 
-    @pageViewB = PageView.create
+    @pageViewB = Tracks.PageView.create
       origin: 0
       tracksController: @tracksController
       tracksBinding: 'tracksController.pageBTracks'
 
-    @pageViewC = PageView.create
+    @pageViewC = Tracks.PageView.create
       origin: @width
       tracksController: @tracksController
       tracksBinding: 'tracksController.pageCTracks'
