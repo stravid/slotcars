@@ -1,6 +1,3 @@
-
-#= require helpers/math/linked_list
-
 describe 'helpers.math.LinkedList', ->
 
   LinkedList = helpers.math.LinkedList

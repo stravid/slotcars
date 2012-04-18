@@ -1,6 +1,3 @@
-
-#= require slotcars/factories/factory
-
 describe 'abstract factory', ->
 
   Factory = Slotcars.factories.Factory

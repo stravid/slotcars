@@ -1,6 +1,3 @@
-
-#= require slotcars/play/play_screen_state_manager
-
 describe 'play screen state manager', ->
 
   PlayScreenStateManager = slotcars.play.PlayScreenStateManager

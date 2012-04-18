@@ -1,6 +1,3 @@
-
-#= require slotcars/tracks/views/tracks_screen_view
-
 describe 'track screen view', ->
 
   TracksScreenView = slotcars.tracks.views.TracksScreenView

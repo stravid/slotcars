@@ -1,6 +1,3 @@
-
-#= require slotcars/shared/lib/movable
-
 describe 'slotcars.shared.lib.Movable', ->
 
   Movable = slotcars.shared.lib.Movable

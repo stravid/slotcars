@@ -1,9 +1,3 @@
-
-#= require slotcars/tracks/tracks_screen
-#= require slotcars/tracks/controllers/tracks_controller
-#= require slotcars/tracks/views/tracks_screen_view
-#= require slotcars/factories/screen_factory
-
 describe 'tracks screen', ->
 
   TracksScreen = slotcars.tracks.TracksScreen

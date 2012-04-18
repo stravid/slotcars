@@ -1,5 +1,3 @@
-#= require slotcars/route_manager
-
 describe 'routing', ->
 
   RouteManager = slotcars.RouteManager
