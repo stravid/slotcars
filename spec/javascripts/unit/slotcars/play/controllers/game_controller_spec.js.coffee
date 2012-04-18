@@ -1,6 +1,5 @@
-describe 'slotcars.play.controllers.GameController (unit)', ->
+describe 'Play.GameController (unit)', ->
 
-  GameController = slotcars.play.controllers.GameController
   Track = slotcars.shared.models.Track
   Car = slotcars.shared.models.Car
 
@@ -13,7 +12,7 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
       getPointAtLength: sinon.stub().returns { x: 0, y: 0 }
       getTotalLength: sinon.stub().returns 5
 
-    @gameController = GameController.create
+    @gameController = Play.GameController.create
       track: @trackMock
       car: @carMock
 

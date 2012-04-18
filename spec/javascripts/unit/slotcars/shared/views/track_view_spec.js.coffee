@@ -1,7 +1,6 @@
 describe 'track view', ->
 
   TrackView = slotcars.shared.views.TrackView
-  GameController = slotcars.play.controllers.GameController
 
   beforeEach ->
     @raphaelBackup = window.Raphael
@@ -15,7 +14,7 @@ describe 'track view', ->
       rect: @raphaelElementStub
       clear: @paperClearSpy
 
-    @gameControllerMock = mockEmberClass GameController
+    @gameControllerMock = mockEmberClass Play.GameController
 
     @trackView = TrackView.create
       gameController: @gameControllerMock

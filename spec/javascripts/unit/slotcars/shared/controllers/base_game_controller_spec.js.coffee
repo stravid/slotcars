@@ -1,7 +1,6 @@
 describe 'base game controller', ->
 
   BaseGameController = Slotcars.shared.controllers.BaseGameController
-  GameLoopController = slotcars.play.controllers.GameLoopController
   Track = slotcars.shared.models.Track
   Car = slotcars.shared.models.Car
 
@@ -33,7 +32,7 @@ describe 'base game controller', ->
     (expect => BaseGameController.create track: @trackMock).toThrow()
 
   it 'should create a game loop controller', ->
-    @GameLoopControllerMock = mockEmberClass GameLoopController
+    @GameLoopControllerMock = mockEmberClass Play.GameLoopController
     BaseGameController.create
       track: @trackMock
       car: @carMock
@@ -70,7 +69,7 @@ describe 'base game controller', ->
   describe '#start', ->
 
     beforeEach ->
-      @gameLoopControllerMock = mockEmberClass GameLoopController,
+      @gameLoopControllerMock = mockEmberClass Play.GameLoopController,
         start: (renderCallback) -> renderCallback()
 
       sinon.spy @baseGameController, 'update'

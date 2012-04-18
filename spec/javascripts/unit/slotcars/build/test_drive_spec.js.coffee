@@ -3,7 +3,6 @@ describe 'test drive', ->
   TestDrive = Slotcars.build.TestDrive
   Car = slotcars.shared.models.Car
   Track = slotcars.shared.models.Track
-  CarView = slotcars.play.views.CarView
   TrackView = slotcars.shared.views.TrackView
   TestDriveView = Slotcars.build.views.TestDriveView
   BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
@@ -16,7 +15,7 @@ describe 'test drive', ->
 
     @TestDriveControllerMock = mockEmberClass TestDriveController, set: sinon.spy()
     @TrackViewMock = mockEmberClass TrackView, gameController: {}
-    @CarViewMock = mockEmberClass CarView
+    @CarViewMock = mockEmberClass Play.CarView
     @TestDriveViewMock = mockEmberClass TestDriveView, set: sinon.spy()
 
     @buildScreenViewMock =

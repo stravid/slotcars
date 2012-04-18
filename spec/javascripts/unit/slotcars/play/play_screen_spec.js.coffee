@@ -1,26 +1,22 @@
 describe 'play screen', ->
 
-  PlayScreen = slotcars.play.PlayScreen
-  PlayScreenView = slotcars.play.views.PlayScreenView
-  PlayScreenStateManager = slotcars.play.PlayScreenStateManager
   Track = slotcars.shared.models.Track
   Car = slotcars.shared.models.Car
-  Game = slotcars.play.Game
   ModelStore = slotcars.shared.models.ModelStore
   ScreenFactory = slotcars.factories.ScreenFactory
 
   beforeEach ->
     sinon.stub ModelStore, 'find', -> Track.createRecord()
 
-    @playScreenViewMock = mockEmberClass PlayScreenView,
+    @playScreenViewMock = mockEmberClass Play.PlayScreenView,
       append: sinon.spy()
       remove: sinon.spy()
-    @playScreenStateManagerMock = mockEmberClass PlayScreenStateManager, send: sinon.spy()
-    @GameMock = mockEmberClass Game,
+    @playScreenStateManagerMock = mockEmberClass Play.PlayScreenStateManager, send: sinon.spy()
+    @GameMock = mockEmberClass Play.Game,
       start: sinon.spy()
       destroy: sinon.spy()
 
-    @playScreen = PlayScreen.create()
+    @playScreen = Play.PlayScreen.create()
 
   afterEach ->
     ModelStore.find.restore()
@@ -34,7 +30,7 @@ describe 'play screen', ->
   it 'should register itself at the screen factory', ->
     playScreen = ScreenFactory.getInstance().getInstanceOf 'PlayScreen'
 
-    (expect playScreen).toBeInstanceOf PlayScreen
+    (expect playScreen).toBeInstanceOf Play.PlayScreen
 
   it 'should create the play screen state manager', ->
     (expect @playScreenStateManagerMock.create).toHaveBeenCalled()

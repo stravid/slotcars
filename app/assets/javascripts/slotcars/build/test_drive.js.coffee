@@ -7,7 +7,6 @@
 #= require slotcars/build/views/test_drive_view
 
 Car = slotcars.shared.models.Car
-CarView = slotcars.play.views.CarView
 TrackView = slotcars.shared.views.TrackView
 Controllable = Slotcars.shared.lib.Controllable
 TestDriveController = Slotcars.build.controllers.TestDriveController
@@ -36,7 +35,7 @@ TestDriveView = Slotcars.build.views.TestDriveView
 
     @_gameController.set 'carControlsEnabled', true
 
-    @_carView = CarView.create car: @car
+    @_carView = Play.CarView.create car: @car
     @_trackView = TrackView.create
       track: @track
       gameController: @_gameController

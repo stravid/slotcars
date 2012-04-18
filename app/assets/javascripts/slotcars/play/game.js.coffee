@@ -6,31 +6,26 @@
 #= require slotcars/play/controllers/game_controller
 #= require slotcars/shared/lib/controllable
 
-GameController = slotcars.play.controllers.GameController
-CarView = slotcars.play.views.CarView
-GameView = slotcars.play.views.GameView
-ClockView = slotcars.play.views.ClockView
-PlayTrackView = slotcars.play.views.PlayTrackView
 Controllable = Slotcars.shared.lib.Controllable
 
-(namespace 'slotcars.play').Game = Ember.Object.extend
+Play.Game = Ember.Object.extend
 
   playScreenView: null
   track: null
   car: null
 
   init: ->
-    @_gameController = GameController.create track: @track, car: @car
+    @_gameController = Play.GameController.create track: @track, car: @car
 
-    @_carView = CarView.create car: @car
-    @_trackView = PlayTrackView.create 
+    @_carView = Play.CarView.create car: @car
+    @_trackView = Play.PlayTrackView.create 
       track: @track
       gameController: @_gameController
 
     Controllable.apply @_trackView # this line is untested - don´t know how to do it
 
-    @_gameView = GameView.create gameController: @_gameController
-    @_clockView = ClockView.create
+    @_gameView = Play.GameView.create gameController: @_gameController
+    @_clockView = Play.ClockView.create
       gameController: @_gameController
       carModel: @car
       trackModel: @track
