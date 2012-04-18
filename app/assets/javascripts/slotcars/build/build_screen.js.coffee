@@ -1,17 +1,18 @@
 
+#= require slotcars/build/build_screen_state_manager
 #= require slotcars/build/views/build_screen_view
 #= require slotcars/build/builder
 #= require slotcars/build/test_drive
+#= require slotcars/build/rasterizer
+#= require slotcars/build/publisher
 #= require slotcars/shared/models/track
-#= require slotcars/shared/models/car
-#= require slotcars/build/build_screen_state_manager
 #= require slotcars/factories/screen_factory
 #= require slotcars/shared/lib/appendable
-#= require slotcars/build/rasterizer
 
 Builder = slotcars.build.Builder
 TestDrive = Slotcars.build.TestDrive
 Rasterizer = Slotcars.build.Rasterizer
+Publisher = Slotcars.build.Publisher
 BuildScreenView = slotcars.build.views.BuildScreenView
 BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
 ScreenFactory = slotcars.factories.ScreenFactory
@@ -61,6 +62,18 @@ BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend App
 
   teardownRasterizing: ->
     @_rasterizer.destroy()
+
+  setupPublishing: ->
+    @_publisher = Publisher.create
+      stateManager: @_buildScreenStateManager
+      buildScreenView: @view
+      track: @track
+
+  performPublishing: ->
+    @_publisher.publish()
+
+  teardownPublishing: ->
+    @_publisher.destroy()
 
   destroy: ->
     @_super()

@@ -14,6 +14,9 @@ describe 'build screen state manager', ->
       setupRasterizing: sinon.spy()
       startRasterizing: sinon.spy()
       teardownRasterizing: sinon.spy()
+      setupPublishing: sinon.spy()
+      performPublishing: sinon.spy()
+      teardownPublishing: sinon.spy()
 
   it 'should extend Ember.StateManager', ->
     (expect BuildScreenStateManager).toExtend Ember.StateManager
@@ -58,13 +61,28 @@ describe 'build screen state manager', ->
 
       (expect @delegateMock.teardownTesting).toHaveBeenCalled()
 
-    describe 'clicked redraw button', ->
+    describe 'clicked draw button', ->
 
       it 'should go to state Drawing', ->
         sinon.spy @buildScreenStateManager, 'goToState'
         @buildScreenStateManager.send 'clickedDrawButton'
 
         (expect @buildScreenStateManager.goToState).toHaveBeenCalled 'Drawing'
+
+    describe 'clicked publish button', ->
+
+      beforeEach ->
+        sinon.spy @buildScreenStateManager, 'goToState'
+
+      it 'should set the current state as origin state for possible fallbacks', ->
+        @buildScreenStateManager.send 'clickedPublishButton'
+
+        (expect @buildScreenStateManager.originState).toEqual 'Testing'
+
+      it 'should go to state Publishing', ->
+        @buildScreenStateManager.send 'clickedPublishButton'
+
+        (expect @buildScreenStateManager.goToState).toHaveBeenCalled 'Publishing'
 
 
   describe 'editing', ->
@@ -77,7 +95,7 @@ describe 'build screen state manager', ->
 
     describe 'clicked test drive button', ->
 
-      it 'should set the target state on state manager to Testing', ->
+      it 'should set the state manager´s target state to Testing', ->
         @buildScreenStateManager.send 'clickedTestdriveButton'
 
         (expect @buildScreenStateManager.targetState).toEqual 'Testing'
@@ -93,10 +111,31 @@ describe 'build screen state manager', ->
 
         (expect @delegateMock.startRasterizing).toHaveBeenCalled()
 
-      it 'should set the state manager´s target state to Testing', ->
-        @buildScreenStateManager.send 'clickedTestdriveButton'
 
-        (expect @buildScreenStateManager.targetState).toEqual 'Testing'
+    describe 'clicked publish button', ->
+
+      beforeEach ->
+        sinon.spy @buildScreenStateManager, 'goToState'
+
+      it 'should set the current state as origin state for possible fallbacks', ->
+        @buildScreenStateManager.send 'clickedPublishButton'
+
+        (expect @buildScreenStateManager.originState).toEqual 'Editing'
+
+      it 'should set the state manager´s target state to Publishing', ->
+        @buildScreenStateManager.send 'clickedPublishButton'
+
+        (expect @buildScreenStateManager.targetState).toEqual 'Publishing'
+
+      it 'should go to state Rasterizing', ->
+        @buildScreenStateManager.send 'clickedPublishButton'
+
+        (expect @buildScreenStateManager.goToState).toHaveBeenCalled 'Rasterizing'
+
+      it 'should tell the Rasterizing state to start rasterization', ->
+        @buildScreenStateManager.send 'clickedPublishButton'
+
+        (expect @delegateMock.startRasterizing).toHaveBeenCalled()
 
 
   describe 'rasterizing', ->
@@ -134,3 +173,40 @@ describe 'build screen state manager', ->
         @buildScreenStateManager.send 'finishedRasterization'
 
         (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith @targetState
+
+
+  describe 'publishing', ->
+
+    beforeEach ->
+      @buildScreenStateManager = BuildScreenStateManager.create
+        delegate: @delegateMock
+
+      @buildScreenStateManager.goToState 'Publishing'
+
+    it 'should prepare publishing environment on entering the state', ->
+      (expect @delegateMock.setupPublishing).toHaveBeenCalled()
+
+    it 'should tear publishing environment down on leaving the state', ->
+      @buildScreenStateManager.send 'exit'
+
+      (expect @delegateMock.teardownPublishing).toHaveBeenCalled()
+
+    describe 'performing publication', ->
+
+      it 'should save track', ->
+        @buildScreenStateManager.send 'clickedPublishButton'
+
+        (expect @delegateMock.performPublishing).toHaveBeenCalled()
+
+    describe 'canceling publication', ->
+
+      beforeEach ->
+        @originState = 'RandomState'
+        @buildScreenStateManager.originState = @originState
+
+      it 'should fall back to the previous state', ->
+        sinon.spy @buildScreenStateManager, 'goToState'
+
+        @buildScreenStateManager.send 'clickedCancelButton'
+
+        (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith @originState

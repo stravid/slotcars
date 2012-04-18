@@ -49,6 +49,27 @@
   }
 }
 
+#publication-dialog {
+  position: absolute;
+  left: 300px;
+  top: 250px;
+  padding: 50px;
+  width: 300px;
+  background: rgba(0,0,0,0.7);
+  -webkit-box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow:    0px 0px 11px rgba(0, 0, 0, 0.7);
+  box-shadow:         0px 0px 11px rgba(0, 0, 0, 0.7);
+
+  p {
+    margin-bottom: 40px;
+    text-align: center;
+    font-family: sans-serif;
+    color: white;
+    font-size: 20px;
+    text-shadow: 0 0 15px #EEE;
+  }
+}
+
 #toolbar {
   position: absolute;
   top: 32px;

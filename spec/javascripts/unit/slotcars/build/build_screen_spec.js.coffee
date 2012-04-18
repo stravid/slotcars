@@ -7,6 +7,7 @@ describe 'slotcars.build.BuildScreen', ->
   Builder = slotcars.build.Builder
   TestDrive = Slotcars.build.TestDrive
   Rasterizer = Slotcars.build.Rasterizer
+  Publisher = Slotcars.build.Publisher
   ScreenFactory = slotcars.factories.ScreenFactory
   BuildScreenView = slotcars.build.views.BuildScreenView
   BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
@@ -161,3 +162,43 @@ describe 'slotcars.build.BuildScreen', ->
         @buildScreen.teardownRasterizing()
 
         (expect @rasterizerMock.destroy).toHaveBeenCalled()
+
+  describe 'publication capabilities', ->
+
+    beforeEach ->
+      @publisherMock = mockEmberClass Publisher, publish: sinon.spy()
+      @buildScreen.track = @fakeTrack # track gets only created in drawing setup - so set it by hand for this test case
+
+    afterEach ->
+      @publisherMock.restore()
+
+    describe 'prepare publication', ->
+
+      it 'should create the publisher and provide dependencies', ->
+        @buildScreen.setupPublishing()
+
+        (expect @publisherMock.create).toHaveBeenCalledWithAnObjectLike
+          stateManager: @BuildScreenStateManagerMock
+          buildScreenView: @buildScreenViewMock
+          track: @fakeTrack
+
+    describe 'perform publication', ->
+
+      beforeEach ->
+        @buildScreen.setupPublishing() # creates Publisher
+
+      it 'should call publish on publisher', ->
+        @buildScreen.performPublishing()
+
+        (expect @publisherMock.publish).toHaveBeenCalled()
+
+    describe 'clean up publication', ->
+
+      beforeEach ->
+        @buildScreen.setupPublishing() # creates Publisher
+
+      it 'should tell the rasterizer to destroy itself', ->
+        @publisherMock.destroy = sinon.spy()
+        @buildScreen.teardownPublishing()
+
+        (expect @publisherMock.destroy).toHaveBeenCalled()

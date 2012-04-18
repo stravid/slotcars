@@ -28,6 +28,10 @@ Button = helpers.graphic.Button
     event.preventDefault() if event?
     @stateManager.send 'clickedTestdriveButton' unless (@get 'testdriveButton').get 'disabled'
 
+  onPublishButtonClicked: (event) ->
+    event.preventDefault() if event?
+    @stateManager.send 'clickedPublishButton' unless (@get 'publishButton').get 'disabled'
+
   onCurrentStateChanged: (->
     @_resetButtons()
 
