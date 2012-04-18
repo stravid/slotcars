@@ -1,0 +1,1 @@
+window.Play = Ember.Namespace.create()
