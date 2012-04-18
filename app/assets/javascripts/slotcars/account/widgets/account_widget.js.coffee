@@ -6,12 +6,10 @@
 #= require slotcars/account/widgets/login_widget
 #= require slotcars/account/widgets/sign_up_widget
 
-Widget = Slotcars.shared.components.Widget
-Container = Slotcars.shared.components.Container
 WidgetFactory = Slotcars.factories.WidgetFactory
 AccountWidgetView = Slotcars.account.views.AccountWidgetView
 
-AccountWidget = (namespace 'Slotcars.account.widgets').AccountWidget = Ember.Object.extend Widget, Container,
+AccountWidget = (namespace 'Slotcars.account.widgets').AccountWidget = Ember.Object.extend Shared.Widget, Shared.Container,
 
   init: ->
     @set 'view', AccountWidgetView.create()

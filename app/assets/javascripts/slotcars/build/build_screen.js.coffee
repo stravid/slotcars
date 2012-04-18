@@ -10,9 +10,8 @@
 #= require slotcars/build/rasterizer
 
 ScreenFactory = slotcars.factories.ScreenFactory
-Appendable = slotcars.shared.lib.Appendable
 
-Build.BuildScreen = Ember.Object.extend Appendable,
+Build.BuildScreen = Ember.Object.extend Shared.Appendable,
 
   _builder: null
   _buildScreenStateManager: null
@@ -24,7 +23,7 @@ Build.BuildScreen = Ember.Object.extend Appendable,
     @_buildScreenStateManager.goToState 'Drawing'
 
   setupDrawing: ->
-    @track = slotcars.shared.models.Track.createRecord()
+    @track = Shared.Track.createRecord()
 
     @_builder = Build.Builder.create
       stateManager: @_buildScreenStateManager

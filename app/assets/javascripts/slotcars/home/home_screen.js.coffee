@@ -7,11 +7,9 @@
 #= require slotcars/account/widgets/account_widget
 
 ScreenFactory = slotcars.factories.ScreenFactory
-Appendable = slotcars.shared.lib.Appendable
-Container = Slotcars.shared.components.Container
 WidgetFactory = Slotcars.factories.WidgetFactory
 
-Home.HomeScreen = Ember.Object.extend Appendable, Container,
+Home.HomeScreen = Ember.Object.extend Shared.Appendable, Shared.Container,
 
   init: ->
     @view = Home.HomeScreenView.create()

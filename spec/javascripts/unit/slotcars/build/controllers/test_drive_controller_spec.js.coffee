@@ -1,9 +1,7 @@
 describe 'test drive controller', ->
 
-  BaseGameController = Slotcars.shared.controllers.BaseGameController
-
   it 'should extend BaseGameController', ->
-    (expect Build.TestDriveController).toExtend BaseGameController
+    (expect Build.TestDriveController).toExtend Shared.BaseGameController
 
   beforeEach ->
     @buildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager,

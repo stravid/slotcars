@@ -1,17 +1,15 @@
-describe 'slotcars.shared.lib.Crashable', ->
+describe 'Shared.Crashable', ->
 
-  Movable = slotcars.shared.lib.Movable
-  Crashable = slotcars.shared.lib.Crashable
   Vector = helpers.math.Vector
 
   beforeEach ->
-    @crashable = Ember.Object.extend(Crashable, Movable).create
+    @crashable = Ember.Object.extend(Shared.Crashable, Shared.Movable).create
       position:
         x: 0
         y: 0
 
   it 'should only work with Movable', ->
-    (expect => Ember.Object.extend(Crashable).create()).toThrow()
+    (expect => Ember.Object.extend(Shared.Crashable).create()).toThrow()
 
   it 'should initially not be in crashing state', ->
     (expect @crashable.isCrashing).toBe false

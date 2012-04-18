@@ -6,8 +6,6 @@
 #= require slotcars/play/controllers/game_controller
 #= require slotcars/shared/lib/controllable
 
-Controllable = Slotcars.shared.lib.Controllable
-
 Play.Game = Ember.Object.extend
 
   playScreenView: null
@@ -22,7 +20,7 @@ Play.Game = Ember.Object.extend
       track: @track
       gameController: @_gameController
 
-    Controllable.apply @_trackView # this line is untested - don´t know how to do it
+    Shared.Controllable.apply @_trackView # this line is untested - don´t know how to do it
 
     @_gameView = Play.GameView.create gameController: @_gameController
     @_clockView = Play.ClockView.create

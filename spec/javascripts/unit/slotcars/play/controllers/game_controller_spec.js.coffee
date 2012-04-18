@@ -1,14 +1,11 @@
 describe 'Play.GameController (unit)', ->
 
-  Track = slotcars.shared.models.Track
-  Car = slotcars.shared.models.Car
-
   beforeEach ->
-    @carMock = mockEmberClass Car,
+    @carMock = mockEmberClass Shared.Car,
       update: sinon.spy()
       reset: sinon.spy()
 
-    @trackMock = mockEmberClass Track,
+    @trackMock = mockEmberClass Shared.Track,
       getPointAtLength: sinon.stub().returns { x: 0, y: 0 }
       getTotalLength: sinon.stub().returns 5
 

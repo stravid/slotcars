@@ -5,7 +5,7 @@
 
 PAPER_WRAPPER_ID = '#draw-view-paper'
 
-Build.DrawView = slotcars.shared.views.TrackView.extend
+Build.DrawView = Shared.TrackView.extend
 
   track: null
   

@@ -1,12 +1,9 @@
 describe 'play screen', ->
 
-  Track = slotcars.shared.models.Track
-  Car = slotcars.shared.models.Car
-  ModelStore = slotcars.shared.models.ModelStore
   ScreenFactory = slotcars.factories.ScreenFactory
 
   beforeEach ->
-    sinon.stub ModelStore, 'find', -> Track.createRecord()
+    sinon.stub Shared.ModelStore, 'find', -> Shared.Track.createRecord()
 
     @playScreenViewMock = mockEmberClass Play.PlayScreenView,
       append: sinon.spy()
@@ -19,7 +16,7 @@ describe 'play screen', ->
     @playScreen = Play.PlayScreen.create()
 
   afterEach ->
-    ModelStore.find.restore()
+    Shared.ModelStore.find.restore()
     @playScreenViewMock.restore()
     @playScreenStateManagerMock.restore()
     @GameMock.restore()
@@ -44,12 +41,12 @@ describe 'play screen', ->
     it 'should load a track', ->
       @playScreen.load()
 
-      (expect @playScreen.track).toBeInstanceOf Track
+      (expect @playScreen.track).toBeInstanceOf Shared.Track
 
     it 'should create a car', ->
       @playScreen.load()
 
-      (expect @playScreen.car).toBeInstanceOf Car
+      (expect @playScreen.car).toBeInstanceOf Shared.Car
 
     it 'should send loaded to the play screen state manager', ->
       @playScreen.load()

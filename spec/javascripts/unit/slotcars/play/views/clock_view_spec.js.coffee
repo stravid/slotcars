@@ -1,16 +1,12 @@
 describe 'Play.ClockView (unit)', ->
   
-  ModelStore = slotcars.shared.models.ModelStore
-  Car = slotcars.shared.models.Car
-  Track = slotcars.shared.models.Track
-  
   beforeEach ->
     @gameController = Play.GameController.create
       track: Ember.Object.create()  # real track is not necessary here
       car: Ember.Object.create()
     
-    @trackModel = ModelStore.findByClientId Track, 0
-    @carModel = Car.create
+    @trackModel = Shared.ModelStore.findByClientId Shared.Track, 0
+    @carModel = Shared.Car.create
       acceleration: 0.1
       deceleration: 0.2
       crashDeceleration: 0.15

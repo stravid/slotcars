@@ -1,12 +1,8 @@
 describe 'game', ->
 
-  Car = slotcars.shared.models.Car
-  Track = slotcars.shared.models.Track
-  TrackView = slotcars.shared.views.TrackView
-
   beforeEach ->
-    @carMock = mockEmberClass Car
-    @trackMock = mockEmberClass Track
+    @carMock = mockEmberClass Shared.Car
+    @trackMock = mockEmberClass Shared.Track
     @playScreenViewMock = mockEmberClass Play.PlayScreenView, set: sinon.spy()
 
     @GameControllerMock = mockEmberClass Play.GameController

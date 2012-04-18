@@ -6,10 +6,6 @@
 #= require slotcars/build/controllers/test_drive_controller
 #= require slotcars/build/views/test_drive_view
 
-Car = slotcars.shared.models.Car
-TrackView = slotcars.shared.views.TrackView
-Controllable = Slotcars.shared.lib.Controllable
-
 Build.TestDrive = Ember.Object.extend
 
   stateManager: null
@@ -18,7 +14,7 @@ Build.TestDrive = Ember.Object.extend
   car: null
 
   init: ->
-    @car = Car.create
+    @car = Shared.Car.create
       track: @track
       acceleration: 0.1
       deceleration: 0.2
@@ -34,11 +30,11 @@ Build.TestDrive = Ember.Object.extend
     @_gameController.set 'carControlsEnabled', true
 
     @_carView = Play.CarView.create car: @car
-    @_trackView = TrackView.create
+    @_trackView = Shared.TrackView.create
       track: @track
       gameController: @_gameController
 
-    Controllable.apply @_trackView # this line is untested - don´t know how to do it
+    Shared.Controllable.apply @_trackView # this line is untested - don´t know how to do it
 
     @_testDriveView = Build.TestDriveView.create
       testDriveController: @_gameController

@@ -2,7 +2,7 @@
 #= require slotcars/play/controllers/game_loop_controller
 #= require helpers/event_normalize
 
-(namespace 'Slotcars.shared.controllers').BaseGameController = Ember.Object.extend
+Shared.BaseGameController = Ember.Object.extend
 
   track: null
   car: null

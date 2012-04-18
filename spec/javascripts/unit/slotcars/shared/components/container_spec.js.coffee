@@ -1,11 +1,9 @@
-describe 'Slotcars.shared.components.Container', ->
-
-  Container = Slotcars.shared.components.Container
+describe 'Shared.Container', ->
 
   it 'should always require a view', ->
     # applies the Appendable mixin on an object - assumes an error when 'view' property is not set
     # Ember.required() just works/fires when the mixin is applied after creation
-    (expect => Container.apply Ember.Object.create()).toThrow()
+    (expect => Shared.Container.apply Ember.Object.create()).toThrow()
 
 
   describe 'adding views to locations', ->
@@ -14,7 +12,7 @@ describe 'Slotcars.shared.components.Container', ->
       @containerViewMock = set: sinon.spy()
       @viewMock = {}
 
-      @container = Ember.Object.extend(Container).create view: @containerViewMock
+      @container = Ember.Object.extend(Shared.Container).create view: @containerViewMock
 
 
     it 'should tell the container view to set the view as attribute with location name', ->

@@ -1,12 +1,9 @@
 describe 'Build.DrawView', ->
 
-  TrackView = slotcars.shared.views.TrackView
-  Track = slotcars.shared.models.Track
-
   DRAW_VIEW_PAPER_WRAPPER_ID = '#draw-view-paper'
 
   it 'should extend TrackView', ->
-    (expect Build.DrawView).toExtend TrackView
+    (expect Build.DrawView).toExtend Shared.TrackView
 
   beforeEach ->
     @raphaelBackup = window.Raphael
@@ -36,7 +33,7 @@ describe 'Build.DrawView', ->
 
     beforeEach ->
       @originalTestPath = 'M0,0L3,4Z'
-      @track = mockEmberClass Track
+      @track = mockEmberClass Shared.Track
       @drawController = Build.DrawController.create
         track: @track
 
@@ -61,7 +58,7 @@ describe 'Build.DrawView', ->
   describe 'event handling in draw view when appended to DOM', ->
 
     beforeEach ->
-      @track = Track.createRecord()
+      @track = Shared.Track.createRecord()
       @drawControllerMock = mockEmberClass Build.DrawController
       @drawView = Build.DrawView.create drawController: @drawControllerMock, track: @track
 

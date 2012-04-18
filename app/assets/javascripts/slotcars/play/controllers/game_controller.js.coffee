@@ -5,9 +5,7 @@
 
 #= require helpers/event_normalize
 
-BaseGameController = Slotcars.shared.controllers.BaseGameController
-
-Play.GameController = BaseGameController.extend
+Play.GameController = Shared.BaseGameController.extend
   
   isCountdownVisible: false
   isRaceFinished: false

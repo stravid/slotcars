@@ -8,13 +8,9 @@
 #= require slotcars/factories/screen_factory
 #= require slotcars/shared/lib/appendable
 
-ModelStore = slotcars.shared.models.ModelStore
-Track = slotcars.shared.models.Track
-Car = slotcars.shared.models.Car
 ScreenFactory = slotcars.factories.ScreenFactory
-Appendable = slotcars.shared.lib.Appendable
 
-Play.PlayScreen = Ember.Object.extend Appendable,
+Play.PlayScreen = Ember.Object.extend Shared.Appendable,
 
   trackId: null
   _playScreenStateManager: null
@@ -31,9 +27,9 @@ Play.PlayScreen = Ember.Object.extend Appendable,
     @_game.destroy() if @_game?
 
   load: ->
-    @track = ModelStore.find Track, @trackId
+    @track = Shared.ModelStore.find Shared.Track, @trackId
 
-    @car = Car.create
+    @car = Shared.Car.create
       track: @track
       acceleration: 0.1
       deceleration: 0.2

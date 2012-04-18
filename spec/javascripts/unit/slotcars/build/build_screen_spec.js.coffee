@@ -8,9 +8,9 @@ describe 'Build.BuildScreen', ->
 
     @BuildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager, goToState: sinon.spy()
 
-    @TrackBackup = slotcars.shared.models.Track
+    @TrackBackup = Shared.Track
     @fakeTrack = {}
-    @TrackMock = slotcars.shared.models.Track =
+    @TrackMock = Shared.Track =
       createRecord: sinon.stub().returns @fakeTrack
 
     @buildScreen = Build.BuildScreen.create()
@@ -18,7 +18,7 @@ describe 'Build.BuildScreen', ->
   afterEach ->
     @buildScreenViewMock.restore()
     @BuildScreenStateManagerMock.restore()
-    slotcars.shared.models.Track = @TrackBackup
+    Shared.Track = @TrackBackup
 
   it 'should register itself at the screen factory', ->
     buildScreen = ScreenFactory.getInstance().getInstanceOf 'BuildScreen'

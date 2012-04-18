@@ -1,7 +1,5 @@
 describe 'test drive view', ->
 
-  Track = slotcars.shared.models.Track
-
   beforeEach ->
     @testDriveController = mockEmberClass Build.TestDriveController,
       onEditTrack: sinon.spy()
