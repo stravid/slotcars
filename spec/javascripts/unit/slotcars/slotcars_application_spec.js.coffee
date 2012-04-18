@@ -9,10 +9,10 @@ describe 'slotcars application screen management', ->
   ScreenFactory = slotcars.factories.ScreenFactory
 
   beforeEach ->
-    @RouteManagerCreateStub = mockEmberClass slotcars.RouteManager
+    @RouteManagerMock = mockEmberClass slotcars.RouteManager, start: sinon.spy()
 
   afterEach ->
-    @RouteManagerCreateStub.restore()
+    @RouteManagerMock.restore()
 
   describe 'interaction with screens', ->
 
@@ -58,8 +58,11 @@ describe 'slotcars application screen management', ->
       @slotcarsApplication.destroy()
 
     it 'should create route manager and register itself as delegate', ->
-      (expect @RouteManagerCreateStub.create).toHaveBeenCalledWithAnObjectLike
+      (expect @RouteManagerMock.create).toHaveBeenCalledWithAnObjectLike
         delegate: @slotcarsApplication
 
     it 'should make the route manager a singleton that can be directly accessed', ->
-      (expect slotcars.routeManager).toBe @RouteManagerCreateStub
+      (expect slotcars.routeManager).toBe @RouteManagerMock
+
+    it 'should start the route manager', ->
+      (expect slotcars.routeManager.start).toHaveBeenCalled()

@@ -10,6 +10,7 @@ ScreenFactory = slotcars.factories.ScreenFactory
 
   ready: ->
     slotcars.routeManager = slotcars.RouteManager.create delegate: this
+    slotcars.routeManager.start()
     helpers.routing.routeLocalLinks slotcars.routeManager
 
   showScreen: (screenId, createParamters) ->
