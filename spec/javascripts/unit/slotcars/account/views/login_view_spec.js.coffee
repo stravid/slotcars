@@ -1,6 +1,3 @@
-
-#= require slotcars/account/views/login_view
-
 describe 'Slotcars.account.views.LoginView', ->
 
   LoginView = Slotcars.account.views.LoginView
