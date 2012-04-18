@@ -11,6 +11,6 @@ LoginWidget = (namespace 'Slotcars.account.widgets').LoginWidget = Ember.Object.
 
   init: -> @set 'view', LoginView.create delegate: this
 
-  userWantsToSignUp: -> @fire 'switchToSignUp'
+  signUpClicked: -> @fire 'signUpClicked'
 
 WidgetFactory.getInstance().registerWidget 'LoginWidget', LoginWidget

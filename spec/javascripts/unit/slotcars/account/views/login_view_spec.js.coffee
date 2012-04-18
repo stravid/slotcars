@@ -9,9 +9,9 @@ describe 'Slotcars.account.views.LoginView', ->
     @loginView = LoginView.create()
 
   it 'should tell delegate about click on sign up button', ->
-    delegate = userWantsToSignUp: sinon.spy()
+    delegate = signUpClicked: sinon.spy()
 
     @loginView.set 'delegate', delegate
     @loginView.onSignUpButtonClicked()
 
-    (expect delegate.userWantsToSignUp).toHaveBeenCalled()
+    (expect delegate.signUpClicked).toHaveBeenCalled()

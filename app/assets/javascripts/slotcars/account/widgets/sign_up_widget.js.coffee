@@ -13,9 +13,9 @@ SignUpWidget = (namespace 'Slotcars.account.widgets').SignUpWidget = Ember.Objec
 
   init: -> @set 'view', SignUpView.create delegate: this
 
-  userWantsToCancelSignUp: -> @fire 'cancelSignUp'
+  cancelSignUp: -> @fire 'cancelSignUp'
 
-  userWantsToSignUpWithCredentials: (credentials) ->
+  signUpUserWithCredentials: (credentials) ->
     User.signUp credentials
     @fire 'cancelSignUp'
 
