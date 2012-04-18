@@ -42,4 +42,36 @@ describe Api::TracksController do
 
   end
 
+  describe '#create' do
+
+    it 'should return an bad request error when params do not contain a track key' do
+      post :create, :key => 'bla'
+
+      response.should be_bad_request
+    end
+
+    it 'should create a track using the passed params' do
+      post :create, :track => { :raphael => FactoryGirl.generate(:valid_raphael_path), :rasterized => 'rasterized path points' }
+
+      response.code.should eq '201' # created
+    end
+
+    it 'should serialize created track and return it as JSON' do
+      post :create, :track => { :raphael => FactoryGirl.generate(:valid_raphael_path), :rasterized => 'rasterized path points' }
+
+      created_track = Track.last
+
+      serializer = TrackSerializer.new created_track, :root => "track"
+      serialized_track = serializer.as_json
+
+      response.body.should == serialized_track.to_json
+    end
+
+    it 'should return a server error when creating track fails' do
+      post :create, :track => { :raphael => FactoryGirl.generate(:invalid_raphael_path), :rasterized => 'rasterized path points' }
+
+      response.should be_error
+    end
+  end
+
 end
