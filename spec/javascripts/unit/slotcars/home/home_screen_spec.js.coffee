@@ -15,7 +15,7 @@ describe 'home screen', ->
 
   afterEach ->
     @homeScreenViewMock.restore()
-    
+
 
   it 'should register itself at the screen factory', ->
     homeScreen = ScreenFactory.getInstance().getInstanceOf 'HomeScreen'

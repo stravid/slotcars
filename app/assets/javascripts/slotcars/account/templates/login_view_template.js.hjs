@@ -1,0 +1,13 @@
+<div id="login-form">
+  <h2>Login or Sign Up</h2>
+  <input type="text" placeholder="Username or Email" disabled="disabled"/>
+  <input type="password" placeholder="Password" disabled="disabled"/>
+  <button disabled="disabled">Log in</button>
+</div>
+
+<div id="not-yet-registered">
+  <h3>Not Yet Registered?</h3>
+  <p>Create your Slotcars account and start building your own tracks and save your highscores!</p>
+
+  <button {{action "onSignUpButtonClicked"}}>Sign Up</button>
+</div>
