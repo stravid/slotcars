@@ -4,7 +4,6 @@
 
 #= require namespaces
 
-#= require helpers/namespace
 #= require slotcars/slotcars_application
 
 SlotcarsApplication.create()

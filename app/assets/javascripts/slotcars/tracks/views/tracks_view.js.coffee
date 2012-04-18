@@ -3,8 +3,6 @@
 #= require slotcars/tracks/templates/tracks_view_template
 #= require slotcars/tracks/views/page_view
 
-#= require helpers/namespace
-
 Tracks.TracksView = Ember.View.extend
 
   templateName: 'slotcars_tracks_templates_tracks_view_template'
