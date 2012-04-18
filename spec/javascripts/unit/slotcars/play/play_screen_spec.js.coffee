@@ -1,7 +1,5 @@
 describe 'play screen', ->
 
-  ScreenFactory = slotcars.factories.ScreenFactory
-
   beforeEach ->
     sinon.stub Shared.ModelStore, 'find', -> Shared.Track.createRecord()
 
@@ -25,7 +23,7 @@ describe 'play screen', ->
     (expect @playScreenViewMock.create).toHaveBeenCalled()
 
   it 'should register itself at the screen factory', ->
-    playScreen = ScreenFactory.getInstance().getInstanceOf 'PlayScreen'
+    playScreen = Shared.ScreenFactory.getInstance().getInstanceOf 'PlayScreen'
 
     (expect playScreen).toBeInstanceOf Play.PlayScreen
 

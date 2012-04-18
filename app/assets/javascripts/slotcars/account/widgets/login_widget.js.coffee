@@ -4,7 +4,6 @@
 #= require slotcars/factories/widget_factory
 
 LoginView = Slotcars.account.views.LoginView
-WidgetFactory = Slotcars.factories.WidgetFactory
 
 LoginWidget = (namespace 'Slotcars.account.widgets').LoginWidget = Ember.Object.extend Shared.Widget, Ember.Evented,
 
@@ -12,4 +11,4 @@ LoginWidget = (namespace 'Slotcars.account.widgets').LoginWidget = Ember.Object.
 
   switchToSignUp: -> @fire 'signUpClicked'
 
-WidgetFactory.getInstance().registerWidget 'LoginWidget', LoginWidget
+Shared.WidgetFactory.getInstance().registerWidget 'LoginWidget', LoginWidget

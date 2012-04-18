@@ -8,8 +8,6 @@
 #= require slotcars/factories/screen_factory
 #= require slotcars/shared/lib/appendable
 
-ScreenFactory = slotcars.factories.ScreenFactory
-
 Play.PlayScreen = Ember.Object.extend Shared.Appendable,
 
   trackId: null
@@ -51,4 +49,4 @@ Play.PlayScreen = Ember.Object.extend Shared.Appendable,
     @_game.start()
 
 
-ScreenFactory.getInstance().registerScreen 'PlayScreen', Play.PlayScreen
+Shared.ScreenFactory.getInstance().registerScreen 'PlayScreen', Play.PlayScreen

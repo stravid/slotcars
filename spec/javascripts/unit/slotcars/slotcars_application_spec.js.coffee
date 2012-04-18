@@ -1,7 +1,6 @@
 describe 'slotcars application screen management', ->
 
   SlotcarsApplication = slotcars.SlotcarsApplication
-  ScreenFactory = slotcars.factories.ScreenFactory
 
   beforeEach ->
     @RouteManagerCreateStub = mockEmberClass slotcars.RouteManager
@@ -15,13 +14,13 @@ describe 'slotcars application screen management', ->
       @screenMock = append: sinon.spy()
       @screenFactoryMock = getInstanceOf: sinon.stub().returns @screenMock
 
-      (sinon.stub ScreenFactory, 'getInstance').returns @screenFactoryMock
+      (sinon.stub Shared.ScreenFactory, 'getInstance').returns @screenFactoryMock
 
       @slotcarsApplication = SlotcarsApplication.create()
 
     afterEach ->
       @slotcarsApplication.destroy()
-      ScreenFactory.getInstance.restore()
+      Shared.ScreenFactory.getInstance.restore()
 
 
     it 'should get the correct screen from factory and tell it to append', ->

@@ -4,8 +4,6 @@
 #= require slotcars/shared/lib/appendable
 #= require slotcars/factories/screen_factory
 
-ScreenFactory = slotcars.factories.ScreenFactory
-
 Tracks.TracksScreen = Ember.Object.extend Shared.Appendable,
 
   init: ->
@@ -14,4 +12,4 @@ Tracks.TracksScreen = Ember.Object.extend Shared.Appendable,
     Tracks.TracksController.create tracksScreenView: @view
 
 
-ScreenFactory.getInstance().registerScreen 'TracksScreen', Tracks.TracksScreen
+Shared.ScreenFactory.getInstance().registerScreen 'TracksScreen', Tracks.TracksScreen

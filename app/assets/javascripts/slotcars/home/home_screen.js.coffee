@@ -6,15 +6,12 @@
 #= require slotcars/factories/widget_factory
 #= require slotcars/account/widgets/account_widget
 
-ScreenFactory = slotcars.factories.ScreenFactory
-WidgetFactory = Slotcars.factories.WidgetFactory
-
 Home.HomeScreen = Ember.Object.extend Shared.Appendable, Shared.Container,
 
   init: ->
     @view = Home.HomeScreenView.create()
-    accountWidget = WidgetFactory.getInstance().getInstanceOf 'AccountWidget'
+    accountWidget = Shared.WidgetFactory.getInstance().getInstanceOf 'AccountWidget'
     accountWidget.addToContainerAtLocation this, 'rightColumn'
 
 
-ScreenFactory.getInstance().registerScreen 'HomeScreen', Home.HomeScreen
+Shared.ScreenFactory.getInstance().registerScreen 'HomeScreen', Home.HomeScreen

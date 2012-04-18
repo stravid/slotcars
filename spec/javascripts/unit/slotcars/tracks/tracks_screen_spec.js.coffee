@@ -1,7 +1,5 @@
 describe 'tracks screen', ->
 
-  ScreenFactory = slotcars.factories.ScreenFactory
-
   beforeEach ->
     @TracksControllerMock = mockEmberClass Tracks.TracksController
     @TracksScreenViewMock = mockEmberClass Tracks.TracksScreenView,
@@ -15,7 +13,7 @@ describe 'tracks screen', ->
 
 
   it 'should register itself at the screen factory', ->
-    tracksScreen = ScreenFactory.getInstance().getInstanceOf 'TracksScreen'
+    tracksScreen = Shared.ScreenFactory.getInstance().getInstanceOf 'TracksScreen'
 
     (expect tracksScreen).toBeInstanceOf Tracks.TracksScreen
 

@@ -3,8 +3,6 @@
 #= require helpers/routing/route_local_links
 #= require slotcars/factories/screen_factory
 
-ScreenFactory = slotcars.factories.ScreenFactory
-
 (namespace 'slotcars').SlotcarsApplication = Ember.Application.extend
   _currentScreen: null
 
@@ -14,7 +12,7 @@ ScreenFactory = slotcars.factories.ScreenFactory
 
   showScreen: (screenId, createParamters) ->
     @_destroyCurrentScreen()
-    @_currentScreen = ScreenFactory.getInstance().getInstanceOf screenId, createParamters
+    @_currentScreen = Shared.ScreenFactory.getInstance().getInstanceOf screenId, createParamters
     @_currentScreen.append()
 
   _destroyCurrentScreen: -> @_currentScreen.destroy() if @_currentScreen

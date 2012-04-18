@@ -1,7 +1,5 @@
 describe 'Build.BuildScreen', ->
 
-  ScreenFactory = slotcars.factories.ScreenFactory
-
   beforeEach ->
     @buildScreenViewMock = mockEmberClass Build.BuildScreenView,
       remove: sinon.spy()
@@ -21,7 +19,7 @@ describe 'Build.BuildScreen', ->
     Shared.Track = @TrackBackup
 
   it 'should register itself at the screen factory', ->
-    buildScreen = ScreenFactory.getInstance().getInstanceOf 'BuildScreen'
+    buildScreen = Shared.ScreenFactory.getInstance().getInstanceOf 'BuildScreen'
 
     (expect buildScreen).toBeInstanceOf Build.BuildScreen
 

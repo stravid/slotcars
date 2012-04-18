@@ -5,7 +5,6 @@
 #= require slotcars/shared/models/user
 
 SignUpView = Slotcars.account.views.SignUpView
-WidgetFactory = Slotcars.factories.WidgetFactory
 
 SignUpWidget = (namespace 'Slotcars.account.widgets').SignUpWidget = Ember.Object.extend Shared.Widget, Ember.Evented,
 
@@ -17,4 +16,4 @@ SignUpWidget = (namespace 'Slotcars.account.widgets').SignUpWidget = Ember.Objec
     Shared.User.signUp credentials
     @fire 'signUpCancelled'
 
-WidgetFactory.getInstance().registerWidget 'SignUpWidget', SignUpWidget
+Shared.WidgetFactory.getInstance().registerWidget 'SignUpWidget', SignUpWidget

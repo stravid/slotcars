@@ -9,8 +9,6 @@
 #= require slotcars/shared/lib/appendable
 #= require slotcars/build/rasterizer
 
-ScreenFactory = slotcars.factories.ScreenFactory
-
 Build.BuildScreen = Ember.Object.extend Shared.Appendable,
 
   _builder: null
@@ -63,4 +61,4 @@ Build.BuildScreen = Ember.Object.extend Shared.Appendable,
   toString: -> '<Instance of Build.BuildScreen>'
 
 
-ScreenFactory.getInstance().registerScreen 'BuildScreen', Build.BuildScreen
+Shared.ScreenFactory.getInstance().registerScreen 'BuildScreen', Build.BuildScreen
