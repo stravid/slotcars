@@ -5,7 +5,7 @@
 
 Button = helpers.graphic.Button
 
-(namespace 'slotcars.build.views').BuildScreenView = Ember.View.extend
+Build.BuildScreenView = Ember.View.extend
 
   elementId: 'build-screen-view'
   templateName: 'slotcars_build_templates_build_screen_view_template'

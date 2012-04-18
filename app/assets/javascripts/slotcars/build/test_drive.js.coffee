@@ -9,10 +9,8 @@
 Car = slotcars.shared.models.Car
 TrackView = slotcars.shared.views.TrackView
 Controllable = Slotcars.shared.lib.Controllable
-TestDriveController = Slotcars.build.controllers.TestDriveController
-TestDriveView = Slotcars.build.views.TestDriveView
 
-(namespace 'Slotcars.build').TestDrive = Ember.Object.extend
+Build.TestDrive = Ember.Object.extend
 
   stateManager: null
   buildScreenView: null
@@ -28,7 +26,7 @@ TestDriveView = Slotcars.build.views.TestDriveView
       maxSpeed: 20
       traction: 100
 
-    @_gameController = TestDriveController.create
+    @_gameController = Build.TestDriveController.create
       stateManager: @stateManager
       track: @track
       car: @car
@@ -42,7 +40,7 @@ TestDriveView = Slotcars.build.views.TestDriveView
 
     Controllable.apply @_trackView # this line is untested - don´t know how to do it
 
-    @_testDriveView = TestDriveView.create
+    @_testDriveView = Build.TestDriveView.create
       testDriveController: @_gameController
 
     @_testDriveView.set 'trackView', @_trackView

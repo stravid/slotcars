@@ -3,7 +3,7 @@
 
 ADD_POINT_MIN_DISTANCE = 30
 
-(namespace 'slotcars.build.controllers').DrawController = Ember.Object.extend
+Build.DrawController = Ember.Object.extend
 
   track: null
   _lastAddedPoint: null

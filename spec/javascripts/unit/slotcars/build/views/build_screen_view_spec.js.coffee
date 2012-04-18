@@ -1,24 +1,22 @@
 describe 'build screen view', ->
 
-  BuildScreenView = slotcars.build.views.BuildScreenView
-  BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
   Button = helpers.graphic.Button
 
   beforeEach ->
-    @buildScreenStateManagerMock = mockEmberClass BuildScreenStateManager, send: sinon.spy()
+    @buildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager, send: sinon.spy()
     @ButtonMock = mockEmberClass Button
 
-    @buildScreenView = BuildScreenView.create stateManager: @buildScreenStateManagerMock
+    @buildScreenView = Build.BuildScreenView.create stateManager: @buildScreenStateManagerMock
 
   afterEach ->
     @buildScreenStateManagerMock.restore()
     @ButtonMock.restore()
 
   it 'should extend Ember.View', ->
-    (expect BuildScreenView).toExtend Ember.View
+    (expect Build.BuildScreenView).toExtend Ember.View
 
   it 'should use a dynamic view in its template that can be set', ->
-    buildScreenView = BuildScreenView.create()
+    buildScreenView = Build.BuildScreenView.create()
     container = jQuery '<div>'
 
     Ember.run => buildScreenView.appendTo container

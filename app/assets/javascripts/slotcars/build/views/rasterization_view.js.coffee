@@ -4,7 +4,7 @@
 
 TrackView = slotcars.shared.views.TrackView
 
-(namespace 'Slotcars.build.views').RasterizationView = TrackView.extend
+Build.RasterizationView = TrackView.extend
   
   templateName: 'slotcars_build_templates_rasterization_view_template'
   track: null

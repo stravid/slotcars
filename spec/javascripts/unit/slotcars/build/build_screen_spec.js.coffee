@@ -1,25 +1,19 @@
-describe 'slotcars.build.BuildScreen', ->
+describe 'Build.BuildScreen', ->
 
-  BuildScreen = slotcars.build.BuildScreen
-  Builder = slotcars.build.Builder
-  TestDrive = Slotcars.build.TestDrive
-  Rasterizer = Slotcars.build.Rasterizer
   ScreenFactory = slotcars.factories.ScreenFactory
-  BuildScreenView = slotcars.build.views.BuildScreenView
-  BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
 
   beforeEach ->
-    @buildScreenViewMock = mockEmberClass BuildScreenView,
+    @buildScreenViewMock = mockEmberClass Build.BuildScreenView,
       remove: sinon.spy()
 
-    @BuildScreenStateManagerMock = mockEmberClass BuildScreenStateManager, goToState: sinon.spy()
+    @BuildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager, goToState: sinon.spy()
 
     @TrackBackup = slotcars.shared.models.Track
     @fakeTrack = {}
     @TrackMock = slotcars.shared.models.Track =
       createRecord: sinon.stub().returns @fakeTrack
 
-    @buildScreen = BuildScreen.create()
+    @buildScreen = Build.BuildScreen.create()
 
   afterEach ->
     @buildScreenViewMock.restore()
@@ -29,7 +23,7 @@ describe 'slotcars.build.BuildScreen', ->
   it 'should register itself at the screen factory', ->
     buildScreen = ScreenFactory.getInstance().getInstanceOf 'BuildScreen'
 
-    (expect buildScreen).toBeInstanceOf BuildScreen
+    (expect buildScreen).toBeInstanceOf Build.BuildScreen
 
   it 'should create build screen view', ->
     (expect @buildScreenViewMock.create).toHaveBeenCalledWithAnObjectLike stateManager: @BuildScreenStateManagerMock
@@ -53,7 +47,7 @@ describe 'slotcars.build.BuildScreen', ->
   describe 'drawing capabilities', ->
 
     beforeEach ->
-      @builderMock = mockEmberClass Builder
+      @builderMock = mockEmberClass Build.Builder
 
     afterEach ->
       @builderMock.restore()
@@ -87,7 +81,7 @@ describe 'slotcars.build.BuildScreen', ->
   describe 'test drive capabilities', ->
 
     beforeEach ->
-      @testDriveMock = mockEmberClass TestDrive, start: sinon.spy()
+      @testDriveMock = mockEmberClass Build.TestDrive, start: sinon.spy()
       @buildScreen.track = @fakeTrack # track gets only created in drawing setup - so set it by hand for this test case
 
     afterEach ->
@@ -122,7 +116,7 @@ describe 'slotcars.build.BuildScreen', ->
   describe 'rasterization capabilities', ->
 
     beforeEach ->
-      @rasterizerMock = mockEmberClass Rasterizer, start: sinon.spy()
+      @rasterizerMock = mockEmberClass Build.Rasterizer, start: sinon.spy()
       @buildScreen.track = @fakeTrack # track gets only created in drawing setup - so set it by hand for this test case
 
     afterEach ->

@@ -3,7 +3,7 @@
 
 BaseGameController = Slotcars.shared.controllers.BaseGameController
 
-(namespace 'Slotcars.build.controllers').TestDriveController = BaseGameController.extend
+Build.TestDriveController = BaseGameController.extend
 
   stateManager: null
   

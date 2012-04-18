@@ -1,27 +1,23 @@
 describe 'test drive', ->
 
-  TestDrive = Slotcars.build.TestDrive
   Car = slotcars.shared.models.Car
   Track = slotcars.shared.models.Track
   TrackView = slotcars.shared.views.TrackView
-  TestDriveView = Slotcars.build.views.TestDriveView
-  BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
-  TestDriveController = Slotcars.build.controllers.TestDriveController
 
   beforeEach ->
     @carMock = mockEmberClass Car
     @trackMock = mockEmberClass Track
-    @buildScreenStateManagerMock = mockEmberClass BuildScreenStateManager
+    @buildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager
 
-    @TestDriveControllerMock = mockEmberClass TestDriveController, set: sinon.spy()
+    @TestDriveControllerMock = mockEmberClass Build.TestDriveController, set: sinon.spy()
     @TrackViewMock = mockEmberClass TrackView, gameController: {}
     @CarViewMock = mockEmberClass Play.CarView
-    @TestDriveViewMock = mockEmberClass TestDriveView, set: sinon.spy()
+    @TestDriveViewMock = mockEmberClass Build.TestDriveView, set: sinon.spy()
 
     @buildScreenViewMock =
       set: sinon.spy()
 
-    @testDrive = TestDrive.create
+    @testDrive = Build.TestDrive.create
       stateManager: @buildScreenStateManagerMock
       buildScreenView: @buildScreenViewMock
       track: @trackMock
@@ -36,7 +32,7 @@ describe 'test drive', ->
     @TestDriveViewMock.restore()
 
   it 'should extend Ember.Object', ->
-    (expect TestDrive).toExtend Ember.Object
+    (expect Build.TestDrive).toExtend Ember.Object
 
   it 'should create a car', ->
     (expect @carMock.create).toHaveBeenCalled()
