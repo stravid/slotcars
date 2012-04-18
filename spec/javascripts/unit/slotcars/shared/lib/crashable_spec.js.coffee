@@ -1,7 +1,5 @@
 describe 'Shared.Crashable', ->
 
-  Vector = helpers.math.Vector
-
   beforeEach ->
     @crashable = Ember.Object.extend(Shared.Crashable, Shared.Movable).create
       position:
@@ -32,7 +30,7 @@ describe 'Shared.Crashable', ->
 
       beforeEach ->
         @crashable.position = { x: 0, y: 0 }
-        @crashable.previousDirection = Vector.create x: 1, y: 0
+        @crashable.previousDirection = Shared.Vector.create x: 1, y: 0
         @crashable.speed = 1
 
       it 'should crash if traction is not high enough', ->
@@ -54,7 +52,7 @@ describe 'Shared.Crashable', ->
         nextPosition = { x: 0, y: 1 }
 
         @crashable.checkForCrash nextPosition
-        direction = Vector.create from: @crashable.position, to: nextPosition
+        direction = Shared.Vector.create from: @crashable.position, to: nextPosition
 
         (expect @crashable.previousDirection).not.toEqual direction
 
@@ -63,7 +61,7 @@ describe 'Shared.Crashable', ->
         nextPosition = { x: 0, y: 1 }
 
         @crashable.checkForCrash nextPosition
-        direction = Vector.create from: @crashable.position, to: nextPosition
+        direction = Shared.Vector.create from: @crashable.position, to: nextPosition
 
         (expect @crashable.previousDirection).toEqual direction
 
@@ -72,7 +70,7 @@ describe 'Shared.Crashable', ->
     beforeEach ->
       @crashable.isCrashing = true
       @crashable.position = x: 0, y: 0
-      @crashable.previousDirection = Vector.create x: 1, y: 0
+      @crashable.previousDirection = Shared.Vector.create x: 1, y: 0
 
     describe 'when speed is zero', ->
 

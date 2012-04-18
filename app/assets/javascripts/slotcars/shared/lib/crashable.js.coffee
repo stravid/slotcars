@@ -2,8 +2,6 @@
 #= require helpers/math/vector
 #= require slotcars/shared/lib/movable
 
-Vector = helpers.math.Vector
-
 Shared.Crashable = Ember.Mixin.create
 
   previousDirection: null
@@ -15,7 +13,7 @@ Shared.Crashable = Ember.Mixin.create
 
   checkForCrash: (nextPosition) ->
 
-    direction = Vector.create from: @position, to: nextPosition
+    direction = Shared.Vector.create from: @position, to: nextPosition
 
     unless @previousDirection?
       @previousDirection = direction

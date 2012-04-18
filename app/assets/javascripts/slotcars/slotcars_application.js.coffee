@@ -8,7 +8,7 @@ window.SlotcarsApplication = Ember.Application.extend
 
   ready: ->
     Shared.routeManager = Shared.RouteManager.create delegate: this
-    helpers.routing.routeLocalLinks Shared.routeManager
+    Shared.routeLocalLinks Shared.routeManager
 
   showScreen: (screenId, createParamters) ->
     @_destroyCurrentScreen()

@@ -1,5 +1,5 @@
 
-(namespace 'helpers.math').LinkedList = Ember.Object.extend
+Shared.LinkedList = Ember.Object.extend
 
   head: null
   tail: null

@@ -3,8 +3,6 @@
 #= require slotcars/shared/views/track_view
 #= require helpers/math/vector
 
-Vector = helpers.math.Vector
-
 Play.PlayTrackView = Shared.TrackView.extend
   
   _finishLine: null
@@ -22,7 +20,7 @@ Play.PlayTrackView = Shared.TrackView.extend
     x = pointB.x - pointA.x
     y = pointB.y - pointA.y
     
-    vector = Vector.create x: x, y: y
+    vector = Shared.Vector.create x: x, y: y
     
     @_finishLine.remove() if @_finishLine
     @_finishLine = @_paper.image "<%= asset_path('views/play/finish-line.jpg') %>", pointA.x, pointA.y, 70, 20

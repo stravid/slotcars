@@ -1,9 +1,9 @@
 
-Singleton = (namespace 'Slotcars.shared.lib').Singleton = Ember.Object.extend()
+Shared.Singleton = Ember.Object.extend()
 
 # reopenClass is used here to inherit the class methods (static) and attributes
 # also to subclasses. Inside the class methods 'this' points to the class itself.
-Singleton.reopenClass
+Shared.Singleton.reopenClass
 
   instance: null
 

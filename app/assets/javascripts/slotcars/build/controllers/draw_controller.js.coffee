@@ -11,7 +11,7 @@ Build.DrawController = Ember.Object.extend
   onTouchMouseMove: (point) ->
     # only add new point if it is at least 40 pixels away from last
     @_lastAddedPoint = { x: 0, y: 0 } unless @_lastAddedPoint?
-    distanceVector = helpers.math.Vector.create from: @_lastAddedPoint, to: point
+    distanceVector = Shared.Vector.create from: @_lastAddedPoint, to: point
     @addPointToTrack point if distanceVector.length() > ADD_POINT_MIN_DISTANCE
 
   addPointToTrack: (point) ->

@@ -1,7 +1,5 @@
 describe 'Shared.Track', ->
 
-  RaphaelPath = helpers.math.RaphaelPath
-
   it 'should be a subclass of an ember-data Model', ->
     (expect Shared.Track).toExtend DS.Model
 
@@ -9,7 +7,7 @@ describe 'Shared.Track', ->
     (expect Shared.Track.toString()).toBe 'Shared.Track'
 
   beforeEach ->
-    @raphaelPathMock = mockEmberClass RaphaelPath, setRaphaelPath: sinon.spy(), setRasterizedPath: sinon.spy()
+    @raphaelPathMock = mockEmberClass Shared.RaphaelPath, setRaphaelPath: sinon.spy(), setRasterizedPath: sinon.spy()
 
   afterEach ->
     @raphaelPathMock.restore()

@@ -1,8 +1,6 @@
 
 #= require vendor/raphael
 
-Vector = helpers.math.Vector
-
 Shared.TrackView = Ember.View.extend
 
   track: null

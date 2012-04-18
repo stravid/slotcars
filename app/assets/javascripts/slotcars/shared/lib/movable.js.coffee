@@ -1,8 +1,6 @@
 
 #= require helpers/math/vector
 
-Vector = helpers.math.Vector
-
 Shared.Movable = Ember.Mixin.create
 
   position: x: 0, y: 0
@@ -13,6 +11,6 @@ Shared.Movable = Ember.Mixin.create
 
     @set 'position', newPosition
 
-    direction = Vector.create from: previousPosition, to: newPosition
+    direction = Shared.Vector.create from: previousPosition, to: newPosition
     @set 'rotation', direction.clockwiseAngle()
 

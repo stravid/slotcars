@@ -1,6 +1,6 @@
-describe 'helpers.math.Vector (unit)', ->
+describe 'Shared.Vector (unit)', ->
 
-  Vector = helpers.math.Vector
+  Vector = Shared.Vector
 
   describe '#create', ->
 

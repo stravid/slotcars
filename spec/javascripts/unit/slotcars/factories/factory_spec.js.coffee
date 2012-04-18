@@ -1,7 +1,7 @@
-describe 'Slotcars.factories.Factory', ->
+describe 'Shared.Factory', ->
 
   it 'should be a singleton', ->
-    (expect Factory).toExtend Shared.Singleton
+    (expect Shared.Factory).toExtend Shared.Singleton
 
   describe 'registering types and getting instances', ->
 

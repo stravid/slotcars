@@ -1,10 +1,8 @@
 describe 'build screen view', ->
 
-  Button = helpers.graphic.Button
-
   beforeEach ->
     @buildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager, send: sinon.spy()
-    @ButtonMock = mockEmberClass Button
+    @ButtonMock = mockEmberClass Shared.Button
 
     @buildScreenView = Build.BuildScreenView.create stateManager: @buildScreenStateManagerMock
 

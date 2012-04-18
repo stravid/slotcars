@@ -3,8 +3,6 @@
 #= require slotcars/build/templates/build_screen_view_template
 #= require helpers/graphic/button
 
-Button = helpers.graphic.Button
-
 Build.BuildScreenView = Ember.View.extend
 
   elementId: 'build-screen-view'
@@ -15,10 +13,10 @@ Build.BuildScreenView = Ember.View.extend
 
   init: ->
     @_super()
-    @set 'drawButton', Button.create()
-    @set 'testdriveButton', Button.create()
-    @set 'editButton', Button.create()
-    @set 'publishButton', Button.create()
+    @set 'drawButton', Shared.Button.create()
+    @set 'testdriveButton', Shared.Button.create()
+    @set 'editButton', Shared.Button.create()
+    @set 'publishButton', Shared.Button.create()
 
   onDrawButtonClicked: (event) ->
     event.preventDefault() if event?

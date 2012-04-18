@@ -4,8 +4,6 @@
 #= require vendor/raphael
 #= require slotcars/shared/models/model_store
 
-RaphaelPath = helpers.math.RaphaelPath
-
 Shared.Track = DS.Model.extend
 
   _raphaelPath: null
@@ -26,7 +24,7 @@ Shared.Track = DS.Model.extend
 
   init: ->
     @_super()
-    @set '_raphaelPath', RaphaelPath.create()
+    @set '_raphaelPath', Shared.RaphaelPath.create()
 
   save: ->
     @set 'raphael', @_raphaelPath.get 'path'

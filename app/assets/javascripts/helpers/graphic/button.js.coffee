@@ -1,5 +1,4 @@
-
-(namespace 'helpers.graphic').Button = Ember.Object.extend
+Shared.Button = Ember.Object.extend
 
   disabled: true
   active: false
