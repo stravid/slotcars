@@ -1,6 +1,3 @@
-
-#= require slotcars/build/builder
-
 describe 'builder', ->
 
   Builder = slotcars.build.Builder

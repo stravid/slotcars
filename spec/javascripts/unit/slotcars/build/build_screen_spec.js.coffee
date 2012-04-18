@@ -1,6 +1,3 @@
-
-#= require slotcars/build/build_screen
-
 describe 'slotcars.build.BuildScreen', ->
 
   BuildScreen = slotcars.build.BuildScreen

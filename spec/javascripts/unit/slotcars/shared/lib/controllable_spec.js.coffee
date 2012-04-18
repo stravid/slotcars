@@ -1,6 +1,3 @@
-
-#= require slotcars/shared/lib/controllable
-
 describe 'controllable', ->
 
   Controllable = Slotcars.shared.lib.Controllable

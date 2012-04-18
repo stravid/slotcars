@@ -1,10 +1,3 @@
-
-#= require embient/ember-data
-#= require slotcars/shared/models/track
-#= require slotcars/shared/models/model_store
-#= require helpers/math/path
-#= require helpers/math/raphael_path
-
 describe 'slotcars.shared.models.Track', ->
 
   Track = slotcars.shared.models.Track

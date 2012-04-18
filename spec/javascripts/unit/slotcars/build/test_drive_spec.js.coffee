@@ -1,8 +1,3 @@
-
-#= require slotcars/build/test_drive
-#= require slotcars/build/build_screen_state_manager
-#= require slotcars/shared/models/track
-
 describe 'test drive', ->
 
   TestDrive = Slotcars.build.TestDrive

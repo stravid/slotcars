@@ -1,8 +1,3 @@
-
-#= require slotcars/build/views/test_drive_view
-#= require slotcars/build/controllers/test_drive_controller
-#= require slotcars/shared/models/track
-
 describe 'test drive view', ->
 
   TestDriveView = Slotcars.build.views.TestDriveView

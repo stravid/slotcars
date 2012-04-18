@@ -1,7 +1,3 @@
-
-#= require slotcars/shared/adapters/api_adapter
-#= require slotcars/shared/models/track
-
 describe 'ApiAdapter', ->
 
   ApiAdapter = slotcars.shared.adapters.ApiAdapter

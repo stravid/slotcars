@@ -1,6 +1,3 @@
-
-#= require slotcars/shared/lib/appendable
-
 describe 'Appendable', ->
 
   Appendable = slotcars.shared.lib.Appendable

@@ -1,9 +1,3 @@
-
-#= require slotcars/build/views/draw_view
-#= require slotcars/shared/views/track_view
-#= require slotcars/build/controllers/draw_controller
-#= require slotcars/shared/models/track
-
 describe 'slotcars.build.views.DrawView', ->
 
   TrackView = slotcars.shared.views.TrackView

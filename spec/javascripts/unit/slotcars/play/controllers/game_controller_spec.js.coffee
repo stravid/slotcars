@@ -1,9 +1,3 @@
-
-#= require slotcars/play/controllers/game_controller
-
-#= require slotcars/shared/models/track
-#= require slotcars/shared/models/car
-
 describe 'slotcars.play.controllers.GameController (unit)', ->
 
   GameController = slotcars.play.controllers.GameController

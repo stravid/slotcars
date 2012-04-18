@@ -1,7 +1,3 @@
-
-#= require slotcars/shared/models/user
-#= require slotcars/shared/models/model_store
-
 describe 'Slotcars.shared.models.User', ->
 
   User = Slotcars.shared.models.User

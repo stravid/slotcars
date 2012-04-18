@@ -1,7 +1,3 @@
-
-#= require slotcars/play/views/clock_view
-#= require slotcars/play/controllers/game_controller
-
 describe 'slotcars.play.views.ClockView (unit)', ->
   
   ModelStore = slotcars.shared.models.ModelStore

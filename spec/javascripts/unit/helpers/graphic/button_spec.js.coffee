@@ -1,6 +1,3 @@
-
-#= require helpers/graphic/button
-
 describe 'button', ->
 
   Button = helpers.graphic.Button
