@@ -5,17 +5,19 @@
 Vector = helpers.math.Vector
 LinkedList = helpers.math.LinkedList
 
-class (namespace 'helpers.math').Path extends LinkedList
+(namespace 'helpers.math').Path = LinkedList.extend
 
   totalLength: 0
   _lengthDirty: false
 
-  @create: (parameters) ->
-    parameters ?= { points: [] }
-    new Path parameters.points
+  points: null
 
-  constructor: (points) ->
-    for point in points
+  init: ->
+    @_super()
+
+    @points or= []
+
+    for point in @points
       @push x: (parseFloat point.x, 10), y: (parseFloat point.y, 10), angle: (parseFloat point.angle, 10)
 
   clean: (parameters) ->
@@ -50,7 +52,7 @@ class (namespace 'helpers.math').Path extends LinkedList
     @asPointArray().map (point) -> { x: (point.x.toFixed 2), y: (point.y.toFixed 2), angle: (point.angle.toFixed 2) }
 
   push: (point, shouldCalculateAngles) ->
-    super point
+    @_super point
 
     @_updateLengthFor point
     if @length > 1 then @_updateLengthFor (@getCircularNextOf point)
@@ -59,7 +61,7 @@ class (namespace 'helpers.math').Path extends LinkedList
     if shouldCalculateAngles then @_calculateAnglesAroundPoint point
 
   insertBefore: (next, point) ->
-    super next, point
+    @_super next, point
 
     @_updateLengthFor point
     @_updateLengthFor next
@@ -68,7 +70,7 @@ class (namespace 'helpers.math').Path extends LinkedList
 
   remove: (point) ->
     next = @getCircularNextOf point
-    super point
+    @_super point
 
     @_updateLengthFor next
 
