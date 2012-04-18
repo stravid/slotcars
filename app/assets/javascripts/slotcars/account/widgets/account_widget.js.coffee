@@ -25,6 +25,6 @@ AccountWidget = (namespace 'Slotcars.account.widgets').AccountWidget = Ember.Obj
   showSignUpWidget: ->
     signUpWidget = WidgetFactory.getInstance().getInstanceOf 'SignUpWidget'
     signUpWidget.addToContainerAtLocation this, 'content'
-    signUpWidget.on 'cancelSignUp', this, 'showLoginWidget'
+    signUpWidget.on 'signUpCancelled', this, 'showLoginWidget'
 
 WidgetFactory.getInstance().registerWidget 'AccountWidget', AccountWidget
