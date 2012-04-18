@@ -1,8 +1,3 @@
-
-#= require slotcars/shared/lib/crashable
-#= require slotcars/shared/lib/movable
-#= require helpers/math/vector
-
 describe 'slotcars.shared.lib.Crashable', ->
 
   Movable = slotcars.shared.lib.Movable

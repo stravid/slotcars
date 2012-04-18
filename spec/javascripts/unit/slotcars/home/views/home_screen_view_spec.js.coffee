@@ -1,6 +1,3 @@
-
-#= require slotcars/home/views/home_screen_view
-
 describe 'home screen view', ->
 
   HomeScreenView = slotcars.home.views.HomeScreenView

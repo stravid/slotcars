@@ -11,7 +11,10 @@
 #= require sinon
 #= require jasmine-sinon
 #= require_tree ./helpers
+
 #= require helpers/namespace
+#= require_tree ../../app/assets/javascripts/helpers
+#= require_tree ../../app/assets/javascripts/slotcars
 
 # ------ load all specs ------
 #= require_tree ./unit

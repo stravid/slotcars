@@ -1,6 +1,3 @@
-
-#= require slotcars/build/build_screen_state_manager
-
 describe 'build screen state manager', ->
 
   BuildScreenStateManager = Slotcars.build.BuildScreenStateManager

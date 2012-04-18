@@ -1,10 +1,3 @@
-
-#= require slotcars/shared/lib/movable
-#= require slotcars/shared/lib/crashable
-
-#= require slotcars/shared/models/car
-#= require slotcars/shared/models/track
-
 describe 'slotcars.shared.models.Car', ->
 
   Car = slotcars.shared.models.Car

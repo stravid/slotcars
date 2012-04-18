@@ -1,6 +1,3 @@
-
-#= require slotcars/shared/components/widget
-
 describe 'Slotcars.shared.components.Widget', ->
 
   Widget = Slotcars.shared.components.Widget

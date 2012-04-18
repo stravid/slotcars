@@ -1,6 +1,3 @@
-
-#= require slotcars/build/rasterizer
-
 describe 'rasterizer', ->
 
   Rasterizer = Slotcars.build.Rasterizer

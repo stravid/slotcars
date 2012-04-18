@@ -1,6 +1,3 @@
-
-#= require helpers/math/path
-
 describe 'helpers.math.Path', ->
 
   Path = helpers.math.Path

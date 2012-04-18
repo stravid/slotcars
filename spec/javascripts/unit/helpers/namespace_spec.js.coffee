@@ -1,6 +1,3 @@
-
-#= require helpers/namespace
-
 describe 'namespace', ->
   
   it 'should create and return nested objects for namespace string', ->

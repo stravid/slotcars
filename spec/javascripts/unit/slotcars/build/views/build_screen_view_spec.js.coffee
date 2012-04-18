@@ -1,6 +1,3 @@
-
-#= require slotcars/build/views/build_screen_view
-
 describe 'build screen view', ->
 
   BuildScreenView = slotcars.build.views.BuildScreenView

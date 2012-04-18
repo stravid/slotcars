@@ -1,7 +1,3 @@
-
-#= require slotcars/build/controllers/test_drive_controller
-#= require slotcars/build/build_screen_state_manager
-
 describe 'test drive controller', ->
 
   BaseGameController = Slotcars.shared.controllers.BaseGameController

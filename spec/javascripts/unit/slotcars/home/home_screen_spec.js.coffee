@@ -1,8 +1,3 @@
-
-#= require slotcars/home/home_screen
-#= require slotcars/home/views/home_screen_view
-#= require slotcars/factories/screen_factory
-
 describe 'home screen', ->
 
   HomeScreen = slotcars.home.HomeScreen

@@ -1,8 +1,3 @@
-
-#= require helpers/math/raphael_path
-#= require helpers/math/path
-#= require vendor/raphael
-
 describe 'raphael path', ->
 
   RaphaelPath = helpers.math.RaphaelPath

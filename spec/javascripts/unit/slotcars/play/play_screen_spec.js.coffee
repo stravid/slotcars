@@ -1,12 +1,3 @@
-
-#= require slotcars/play/play_screen
-#= require slotcars/play/views/play_screen_view
-#= require slotcars/play/play_screen_state_manager
-#= require slotcars/shared/models/track
-#= require slotcars/play/game
-#= require slotcars/shared/models/model_store
-#= require slotcars/factories/screen_factory
-
 describe 'play screen', ->
 
   PlayScreen = slotcars.play.PlayScreen

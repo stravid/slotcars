@@ -1,16 +1,3 @@
-
-#= require slotcars/play/game
-#= require slotcars/play/controllers/game_controller
-
-#= require slotcars/shared/models/car
-#= require slotcars/shared/models/track
-
-#= require slotcars/play/views/car_view
-#= require slotcars/play/views/game_view
-#= require slotcars/shared/views/track_view
-#= require slotcars/play/views/play_screen_view
-#= require slotcars/play/views/clock_view
-
 describe 'game', ->
 
   Game = slotcars.play.Game

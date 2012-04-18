@@ -1,6 +1,3 @@
-
-#= require slotcars/shared/components/container
-
 describe 'Slotcars.shared.components.Container', ->
 
   Container = Slotcars.shared.components.Container

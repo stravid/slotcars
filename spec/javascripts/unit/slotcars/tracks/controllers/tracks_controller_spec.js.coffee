@@ -1,6 +1,3 @@
-
-#= require slotcars/tracks/controllers/tracks_controller
-
 describe 'slotcars.tracks.controllers.TracksController', ->
 
   TracksController = slotcars.tracks.controllers.TracksController
