@@ -1,10 +1,8 @@
 describe 'routing', ->
 
-  RouteManager = slotcars.RouteManager
-
   beforeEach ->
     @slotcarsApplicationStub = showScreen: sinon.spy()
-    @routeManager = RouteManager.create delegate: @slotcarsApplicationStub
+    @routeManager = Shared.RouteManager.create delegate: @slotcarsApplicationStub
 
   afterEach -> @routeManager.set 'location', 'jasmine'
 

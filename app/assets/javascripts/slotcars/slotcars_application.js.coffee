@@ -3,12 +3,12 @@
 #= require helpers/routing/route_local_links
 #= require slotcars/factories/screen_factory
 
-(namespace 'slotcars').SlotcarsApplication = Ember.Application.extend
+window.SlotcarsApplication = Ember.Application.extend
   _currentScreen: null
 
   ready: ->
-    slotcars.routeManager = slotcars.RouteManager.create delegate: this
-    helpers.routing.routeLocalLinks slotcars.routeManager
+    Shared.routeManager = Shared.RouteManager.create delegate: this
+    helpers.routing.routeLocalLinks Shared.routeManager
 
   showScreen: (screenId, createParamters) ->
     @_destroyCurrentScreen()

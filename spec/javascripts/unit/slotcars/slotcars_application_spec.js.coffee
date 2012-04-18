@@ -1,9 +1,7 @@
 describe 'slotcars application screen management', ->
 
-  SlotcarsApplication = slotcars.SlotcarsApplication
-
   beforeEach ->
-    @RouteManagerCreateStub = mockEmberClass slotcars.RouteManager
+    @RouteManagerCreateStub = mockEmberClass Shared.RouteManager
 
   afterEach ->
     @RouteManagerCreateStub.restore()
@@ -56,4 +54,4 @@ describe 'slotcars application screen management', ->
         delegate: @slotcarsApplication
 
     it 'should make the route manager a singleton that can be directly accessed', ->
-      (expect slotcars.routeManager).toBe @RouteManagerCreateStub
+      (expect Shared.routeManager).toBe @RouteManagerCreateStub
