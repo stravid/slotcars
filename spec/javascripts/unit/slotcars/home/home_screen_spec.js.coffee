@@ -1,12 +1,10 @@
 describe 'home screen', ->
 
-  HomeScreen = slotcars.home.HomeScreen
-  HomeScreenView = slotcars.home.views.HomeScreenView
   ScreenFactory = slotcars.factories.ScreenFactory
 
   beforeEach ->
-    @homeScreenViewMock = mockEmberClass HomeScreenView
-    @homeScreen = HomeScreen.create()
+    @homeScreenViewMock = mockEmberClass Home.HomeScreenView
+    @homeScreen = Home.HomeScreen.create()
 
   afterEach ->
     @homeScreenViewMock.restore()
@@ -15,7 +13,7 @@ describe 'home screen', ->
   it 'should register itself at the screen factory', ->
     homeScreen = ScreenFactory.getInstance().getInstanceOf 'HomeScreen'
 
-    (expect homeScreen).toBeInstanceOf HomeScreen
+    (expect homeScreen).toBeInstanceOf Home.HomeScreen
 
   it 'should create home screen view', ->
     (expect @homeScreenViewMock.create).toHaveBeenCalled()
