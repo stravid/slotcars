@@ -2,9 +2,7 @@
 #= require slotcars/shared/views/track_view
 #= require slotcars/build/templates/rasterization_view_template
 
-TrackView = slotcars.shared.views.TrackView
-
-(namespace 'Slotcars.build.views').RasterizationView = TrackView.extend
+Build.RasterizationView = Shared.TrackView.extend
   
   templateName: 'slotcars_build_templates_rasterization_view_template'
   track: null

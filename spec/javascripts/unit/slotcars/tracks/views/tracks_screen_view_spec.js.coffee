@@ -1,12 +1,10 @@
 describe 'track screen view', ->
 
-  TracksScreenView = slotcars.tracks.views.TracksScreenView
-
   it 'should extend Ember.View', ->
-    (expect TracksScreenView).toExtend Ember.View
+    (expect Tracks.TracksScreenView).toExtend Ember.View
 
   it 'should use a dynamic view in its template that can be set', ->
-    tracksScreenView = TracksScreenView.create()
+    tracksScreenView = Tracks.TracksScreenView.create()
     container = jQuery '<div>'
 
     tracksScreenView.appendTo container

@@ -1,6 +1,6 @@
 
 #= require slotcars/factories/factory
 
-ScreenFactory = (namespace 'slotcars.factories').ScreenFactory = Slotcars.factories.Factory.extend
+Shared.ScreenFactory = Shared.Factory.extend
 
   registerScreen: (id, screenType) -> @registerType id, screenType

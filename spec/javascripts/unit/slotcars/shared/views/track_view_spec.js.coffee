@@ -1,8 +1,5 @@
 describe 'track view', ->
 
-  TrackView = slotcars.shared.views.TrackView
-  GameController = slotcars.play.controllers.GameController
-
   beforeEach ->
     @raphaelBackup = window.Raphael
     @raphaelElementStub = sinon.stub().returns
@@ -15,9 +12,9 @@ describe 'track view', ->
       rect: @raphaelElementStub
       clear: @paperClearSpy
 
-    @gameControllerMock = mockEmberClass GameController
+    @gameControllerMock = mockEmberClass Play.GameController
 
-    @trackView = TrackView.create
+    @trackView = Shared.TrackView.create
       gameController: @gameControllerMock
 
     @trackView.appendTo '<div>'
@@ -28,7 +25,7 @@ describe 'track view', ->
     @gameControllerMock.restore()
 
   it 'should be a subclass of ember view', ->
-    (expect TrackView).toExtend Ember.View
+    (expect Shared.TrackView).toExtend Ember.View
 
   describe 'appendeding view to DOM', ->
 
@@ -46,7 +43,7 @@ describe 'track view', ->
   describe 'drawing the track', ->
 
     it 'should not ignore drawing if not inserted in DOM', ->
-      trackView = TrackView.create()
+      trackView = Shared.TrackView.create()
 
       (expect trackView.drawTrack).not.toThrow()
 

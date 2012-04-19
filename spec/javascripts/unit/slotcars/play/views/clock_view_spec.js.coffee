@@ -1,18 +1,12 @@
-describe 'slotcars.play.views.ClockView (unit)', ->
-  
-  ModelStore = slotcars.shared.models.ModelStore
-  ClockView = slotcars.play.views.ClockView
-  GameController = slotcars.play.controllers.GameController
-  Car = slotcars.shared.models.Car
-  Track = slotcars.shared.models.Track
+describe 'Play.ClockView (unit)', ->
   
   beforeEach ->
-    @gameController = GameController.create
+    @gameController = Play.GameController.create
       track: Ember.Object.create()  # real track is not necessary here
       car: Ember.Object.create()
     
-    @trackModel = ModelStore.findByClientId Track, 0
-    @carModel = Car.create
+    @trackModel = Shared.ModelStore.findByClientId Shared.Track, 0
+    @carModel = Shared.Car.create
       acceleration: 0.1
       deceleration: 0.2
       crashDeceleration: 0.15
@@ -20,13 +14,13 @@ describe 'slotcars.play.views.ClockView (unit)', ->
       traction: 100
       track: @trackModel
 
-    @clockView = ClockView.create
+    @clockView = Play.ClockView.create
       gameController: @gameController
       carModel: @carModel
       trackModel: @trackModel
   
   it 'should extend Ember.View', ->
-    (expect ClockView).toExtend Ember.View
+    (expect Play.ClockView).toExtend Ember.View
       
   it 'should call updateTime when raceTime changes in GameController', ->
     @clockView.updateTime = sinon.spy()

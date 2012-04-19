@@ -1,26 +1,23 @@
-describe 'Slotcars.shared.models.User', ->
-
-  User = Slotcars.shared.models.User
-  ModelStore = slotcars.shared.models.ModelStore
+describe 'Shared.User', ->
 
   describe 'signup user with credentials', ->
 
     beforeEach ->
-      sinon.stub User, 'createRecord'
-      sinon.stub ModelStore, 'commit'
+      sinon.stub Shared.User, 'createRecord'
+      sinon.stub Shared.ModelStore, 'commit'
 
     afterEach ->
-      User.createRecord.restore()
-      ModelStore.commit.restore()
+      Shared.User.createRecord.restore()
+      Shared.ModelStore.commit.restore()
 
     it 'should create a new user record with credentials', ->
       credentials = {}
 
-      User.signUp credentials
+      Shared.User.signUp credentials
 
-      (expect User.createRecord).toHaveBeenCalledWith credentials
+      (expect Shared.User.createRecord).toHaveBeenCalledWith credentials
 
     it 'should tell model store to commit record', ->
-      User.signUp()
+      Shared.User.signUp()
 
-      (expect ModelStore.commit).toHaveBeenCalledOnce()
+      (expect Shared.ModelStore.commit).toHaveBeenCalledOnce()

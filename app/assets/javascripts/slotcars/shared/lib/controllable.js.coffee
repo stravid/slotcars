@@ -1,5 +1,4 @@
-
-namespace('Slotcars.shared.lib').Controllable = Ember.Mixin.create
+Shared.Controllable = Ember.Mixin.create
 
   gameController: Ember.required()
   

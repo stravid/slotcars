@@ -2,9 +2,7 @@
 #= require slotcars/play/controllers/game_loop_controller
 #= require helpers/event_normalize
 
-GameLoopController = slotcars.play.controllers.GameLoopController
-
-(namespace 'Slotcars.shared.controllers').BaseGameController = Ember.Object.extend
+Shared.BaseGameController = Ember.Object.extend
 
   track: null
   car: null
@@ -13,7 +11,7 @@ GameLoopController = slotcars.play.controllers.GameLoopController
   carControlsEnabled: false
 
   init: ->
-    @gameLoopController = GameLoopController.create()
+    @gameLoopController = Play.GameLoopController.create()
 
     unless @track?
       throw new Error 'track has to be provided'

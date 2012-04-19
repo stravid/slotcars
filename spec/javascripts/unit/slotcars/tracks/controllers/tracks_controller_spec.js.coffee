@@ -1,6 +1,4 @@
-describe 'slotcars.tracks.controllers.TracksController', ->
-
-  TracksController = slotcars.tracks.controllers.TracksController
+describe 'Tracks.TracksController', ->
 
   it 'should extend Ember.Object', ->
-    (expect TracksController).toExtend Ember.Object
+    (expect Tracks.TracksController).toExtend Ember.Object

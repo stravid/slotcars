@@ -1,9 +1,7 @@
 
 #= require slotcars/shared/controllers/base_game_controller
 
-BaseGameController = Slotcars.shared.controllers.BaseGameController
-
-(namespace 'Slotcars.build.controllers').TestDriveController = BaseGameController.extend
+Build.TestDriveController = Shared.BaseGameController.extend
 
   stateManager: null
   

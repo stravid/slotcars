@@ -1,15 +1,12 @@
-describe 'Slotcars.factories.Factory', ->
-
-  Factory = Slotcars.factories.Factory
-  Singleton = Slotcars.shared.lib.Singleton
+describe 'Shared.Factory', ->
 
   it 'should be a singleton', ->
-    (expect Factory).toExtend Singleton
+    (expect Shared.Factory).toExtend Shared.Singleton
 
   describe 'registering types and getting instances', ->
 
     beforeEach ->
-      @factory = Factory.create()
+      @factory = Shared.Factory.create()
       @ExpectedType = Ember.Object.extend()
       @factory.registerType 'ExpectedType', @ExpectedType
 

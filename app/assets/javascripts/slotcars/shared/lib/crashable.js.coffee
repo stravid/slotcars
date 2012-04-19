@@ -2,21 +2,18 @@
 #= require helpers/math/vector
 #= require slotcars/shared/lib/movable
 
-Vector = helpers.math.Vector
-Movable = slotcars.shared.lib.Movable
-
-(namespace 'slotcars.shared.lib').Crashable = Ember.Mixin.create
+Shared.Crashable = Ember.Mixin.create
 
   previousDirection: null
   isCrashing: false
 
   init: ->
-    unless Movable.detect this
+    unless Shared.Movable.detect this
       throw new Error 'Crashable requires Movable'
 
   checkForCrash: (nextPosition) ->
 
-    direction = Vector.create from: @position, to: nextPosition
+    direction = Shared.Vector.create from: @position, to: nextPosition
 
     unless @previousDirection?
       @previousDirection = direction
