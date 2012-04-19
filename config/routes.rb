@@ -15,6 +15,7 @@ Slotcars::Application.routes.draw do
   devise_scope :user do
     root :to => "devise/sessions#new", :as => :users
     post 'api/users', :to => "devise/registrations#create"
+    post 'api/sign_in', :to => "api/sessions#create"
   end
 
 end

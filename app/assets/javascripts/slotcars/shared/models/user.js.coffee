@@ -20,7 +20,7 @@ Shared.User.reopenClass
       utf8: "✓"
       user: credentials
 
-    jQuery.ajax "/users/sign_in.json",
+    jQuery.ajax "/api/sign_in.json",
       type: "POST"
       dataType: 'json'
       data: data
