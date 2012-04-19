@@ -1,8 +1,3 @@
-
-#= require slotcars/shared/models/track
-#= require slotcars/build/controllers/draw_controller
-#= require slotcars/build/views/draw_view
-
 Build.Builder = Ember.Object.extend
 
   stateManager: null

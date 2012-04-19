@@ -1,7 +1,3 @@
-
-#= require helpers/math/path
-#= require vendor/raphael
-
 EMPTY_RAPHAEL_PATH_STRING = 'M0,0z'
 
 Shared.RaphaelPath = Ember.Object.extend

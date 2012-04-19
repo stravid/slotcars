@@ -2,9 +2,6 @@
 #= require slotcars/shared/components/widget
 #= require slotcars/shared/components/container
 #= require slotcars/factories/widget_factory
-#= require slotcars/account/views/account_widget_view
-#= require slotcars/account/widgets/login_widget
-#= require slotcars/account/widgets/sign_up_widget
 
 Account.AccountWidget = Ember.Object.extend Shared.Widget, Shared.Container,
 

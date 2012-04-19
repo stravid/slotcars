@@ -1,7 +1,3 @@
-
-#= require helpers/math/vector
-#= require slotcars/shared/lib/movable
-
 Shared.Crashable = Ember.Mixin.create
 
   previousDirection: null

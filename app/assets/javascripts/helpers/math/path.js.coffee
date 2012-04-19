@@ -1,5 +1,4 @@
 
-#= require helpers/math/vector
 #= require helpers/math/linked_list
 
 Shared.Path = Shared.LinkedList.extend

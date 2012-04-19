@@ -1,6 +1,3 @@
-
-#= require vendor/raphael
-
 Shared.TrackView = Ember.View.extend
 
   track: null

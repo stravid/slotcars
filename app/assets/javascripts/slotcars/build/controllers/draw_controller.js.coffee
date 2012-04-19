@@ -1,6 +1,3 @@
-
-#= require helpers/math/vector
-
 ADD_POINT_MIN_DISTANCE = 30
 
 Build.DrawController = Ember.Object.extend

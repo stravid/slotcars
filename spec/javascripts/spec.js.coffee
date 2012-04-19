@@ -12,6 +12,10 @@
 #= require jasmine-sinon
 #= require_tree ./helpers
 
+#= require embient/ember-data
+#= require embient/ember-routemanager
+#= require embient/ember-layout
+
 #= require namespaces
 
 #= require_tree ../../app/assets/javascripts/helpers

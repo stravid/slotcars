@@ -1,6 +1,3 @@
-
-#= require slotcars/account/templates/login_view_template
-
 Account.LoginView = Ember.View.extend
 
   delegate: null

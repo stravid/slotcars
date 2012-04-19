@@ -1,6 +1,3 @@
-
-#= require slotcars/shared/models/model_store
-
 Shared.User = DS.Model.extend
 
   username: DS.attr 'string'

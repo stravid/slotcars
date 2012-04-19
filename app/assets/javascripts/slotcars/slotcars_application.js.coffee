@@ -1,8 +1,3 @@
-
-#= require slotcars/route_manager
-#= require helpers/routing/route_local_links
-#= require slotcars/factories/screen_factory
-
 window.SlotcarsApplication = Ember.Application.extend
   _currentScreen: null
 

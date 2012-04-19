@@ -1,11 +1,3 @@
-
-#= require slotcars/shared/models/car
-#= require slotcars/play/views/car_view
-#= require slotcars/shared/views/track_view
-#= require slotcars/shared/lib/controllable
-#= require slotcars/build/controllers/test_drive_controller
-#= require slotcars/build/views/test_drive_view
-
 Build.TestDrive = Ember.Object.extend
 
   stateManager: null
