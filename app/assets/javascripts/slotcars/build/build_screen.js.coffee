@@ -30,6 +30,7 @@ BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend App
     @_buildScreenStateManager.goToState 'Drawing'
 
   setupDrawing: ->
+    @track.deleteRecord() if @track?
     @track = slotcars.shared.models.Track.createRecord()
 
     @_builder = Builder.create
@@ -78,6 +79,7 @@ BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend App
   destroy: ->
     @_super()
     @_buildScreenStateManager.destroy()
+    @track.deleteRecord() if @track? and @track.get 'isDirty'
 
   toString: -> '<Instance of slotcars.build.BuildScreen>'
 

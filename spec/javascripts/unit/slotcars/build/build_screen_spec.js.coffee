@@ -17,18 +17,14 @@ describe 'slotcars.build.BuildScreen', ->
       remove: sinon.spy()
 
     @BuildScreenStateManagerMock = mockEmberClass BuildScreenStateManager, goToState: sinon.spy()
-
-    @TrackBackup = slotcars.shared.models.Track
-    @fakeTrack = {}
-    @TrackMock = slotcars.shared.models.Track =
-      createRecord: sinon.stub().returns @fakeTrack
+    @trackMock = mockEmberClass slotcars.shared.models.Track, deleteRecord: sinon.spy()
 
     @buildScreen = BuildScreen.create()
 
   afterEach ->
     @buildScreenViewMock.restore()
     @BuildScreenStateManagerMock.restore()
-    slotcars.shared.models.Track = @TrackBackup
+    @trackMock.restore()
 
   it 'should register itself at the screen factory', ->
     buildScreen = ScreenFactory.getInstance().getInstanceOf 'BuildScreen'
@@ -54,6 +50,22 @@ describe 'slotcars.build.BuildScreen', ->
 
       (expect @BuildScreenStateManagerMock.destroy).toHaveBeenCalled()
 
+    it 'should delete the existing track if it´s unsaved', ->
+      @trackMock.get = sinon.stub().withArgs('isDirty').returns true
+      @buildScreen.track = @trackMock # simulates that track already exists
+
+      @buildScreen.destroy()
+
+      (expect @trackMock.deleteRecord).toHaveBeenCalled()
+
+    it 'should not delete the existing track if it´s saved', ->
+      @trackMock.get = sinon.stub().withArgs('isDirty').returns false
+      @buildScreen.track = @trackMock # simulates that track already exists
+
+      @buildScreen.destroy()
+
+      (expect @trackMock.deleteRecord).not.toHaveBeenCalled()
+
   describe 'drawing capabilities', ->
 
     beforeEach ->
@@ -64,9 +76,25 @@ describe 'slotcars.build.BuildScreen', ->
 
     describe 'prepare for drawing', ->
 
+      beforeEach ->
+        # mock track class
+        @TrackBackup = slotcars.shared.models.Track
+        @TrackMock = slotcars.shared.models.Track =
+          createRecord: sinon.stub().returns @trackMock
+
+      afterEach ->
+        slotcars.shared.models.Track = @TrackBackup
+
+      it 'should delete an existing track before creating a new one', ->
+        @buildScreen.track = @trackMock # simulates that track already exists
+        @buildScreen.setupDrawing()
+
+        (expect @trackMock.deleteRecord).toHaveBeenCalled()
+
       it 'should create a new track model', ->
         @buildScreen.setupDrawing()
 
+        (expect @trackMock.deleteRecord).not.toHaveBeenCalled()
         (expect @TrackMock.createRecord).toHaveBeenCalled()
 
       it 'should create the builder and provide build screen view and track', ->
@@ -75,7 +103,7 @@ describe 'slotcars.build.BuildScreen', ->
         (expect @builderMock.create).toHaveBeenCalledWithAnObjectLike
           stateManager: @BuildScreenStateManagerMock
           buildScreenView: @buildScreenViewMock
-          track: @fakeTrack
+          track: @trackMock
 
     describe 'clean up drawing', ->
 
@@ -92,7 +120,7 @@ describe 'slotcars.build.BuildScreen', ->
 
     beforeEach ->
       @testDriveMock = mockEmberClass TestDrive, start: sinon.spy()
-      @buildScreen.track = @fakeTrack # track gets only created in drawing setup - so set it by hand for this test case
+      @buildScreen.track = @trackMock # track gets only created in drawing setup - so set it by hand for this test case
 
     afterEach ->
       @testDriveMock.restore()
@@ -105,7 +133,7 @@ describe 'slotcars.build.BuildScreen', ->
         (expect @testDriveMock.create).toHaveBeenCalledWithAnObjectLike
           stateManager: @BuildScreenStateManagerMock
           buildScreenView: @buildScreenViewMock
-          track: @fakeTrack
+          track: @trackMock
 
       it 'should start the test drive', ->
         @buildScreen.setupTesting()
@@ -127,7 +155,7 @@ describe 'slotcars.build.BuildScreen', ->
 
     beforeEach ->
       @rasterizerMock = mockEmberClass Rasterizer, start: sinon.spy()
-      @buildScreen.track = @fakeTrack # track gets only created in drawing setup - so set it by hand for this test case
+      @buildScreen.track = @trackMock # track gets only created in drawing setup - so set it by hand for this test case
 
     afterEach ->
       @rasterizerMock.restore()
@@ -140,7 +168,7 @@ describe 'slotcars.build.BuildScreen', ->
         (expect @rasterizerMock.create).toHaveBeenCalledWithAnObjectLike
           stateManager: @BuildScreenStateManagerMock
           buildScreenView: @buildScreenViewMock
-          track: @fakeTrack
+          track: @trackMock
 
     describe 'start rasterization', ->
 
@@ -167,7 +195,7 @@ describe 'slotcars.build.BuildScreen', ->
 
     beforeEach ->
       @publisherMock = mockEmberClass Publisher, publish: sinon.spy()
-      @buildScreen.track = @fakeTrack # track gets only created in drawing setup - so set it by hand for this test case
+      @buildScreen.track = @trackMock # track gets only created in drawing setup - so set it by hand for this test case
 
     afterEach ->
       @publisherMock.restore()
@@ -180,7 +208,7 @@ describe 'slotcars.build.BuildScreen', ->
         (expect @publisherMock.create).toHaveBeenCalledWithAnObjectLike
           stateManager: @BuildScreenStateManagerMock
           buildScreenView: @buildScreenViewMock
-          track: @fakeTrack
+          track: @trackMock
 
     describe 'perform publication', ->
 
