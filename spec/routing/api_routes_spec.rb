@@ -13,4 +13,11 @@ describe "Tracks" do
         :id => "1"
       )
   end
+
+  it "routes POST /api/tracks to api::tracks#create" do
+    { :post => "/api/tracks" }.should route_to(
+        :controller => "api/tracks",
+        :action => "create"
+      )
+  end
 end
