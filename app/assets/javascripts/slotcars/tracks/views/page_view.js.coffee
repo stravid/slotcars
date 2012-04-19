@@ -1,6 +1,6 @@
 #= require slotcars/tracks/templates/page_view_template
 
-(namespace 'slotcars.tracks.views').PageView = Ember.View.extend
+Tracks.PageView = Ember.View.extend
 
   templateName: 'slotcars_tracks_templates_page_view_template'
 

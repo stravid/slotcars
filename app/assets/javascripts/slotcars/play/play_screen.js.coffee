@@ -8,25 +8,16 @@
 #= require slotcars/factories/screen_factory
 #= require slotcars/shared/lib/appendable
 
-ModelStore = slotcars.shared.models.ModelStore
-Track = slotcars.shared.models.Track
-PlayScreenView = slotcars.play.views.PlayScreenView
-PlayScreenStateManager = slotcars.play.PlayScreenStateManager
-Car = slotcars.shared.models.Car
-Game = slotcars.play.Game
-ScreenFactory = slotcars.factories.ScreenFactory
-Appendable = slotcars.shared.lib.Appendable
-
-PlayScreen = (namespace 'slotcars.play').PlayScreen = Ember.Object.extend Appendable,
+Play.PlayScreen = Ember.Object.extend Shared.Appendable,
 
   trackId: null
   _playScreenStateManager: null
   _game: null
 
   init: ->
-    @view = PlayScreenView.create()
+    @view = Play.PlayScreenView.create()
 
-    @_playScreenStateManager = PlayScreenStateManager.create delegate: this
+    @_playScreenStateManager = Play.PlayScreenStateManager.create delegate: this
     @_playScreenStateManager.send 'load'
 
   destroy: ->
@@ -34,9 +25,9 @@ PlayScreen = (namespace 'slotcars.play').PlayScreen = Ember.Object.extend Append
     @_game.destroy() if @_game?
 
   load: ->
-    @track = ModelStore.find Track, @trackId
+    @track = Shared.ModelStore.find Shared.Track, @trackId
 
-    @car = Car.create
+    @car = Shared.Car.create
       track: @track
       acceleration: 0.1
       deceleration: 0.2
@@ -47,7 +38,7 @@ PlayScreen = (namespace 'slotcars.play').PlayScreen = Ember.Object.extend Append
     @_playScreenStateManager.send 'loaded'
 
   initialize: ->
-    @_game = Game.create
+    @_game = Play.Game.create
       playScreenView: @view
       track: @track
       car: @car
@@ -58,4 +49,4 @@ PlayScreen = (namespace 'slotcars.play').PlayScreen = Ember.Object.extend Append
     @_game.start()
 
 
-ScreenFactory.getInstance().registerScreen 'PlayScreen', PlayScreen
+Shared.ScreenFactory.getInstance().registerScreen 'PlayScreen', Play.PlayScreen

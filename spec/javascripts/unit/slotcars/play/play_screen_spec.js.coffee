@@ -1,29 +1,20 @@
 describe 'play screen', ->
 
-  PlayScreen = slotcars.play.PlayScreen
-  PlayScreenView = slotcars.play.views.PlayScreenView
-  PlayScreenStateManager = slotcars.play.PlayScreenStateManager
-  Track = slotcars.shared.models.Track
-  Car = slotcars.shared.models.Car
-  Game = slotcars.play.Game
-  ModelStore = slotcars.shared.models.ModelStore
-  ScreenFactory = slotcars.factories.ScreenFactory
-
   beforeEach ->
-    sinon.stub ModelStore, 'find', -> Track.createRecord()
+    sinon.stub Shared.ModelStore, 'find', -> Shared.Track.createRecord()
 
-    @playScreenViewMock = mockEmberClass PlayScreenView,
+    @playScreenViewMock = mockEmberClass Play.PlayScreenView,
       append: sinon.spy()
       remove: sinon.spy()
-    @playScreenStateManagerMock = mockEmberClass PlayScreenStateManager, send: sinon.spy()
-    @GameMock = mockEmberClass Game,
+    @playScreenStateManagerMock = mockEmberClass Play.PlayScreenStateManager, send: sinon.spy()
+    @GameMock = mockEmberClass Play.Game,
       start: sinon.spy()
       destroy: sinon.spy()
 
-    @playScreen = PlayScreen.create()
+    @playScreen = Play.PlayScreen.create()
 
   afterEach ->
-    ModelStore.find.restore()
+    Shared.ModelStore.find.restore()
     @playScreenViewMock.restore()
     @playScreenStateManagerMock.restore()
     @GameMock.restore()
@@ -32,9 +23,9 @@ describe 'play screen', ->
     (expect @playScreenViewMock.create).toHaveBeenCalled()
 
   it 'should register itself at the screen factory', ->
-    playScreen = ScreenFactory.getInstance().getInstanceOf 'PlayScreen'
+    playScreen = Shared.ScreenFactory.getInstance().getInstanceOf 'PlayScreen'
 
-    (expect playScreen).toBeInstanceOf PlayScreen
+    (expect playScreen).toBeInstanceOf Play.PlayScreen
 
   it 'should create the play screen state manager', ->
     (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
@@ -48,12 +39,12 @@ describe 'play screen', ->
     it 'should load a track', ->
       @playScreen.load()
 
-      (expect @playScreen.track).toBeInstanceOf Track
+      (expect @playScreen.track).toBeInstanceOf Shared.Track
 
     it 'should create a car', ->
       @playScreen.load()
 
-      (expect @playScreen.car).toBeInstanceOf Car
+      (expect @playScreen.car).toBeInstanceOf Shared.Car
 
     it 'should send loaded to the play screen state manager', ->
       @playScreen.load()

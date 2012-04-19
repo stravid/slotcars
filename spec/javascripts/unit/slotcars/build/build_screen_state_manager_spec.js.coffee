@@ -1,7 +1,5 @@
 describe 'build screen state manager', ->
 
-  BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
-
   beforeEach ->
     @delegateMock =
       setupDrawing: sinon.spy()
@@ -13,13 +11,13 @@ describe 'build screen state manager', ->
       teardownRasterizing: sinon.spy()
 
   it 'should extend Ember.StateManager', ->
-    (expect BuildScreenStateManager).toExtend Ember.StateManager
+    (expect Build.BuildScreenStateManager).toExtend Ember.StateManager
 
 
   describe 'drawing', ->
 
     beforeEach ->
-      @buildScreenStateManager = BuildScreenStateManager.create
+      @buildScreenStateManager = Build.BuildScreenStateManager.create
         delegate: @delegateMock
 
       @buildScreenStateManager.goToState 'Drawing'
@@ -42,7 +40,7 @@ describe 'build screen state manager', ->
   describe 'testing', ->
 
     beforeEach ->
-      @buildScreenStateManager = BuildScreenStateManager.create
+      @buildScreenStateManager = Build.BuildScreenStateManager.create
         delegate: @delegateMock
 
       @buildScreenStateManager.goToState 'Testing'
@@ -67,7 +65,7 @@ describe 'build screen state manager', ->
   describe 'editing', ->
 
     beforeEach ->
-      @buildScreenStateManager = BuildScreenStateManager.create
+      @buildScreenStateManager = Build.BuildScreenStateManager.create
         delegate: @delegateMock
 
       @buildScreenStateManager.goToState 'Editing'
@@ -99,7 +97,7 @@ describe 'build screen state manager', ->
   describe 'rasterizing', ->
 
     beforeEach ->
-      @buildScreenStateManager = BuildScreenStateManager.create
+      @buildScreenStateManager = Build.BuildScreenStateManager.create
         delegate: @delegateMock
 
       @buildScreenStateManager.goToState 'Rasterizing'

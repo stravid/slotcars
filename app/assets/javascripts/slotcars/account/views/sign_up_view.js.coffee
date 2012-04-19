@@ -1,7 +1,7 @@
 
 #= require slotcars/account/templates/sign_up_view_template
 
-(namespace 'Slotcars.account.views').SignUpView = Ember.View.extend
+Account.SignUpView = Ember.View.extend
 
   delegate: null
   elementId: 'signup-widget-view'

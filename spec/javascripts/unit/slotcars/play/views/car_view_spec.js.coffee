@@ -1,6 +1,4 @@
-describe 'slotcars.play.views.CarView (unit)', ->
-
-  CarView = slotcars.play.views.CarView
+describe 'Play.CarView (unit)', ->
 
   it 'should extend Ember.View', ->
-    (expect CarView).toExtend Ember.View
+    (expect Play.CarView).toExtend Ember.View

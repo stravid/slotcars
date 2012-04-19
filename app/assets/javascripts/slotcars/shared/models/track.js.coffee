@@ -4,10 +4,7 @@
 #= require vendor/raphael
 #= require slotcars/shared/models/model_store
 
-RaphaelPath = helpers.math.RaphaelPath
-ModelStore = slotcars.shared.models.ModelStore
-
-Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend
+Shared.Track = DS.Model.extend
 
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'
@@ -27,13 +24,13 @@ Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend
 
   init: ->
     @_super()
-    @set '_raphaelPath', RaphaelPath.create()
+    @set '_raphaelPath', Shared.RaphaelPath.create()
 
   save: ->
     @set 'raphael', @_raphaelPath.get 'path'
     @set 'rasterized', JSON.stringify (@_raphaelPath.get '_rasterizedPath').asFixedLengthPointArray()
 
-    ModelStore.commit()
+    Shared.ModelStore.commit()
 
   didLoad: ->
     points =
@@ -79,4 +76,4 @@ Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend
     @set 'rasterizedPath', Raphael.getSubpath (@get 'raphaelPath'), 0, rasterizedLength
 
 
-Track.reopenClass toString: -> 'slotcars.shared.models.Track'
+Shared.Track.reopenClass toString: -> 'Shared.Track'

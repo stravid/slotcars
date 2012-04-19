@@ -1,12 +1,9 @@
 describe 'controllable', ->
 
-  Controllable = Slotcars.shared.lib.Controllable
-  BaseGameController = Slotcars.shared.controllers.BaseGameController
-
   beforeEach ->
-    @gameControllerMock = mockEmberClass BaseGameController
+    @gameControllerMock = mockEmberClass Shared.BaseGameController
 
-    @controllable = Ember.View.extend(Controllable).create
+    @controllable = Ember.View.extend(Shared.Controllable).create
       gameController: @gameControllerMock
 
     @controllable.appendTo '<div>'

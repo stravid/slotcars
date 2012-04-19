@@ -1,17 +1,12 @@
-describe 'slotcars.shared.models.Car', ->
-
-  Car = slotcars.shared.models.Car
-  Movable = slotcars.shared.lib.Movable
-  Crashable = slotcars.shared.lib.Crashable
-  Track = slotcars.shared.models.Track
+describe 'Shared.Car', ->
 
   beforeEach ->
-    @trackMock = mockEmberClass Track,
+    @trackMock = mockEmberClass Shared.Track,
       lapForLength: sinon.spy()
       isLengthAfterFinishLine: sinon.spy()
       getPointAtLength: sinon.spy()
 
-    @car = Car.create
+    @car = Shared.Car.create
       track: @trackMock
 
   afterEach ->
@@ -20,11 +15,10 @@ describe 'slotcars.shared.models.Car', ->
   describe 'usage of mixins', ->
 
     it 'should use Movable', ->
-      (expect Movable.detect @car).toBe true
+      (expect Shared.Movable.detect @car).toBe true
 
     it 'should use Crashable', ->
-      (expect Crashable.detect @car).toBe true
-
+      (expect Shared.Crashable.detect @car).toBe true
 
   describe 'defaults on creation', ->
 

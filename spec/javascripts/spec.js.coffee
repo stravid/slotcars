@@ -12,7 +12,8 @@
 #= require jasmine-sinon
 #= require_tree ./helpers
 
-#= require helpers/namespace
+#= require namespaces
+
 #= require_tree ../../app/assets/javascripts/helpers
 #= require_tree ../../app/assets/javascripts/slotcars
 

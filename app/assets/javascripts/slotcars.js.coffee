@@ -1,8 +1,9 @@
 #= require jquery
 #= require jquery_ujs
 #= require embient/ember
-#= require helpers/namespace
+
+#= require namespaces
+
 #= require slotcars/slotcars_application
 
-slotcars.SlotcarsApplication.create()
-
+SlotcarsApplication.create()

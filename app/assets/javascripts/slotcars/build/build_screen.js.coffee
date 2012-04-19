@@ -9,29 +9,21 @@
 #= require slotcars/shared/lib/appendable
 #= require slotcars/build/rasterizer
 
-Builder = slotcars.build.Builder
-TestDrive = Slotcars.build.TestDrive
-Rasterizer = Slotcars.build.Rasterizer
-BuildScreenView = slotcars.build.views.BuildScreenView
-BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
-ScreenFactory = slotcars.factories.ScreenFactory
-Appendable = slotcars.shared.lib.Appendable
-
-BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend Appendable,
+Build.BuildScreen = Ember.Object.extend Shared.Appendable,
 
   _builder: null
   _buildScreenStateManager: null
 
   init: ->
-    @_buildScreenStateManager = BuildScreenStateManager.create delegate: this
-    @view = BuildScreenView.create stateManager: @_buildScreenStateManager
+    @_buildScreenStateManager = Build.BuildScreenStateManager.create delegate: this
+    @view = Build.BuildScreenView.create stateManager: @_buildScreenStateManager
 
     @_buildScreenStateManager.goToState 'Drawing'
 
   setupDrawing: ->
-    @track = slotcars.shared.models.Track.createRecord()
+    @track = Shared.Track.createRecord()
 
-    @_builder = Builder.create
+    @_builder = Build.Builder.create
       stateManager: @_buildScreenStateManager
       buildScreenView: @view
       track: @track
@@ -40,7 +32,7 @@ BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend App
     @_builder.destroy()
 
   setupTesting: ->
-    @_testDrive = TestDrive.create
+    @_testDrive = Build.TestDrive.create
       stateManager: @_buildScreenStateManager
       buildScreenView: @view
       track: @track
@@ -51,7 +43,7 @@ BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend App
     @_testDrive.destroy()
 
   setupRasterizing: ->
-    @_rasterizer = Rasterizer.create
+    @_rasterizer = Build.Rasterizer.create
       stateManager: @_buildScreenStateManager
       buildScreenView: @view
       track: @track
@@ -66,7 +58,7 @@ BuildScreen = (namespace 'slotcars.build').BuildScreen = Ember.Object.extend App
     @_super()
     @_buildScreenStateManager.destroy()
 
-  toString: -> '<Instance of slotcars.build.BuildScreen>'
+  toString: -> '<Instance of Build.BuildScreen>'
 
 
-ScreenFactory.getInstance().registerScreen 'BuildScreen', BuildScreen
+Shared.ScreenFactory.getInstance().registerScreen 'BuildScreen', Build.BuildScreen

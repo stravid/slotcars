@@ -1,5 +1,5 @@
 
-Vector = (namespace 'helpers.math').Vector = Ember.Object.extend
+Shared.Vector = Ember.Object.extend
 
   x: null
   y: null
@@ -27,22 +27,22 @@ Vector = (namespace 'helpers.math').Vector = Ember.Object.extend
     degrees = Math.acos(theta) * 180 / Math.PI
 
   clockwiseAngle: ->
-    upVector = Vector.create x: 0, y: -1
+    upVector = Shared.Vector.create x: 0, y: -1
     angle = upVector.angleFrom this
 
     if @x < 0 then 360 - angle else angle
 
   center: ->
-    Vector.create
+    Shared.Vector.create
       x: @x / 2
       y: @y / 2
 
   normalize: ->
-    Vector.create
+    Shared.Vector.create
       x: @x / @length()
       y: @y / @length()
 
   scale: (factor) ->
-    Vector.create
+    Shared.Vector.create
       x: @x * factor
       y: @y * factor

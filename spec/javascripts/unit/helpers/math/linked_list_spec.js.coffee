@@ -1,14 +1,7 @@
-describe 'helpers.math.LinkedList', ->
-
-  LinkedList = helpers.math.LinkedList
-
-  describe '#create', ->
-
-    it 'should create instance of linked list', ->
-      (expect LinkedList.create()).toEqual new LinkedList()
+describe 'Shared.LinkedList', ->
 
   beforeEach ->
-    @list = LinkedList.create()
+    @list = Shared.LinkedList.create()
 
     @first = {}
     @second = {}
