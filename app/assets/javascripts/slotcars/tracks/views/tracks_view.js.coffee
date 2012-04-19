@@ -132,6 +132,6 @@ Tracks.TracksView = Ember.View.extend
 
     page.moveTo delta for page in @pages
 
-  bindTrackSelectionHandler: -> @$().on 'touchMouseUp', '.track', -> slotcars.routeManager.set 'location', "play/#{$(this).attr 'data-track-id'}"
+  bindTrackSelectionHandler: -> @$().on 'touchMouseUp', '.track', -> Shared.routeManager.set 'location', "play/#{$(this).attr 'data-track-id'}"
 
   unbindTrackSelectionHandler: -> @$().off 'touchMouseUp', '.track'
