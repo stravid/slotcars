@@ -1,8 +1,3 @@
-
-#= require slotcars/slotcars_application
-#= require slotcars/route_manager
-#= require slotcars/factories/screen_factory
-
 describe 'slotcars application screen management', ->
 
   SlotcarsApplication = slotcars.SlotcarsApplication

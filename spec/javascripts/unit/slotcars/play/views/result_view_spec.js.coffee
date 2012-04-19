@@ -1,7 +1,3 @@
-
-#= require slotcars/play/views/result_view
-#= require slotcars/play/controllers/game_controller
-
 describe 'slotcars.play.views.ResultView (unit)', ->
   
   ResultView = slotcars.play.views.ResultView

@@ -1,6 +1,3 @@
-
-#= require helpers/math/vector
-
 describe 'helpers.math.Vector (unit)', ->
 
   Vector = helpers.math.Vector

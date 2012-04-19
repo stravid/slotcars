@@ -1,6 +1,3 @@
-
-#= require helpers/event_normalize
-
 describe 'event_normalize',  ->
 
   beforeEach ->

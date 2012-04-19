@@ -1,7 +1,17 @@
 
-class (namespace 'helpers.math').Vector
+Vector = (namespace 'helpers.math').Vector = Ember.Object.extend
 
-  constructor: (@x, @y) ->
+  x: null
+  y: null
+  from: null
+  to: null
+
+  init: ->
+    @_super()
+
+    if @from? and @to?
+      @x = @to.x - @from.x
+      @y = @to.y - @from.y
 
   length: -> Math.sqrt (@x*@x) + (@y*@y)
 
@@ -23,20 +33,16 @@ class (namespace 'helpers.math').Vector
     if @x < 0 then 360 - angle else angle
 
   center: ->
-    new Vector @x/2, @y/2
+    Vector.create
+      x: @x / 2
+      y: @y / 2
 
   normalize: ->
-    new Vector @x/@length(), @y/@length()
+    Vector.create
+      x: @x / @length()
+      y: @y / @length()
 
   scale: (factor) ->
-    new Vector @x*factor, @y*factor
-
-  @create: (parameters) ->
-    if parameters.x? and parameters.y?
-      x = parameters.x
-      y = parameters.y
-    else
-      x = parameters.to.x - parameters.from.x
-      y = parameters.to.y - parameters.from.y
-
-    new Vector x, y
+    Vector.create
+      x: @x * factor
+      y: @y * factor

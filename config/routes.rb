@@ -12,4 +12,9 @@ Slotcars::Application.routes.draw do
     resources :tracks, :only => [:index, :show]
   end
 
+  devise_scope :user do
+    root :to => "devise/sessions#new", :as => :users
+    post 'api/users', :to => "devise/registrations#create"
+  end
+
 end

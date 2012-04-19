@@ -1,9 +1,10 @@
-
-#= require slotcars/factories/factory
-
-describe 'abstract factory', ->
+describe 'Slotcars.factories.Factory', ->
 
   Factory = Slotcars.factories.Factory
+  Singleton = Slotcars.shared.lib.Singleton
+
+  it 'should be a singleton', ->
+    (expect Factory).toExtend Singleton
 
   describe 'registering types and getting instances', ->
 
@@ -42,22 +43,3 @@ describe 'abstract factory', ->
 
       (expect secondInstance).toBeInstanceOf @SecondType
       (expect thirdInstance).toBeInstanceOf @ThirdType
-
-
-  describe 'getting singleton instance of factory', ->
-
-    it 'should provide a method to always retrieve the same instance', ->
-      firstInstance = Factory.getInstance()
-      secondInstance = Factory.getInstance()
-
-      (expect firstInstance).toBeInstanceOf Factory
-      (expect secondInstance).toBe firstInstance
-
-    it 'should correctly inherit static method to subclasses', ->
-      FirstFactory = Factory.extend()
-      SecondFactory = Factory.extend()
-
-      instanceOfFirstFactory = FirstFactory.getInstance()
-      instanceOfSecondFactory = SecondFactory.getInstance()
-
-      (expect instanceOfFirstFactory).not.toBe instanceOfSecondFactory

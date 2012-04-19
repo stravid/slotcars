@@ -1,7 +1,3 @@
-
-#= require slotcars/factories/factory
-#= require slotcars/factories/screen_factory
-
 describe 'screen factory', ->
 
   ScreenFactory = slotcars.factories.ScreenFactory

@@ -1,10 +1,3 @@
-
-#= require slotcars/shared/controllers/base_game_controller
-#= require slotcars/play/controllers/game_loop_controller
-
-#= require slotcars/shared/models/track
-#= require slotcars/shared/models/car
-
 describe 'base game controller', ->
 
   BaseGameController = Slotcars.shared.controllers.BaseGameController

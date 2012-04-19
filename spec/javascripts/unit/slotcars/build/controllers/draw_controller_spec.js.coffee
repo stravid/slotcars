@@ -1,7 +1,3 @@
-
-#= require slotcars/build/controllers/draw_controller
-#= require slotcars/build/build_screen_state_manager
-
 describe 'slotcars.build.controllers.DrawController', ->
 
   DrawController = slotcars.build.controllers.DrawController

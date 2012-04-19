@@ -1,10 +1,3 @@
-
-#= require embient/ember-data
-#= require slotcars/shared/models/track
-#= require slotcars/shared/models/model_store
-#= require helpers/math/path
-#= require helpers/math/raphael_path
-
 describe 'slotcars.shared.models.Track', ->
 
   Track = slotcars.shared.models.Track
@@ -260,12 +253,15 @@ describe 'slotcars.shared.models.Track', ->
         @raphaelPathMock.get.withArgs('_rasterizedPath').returns { asFixedLengthPointArray: -> }
         @raphaelPathMock.get.withArgs('path').returns ''
 
-      it 'should call commit on the model store', ->
-        ModelStore.commit = sinon.spy()
+        sinon.stub ModelStore, 'commit'
 
+      afterEach ->
+        ModelStore.commit.restore()
+
+      it 'should call commit on the model store', ->
         @track.save()
 
-        (expect ModelStore.commit).toHaveBeenCalled()
+        (expect ModelStore.commit).toHaveBeenCalledOnce()
 
       it 'should set the raphael property', ->
         path = 'M0,0L1,1z'

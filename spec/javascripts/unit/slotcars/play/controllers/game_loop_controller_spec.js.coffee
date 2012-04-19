@@ -1,6 +1,3 @@
-
-#= require slotcars/play/controllers/game_loop_controller
-
 describe 'slotcars.play.controllers.GameLoopController (unit)', ->
 
   GameLoopController = slotcars.play.controllers.GameLoopController
