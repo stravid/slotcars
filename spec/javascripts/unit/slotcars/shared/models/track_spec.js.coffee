@@ -3,9 +3,6 @@ describe 'Shared.Track', ->
   it 'should be a subclass of an ember-data Model', ->
     (expect Shared.Track).toExtend DS.Model
 
-  it 'should provide correct namespace on toString', ->
-    (expect Shared.Track.toString()).toBe 'Shared.Track'
-
   beforeEach ->
     @raphaelPathMock = mockEmberClass Shared.RaphaelPath, setRaphaelPath: sinon.spy(), setRasterizedPath: sinon.spy()
 
