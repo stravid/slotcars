@@ -1,8 +1,13 @@
 <div id="login-form">
   <h2>Login or Sign Up</h2>
-  <input type="text" placeholder="Username or Email" disabled="disabled"/>
-  <input type="password" placeholder="Password" disabled="disabled"/>
-  <button disabled="disabled">Log in</button>
+
+  {{#if hasErrors}}
+    <p class="error">Email or password are wrong.</p>
+  {{/if}}
+
+  <input id="email-field" type="text" placeholder="Email" />
+  <input id="password-field" type="password" placeholder="Password" />
+  <button {{action "onLoginButtonClicked"}}>Log in</button>
 </div>
 
 <div id="not-yet-registered">
