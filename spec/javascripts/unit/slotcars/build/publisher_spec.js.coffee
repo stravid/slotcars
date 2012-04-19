@@ -37,10 +37,27 @@ describe 'publisher', ->
 
   describe 'publishing', ->
 
+    beforeEach ->
+      slotcars.routeManager = mockEmberClass slotcars.RouteManager, set: sinon.spy()
+
+    afterEach ->
+      slotcars.routeManager.restore()
+
     it 'should save the track', ->
       @publisher.publish()
 
       (expect @trackMock.save).toHaveBeenCalled()
+
+    it 'should provide a callback to switch to game mode after track was saved', ->
+      @trackId = 30
+      @trackMock.set 'id', @trackId
+
+      @publisher.publish()
+
+      publicationCallback = @trackMock.save.args[0][0]
+      publicationCallback() # gets normally called by track.save
+
+      (expect slotcars.routeManager.set).toHaveBeenCalledWith 'location', "play/#{@trackId}"
 
   describe 'destroying', ->
 
