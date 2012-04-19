@@ -1,17 +1,13 @@
-describe 'slotcars.shared.lib.Crashable', ->
-
-  Movable = slotcars.shared.lib.Movable
-  Crashable = slotcars.shared.lib.Crashable
-  Vector = helpers.math.Vector
+describe 'Shared.Crashable', ->
 
   beforeEach ->
-    @crashable = Ember.Object.extend(Crashable, Movable).create
+    @crashable = Ember.Object.extend(Shared.Crashable, Shared.Movable).create
       position:
         x: 0
         y: 0
 
   it 'should only work with Movable', ->
-    (expect => Ember.Object.extend(Crashable).create()).toThrow()
+    (expect => Ember.Object.extend(Shared.Crashable).create()).toThrow()
 
   it 'should initially not be in crashing state', ->
     (expect @crashable.isCrashing).toBe false
@@ -34,7 +30,7 @@ describe 'slotcars.shared.lib.Crashable', ->
 
       beforeEach ->
         @crashable.position = { x: 0, y: 0 }
-        @crashable.previousDirection = Vector.create x: 1, y: 0
+        @crashable.previousDirection = Shared.Vector.create x: 1, y: 0
         @crashable.speed = 1
 
       it 'should crash if traction is not high enough', ->
@@ -56,7 +52,7 @@ describe 'slotcars.shared.lib.Crashable', ->
         nextPosition = { x: 0, y: 1 }
 
         @crashable.checkForCrash nextPosition
-        direction = Vector.create from: @crashable.position, to: nextPosition
+        direction = Shared.Vector.create from: @crashable.position, to: nextPosition
 
         (expect @crashable.previousDirection).not.toEqual direction
 
@@ -65,7 +61,7 @@ describe 'slotcars.shared.lib.Crashable', ->
         nextPosition = { x: 0, y: 1 }
 
         @crashable.checkForCrash nextPosition
-        direction = Vector.create from: @crashable.position, to: nextPosition
+        direction = Shared.Vector.create from: @crashable.position, to: nextPosition
 
         (expect @crashable.previousDirection).toEqual direction
 
@@ -74,7 +70,7 @@ describe 'slotcars.shared.lib.Crashable', ->
     beforeEach ->
       @crashable.isCrashing = true
       @crashable.position = x: 0, y: 0
-      @crashable.previousDirection = Vector.create x: 1, y: 0
+      @crashable.previousDirection = Shared.Vector.create x: 1, y: 0
 
     describe 'when speed is zero', ->
 

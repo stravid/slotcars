@@ -1,21 +1,16 @@
-
-#= require slotcars/shared/models/model_store
-
-ModelStore = slotcars.shared.models.ModelStore
-
-User = (namespace 'Slotcars.shared.models').User = DS.Model.extend
+Shared.User = DS.Model.extend
 
   username: DS.attr 'string'
   email: DS.attr 'string'
   password: DS.attr 'string'
 
-User.reopenClass
+Shared.User.reopenClass
 
   current: null
 
   signUp: (credentials) ->
-    user = User.createRecord credentials
-    ModelStore.commit()
+    user = Shared.User.createRecord credentials
+    Shared.ModelStore.commit()
 
   signIn: (credentials, successCallback, errorCallback) ->
 
@@ -32,12 +27,10 @@ User.reopenClass
 
       success: (response) =>
         userData = response.user
-        ModelStore.load User, userData
+        Shared.ModelStore.load Shared.User, userData
 
-        @current = User.find userData.id
+        @current = Shared.User.find userData.id
 
         successCallback @current if successCallback?
 
       error: (response) -> errorCallback() if errorCallback?
-
-  toString: -> 'Slotcars.shared.models.User'

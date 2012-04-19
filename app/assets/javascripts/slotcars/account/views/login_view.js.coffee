@@ -1,7 +1,4 @@
-
-#= require slotcars/account/templates/login_view_template
-
-(namespace 'Slotcars.account.views').LoginView = Ember.View.extend
+Account.LoginView = Ember.View.extend
 
   delegate: null
   elementId: 'login-widget-view'

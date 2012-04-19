@@ -1,10 +1,4 @@
-
-#= require slotcars/play/templates/game_view_template
-#= require slotcars/play/views/result_view
-
-ResultView = slotcars.play.views.ResultView
-
-(namespace 'slotcars.play.views').GameView = Ember.View.extend
+Play.GameView = Ember.View.extend
 
   elementId: 'game-view'
   templateName: 'slotcars_play_templates_game_view_template'
@@ -16,7 +10,7 @@ ResultView = slotcars.play.views.ResultView
 
   onRaceStatusChange: ( ->
     if @gameController.get 'isRaceFinished'
-      @set 'overlayView', ResultView.create
+      @set 'overlayView', Play.ResultView.create
         gameController: @get 'gameController'
 
   ).observes 'gameController.isRaceFinished'

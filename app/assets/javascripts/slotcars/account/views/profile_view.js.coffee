@@ -1,7 +1,5 @@
 
-#= require slotcars/account/templates/profile_view_template
-
-(namespace 'Slotcars.account.views').ProfileView = Ember.View.extend
+Account.ProfileView = Ember.View.extend
 
   delegate: null
   elementId: 'profile-widget-view'
