@@ -28,7 +28,7 @@ end
 
 describe "Sessions" do
 
-  it "routes post /api/sign_in.json to api::sessions#create" do
+  it "routes post /api/sign_in to api::sessions#create" do
     { :post => "api/sign_in" }.should route_to(
         :controller => "api/sessions",
         :action => "create"
