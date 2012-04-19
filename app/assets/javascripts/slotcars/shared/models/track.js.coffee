@@ -74,6 +74,3 @@ Shared.Track = DS.Model.extend
 
   _onRasterizationProgress: (rasterizedLength) ->
     @set 'rasterizedPath', Raphael.getSubpath (@get 'raphaelPath'), 0, rasterizedLength
-
-
-Shared.Track.reopenClass toString: -> 'Shared.Track'
