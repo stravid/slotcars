@@ -2,5 +2,8 @@
 
 FactoryGirl.define do
   factory :user do
+    username "admin"
+    email "admin@slotcars.com"
+    password "password"
   end
 end
