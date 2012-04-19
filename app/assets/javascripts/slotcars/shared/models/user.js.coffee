@@ -9,5 +9,3 @@ Shared.User.reopenClass
   signUp: (credentials) ->
     user = Shared.User.createRecord credentials
     Shared.ModelStore.commit()
-
-  toString: -> 'Shared.User'

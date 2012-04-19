@@ -51,7 +51,4 @@ Build.BuildScreen = Ember.Object.extend Shared.Appendable,
     @_super()
     @_buildScreenStateManager.destroy()
 
-  toString: -> '<Instance of Build.BuildScreen>'
-
-
 Shared.ScreenFactory.getInstance().registerScreen 'BuildScreen', Build.BuildScreen
