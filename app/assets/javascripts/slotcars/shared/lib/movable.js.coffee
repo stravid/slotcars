@@ -1,6 +1,3 @@
-
-#= require helpers/math/vector
-
 Shared.Movable = Ember.Mixin.create
 
   position: x: 0, y: 0

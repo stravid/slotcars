@@ -1,6 +1,3 @@
-
-#= require slotcars/build/templates/test_drive_view_template
-
 Build.TestDriveView = Ember.View.extend
 
   elementId: 'build-test-drive-view'

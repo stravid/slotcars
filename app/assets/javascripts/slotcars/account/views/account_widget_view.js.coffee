@@ -1,6 +1,3 @@
-
-#= require slotcars/account/templates/account_widget_view_template
-
 Account.AccountWidgetView = Ember.View.extend
 
   elementId: 'account-widget-view'

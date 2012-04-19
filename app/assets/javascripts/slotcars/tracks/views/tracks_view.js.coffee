@@ -1,8 +1,3 @@
-
-#= require slotcars/shared/views/thumbnail_track_view
-#= require slotcars/tracks/templates/tracks_view_template
-#= require slotcars/tracks/views/page_view
-
 Tracks.TracksView = Ember.View.extend
 
   templateName: 'slotcars_tracks_templates_tracks_view_template'

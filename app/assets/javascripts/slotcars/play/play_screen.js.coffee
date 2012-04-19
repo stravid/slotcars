@@ -1,10 +1,4 @@
 
-#= require slotcars/play/views/play_screen_view
-#= require slotcars/play/play_screen_state_manager
-#= require slotcars/shared/models/track
-#= require slotcars/shared/models/model_store
-#= require slotcars/shared/models/car
-#= require slotcars/play/game
 #= require slotcars/factories/screen_factory
 #= require slotcars/shared/lib/appendable
 
@@ -47,6 +41,5 @@ Play.PlayScreen = Ember.Object.extend Shared.Appendable,
 
   play: ->
     @_game.start()
-
 
 Shared.ScreenFactory.getInstance().registerScreen 'PlayScreen', Play.PlayScreen

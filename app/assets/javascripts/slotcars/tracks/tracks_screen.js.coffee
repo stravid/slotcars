@@ -1,6 +1,4 @@
 
-#= require slotcars/tracks/controllers/tracks_controller
-#= require slotcars/tracks/views/tracks_screen_view
 #= require slotcars/shared/lib/appendable
 #= require slotcars/factories/screen_factory
 
