@@ -17,7 +17,7 @@ PublicationView = Slotcars.build.views.PublicationView
     @buildScreenView.set 'contentView', @publicationView
 
   publish: ->
-    @track.save()
+    @track.save => slotcars.routeManager.set 'location', "play/#{@track.get 'id'}"
 
   destroy: ->
     @_super()

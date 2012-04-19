@@ -3,37 +3,43 @@
 #= require helpers/math/raphael_path
 #= require vendor/raphael
 #= require slotcars/shared/models/model_store
+#= require slotcars/shared/lib/id_observable
 
 RaphaelPath = helpers.math.RaphaelPath
 ModelStore = slotcars.shared.models.ModelStore
 
-Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend
+Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend Slotcars.shared.lib.IdObservable,
 
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'
 
   numberOfLaps: 3
 
+  id: DS.attr 'number'
   raphael: DS.attr 'string'
   rasterized: DS.attr 'string'
 
   isRasterizing: false
   rasterizedPath: null
 
-  playRoute: (->
-    clientId = @get('clientId')
-    "play/#{clientId}"
-  ).property 'clientId'
-
   init: ->
     @_super()
     @set '_raphaelPath', RaphaelPath.create()
 
-  save: ->
+  save: (@_creationCallback) ->
     @set 'raphael', @_raphaelPath.get 'path'
     @set 'rasterized', JSON.stringify (@_raphaelPath.get '_rasterizedPath').asFixedLengthPointArray()
 
     ModelStore.commit()
+
+  # Use the IdObservable mixin to ensure to get notified as soon as
+  # the 'id' property is available - ember-data´s 'didCreate' callback is called too early.
+  # This is a temporary fix!
+  didDefineId: ->
+    if @_creationCallback?
+      Ember.run.next =>
+        @_creationCallback()
+        @_creationCallback = null
 
   didLoad: ->
     points =
