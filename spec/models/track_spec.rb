@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Track do
 
-  descibe 'validation of raphael' do
+  describe 'validation of raphael' do
     valid_raphael = FactoryGirl.generate :valid_raphael_path
     it { should allow_value(valid_raphael).for(:raphael) }
 
