@@ -34,7 +34,7 @@ describe 'Shared.User', ->
       beforeEach ->
         @serverJSONResponse = user: { id: 1, username: 'admin' }
 
-        @server.respondWith "POST", "/api/sign_in.json", [
+        @server.respondWith "POST", "/api/sign_in", [
           200, { "Content-Type": "application/json" },
           JSON.stringify @serverJSONResponse
         ]
@@ -64,7 +64,7 @@ describe 'Shared.User', ->
       beforeEach ->
         @server.respondWith(
           "POST",
-          "/api/sign_in.json",
+          "/api/sign_in",
           [401, { "Content-Type": "application/json" }, ""]
         )
 

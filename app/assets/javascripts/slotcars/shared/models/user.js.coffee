@@ -16,11 +16,10 @@ Shared.User.reopenClass
 
     data =
       remote: true
-      commit: "Sign in"
       utf8: "✓"
       user: credentials
 
-    jQuery.ajax "/api/sign_in.json",
+    jQuery.ajax "/api/sign_in",
       type: "POST"
       dataType: 'json'
       data: data

@@ -1,7 +1,6 @@
 
 #= require slotcars/shared/components/widget
 #= require slotcars/factories/widget_factory
-#= require slotcars/shared/models/user
 
 Account.LoginWidget = Ember.Object.extend Shared.Widget, Ember.Evented,
 
