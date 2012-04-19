@@ -1,18 +1,10 @@
-
-#= require slotcars/build/views/publication_view
-#= require slotcars/build/build_screen_state_manager
-
-describe 'publication view', ->
-
-  TrackView = slotcars.shared.views.TrackView
-  PublicationView = Slotcars.build.views.PublicationView
-  BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
+describe 'Build.PublicationView', ->
 
   beforeEach ->
     @trackMock = {}
-    @buildScreenStateManagerMock = mockEmberClass BuildScreenStateManager, send: sinon.spy()
+    @buildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager, send: sinon.spy()
 
-    @publicationView = PublicationView.create
+    @publicationView = Build.PublicationView.create
       track: @trackMock
       stateManager: @buildScreenStateManagerMock
 
@@ -20,7 +12,7 @@ describe 'publication view', ->
     @buildScreenStateManagerMock.restore()
 
   it 'should extend TrackView', ->
-    (expect PublicationView).toExtend TrackView
+    (expect Build.PublicationView).toExtend Shared.TrackView
 
   describe 'clicking on cancel button', ->
 

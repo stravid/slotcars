@@ -1,10 +1,8 @@
+Build.BuildScreenStateManager = Ember.StateManager.extend
 
-(namespace 'Slotcars.build').BuildScreenStateManager = Ember.StateManager.extend
-
-  enableLogging: true
   delegate: null
   targetState: null
-  # originState: null
+  originState: null
 
   Drawing: Ember.State.create
     enter: (manager) -> manager.delegate.setupDrawing()

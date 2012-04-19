@@ -1,9 +1,4 @@
-
-#= require helpers/math/path
-
-describe 'helpers.math.Path', ->
-
-  Path = helpers.math.Path
+describe 'Shared.Path', ->
 
   describe '#create', ->
 
@@ -14,7 +9,7 @@ describe 'helpers.math.Path', ->
         { x: 2, y: 0, angle: 0 }
       ]
 
-      path = Path.create points: points
+      path = Shared.Path.create points: points
 
       (expect path.head.x).toEqual points[0].x
       (expect path.tail.y).toEqual points[2].y
@@ -22,14 +17,14 @@ describe 'helpers.math.Path', ->
       (expect path.tail.previous.y).toEqual points[1].y
 
     it 'should be possible to create path without parameters', ->
-      (expect => Path.create()).not.toThrow()
+      (expect => Shared.Path.create()).not.toThrow()
 
     it 'should convert point attributes to float', ->
       points = [
         { x: '0.00', y: '1.37', angle: '1.00' }
       ]
 
-      path = Path.create points: points
+      path = Shared.Path.create points: points
 
       (expect path.head.x).toEqual 0
       (expect path.head.y).toEqual 1.37
@@ -44,7 +39,7 @@ describe 'helpers.math.Path', ->
         { x: 1, y: 1, angle: 45 }
       ]
 
-      path = Path.create points: points
+      path = Shared.Path.create points: points
       path.push { x: 0, y: 1, angle: null }, true
 
       (expect path.asPointArray()).toEqual [
@@ -63,7 +58,7 @@ describe 'helpers.math.Path', ->
         { x: 2, y: 0, angle: 0 }
       ]
 
-      path = Path.create points: points
+      path = Shared.Path.create points: points
 
       (expect path.asPointArray()).toEqual points
 
@@ -78,7 +73,7 @@ describe 'helpers.math.Path', ->
         { x: '1.55', y: '4.22', angle: '3.10' }
       ]
 
-      path = Path.create points: inputPoints
+      path = Shared.Path.create points: inputPoints
 
       (expect path.asFixedLengthPointArray()).toEqual outputPoints
 
@@ -92,7 +87,7 @@ describe 'helpers.math.Path', ->
         { x: 3, y: 0, angle: 0 }
       ]
 
-      path = Path.create points: points
+      path = Shared.Path.create points: points
       path.clean minAngle: 5, minLength: 2, maxLength: 3
 
       (expect path.asPointArray()).toEqual [
@@ -109,7 +104,7 @@ describe 'helpers.math.Path', ->
         { x: 4, y: 0, angle: 20 }
       ]
 
-      path = Path.create points: points
+      path = Shared.Path.create points: points
       path.clean minAngle: 5, minLength: 2, maxLength: 5
 
       (expect path.asPointArray()).toEqual [
@@ -126,7 +121,7 @@ describe 'helpers.math.Path', ->
         { x: 4, y: 0, angle: 10 }
       ]
 
-      path = Path.create points: points
+      path = Shared.Path.create points: points
       path.clean minAngle: 5, minLength: 2, maxLength: 5
 
       (expect path.asPointArray()).toEqual [
@@ -140,7 +135,7 @@ describe 'helpers.math.Path', ->
   describe '#getTotalLength', ->
 
     beforeEach ->
-      @path = Path.create()
+      @path = Shared.Path.create()
 
 
     it 'should have total length of zero without points', ->
@@ -154,7 +149,7 @@ describe 'helpers.math.Path', ->
         { x: 0, y: 1, angle: 0 }
       ]
 
-      path = Path.create points: points
+      path = Shared.Path.create points: points
 
       (expect path.getTotalLength()).toBe 4
 
@@ -164,7 +159,7 @@ describe 'helpers.math.Path', ->
         { x: 1, y: 0, angle: 0 }
       ]
 
-      path = Path.create points: points
+      path = Shared.Path.create points: points
       (expect path.getTotalLength()).toBe 2
 
       path.insertBefore path.tail, {x: 2, y:0, angle:0 }
@@ -180,7 +175,7 @@ describe 'helpers.math.Path', ->
         { x: 0, y: 1, angle: 0 }
       ]
 
-      path = Path.create points: points
+      path = Shared.Path.create points: points
       (expect path.getTotalLength()).toBe 4
 
       path.remove path.head.next
@@ -198,10 +193,10 @@ describe 'helpers.math.Path', ->
         { x: 0, y: 1, angle: 4 }
       ]
 
-      @path = Path.create points: @points
+      @path = Shared.Path.create points: @points
 
     it 'should return zero point if no points in path', ->
-      path = Path.create()
+      path = Shared.Path.create()
       (expect path.getPointAtLength 1).toEqual x: 0, y: 0, angle: 0
 
     it 'should return defined points at length', ->

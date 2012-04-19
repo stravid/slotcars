@@ -1,19 +1,10 @@
-
-#= require slotcars/build/views/test_drive_view
-#= require slotcars/build/controllers/test_drive_controller
-#= require slotcars/shared/models/track
-
 describe 'test drive view', ->
 
-  TestDriveView = Slotcars.build.views.TestDriveView
-  TestDriveController = Slotcars.build.controllers.TestDriveController
-  Track = slotcars.shared.models.Track
-
   beforeEach ->
-    @testDriveController = mockEmberClass TestDriveController,
+    @testDriveController = mockEmberClass Build.TestDriveController,
       onEditTrack: sinon.spy()
 
-    @testDriveView = TestDriveView.create
+    @testDriveView = Build.TestDriveView.create
       track: {}
       testDriveController: @testDriveController
 
@@ -21,7 +12,7 @@ describe 'test drive view', ->
     @testDriveController.restore()
 
   it 'should extend Ember.View', ->
-    (expect TestDriveView).toExtend Ember.View
+    (expect Build.TestDriveView).toExtend Ember.View
 
   describe 'editing the track', ->
 

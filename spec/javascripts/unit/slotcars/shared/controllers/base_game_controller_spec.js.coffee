@@ -1,22 +1,10 @@
-
-#= require slotcars/shared/controllers/base_game_controller
-#= require slotcars/play/controllers/game_loop_controller
-
-#= require slotcars/shared/models/track
-#= require slotcars/shared/models/car
-
 describe 'base game controller', ->
 
-  BaseGameController = Slotcars.shared.controllers.BaseGameController
-  GameLoopController = slotcars.play.controllers.GameLoopController
-  Track = slotcars.shared.models.Track
-  Car = slotcars.shared.models.Car
-
   beforeEach ->
-    @carMock = mockEmberClass Car, update: sinon.spy()
-    @trackMock = mockEmberClass Track
+    @carMock = mockEmberClass Shared.Car, update: sinon.spy()
+    @trackMock = mockEmberClass Shared.Track
 
-    @baseGameController = BaseGameController.create
+    @baseGameController = Shared.BaseGameController.create
       track: @trackMock
       car: @carMock
 
@@ -25,7 +13,7 @@ describe 'base game controller', ->
     @carMock.restore()
 
   it 'should extend Ember.Object', ->
-    (expect BaseGameController).toExtend Ember.Object
+    (expect Shared.BaseGameController).toExtend Ember.Object
 
   it 'should set isTouchMouseDown to false by default', ->
     (expect @baseGameController.isTouchMouseDown).toBe false
@@ -34,14 +22,14 @@ describe 'base game controller', ->
     (expect @baseGameController.carControlsEnabled).toBe false
 
   it 'should throw an error when no track is provided', ->
-    (expect => BaseGameController.create car: @carMock).toThrow()
+    (expect => Shared.BaseGameController.create car: @carMock).toThrow()
 
   it 'should throw an error when no car is provided', ->
-    (expect => BaseGameController.create track: @trackMock).toThrow()
+    (expect => Shared.BaseGameController.create track: @trackMock).toThrow()
 
   it 'should create a game loop controller', ->
-    @GameLoopControllerMock = mockEmberClass GameLoopController
-    BaseGameController.create
+    @GameLoopControllerMock = mockEmberClass Play.GameLoopController
+    Shared.BaseGameController.create
       track: @trackMock
       car: @carMock
 
@@ -77,7 +65,7 @@ describe 'base game controller', ->
   describe '#start', ->
 
     beforeEach ->
-      @gameLoopControllerMock = mockEmberClass GameLoopController,
+      @gameLoopControllerMock = mockEmberClass Play.GameLoopController,
         start: (renderCallback) -> renderCallback()
 
       sinon.spy @baseGameController, 'update'

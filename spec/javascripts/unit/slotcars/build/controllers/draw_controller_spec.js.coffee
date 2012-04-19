@@ -1,20 +1,13 @@
-
-#= require slotcars/build/controllers/draw_controller
-#= require slotcars/build/build_screen_state_manager
-
-describe 'slotcars.build.controllers.DrawController', ->
-
-  DrawController = slotcars.build.controllers.DrawController
-  BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
+describe 'Build.DrawController', ->
 
   it 'should be an Ember.Object', ->
-    (expect DrawController).toExtend Ember.Object
+    (expect Build.DrawController).toExtend Ember.Object
 
   beforeEach ->
-    @buildScreenStateManagerMock = mockEmberClass BuildScreenStateManager, send: sinon.spy()
+    @buildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager, send: sinon.spy()
     @trackMock = Ember.Object.create addPathPoint: sinon.spy()
 
-    @drawController = DrawController.create
+    @drawController = Build.DrawController.create
       track: @trackMock
       stateManager: @buildScreenStateManagerMock
 

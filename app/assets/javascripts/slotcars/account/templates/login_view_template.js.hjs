@@ -1,0 +1,18 @@
+<div id="login-form">
+  <h2>Login or Sign Up</h2>
+
+  {{#if hasErrors}}
+    <p class="error">Email or password are wrong.</p>
+  {{/if}}
+
+  <input id="email-field" type="text" placeholder="Email" />
+  <input id="password-field" type="password" placeholder="Password" />
+  <button {{action "onLoginButtonClicked"}}>Log in</button>
+</div>
+
+<div id="not-yet-registered">
+  <h3>Not Yet Registered?</h3>
+  <p>Create your Slotcars account and start building your own tracks and save your highscores!</p>
+
+  <button {{action "onSignUpButtonClicked"}}>Sign Up</button>
+</div>

@@ -1,9 +1,4 @@
-
-#= require slotcars/build/views/rasterization_view
-
-RasterizationView = Slotcars.build.views.RasterizationView
-
-(namespace 'Slotcars.build').Rasterizer = Ember.Object.extend
+Build.Rasterizer = Ember.Object.extend
   
   stateManager: null
   track: null
@@ -11,7 +6,7 @@ RasterizationView = Slotcars.build.views.RasterizationView
   buildScreenView: null
 
   init: ->
-    @rasterizationView = RasterizationView.create
+    @rasterizationView = Build.RasterizationView.create
       track: @track
 
     @buildScreenView.set 'contentView', @rasterizationView

@@ -1,9 +1,4 @@
-
-#= require slotcars/shared/lib/appendable
-
 describe 'Appendable', ->
-
-  Appendable = slotcars.shared.lib.Appendable
 
   beforeEach ->
     @viewMock =
@@ -11,13 +6,13 @@ describe 'Appendable', ->
       remove: sinon.spy()
       destroy: sinon.spy()
 
-    @appendable = Ember.Object.extend(Appendable).create
+    @appendable = Ember.Object.extend(Shared.Appendable).create
       view: @viewMock
 
   it 'should always require a view', ->
     # applies the Appendable mixin on an object - assumes an error when 'view' property is not set
     # Ember.required() just works/fires when the mixin is applied after creation
-    (expect => Appendable.apply Ember.Object.create()).toThrow()
+    (expect => Shared.Appendable.apply Ember.Object.create()).toThrow()
 
   describe 'appending', ->
 

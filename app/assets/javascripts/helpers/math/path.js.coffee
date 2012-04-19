@@ -1,21 +1,19 @@
 
-#= require helpers/math/vector
 #= require helpers/math/linked_list
 
-Vector = helpers.math.Vector
-LinkedList = helpers.math.LinkedList
-
-class (namespace 'helpers.math').Path extends LinkedList
+Shared.Path = Shared.LinkedList.extend
 
   totalLength: 0
   _lengthDirty: false
 
-  @create: (parameters) ->
-    parameters ?= { points: [] }
-    new Path parameters.points
+  points: null
 
-  constructor: (points) ->
-    for point in points
+  init: ->
+    @_super()
+
+    @points or= []
+
+    for point in @points
       @push x: (parseFloat point.x, 10), y: (parseFloat point.y, 10), angle: (parseFloat point.angle, 10)
 
   clean: (parameters) ->
@@ -50,7 +48,7 @@ class (namespace 'helpers.math').Path extends LinkedList
     @asPointArray().map (point) -> { x: (point.x.toFixed 2), y: (point.y.toFixed 2), angle: (point.angle.toFixed 2) }
 
   push: (point, shouldCalculateAngles) ->
-    super point
+    @_super point
 
     @_updateLengthFor point
     if @length > 1 then @_updateLengthFor (@getCircularNextOf point)
@@ -59,7 +57,7 @@ class (namespace 'helpers.math').Path extends LinkedList
     if shouldCalculateAngles then @_calculateAnglesAroundPoint point
 
   insertBefore: (next, point) ->
-    super next, point
+    @_super next, point
 
     @_updateLengthFor point
     @_updateLengthFor next
@@ -68,7 +66,7 @@ class (namespace 'helpers.math').Path extends LinkedList
 
   remove: (point) ->
     next = @getCircularNextOf point
-    super point
+    @_super point
 
     @_updateLengthFor next
 
@@ -109,7 +107,7 @@ class (namespace 'helpers.math').Path extends LinkedList
 
   _calculateIntermediatePointFor: (point, factor) ->
     previous = (@getCircularPreviousOf point)
-    vector = Vector.create from: previous, to: point
+    vector = Shared.Vector.create from: previous, to: point
     length = vector.length()
 
     {
@@ -135,22 +133,22 @@ class (namespace 'helpers.math').Path extends LinkedList
   _updateLengthFor: (point) ->
     previous = @getCircularPreviousOf point
 
-    vector = Vector.create from: previous, to: point
+    vector = Shared.Vector.create from: previous, to: point
     point.length = vector.length()
 
   _pointShouldBeSplit: (point, parameters) ->
     next = @getCircularNextOf point
-    currentVector = Vector.create from: point, to: next
+    currentVector = Shared.Vector.create from: point, to: next
     currentVector.length() > parameters.maxLength
 
   _pointShouldBeRemoved: (point, parameters) ->
     previous = @getCircularPreviousOf point
     next = @getCircularNextOf point
 
-    currentVector = Vector.create from: previous, to: point
+    currentVector = Shared.Vector.create from: previous, to: point
 
     if point.angle < parameters.minAngle
-      replacingVector = Vector.create from: previous, to: next
+      replacingVector = Shared.Vector.create from: previous, to: next
       return @_lengthIsOk replacingVector, parameters
 
     else if currentVector.length() < parameters.minLength then return true
@@ -168,14 +166,14 @@ class (namespace 'helpers.math').Path extends LinkedList
     previous = @getCircularPreviousOf point
     next = @getCircularNextOf point
 
-    fromPrevious = Vector.create from: previous, to: point
-    toNext = Vector.create from: point, to: next
+    fromPrevious = Shared.Vector.create from: previous, to: point
+    toNext = Shared.Vector.create from: point, to: next
 
     point.angle = fromPrevious.angleFrom toNext
 
   _splitPoint: (point) ->
     next = @getCircularNextOf point
-    vector = Vector.create from: point, to: next
+    vector = Shared.Vector.create from: point, to: next
 
     @insertBefore next,
       x: point.x + vector.center().x

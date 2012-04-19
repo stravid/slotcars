@@ -1,17 +1,10 @@
-
-#= require slotcars/play/views/result_view
-#= require slotcars/play/controllers/game_controller
-
-describe 'slotcars.play.views.ResultView (unit)', ->
-  
-  ResultView = slotcars.play.views.ResultView
-  GameController = slotcars.play.controllers.GameController
+describe 'Play.ResultView (unit)', ->
   
   beforeEach ->
-    @gameControllerMock = mockEmberClass GameController,
+    @gameControllerMock = mockEmberClass Play.GameController,
       isRaceFinished: false
     
-    @resultView = ResultView.create
+    @resultView = Play.ResultView.create
       gameController: @gameControllerMock
   
   afterEach ->

@@ -1,22 +1,14 @@
-
-#= require slotcars/build/publisher
-
-describe 'publisher', ->
-
-  Publisher = Slotcars.build.Publisher
-  BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
-  BuildScreenView = slotcars.build.views.BuildScreenView
-  PublicationView = Slotcars.build.views.PublicationView
+describe 'Build.Publisher', ->
 
   beforeEach ->
     @trackMock = Ember.Object.create
       save: sinon.spy()
 
-    @buildScreenStateManagerMock = mockEmberClass BuildScreenStateManager, send: sinon.spy()
-    @buildScreenViewMock = mockEmberClass BuildScreenView, set: sinon.spy()
-    @PublicationViewMock = mockEmberClass PublicationView
+    @buildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager, send: sinon.spy()
+    @buildScreenViewMock = mockEmberClass Build.BuildScreenView, set: sinon.spy()
+    @PublicationViewMock = mockEmberClass Build.PublicationView
 
-    @publisher = Publisher.create
+    @publisher = Build.Publisher.create
       stateManager: @buildScreenStateManagerMock
       buildScreenView: @buildScreenViewMock
       track: @trackMock
@@ -27,7 +19,7 @@ describe 'publisher', ->
     @PublicationViewMock.restore()
 
   it 'should extend Ember.Object', ->
-    (expect Publisher).toExtend Ember.Object
+    (expect Build.Publisher).toExtend Ember.Object
 
   it 'should create a rastrization view and provide the track', ->
     (expect @PublicationViewMock.create).toHaveBeenCalledWithAnObjectLike stateManager: @buildScreenStateManagerMock, track: @trackMock
@@ -38,10 +30,10 @@ describe 'publisher', ->
   describe 'publishing', ->
 
     beforeEach ->
-      slotcars.routeManager = mockEmberClass slotcars.RouteManager, set: sinon.spy()
+      Shared.routeManager = mockEmberClass Shared.RouteManager, set: sinon.spy()
 
     afterEach ->
-      slotcars.routeManager.restore()
+      Shared.routeManager.restore()
 
     it 'should save the track', ->
       @publisher.publish()
@@ -57,7 +49,7 @@ describe 'publisher', ->
       publicationCallback = @trackMock.save.args[0][0]
       publicationCallback() # gets normally called by track.save
 
-      (expect slotcars.routeManager.set).toHaveBeenCalledWith 'location', "play/#{@trackId}"
+      (expect Shared.routeManager.set).toHaveBeenCalledWith 'location', "play/#{@trackId}"
 
   describe 'destroying', ->
 

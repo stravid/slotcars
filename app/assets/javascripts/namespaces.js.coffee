@@ -1,0 +1,6 @@
+window.Play = Ember.Namespace.create()
+window.Home = Ember.Namespace.create()
+window.Build = Ember.Namespace.create()
+window.Tracks = Ember.Namespace.create()
+window.Shared = Ember.Namespace.create()
+window.Account = Ember.Namespace.create()

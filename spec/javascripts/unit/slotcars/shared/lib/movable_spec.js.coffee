@@ -1,14 +1,9 @@
-
-#= require slotcars/shared/lib/movable
-
-describe 'slotcars.shared.lib.Movable', ->
-
-  Movable = slotcars.shared.lib.Movable
+describe 'Shared.Movable', ->
 
   describe 'move to a position', ->
 
     beforeEach ->
-      @movable = Ember.Object.extend(Movable).create() # because a mixin has no 'create' method
+      @movable = Ember.Object.extend(Shared.Movable).create() # because a mixin has no 'create' method
 
     it 'should update its position', ->
       position = { x: 3, y: 2 }

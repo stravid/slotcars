@@ -1,24 +1,17 @@
-
-#= require slotcars/build/builder
-
 describe 'builder', ->
 
-  Builder = slotcars.build.Builder
-  DrawController = slotcars.build.controllers.DrawController
-  DrawView = slotcars.build.views.DrawView
-
   it 'should extend Ember.Object', ->
-    (expect Builder).toExtend Ember.Object
+    (expect Build.Builder).toExtend Ember.Object
 
   beforeEach ->
-    @DrawControllerMock = mockEmberClass DrawController
-    @DrawViewMock = mockEmberClass DrawView
+    @DrawControllerMock = mockEmberClass Build.DrawController
+    @DrawViewMock = mockEmberClass Build.DrawView
 
     @buildScreenViewStub = set: sinon.spy()
     @stateManagerStub = {}
     @fakeTrack = {}
 
-    @builder = Builder.create
+    @builder = Build.Builder.create
       stateManager: @stateManagerStub
       buildScreenView: @buildScreenViewStub
       track: @fakeTrack

@@ -20,4 +20,27 @@ describe "Tracks" do
         :action => "create"
       )
   end
+
+end
+
+describe "Users" do
+
+  it "routes post /api/users to devise::registrations#create" do
+      { :post => "api/users" }.should route_to(
+          :controller => "devise/registrations",
+          :action => "create"
+        )
+  end
+
+end
+
+describe "Sessions" do
+
+  it "routes post /api/sign_in to api::sessions#create" do
+    { :post => "api/sign_in" }.should route_to(
+        :controller => "api/sessions",
+        :action => "create"
+      )
+  end
+
 end

@@ -1,5 +1,4 @@
-
-(namespace 'Slotcars.shared.lib').IdObservable = Ember.Mixin.create
+Shared.IdObservable = Ember.Mixin.create
 
   init: ->
     @_super()

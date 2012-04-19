@@ -1,20 +1,9 @@
-
-#= require slotcars/build/views/draw_view
-#= require slotcars/shared/views/track_view
-#= require slotcars/build/controllers/draw_controller
-#= require slotcars/shared/models/track
-
-describe 'slotcars.build.views.DrawView', ->
-
-  TrackView = slotcars.shared.views.TrackView
-  DrawView = slotcars.build.views.DrawView
-  DrawController = slotcars.build.controllers.DrawController
-  Track = slotcars.shared.models.Track
+describe 'Build.DrawView', ->
 
   DRAW_VIEW_PAPER_WRAPPER_ID = '#draw-view-paper'
 
   it 'should extend TrackView', ->
-    (expect DrawView).toExtend TrackView
+    (expect Build.DrawView).toExtend Shared.TrackView
 
   beforeEach ->
     @raphaelBackup = window.Raphael
@@ -36,7 +25,7 @@ describe 'slotcars.build.views.DrawView', ->
   describe 'raphaelPath bindings on track', ->
 
     it 'should not throw exceptions when track is not yet available', ->
-      DrawView.create()
+      Build.DrawView.create()
 
       (expect -> Ember.run.end()).not.toThrow()
 
@@ -44,11 +33,11 @@ describe 'slotcars.build.views.DrawView', ->
 
     beforeEach ->
       @originalTestPath = 'M0,0L3,4Z'
-      @track = mockEmberClass Track
-      @drawController = DrawController.create
+      @track = mockEmberClass Shared.Track
+      @drawController = Build.DrawController.create
         track: @track
 
-      @drawView = DrawView.create drawController: @drawController, track: @track
+      @drawView = Build.DrawView.create drawController: @drawController, track: @track
       @drawView.appendTo '<div>'
       
       Ember.run.end()
@@ -69,9 +58,9 @@ describe 'slotcars.build.views.DrawView', ->
   describe 'event handling in draw view when appended to DOM', ->
 
     beforeEach ->
-      @track = Track.createRecord()
-      @drawControllerMock = mockEmberClass DrawController
-      @drawView = DrawView.create drawController: @drawControllerMock, track: @track
+      @track = Shared.Track.createRecord()
+      @drawControllerMock = mockEmberClass Build.DrawController
+      @drawView = Build.DrawView.create drawController: @drawControllerMock, track: @track
 
       # append it into DOM to test real jQuery events
       @drawView.appendTo '<div>'

@@ -1,17 +1,10 @@
-
-#= require helpers/math/raphael_path
-#= require helpers/math/path
-#= require vendor/raphael
-
 describe 'raphael path', ->
 
-  RaphaelPath = helpers.math.RaphaelPath
-
   it 'should be an ember object', ->
-    (expect RaphaelPath).toExtend Ember.Object
+    (expect Shared.RaphaelPath).toExtend Ember.Object
 
   beforeEach ->
-    @pathMock = mockEmberClass helpers.math.Path,
+    @pathMock = mockEmberClass Shared.Path,
       push: sinon.spy()
       asPointArray: sinon.stub().returns []
       length: 0
@@ -28,7 +21,7 @@ describe 'raphael path', ->
 
     it 'should push point into its path and tell it to calculate angle', ->
       testPoint = { x: 1, y: 0 }
-      raphaelPath = RaphaelPath.create()
+      raphaelPath = Shared.RaphaelPath.create()
 
       raphaelPath.addPoint testPoint
 
@@ -38,7 +31,7 @@ describe 'raphael path', ->
   describe 'updating of path string', ->
 
     beforeEach ->
-      @raphaelPath = RaphaelPath.create()
+      @raphaelPath = Shared.RaphaelPath.create()
 
       @firstPoint = { x: 1, y: 0 }
       @secondPoint = { x: 2, y: 1 }
@@ -47,18 +40,18 @@ describe 'raphael path', ->
 
     it 'should use an empty path by default and provide default raphael path', ->
       (expect @raphaelPath.get 'path').not.toBe undefined
-      (expect @raphaelPath.get 'path').toBe RaphaelPath.EMPTY_PATH_STRING
+      (expect @raphaelPath.get 'path').toBe Shared.RaphaelPath.EMPTY_PATH_STRING
 
     it 'should keep default empty path when points count < 3', ->
       @pathMock.length = 1
       @raphaelPath.addPoint @firstPoint
 
-      (expect @raphaelPath.get 'path').toEqual RaphaelPath.EMPTY_PATH_STRING
+      (expect @raphaelPath.get 'path').toEqual Shared.RaphaelPath.EMPTY_PATH_STRING
 
       @pathMock.length = 2
       @raphaelPath.addPoint @secondPoint
 
-      (expect @raphaelPath.get 'path').toEqual RaphaelPath.EMPTY_PATH_STRING
+      (expect @raphaelPath.get 'path').toEqual Shared.RaphaelPath.EMPTY_PATH_STRING
 
     it 'should update catmull rom path correctly when more points than 2 were added', ->
       # raphael path loops over point array internally
@@ -76,7 +69,7 @@ describe 'raphael path', ->
   describe 'total length of path', ->
 
     it 'should return the paths current total lenght', ->
-      raphaelPath = RaphaelPath.create()
+      raphaelPath = Shared.RaphaelPath.create()
       expectedLength = 5.3023
 
       @RaphaelMock.getTotalLength = sinon.stub().returns expectedLength
@@ -89,7 +82,7 @@ describe 'raphael path', ->
   describe 'getting point on length of track', ->
 
     it 'should as Raphael for point at specific length on path', ->
-      raphaelPath = RaphaelPath.create()
+      raphaelPath = Shared.RaphaelPath.create()
       expectedPoint = { x: 3, y: 31 }
 
       @RaphaelMock.getPointAtLength = sinon.stub().returns expectedPoint
@@ -103,7 +96,7 @@ describe 'raphael path', ->
 
     beforeEach ->
       @pathMock.clear = sinon.spy()
-      @raphaelPath = RaphaelPath.create()
+      @raphaelPath = Shared.RaphaelPath.create()
 
     it 'should tell the path to clear', ->
       @raphaelPath.clear()
@@ -122,14 +115,14 @@ describe 'raphael path', ->
     it 'should reset the path to default value', ->
       @raphaelPath.clear()
 
-      (expect @raphaelPath.get 'path').toBe RaphaelPath.EMPTY_PATH_STRING
+      (expect @raphaelPath.get 'path').toBe Shared.RaphaelPath.EMPTY_PATH_STRING
 
 
 
   describe 'cleaning the path', ->
 
     beforeEach ->
-      @raphaelPath = RaphaelPath.create()
+      @raphaelPath = Shared.RaphaelPath.create()
       @pathMock.clean = sinon.spy()
 
     it 'should tell the path to clean with given parameters', ->
@@ -159,7 +152,7 @@ describe 'raphael path', ->
   describe 'rasterizing the path for performance lookups', ->
 
     beforeEach ->
-      @raphaelPath = RaphaelPath.create()
+      @raphaelPath = Shared.RaphaelPath.create()
 
       @RaphaelMock.getPointAtLength = sinon.stub()
 
@@ -253,7 +246,7 @@ describe 'raphael path', ->
   describe 'setting the raphael path', ->
 
     it 'should set the raphael path', ->
-      raphaelPath = RaphaelPath.create()
+      raphaelPath = Shared.RaphaelPath.create()
       path = "M0,0L1,0z"
 
       raphaelPath.setRaphaelPath path
@@ -265,7 +258,7 @@ describe 'raphael path', ->
     it 'should set the rasterized path', ->
       @pathMock.restore()
 
-      raphaelPath = RaphaelPath.create()
+      raphaelPath = Shared.RaphaelPath.create()
       points =
         points: [
           { x: '1', y: '2', angle: '3' }

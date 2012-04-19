@@ -1,5 +1,4 @@
-
-(namespace 'slotcars.shared.lib').Appendable = Ember.Mixin.create
+Shared.Appendable = Ember.Mixin.create
   
   view: Ember.required()
 

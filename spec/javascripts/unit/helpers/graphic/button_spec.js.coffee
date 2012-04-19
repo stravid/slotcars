@@ -1,17 +1,12 @@
-
-#= require helpers/graphic/button
-
 describe 'button', ->
 
-  Button = helpers.graphic.Button
-
   it 'should extend Ember.Object', ->
-    (expect Button).toExtend Ember.Object
+    (expect Shared.Button).toExtend Ember.Object
 
   describe 'reseting', ->
 
     beforeEach ->
-      @button = Button.create()
+      @button = Shared.Button.create()
 
     it 'should set disabled to true', ->
       @button.reset()

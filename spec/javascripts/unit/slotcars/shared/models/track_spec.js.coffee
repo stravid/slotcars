@@ -1,24 +1,10 @@
-
-#= require embient/ember-data
-#= require slotcars/shared/models/track
-#= require slotcars/shared/models/model_store
-#= require helpers/math/path
-#= require helpers/math/raphael_path
-
-describe 'slotcars.shared.models.Track', ->
-
-  Track = slotcars.shared.models.Track
-  RaphaelPath = helpers.math.RaphaelPath
-  ModelStore = slotcars.shared.models.ModelStore
+describe 'Shared.Track', ->
 
   it 'should be a subclass of an ember-data Model', ->
-    (expect Track).toExtend DS.Model
-
-  it 'should provide correct namespace on toString', ->
-    (expect Track.toString()).toBe 'slotcars.shared.models.Track'
+    (expect Shared.Track).toExtend DS.Model
 
   beforeEach ->
-    @raphaelPathMock = mockEmberClass RaphaelPath, setRaphaelPath: sinon.spy(), setRasterizedPath: sinon.spy()
+    @raphaelPathMock = mockEmberClass Shared.RaphaelPath, setRaphaelPath: sinon.spy(), setRasterizedPath: sinon.spy()
 
   afterEach ->
     @raphaelPathMock.restore()
@@ -28,7 +14,7 @@ describe 'slotcars.shared.models.Track', ->
 
     it 'should bind raphaelPath property to path of RaphaelPath instance', ->
       expectedPathValue = 'test'
-      track = Track.createRecord()
+      track = Shared.Track.createRecord()
 
       @raphaelPathMock.set 'path', expectedPathValue
 
@@ -40,7 +26,7 @@ describe 'slotcars.shared.models.Track', ->
   describe 'adding path points', ->
 
     it 'should tell its raphael path to add points', ->
-      track = Track.createRecord()
+      track = Shared.Track.createRecord()
       point = { x: 1, y: 0 }
       @raphaelPathMock.addPoint = sinon.spy()
 
@@ -52,7 +38,7 @@ describe 'slotcars.shared.models.Track', ->
   describe 'getting total length of path', ->
 
     it 'should ask its raphael path for total length', ->
-      track = Track.createRecord()
+      track = Shared.Track.createRecord()
       expectedLength = Math.random() * 10
       @raphaelPathMock.get = sinon.stub().withArgs('totalLength').returns expectedLength
 
@@ -68,7 +54,7 @@ describe 'slotcars.shared.models.Track', ->
       fakePointAtLength = {}
       @raphaelPathMock.getPointAtLength = sinon.stub().withArgs(length).returns fakePointAtLength
 
-      track = Track.createRecord()
+      track = Shared.Track.createRecord()
       resultPoint = track.getPointAtLength length
 
       (expect resultPoint).toBe fakePointAtLength
@@ -78,7 +64,7 @@ describe 'slotcars.shared.models.Track', ->
 
     beforeEach ->
       @raphaelPathMock.clear = sinon.spy()
-      @track = Track.createRecord()
+      @track = Shared.Track.createRecord()
 
     it 'should tell the path to clear', ->
       @track.clearPath()
@@ -91,7 +77,7 @@ describe 'slotcars.shared.models.Track', ->
     beforeEach ->
       @raphaelPathMock.clean = sinon.spy()
       @raphaelPathMock.rasterize = sinon.spy()
-      @track = Track.createRecord()
+      @track = Shared.Track.createRecord()
 
     it 'should tell the path to clean itself', ->
       @track.cleanPath()
@@ -107,7 +93,7 @@ describe 'slotcars.shared.models.Track', ->
   describe 'lap count for tracks', ->
 
     it 'should return the same static number of laps for all tracks', ->
-      @track = Track.createRecord()
+      @track = Shared.Track.createRecord()
 
       (expect @track.get 'numberOfLaps').toBe 3
 
@@ -117,7 +103,7 @@ describe 'slotcars.shared.models.Track', ->
     beforeEach ->
       @fakePathLength = 1
       @raphaelPathMock.totalLength = @fakePathLength
-      @track = Track.createRecord()
+      @track = Shared.Track.createRecord()
 
     it 'should return true when asked for length after finish line', ->
       lengthThatShouldBeAfter = (@track.get 'numberOfLaps') * @fakePathLength + 0.00001
@@ -133,7 +119,7 @@ describe 'slotcars.shared.models.Track', ->
     beforeEach ->
       @fakePathLength = 1
       @raphaelPathMock.totalLength = @fakePathLength
-      @track = Track.createRecord()
+      @track = Shared.Track.createRecord()
 
     it 'should return first lap for lengths smaller than the path length', ->
       lengthLessThanFirstLap = @fakePathLength - 0.0001
@@ -154,7 +140,7 @@ describe 'slotcars.shared.models.Track', ->
   describe 'rasterizing the track', ->
 
     beforeEach ->
-      @track = Track.createRecord()
+      @track = Shared.Track.createRecord()
       @raphaelPathMock.rasterize = sinon.spy()
 
       @fakeRasterizedPathValue = 'fakePathValue'
@@ -234,7 +220,7 @@ describe 'slotcars.shared.models.Track', ->
         points =
           points: JSON.parse rasterized
 
-        track = Track.createRecord()
+        track = Shared.Track.createRecord()
 
         track.set 'raphael', raphael
         track.set 'rasterized', rasterized
@@ -247,17 +233,20 @@ describe 'slotcars.shared.models.Track', ->
     describe '#save', ->
 
       beforeEach ->
-        @track = Track.createRecord()
+        @track = Shared.Track.createRecord()
         @raphaelPathMock.get = sinon.stub()
         @raphaelPathMock.get.withArgs('_rasterizedPath').returns { asFixedLengthPointArray: -> }
         @raphaelPathMock.get.withArgs('path').returns ''
 
-      it 'should call commit on the model store', ->
-        ModelStore.commit = sinon.spy()
+        sinon.stub Shared.ModelStore, 'commit'
 
+      afterEach ->
+        Shared.ModelStore.commit.restore()
+
+      it 'should call commit on the model store', ->
         @track.save()
 
-        (expect ModelStore.commit).toHaveBeenCalled()
+        (expect Shared.ModelStore.commit).toHaveBeenCalledOnce()
 
       it 'should set the raphael property', ->
         path = 'M0,0L1,1z'

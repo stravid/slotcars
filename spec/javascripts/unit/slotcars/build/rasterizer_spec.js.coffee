@@ -1,23 +1,15 @@
-
-#= require slotcars/build/rasterizer
-
 describe 'rasterizer', ->
-
-  Rasterizer = Slotcars.build.Rasterizer
-  BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
-  BuildScreenView = slotcars.build.views.BuildScreenView
-  RasterizationView = Slotcars.build.views.RasterizationView
 
   beforeEach ->
     @trackMock = Ember.Object.create
       clearPath: sinon.spy()
       rasterize: sinon.spy()
 
-    @buildScreenStateManagerMock = mockEmberClass BuildScreenStateManager, send: sinon.spy()
-    @buildScreenViewMock = mockEmberClass BuildScreenView, set: sinon.spy()
-    @RasterizationViewMock = mockEmberClass RasterizationView
+    @buildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager, send: sinon.spy()
+    @buildScreenViewMock = mockEmberClass Build.BuildScreenView, set: sinon.spy()
+    @RasterizationViewMock = mockEmberClass Build.RasterizationView
 
-    @rasterizer = Rasterizer.create
+    @rasterizer = Build.Rasterizer.create
       stateManager: @buildScreenStateManagerMock
       buildScreenView: @buildScreenViewMock
       track: @trackMock
@@ -28,7 +20,7 @@ describe 'rasterizer', ->
     @RasterizationViewMock.restore()
 
   it 'should extend Ember.Object', ->
-    (expect Rasterizer).toExtend Ember.Object
+    (expect Build.Rasterizer).toExtend Ember.Object
 
   it 'should create a rastrization view and provide the track', ->
     (expect @RasterizationViewMock.create).toHaveBeenCalledWithAnObjectLike track: @trackMock

@@ -1,21 +1,13 @@
-
-#= require slotcars/build/controllers/test_drive_controller
-#= require slotcars/build/build_screen_state_manager
-
 describe 'test drive controller', ->
 
-  BaseGameController = Slotcars.shared.controllers.BaseGameController
-  TestDriveController = Slotcars.build.controllers.TestDriveController
-  BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
-
   it 'should extend BaseGameController', ->
-    (expect TestDriveController).toExtend BaseGameController
+    (expect Build.TestDriveController).toExtend Shared.BaseGameController
 
   beforeEach ->
-    @buildScreenStateManagerMock = mockEmberClass BuildScreenStateManager,
+    @buildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager,
       goToState: sinon.spy()
 
-    @testDriveController = TestDriveController.create
+    @testDriveController = Build.TestDriveController.create
       stateManager: @buildScreenStateManagerMock
       track: {}
       car: {}

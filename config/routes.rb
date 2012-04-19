@@ -1,6 +1,6 @@
 Slotcars::Application.routes.draw do
 
-  devise_for :users
+  devise_for :users, :controllers => { :sessions => 'api/sessions' }
 
   root :to => 'slotcars#index'
 
@@ -10,6 +10,12 @@ Slotcars::Application.routes.draw do
 
   namespace :api do
     resources :tracks, :only => [:index, :show, :create]
+  end
+
+  devise_scope :user do
+    root :to => "devise/sessions#new", :as => :users
+    post 'api/users', :to => "devise/registrations#create"
+    post 'api/sign_in', :to => "api/sessions#create"
   end
 
 end

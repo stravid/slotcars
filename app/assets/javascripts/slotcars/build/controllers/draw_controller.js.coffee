@@ -1,9 +1,6 @@
-
-#= require helpers/math/vector
-
 ADD_POINT_MIN_DISTANCE = 30
 
-(namespace 'slotcars.build.controllers').DrawController = Ember.Object.extend
+Build.DrawController = Ember.Object.extend
 
   track: null
   _lastAddedPoint: null
@@ -11,7 +8,7 @@ ADD_POINT_MIN_DISTANCE = 30
   onTouchMouseMove: (point) ->
     # only add new point if it is at least 40 pixels away from last
     @_lastAddedPoint = { x: 0, y: 0 } unless @_lastAddedPoint?
-    distanceVector = helpers.math.Vector.create from: @_lastAddedPoint, to: point
+    distanceVector = Shared.Vector.create from: @_lastAddedPoint, to: point
     @addPointToTrack point if distanceVector.length() > ADD_POINT_MIN_DISTANCE
 
   addPointToTrack: (point) ->

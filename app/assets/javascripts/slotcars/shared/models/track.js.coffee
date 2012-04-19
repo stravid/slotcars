@@ -1,14 +1,6 @@
-
-#= require embient/ember-data
-#= require helpers/math/raphael_path
-#= require vendor/raphael
-#= require slotcars/shared/models/model_store
 #= require slotcars/shared/lib/id_observable
 
-RaphaelPath = helpers.math.RaphaelPath
-ModelStore = slotcars.shared.models.ModelStore
-
-Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend Slotcars.shared.lib.IdObservable,
+Shared.Track = DS.Model.extend Shared.IdObservable,
 
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'
@@ -24,13 +16,13 @@ Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend Slotcars.sh
 
   init: ->
     @_super()
-    @set '_raphaelPath', RaphaelPath.create()
+    @set '_raphaelPath', Shared.RaphaelPath.create()
 
   save: (@_creationCallback) ->
     @set 'raphael', @_raphaelPath.get 'path'
     @set 'rasterized', JSON.stringify (@_raphaelPath.get '_rasterizedPath').asFixedLengthPointArray()
 
-    ModelStore.commit()
+    Shared.ModelStore.commit()
 
   # Use the IdObservable mixin to ensure to get notified as soon as
   # the 'id' property is available - ember-data´s 'didCreate' callback is called too early.
@@ -83,6 +75,3 @@ Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend Slotcars.sh
 
   _onRasterizationProgress: (rasterizedLength) ->
     @set 'rasterizedPath', Raphael.getSubpath (@get 'raphaelPath'), 0, rasterizedLength
-
-
-Track.reopenClass toString: -> 'slotcars.shared.models.Track'

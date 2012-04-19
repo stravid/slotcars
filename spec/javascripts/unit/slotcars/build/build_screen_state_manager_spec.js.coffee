@@ -1,9 +1,4 @@
-
-#= require slotcars/build/build_screen_state_manager
-
 describe 'build screen state manager', ->
-
-  BuildScreenStateManager = Slotcars.build.BuildScreenStateManager
 
   beforeEach ->
     @delegateMock =
@@ -19,13 +14,13 @@ describe 'build screen state manager', ->
       teardownPublishing: sinon.spy()
 
   it 'should extend Ember.StateManager', ->
-    (expect BuildScreenStateManager).toExtend Ember.StateManager
+    (expect Build.BuildScreenStateManager).toExtend Ember.StateManager
 
 
   describe 'drawing', ->
 
     beforeEach ->
-      @buildScreenStateManager = BuildScreenStateManager.create
+      @buildScreenStateManager = Build.BuildScreenStateManager.create
         delegate: @delegateMock
 
       @buildScreenStateManager.goToState 'Drawing'
@@ -48,7 +43,7 @@ describe 'build screen state manager', ->
   describe 'testing', ->
 
     beforeEach ->
-      @buildScreenStateManager = BuildScreenStateManager.create
+      @buildScreenStateManager = Build.BuildScreenStateManager.create
         delegate: @delegateMock
 
       @buildScreenStateManager.goToState 'Testing'
@@ -88,7 +83,7 @@ describe 'build screen state manager', ->
   describe 'editing', ->
 
     beforeEach ->
-      @buildScreenStateManager = BuildScreenStateManager.create
+      @buildScreenStateManager = Build.BuildScreenStateManager.create
         delegate: @delegateMock
 
       @buildScreenStateManager.goToState 'Editing'
@@ -141,7 +136,7 @@ describe 'build screen state manager', ->
   describe 'rasterizing', ->
 
     beforeEach ->
-      @buildScreenStateManager = BuildScreenStateManager.create
+      @buildScreenStateManager = Build.BuildScreenStateManager.create
         delegate: @delegateMock
 
       @buildScreenStateManager.goToState 'Rasterizing'
@@ -178,7 +173,7 @@ describe 'build screen state manager', ->
   describe 'publishing', ->
 
     beforeEach ->
-      @buildScreenStateManager = BuildScreenStateManager.create
+      @buildScreenStateManager = Build.BuildScreenStateManager.create
         delegate: @delegateMock
 
       @buildScreenStateManager.goToState 'Publishing'

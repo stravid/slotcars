@@ -1,14 +1,12 @@
+describe 'Shared.Factory', ->
 
-#= require slotcars/factories/factory
-
-describe 'abstract factory', ->
-
-  Factory = Slotcars.factories.Factory
+  it 'should be a singleton', ->
+    (expect Shared.Factory).toExtend Shared.Singleton
 
   describe 'registering types and getting instances', ->
 
     beforeEach ->
-      @factory = Factory.create()
+      @factory = Shared.Factory.create()
       @ExpectedType = Ember.Object.extend()
       @factory.registerType 'ExpectedType', @ExpectedType
 
@@ -42,22 +40,3 @@ describe 'abstract factory', ->
 
       (expect secondInstance).toBeInstanceOf @SecondType
       (expect thirdInstance).toBeInstanceOf @ThirdType
-
-
-  describe 'getting singleton instance of factory', ->
-
-    it 'should provide a method to always retrieve the same instance', ->
-      firstInstance = Factory.getInstance()
-      secondInstance = Factory.getInstance()
-
-      (expect firstInstance).toBeInstanceOf Factory
-      (expect secondInstance).toBe firstInstance
-
-    it 'should correctly inherit static method to subclasses', ->
-      FirstFactory = Factory.extend()
-      SecondFactory = Factory.extend()
-
-      instanceOfFirstFactory = FirstFactory.getInstance()
-      instanceOfSecondFactory = SecondFactory.getInstance()
-
-      (expect instanceOfFirstFactory).not.toBe instanceOfSecondFactory

@@ -1,5 +1,4 @@
-
-(namespace 'Slotcars.shared.components').Widget = Ember.Mixin.create
+Shared.Widget = Ember.Mixin.create
 
   view: Ember.required()
 

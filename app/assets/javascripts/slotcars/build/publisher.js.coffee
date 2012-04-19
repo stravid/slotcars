@@ -1,23 +1,18 @@
-
-#= require slotcars/build/views/publication_view
-
-PublicationView = Slotcars.build.views.PublicationView
-
-(namespace 'Slotcars.build').Publisher = Ember.Object.extend
+Build.Publisher = Ember.Object.extend
 
   stateManager: null
   buildScreenView: null
   track: null
 
   init: ->
-    @publicationView = PublicationView.create
+    @publicationView = Build.PublicationView.create
       stateManager: @stateManager
       track: @track
 
     @buildScreenView.set 'contentView', @publicationView
 
   publish: ->
-    @track.save => slotcars.routeManager.set 'location', "play/#{@track.get 'id'}"
+    @track.save => Shared.routeManager.set 'location', "play/#{@track.get 'id'}"
 
   destroy: ->
     @_super()

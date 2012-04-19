@@ -1,42 +1,18 @@
-
-#= require slotcars/play/game
-#= require slotcars/play/controllers/game_controller
-
-#= require slotcars/shared/models/car
-#= require slotcars/shared/models/track
-
-#= require slotcars/play/views/car_view
-#= require slotcars/play/views/game_view
-#= require slotcars/shared/views/track_view
-#= require slotcars/play/views/play_screen_view
-#= require slotcars/play/views/clock_view
-
 describe 'game', ->
 
-  Game = slotcars.play.Game
-  Car = slotcars.shared.models.Car
-  Track = slotcars.shared.models.Track
-  CarView = slotcars.play.views.CarView
-  GameController = slotcars.play.controllers.GameController
-  GameView = slotcars.play.views.GameView
-  TrackView = slotcars.shared.views.TrackView
-  PlayTrackView = slotcars.play.views.PlayTrackView
-  PlayScreenView = slotcars.play.views.PlayScreenView
-  ClockView = slotcars.play.views.ClockView
-
   beforeEach ->
-    @carMock = mockEmberClass Car
-    @trackMock = mockEmberClass Track
-    @playScreenViewMock = mockEmberClass PlayScreenView, set: sinon.spy()
+    @carMock = mockEmberClass Shared.Car
+    @trackMock = mockEmberClass Shared.Track
+    @playScreenViewMock = mockEmberClass Play.PlayScreenView, set: sinon.spy()
 
-    @GameControllerMock = mockEmberClass GameController
-    @CarViewMock = mockEmberClass CarView
-    @GameViewMock = mockEmberClass GameView
-    @PlayTrackViewMock = mockEmberClass PlayTrackView,
+    @GameControllerMock = mockEmberClass Play.GameController
+    @CarViewMock = mockEmberClass Play.CarView
+    @GameViewMock = mockEmberClass Play.GameView
+    @PlayTrackViewMock = mockEmberClass Play.PlayTrackView,
       gameController: {}  # gameController is required by Controllable mixin which is used here
-    @ClockViewMock = mockEmberClass ClockView
+    @ClockViewMock = mockEmberClass Play.ClockView
 
-    @game = Game.create
+    @game = Play.Game.create
       playScreenView: @playScreenViewMock
       track: @trackMock
       car: @carMock
@@ -55,7 +31,7 @@ describe 'game', ->
   describe 'creating the game', ->
 
     it 'should extend Ember.Object', ->
-      (expect Game).toExtend Ember.Object
+      (expect Play.Game).toExtend Ember.Object
 
     it 'should create a car view and provide the car', ->
       (expect @CarViewMock.create).toHaveBeenCalledWithAnObjectLike car: @carMock
