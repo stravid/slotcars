@@ -1,6 +1,4 @@
 
-#= require helpers/math/vector
-
 #= require slotcars/shared/lib/movable
 #= require slotcars/shared/lib/crashable
 

@@ -1,6 +1,3 @@
-
-#= require helpers/request_frame
-
 Play.GameLoopController = Ember.Object.extend
 
   renderCallback: null

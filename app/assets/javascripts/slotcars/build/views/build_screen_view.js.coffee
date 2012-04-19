@@ -1,8 +1,3 @@
-
-#= require embient/ember-layout
-#= require slotcars/build/templates/build_screen_view_template
-#= require helpers/graphic/button
-
 Build.BuildScreenView = Ember.View.extend
 
   elementId: 'build-screen-view'

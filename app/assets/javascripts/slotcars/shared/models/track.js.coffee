@@ -1,9 +1,3 @@
-
-#= require embient/ember-data
-#= require helpers/math/raphael_path
-#= require vendor/raphael
-#= require slotcars/shared/models/model_store
-
 Shared.Track = DS.Model.extend
 
   _raphaelPath: null

@@ -1,6 +1,3 @@
-
-#= require slotcars/play/templates/clock_view_template
-
 Play.ClockView = Ember.View.extend
 
   elementId: 'clock'

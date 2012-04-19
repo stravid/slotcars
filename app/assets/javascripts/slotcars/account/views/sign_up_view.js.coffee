@@ -1,6 +1,3 @@
-
-#= require slotcars/account/templates/sign_up_view_template
-
 Account.SignUpView = Ember.View.extend
 
   delegate: null

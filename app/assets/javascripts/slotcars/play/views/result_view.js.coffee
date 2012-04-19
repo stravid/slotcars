@@ -1,5 +1,3 @@
-#= require slotcars/play/templates/result_view_template
-
 Play.ResultView = Ember.View.extend
 
   elementId: 'lap-time-view'

@@ -1,11 +1,3 @@
-
-#= require slotcars/play/views/car_view
-#= require slotcars/play/views/game_view
-#= require slotcars/play/views/clock_view
-#= require slotcars/play/views/play_track_view
-#= require slotcars/play/controllers/game_controller
-#= require slotcars/shared/lib/controllable
-
 Play.Game = Ember.Object.extend
 
   playScreenView: null

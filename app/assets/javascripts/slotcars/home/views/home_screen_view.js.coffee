@@ -1,6 +1,3 @@
-
-#= require slotcars/home/templates/home_screen_view_template
-
 Home.HomeScreenView = Ember.View.extend
 
   elementId: 'home_screen_view'

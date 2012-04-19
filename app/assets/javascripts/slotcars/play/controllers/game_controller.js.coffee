@@ -1,9 +1,5 @@
 
 #= require slotcars/shared/controllers/base_game_controller
-#= require slotcars/play/controllers/game_loop_controller
-#= require slotcars/play/views/car_view
-
-#= require helpers/event_normalize
 
 Play.GameController = Shared.BaseGameController.extend
   

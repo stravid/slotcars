@@ -3,7 +3,6 @@
 
 #= require jquery
 #= require jquery_ujs
-#= require embient/ember
 
 # ------ load testing extras -------
 # (jasmine + jasmine-jquery are loaded automatically)
@@ -12,10 +11,7 @@
 #= require jasmine-sinon
 #= require_tree ./helpers
 
-#= require namespaces
-
-#= require_tree ../../app/assets/javascripts/helpers
-#= require_tree ../../app/assets/javascripts/slotcars
+#= require slotcars/slotcars_application
 
 # ------ load all specs ------
 #= require_tree ./unit

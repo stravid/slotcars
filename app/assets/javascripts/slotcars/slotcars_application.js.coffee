@@ -1,7 +1,13 @@
+#= require vendor/raphael
+#= require embient/ember
+#= require embient/ember-routemanager
+#= require embient/ember-data
+#= require embient/ember-layout
 
-#= require slotcars/route_manager
-#= require helpers/routing/route_local_links
-#= require slotcars/factories/screen_factory
+#= require namespaces
+
+#= require_tree ../helpers
+#= require_tree ../slotcars
 
 window.SlotcarsApplication = Ember.Application.extend
   _currentScreen: null

@@ -1,7 +1,5 @@
 
 #= require slotcars/shared/views/track_view
-#= require slotcars/build/templates/draw_view_template
-#= require helpers/event_normalize
 
 PAPER_WRAPPER_ID = '#draw-view-paper'
 

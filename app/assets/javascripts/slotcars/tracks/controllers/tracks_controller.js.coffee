@@ -1,7 +1,3 @@
-
-#= require slotcars/shared/models/track
-#= require slotcars/tracks/views/tracks_view
-
 Tracks.TracksController = Ember.Object.extend
 
   tracksScreenView: null

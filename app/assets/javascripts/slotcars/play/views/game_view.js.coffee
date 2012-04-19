@@ -1,7 +1,3 @@
-
-#= require slotcars/play/templates/game_view_template
-#= require slotcars/play/views/result_view
-
 Play.GameView = Ember.View.extend
 
   elementId: 'game-view'

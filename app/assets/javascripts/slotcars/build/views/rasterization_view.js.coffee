@@ -1,6 +1,5 @@
 
 #= require slotcars/shared/views/track_view
-#= require slotcars/build/templates/rasterization_view_template
 
 Build.RasterizationView = Shared.TrackView.extend
   

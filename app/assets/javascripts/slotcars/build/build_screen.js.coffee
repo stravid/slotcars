@@ -1,13 +1,6 @@
 
-#= require slotcars/build/views/build_screen_view
-#= require slotcars/build/builder
-#= require slotcars/build/test_drive
-#= require slotcars/shared/models/track
-#= require slotcars/shared/models/car
-#= require slotcars/build/build_screen_state_manager
 #= require slotcars/factories/screen_factory
 #= require slotcars/shared/lib/appendable
-#= require slotcars/build/rasterizer
 
 Build.BuildScreen = Ember.Object.extend Shared.Appendable,
 

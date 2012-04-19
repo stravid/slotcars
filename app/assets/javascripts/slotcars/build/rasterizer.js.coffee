@@ -1,6 +1,3 @@
-
-#= require slotcars/build/views/rasterization_view
-
 Build.Rasterizer = Ember.Object.extend
   
   stateManager: null
