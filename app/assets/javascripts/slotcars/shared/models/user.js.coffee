@@ -8,11 +8,11 @@ Shared.User.reopenClass
 
   current: null
 
-  signUp: (credentials, successCallback) ->
-    Shared.User.current = Shared.User.createRecord credentials
+  signUp: (credentials) ->
+    userToSignUp = Shared.User.createRecord credentials
     Shared.ModelStore.commit()
 
-    return Shared.User.current
+    return userToSignUp
 
   signIn: (credentials, successCallback, errorCallback) ->
 
