@@ -9,6 +9,17 @@
   <%= stylesheet_link_tag    "slotcars", :media => "all" %>
   <%= javascript_include_tag "slotcars" %>
   <%= csrf_meta_tags %>
+
+  <% if current_user %>
+    <script type="text/javascript">
+      Shared.ModelStore.load(Shared.User, {
+        id: <%= current_user.id %>,
+        username: '<%= current_user.username %>'
+      });
+
+      Shared.User.current = Shared.User.find(<%= current_user.id %>);
+    </script>
+  <% end %>
 </head>
 <body>
 
