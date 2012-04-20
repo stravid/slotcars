@@ -44,6 +44,8 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
 
   getTotalLength: -> (@get '_raphaelPath').get 'totalLength'
 
+  hasValidTotalLength: -> (@get '_raphaelPath').get('totalLength') > Shared.Track.MINIMUM_TRACK_LENGTH
+
   getPointAtLength: (length) -> (@get '_raphaelPath').getPointAtLength length
 
   clearPath: -> (@get '_raphaelPath').clear()
@@ -75,3 +77,6 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
 
   _onRasterizationProgress: (rasterizedLength) ->
     @set 'rasterizedPath', Raphael.getSubpath (@get 'raphaelPath'), 0, rasterizedLength
+
+Shared.Track.reopenClass
+  MINIMUM_TRACK_LENGTH: 400
