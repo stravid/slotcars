@@ -6,5 +6,5 @@ Shared.IdObservable = Ember.Mixin.create
 
   _onIdChanged: ->
     if (@get 'id')?
-      @didCreate()
+      @didCreatePersistently()
       @removeObserver 'id', this, '_onIdChanged'
