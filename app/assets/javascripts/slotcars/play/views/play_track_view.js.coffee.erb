@@ -20,6 +20,5 @@ Play.PlayTrackView = Shared.TrackView.extend
     
     vector = Shared.Vector.create x: x, y: y
     
-    @_finishLine.remove() if @_finishLine
     @_finishLine = @_paper.image "<%= asset_path('views/play/finish-line.jpg') %>", pointA.x, pointA.y, 70, 20
     @_finishLine.transform "t#{-35},#{-10}r#{vector.clockwiseAngle()}"
