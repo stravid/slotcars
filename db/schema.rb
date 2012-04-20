@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120321130752) do
+ActiveRecord::Schema.define(:version => 20120420092842) do
+
+  create_table "runs", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+    t.integer  "track_id"
+    t.integer  "time"
+  end
 
   create_table "tracks", :force => true do |t|
     t.datetime "created_at", :null => false
