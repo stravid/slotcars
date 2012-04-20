@@ -22,9 +22,9 @@ class Api::SessionsController < Devise::SessionsController
     signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
 
     if signed_out
-      render :nothing => true, :status => '200'
+      head 200
     else
-      render :nothing => true, :status => '400'
+      head 400
     end
   end
 
