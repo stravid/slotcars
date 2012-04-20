@@ -18,6 +18,7 @@ Account.AccountWidget = Ember.Object.extend Shared.Widget, Shared.Container,
   showSignUpWidget: ->
     signUpWidget = Shared.WidgetFactory.getInstance().getInstanceOf 'SignUpWidget'
     signUpWidget.addToContainerAtLocation this, 'content'
+    signUpWidget.on 'userSignedUpSuccessfully', this, 'showProfileWidget'
     signUpWidget.on 'signUpCancelled', this, 'showLoginWidget'
 
   showProfileWidget: ->
