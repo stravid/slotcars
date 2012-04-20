@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe Track do
 
+  it { should validate_presence_of :rasterized }
+  it { should have_many :runs }
+  
   describe 'validation of raphael' do
     valid_raphael_path = FactoryGirl.generate :valid_raphael_path
     it { should allow_value(valid_raphael_path).for(:raphael) }
@@ -11,7 +14,4 @@ describe Track do
       it { should_not allow_value(value).for(:raphael) }
     end
   end
-
-  it { should validate_presence_of :rasterized }
-
 end
