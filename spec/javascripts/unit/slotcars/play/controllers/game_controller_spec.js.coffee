@@ -1,6 +1,8 @@
 describe 'Play.GameController (unit)', ->
 
   beforeEach ->
+    @xhr = sinon.useFakeXMLHttpRequest()
+
     @carMock = mockEmberClass Shared.Car,
       update: sinon.spy()
       reset: sinon.spy()
@@ -14,6 +16,8 @@ describe 'Play.GameController (unit)', ->
       car: @carMock
 
   afterEach ->
+    @xhr.restore()
+
     @carMock.restore()
     @trackMock.restore()
 
@@ -63,6 +67,7 @@ describe 'Play.GameController (unit)', ->
     beforeEach ->
       @gameController.carControlsEnabled = true
       @gameController.isTouchMouseDown = true
+      sinon.spy @gameController, 'saveRaceTime'
 
     it 'should save timestamp', ->
       @gameController.finish()
@@ -86,6 +91,19 @@ describe 'Play.GameController (unit)', ->
       @gameController.finish()
       
       (expect @gameController.get 'isRaceFinished').toBe true
+
+    it 'should call saveRaceTime if Shared.User.current is present', ->
+      Shared.User.current = {}
+      @gameController.finish()
+
+      (expect @gameController.saveRaceTime).toHaveBeenCalled()
+
+    it 'should not call saveRaceTime if Shared.User.current is not present', ->
+      Shared.User.current = null
+      @gameController.finish()
+
+      (expect @gameController.saveRaceTime).not.toHaveBeenCalled()
+
 
   describe 'observing crossed finish line property of car', ->
 
@@ -217,3 +235,28 @@ describe 'Play.GameController (unit)', ->
       @gameController.destroy()
 
       (expect @gameController.set).toHaveBeenCalledWith 'carControlsEnabled', false
+
+  describe 'saveRaceTime', ->
+
+    beforeEach ->
+      sinon.spy Shared.Run, 'createRecord'
+      sinon.spy Shared.ModelStore, 'commit'
+
+    afterEach ->
+      Shared.Run.createRecord.restore()
+      Shared.ModelStore.commit.restore()
+
+    it 'should create a new Run record', ->
+      time = 100
+      @gameController.set 'raceTime', time
+      @gameController.saveRaceTime()
+
+      (expect Shared.Run.createRecord).toHaveBeenCalledWithAnObjectLike
+        track: @trackMock
+        time: time
+        user: Shared.User.current
+
+    it 'should call commit on the ModelStore', ->
+      @gameController.saveRaceTime()
+
+      (expect Shared.ModelStore.commit).toHaveBeenCalled()
