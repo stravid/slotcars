@@ -23,5 +23,6 @@ Account.AccountWidget = Ember.Object.extend Shared.Widget, Shared.Container,
   showProfileWidget: ->
     profileWidget = Shared.WidgetFactory.getInstance().getInstanceOf 'ProfileWidget'
     profileWidget.addToContainerAtLocation this, 'content'
+    profileWidget.on 'currentUserSignedOut', this, 'showLoginWidget'
 
 Shared.WidgetFactory.getInstance().registerWidget 'AccountWidget', Account.AccountWidget

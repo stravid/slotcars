@@ -24,12 +24,22 @@ Shared.User.reopenClass
       dataType: 'json'
       data: data
 
-      success: (response) =>
+      success: (response) ->
         userData = response.user
         Shared.ModelStore.load Shared.User, userData
 
-        @current = Shared.User.find userData.id
+        Shared.User.current = Shared.User.find userData.id
 
-        successCallback @current if successCallback?
+        successCallback Shared.User.current if successCallback?
 
       error: (response) -> errorCallback() if errorCallback?
+
+  signOutCurrentUser: (successCallback, errorCallback) ->
+
+    if @current?
+      jQuery.ajax "/api/sign_out",
+        success: ->
+          Shared.User.current = null
+          successCallback()
+
+        error: -> errorCallback()
