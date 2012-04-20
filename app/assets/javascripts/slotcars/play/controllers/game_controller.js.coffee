@@ -26,6 +26,17 @@ Play.GameController = Shared.BaseGameController.extend
     @set 'carControlsEnabled', false
     @isTouchMouseDown = false
 
+    @saveRaceTime() if Shared.User.current
+
+  saveRaceTime: ->
+    Shared.Run.createRecord
+      track: @track
+      time: @get 'raceTime'
+      user: Shared.User.current
+
+    Shared.ModelStore.commit()
+
+
   onCarCrossedFinishLine: (->
     car = @get 'car'
     if car.get 'crossedFinishLine' then @finish()

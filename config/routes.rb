@@ -10,6 +10,7 @@ Slotcars::Application.routes.draw do
 
   namespace :api do
     resources :tracks, :only => [:index, :show, :create]
+    resources :runs, :only => [:create]
   end
 
   devise_scope :user do
