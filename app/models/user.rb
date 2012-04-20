@@ -10,8 +10,7 @@ class User < ActiveRecord::Base
   # other are :password_confirmation, :remember_me
   attr_accessible :username, :email, :password
 
-  validates_presence_of :username
-  validates_uniqueness_of :username
+  validates :username, :presence => true, :uniqueness => true
 
   attr_accessor :login
 
