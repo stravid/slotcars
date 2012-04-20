@@ -47,4 +47,4 @@ Shared.User.reopenClass
           Shared.User.current = null
           successCallback()
 
-        error: (data) -> errorCallback()
+        error: -> errorCallback()
