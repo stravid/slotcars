@@ -22,6 +22,15 @@ describe 'Shared.User', ->
 
       (expect Shared.ModelStore.commit).toHaveBeenCalledOnce()
 
+    it 'should return created user model', ->
+      createdUser = {}
+
+      Shared.User.createRecord.returns createdUser
+
+      returnedUser = Shared.User.signUp()
+
+      (expect returnedUser).toBe createdUser
+
 
   describe 'sign in user with credentials', ->
 
