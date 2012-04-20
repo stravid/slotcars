@@ -15,9 +15,9 @@ Build.DrawController = Ember.Object.extend
     @track.addPathPoint point
     @_lastAddedPoint = point
 
-  clearTrack: ->
-    @track.clearPath()
-
   onTouchMouseUp: ->
-    @track.cleanPath()
-    @stateManager.send 'finishedDrawing'
+    if @track.hasValidTotalLength()
+      @track.cleanPath()
+      @stateManager.send 'finishedDrawing'
+    else
+      @track.clearPath()
