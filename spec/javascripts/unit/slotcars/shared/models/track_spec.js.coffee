@@ -46,6 +46,23 @@ describe 'Shared.Track', ->
 
       (expect totalLength).toBe expectedLength
 
+  describe 'determine if track is long enough', ->
+
+    it 'should return true if the track´s total length is higher than 400', ->
+      track = Shared.Track.createRecord()
+      @raphaelPathMock.get = sinon.stub().withArgs('totalLength').returns 400.1
+
+      isLengthValid = track.hasValidTotalLength()
+
+      (expect isLengthValid).toBe true
+
+    it 'should return false if the track´s total length is below 400', ->
+      track = Shared.Track.createRecord()
+      @raphaelPathMock.get = sinon.stub().withArgs('totalLength').returns 399.9
+
+      isLengthValid = track.hasValidTotalLength()
+
+      (expect isLengthValid).toBe false
 
   describe 'getting point on length of track', ->
 

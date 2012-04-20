@@ -44,6 +44,8 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
 
   getTotalLength: -> (@get '_raphaelPath').get 'totalLength'
 
+  hasValidTotalLength: -> (@get '_raphaelPath').get('totalLength') > 400
+
   getPointAtLength: (length) -> (@get '_raphaelPath').getPointAtLength length
 
   clearPath: -> (@get '_raphaelPath').clear()
