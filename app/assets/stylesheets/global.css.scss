@@ -7,3 +7,16 @@ body {
   position: relative;
   font-family: sans-serif;
 }
+
+.default-button {
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  font-size: 13px;
+  border: 1px solid #666;
+  border-radius: 18px;
+  padding: 8px 18px;
+  margin: 5px 7px;
+  background-color: white;
+  color: #333;
+}

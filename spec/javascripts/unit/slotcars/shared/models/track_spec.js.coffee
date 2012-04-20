@@ -89,14 +89,6 @@ describe 'Shared.Track', ->
 
       (expect @raphaelPathMock.rasterize).not.toHaveBeenCalled()
 
-  describe 'route to the track resource', ->
-
-    it 'should return the correct route with client id', ->
-      track = Shared.Track.createRecord()
-      id = track.get 'clientId'
-
-      (expect track.get 'playRoute').toEqual "play/#{id}"
-
 
   describe 'lap count for tracks', ->
 
