@@ -12,6 +12,6 @@ Account.LoginView = Ember.View.extend
 
   _getUserCredentials: ->
     {
-      email: @$('#email-field').val()
+      login: @$('#login-field').val()
       password: @$('#password-field').val()
     }
