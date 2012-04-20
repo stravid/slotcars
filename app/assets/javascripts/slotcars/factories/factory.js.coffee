@@ -1,9 +1,7 @@
 
 #= require slotcars/shared/lib/singleton
 
-Singleton = Slotcars.shared.lib.Singleton
-
-Factory = (namespace 'Slotcars.factories').Factory = Singleton.extend
+Shared.Factory = Shared.Singleton.extend
 
   _registeredTypes: []
 

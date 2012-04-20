@@ -1,5 +1,4 @@
-
-(namespace 'Slotcars.build').BuildScreenStateManager = Ember.StateManager.extend
+Build.BuildScreenStateManager = Ember.StateManager.extend
 
   delegate: null
   targetState: null

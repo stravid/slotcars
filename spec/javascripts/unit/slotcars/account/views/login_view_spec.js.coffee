@@ -1,9 +1,7 @@
-describe 'Slotcars.account.views.LoginView', ->
-
-  LoginView = Slotcars.account.views.LoginView
+describe 'Account.LoginView', ->
 
   beforeEach ->
-    @loginView = LoginView.create()
+    @loginView = Account.LoginView.create()
 
   it 'should tell delegate about click on sign up button', ->
     delegate = switchToSignUp: sinon.spy()

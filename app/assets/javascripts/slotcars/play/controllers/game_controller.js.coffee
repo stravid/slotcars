@@ -1,15 +1,7 @@
 
 #= require slotcars/shared/controllers/base_game_controller
-#= require slotcars/play/controllers/game_loop_controller
-#= require slotcars/play/views/car_view
 
-#= require helpers/event_normalize
-
-CarView = slotcars.play.views.CarView
-GameLoopController = slotcars.play.controllers.GameLoopController
-BaseGameController = Slotcars.shared.controllers.BaseGameController
-
-(namespace 'slotcars.play.controllers').GameController = BaseGameController.extend
+Play.GameController = Shared.BaseGameController.extend
   
   isCountdownVisible: false
   isRaceFinished: false

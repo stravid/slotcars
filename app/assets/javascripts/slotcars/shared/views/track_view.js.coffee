@@ -1,9 +1,4 @@
-
-#= require vendor/raphael
-
-Vector = helpers.math.Vector
-
-(namespace 'slotcars.shared.views').TrackView = Ember.View.extend
+Shared.TrackView = Ember.View.extend
 
   track: null
   

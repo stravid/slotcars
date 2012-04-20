@@ -1,7 +1,5 @@
 describe 'play screen state manager', ->
 
-  PlayScreenStateManager = slotcars.play.PlayScreenStateManager
-
   beforeEach ->
     @delegateMock =
       load: sinon.spy()
@@ -9,10 +7,10 @@ describe 'play screen state manager', ->
       play: sinon.spy()
 
   it 'should extend Ember.StateManager', ->
-    (expect PlayScreenStateManager).toExtend Ember.StateManager
+    (expect Play.PlayScreenStateManager).toExtend Ember.StateManager
 
   it 'should go to Loading state by default', ->
-    playScreenStateManager = PlayScreenStateManager.create
+    playScreenStateManager = Play.PlayScreenStateManager.create
       delegate: @delegateMock
 
     (expect playScreenStateManager.currentState.name).toEqual 'Loading'
@@ -20,7 +18,7 @@ describe 'play screen state manager', ->
   describe 'loading state', ->
 
     it 'should call load on its delegate', ->
-      playScreenStateManager = PlayScreenStateManager.create
+      playScreenStateManager = Play.PlayScreenStateManager.create
         delegate: @delegateMock
 
       playScreenStateManager.send 'load'
@@ -30,7 +28,7 @@ describe 'play screen state manager', ->
   describe 'initializing state', ->
 
     beforeEach ->
-      @playScreenStateManager = PlayScreenStateManager.create
+      @playScreenStateManager = Play.PlayScreenStateManager.create
         delegate: @delegateMock
 
     it 'should be switched to when receiving loaded event', ->
@@ -46,7 +44,7 @@ describe 'play screen state manager', ->
   describe 'playing state', ->
 
     beforeEach ->
-      @playScreenStateManager = PlayScreenStateManager.create
+      @playScreenStateManager = Play.PlayScreenStateManager.create
         delegate: @delegateMock
 
       @playScreenStateManager.send 'loaded'

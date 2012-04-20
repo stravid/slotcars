@@ -1,16 +1,11 @@
 describe 'tracks screen', ->
 
-  TracksScreen = slotcars.tracks.TracksScreen
-  TracksController = slotcars.tracks.controllers.TracksController
-  TracksScreenView = slotcars.tracks.views.TracksScreenView
-  ScreenFactory = slotcars.factories.ScreenFactory
-
   beforeEach ->
-    @TracksControllerMock = mockEmberClass TracksController
-    @TracksScreenViewMock = mockEmberClass TracksScreenView,
+    @TracksControllerMock = mockEmberClass Tracks.TracksController
+    @TracksScreenViewMock = mockEmberClass Tracks.TracksScreenView,
       append: sinon.spy()
 
-    @tracksScreen = TracksScreen.create()
+    @tracksScreen = Tracks.TracksScreen.create()
 
   afterEach ->
     @TracksControllerMock.restore()
@@ -18,9 +13,9 @@ describe 'tracks screen', ->
 
 
   it 'should register itself at the screen factory', ->
-    tracksScreen = ScreenFactory.getInstance().getInstanceOf 'TracksScreen'
+    tracksScreen = Shared.ScreenFactory.getInstance().getInstanceOf 'TracksScreen'
 
-    (expect tracksScreen).toBeInstanceOf TracksScreen
+    (expect tracksScreen).toBeInstanceOf Tracks.TracksScreen
 
 
   it 'should create tracks screen view', ->

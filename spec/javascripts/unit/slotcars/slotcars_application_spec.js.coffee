@@ -1,10 +1,7 @@
 describe 'slotcars application screen management', ->
 
-  SlotcarsApplication = slotcars.SlotcarsApplication
-  ScreenFactory = slotcars.factories.ScreenFactory
-
   beforeEach ->
-    @RouteManagerCreateStub = mockEmberClass slotcars.RouteManager
+    @RouteManagerCreateStub = mockEmberClass Shared.RouteManager
 
   afterEach ->
     @RouteManagerCreateStub.restore()
@@ -15,13 +12,13 @@ describe 'slotcars application screen management', ->
       @screenMock = append: sinon.spy()
       @screenFactoryMock = getInstanceOf: sinon.stub().returns @screenMock
 
-      (sinon.stub ScreenFactory, 'getInstance').returns @screenFactoryMock
+      (sinon.stub Shared.ScreenFactory, 'getInstance').returns @screenFactoryMock
 
       @slotcarsApplication = SlotcarsApplication.create()
 
     afterEach ->
       @slotcarsApplication.destroy()
-      ScreenFactory.getInstance.restore()
+      Shared.ScreenFactory.getInstance.restore()
 
 
     it 'should get the correct screen from factory and tell it to append', ->
@@ -57,4 +54,4 @@ describe 'slotcars application screen management', ->
         delegate: @slotcarsApplication
 
     it 'should make the route manager a singleton that can be directly accessed', ->
-      (expect slotcars.routeManager).toBe @RouteManagerCreateStub
+      (expect Shared.routeManager).toBe @RouteManagerCreateStub

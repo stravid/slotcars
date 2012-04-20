@@ -1,9 +1,3 @@
-
-#= require embient/ember-data
-#= require slotcars/shared/adapters/api_adapter
-
-ApiAdapter = slotcars.shared.adapters.ApiAdapter
-
-(namespace 'slotcars.shared.models').ModelStore = DS.Store.create
-  adapter: ApiAdapter.create()
+Shared.ModelStore = DS.Store.create
+  adapter: Shared.ApiAdapter.create()
   revision: 3

@@ -1,11 +1,7 @@
 
-#= require helpers/math/vector
 #= require helpers/math/linked_list
 
-Vector = helpers.math.Vector
-LinkedList = helpers.math.LinkedList
-
-(namespace 'helpers.math').Path = LinkedList.extend
+Shared.Path = Shared.LinkedList.extend
 
   totalLength: 0
   _lengthDirty: false
@@ -111,7 +107,7 @@ LinkedList = helpers.math.LinkedList
 
   _calculateIntermediatePointFor: (point, factor) ->
     previous = (@getCircularPreviousOf point)
-    vector = Vector.create from: previous, to: point
+    vector = Shared.Vector.create from: previous, to: point
     length = vector.length()
 
     {
@@ -137,22 +133,22 @@ LinkedList = helpers.math.LinkedList
   _updateLengthFor: (point) ->
     previous = @getCircularPreviousOf point
 
-    vector = Vector.create from: previous, to: point
+    vector = Shared.Vector.create from: previous, to: point
     point.length = vector.length()
 
   _pointShouldBeSplit: (point, parameters) ->
     next = @getCircularNextOf point
-    currentVector = Vector.create from: point, to: next
+    currentVector = Shared.Vector.create from: point, to: next
     currentVector.length() > parameters.maxLength
 
   _pointShouldBeRemoved: (point, parameters) ->
     previous = @getCircularPreviousOf point
     next = @getCircularNextOf point
 
-    currentVector = Vector.create from: previous, to: point
+    currentVector = Shared.Vector.create from: previous, to: point
 
     if point.angle < parameters.minAngle
-      replacingVector = Vector.create from: previous, to: next
+      replacingVector = Shared.Vector.create from: previous, to: next
       return @_lengthIsOk replacingVector, parameters
 
     else if currentVector.length() < parameters.minLength then return true
@@ -170,14 +166,14 @@ LinkedList = helpers.math.LinkedList
     previous = @getCircularPreviousOf point
     next = @getCircularNextOf point
 
-    fromPrevious = Vector.create from: previous, to: point
-    toNext = Vector.create from: point, to: next
+    fromPrevious = Shared.Vector.create from: previous, to: point
+    toNext = Shared.Vector.create from: point, to: next
 
     point.angle = fromPrevious.angleFrom toNext
 
   _splitPoint: (point) ->
     next = @getCircularNextOf point
-    vector = Vector.create from: point, to: next
+    vector = Shared.Vector.create from: point, to: next
 
     @insertBefore next,
       x: point.x + vector.center().x

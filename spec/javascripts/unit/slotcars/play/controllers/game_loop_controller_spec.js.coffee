@@ -1,12 +1,10 @@
-describe 'slotcars.play.controllers.GameLoopController (unit)', ->
-
-  GameLoopController = slotcars.play.controllers.GameLoopController
+describe 'Play.GameLoopController (unit)', ->
 
   beforeEach ->
     @requestFrameBackup = window.requestFrame
     @requestFrameStub = window.requestFrame = sinon.spy()
 
-    @gameLoop = GameLoopController.create()
+    @gameLoop = Play.GameLoopController.create()
 
   afterEach ->
     window.requestFrame = @requestFrameBackup
