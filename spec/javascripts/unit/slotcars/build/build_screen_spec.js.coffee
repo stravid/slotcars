@@ -65,13 +65,10 @@ describe 'Build.BuildScreen', ->
     describe 'prepare for drawing', ->
 
       beforeEach ->
-        # mock track class
-        @TrackBackup = Shared.Track
-        @TrackMock = Shared.Track =
-          createRecord: sinon.stub().returns @trackMock
+        sinon.stub(Shared.Track, 'createRecord').returns @trackMock
 
       afterEach ->
-        Shared.Track = @TrackBackup
+        Shared.Track.createRecord.restore()
 
       it 'should delete an existing track before creating a new one', ->
         @buildScreen.track = @trackMock # simulates that track already exists
@@ -83,7 +80,7 @@ describe 'Build.BuildScreen', ->
         @buildScreen.setupDrawing()
 
         (expect @trackMock.deleteRecord).not.toHaveBeenCalled()
-        (expect @TrackMock.createRecord).toHaveBeenCalled()
+        (expect Shared.Track.createRecord).toHaveBeenCalled()
 
       it 'should create the builder and provide build screen view and track', ->
         @buildScreen.setupDrawing()

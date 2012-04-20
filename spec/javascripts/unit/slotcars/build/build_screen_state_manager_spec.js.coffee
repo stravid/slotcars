@@ -69,10 +69,10 @@ describe 'build screen state manager', ->
       beforeEach ->
         sinon.spy @buildScreenStateManager, 'goToState'
 
-      it 'should set the current state as origin state for possible fallbacks', ->
+      it 'should set the current state as fallback state', ->
         @buildScreenStateManager.send 'clickedPublishButton'
 
-        (expect @buildScreenStateManager.originState).toEqual 'Testing'
+        (expect @buildScreenStateManager.publishingFallbackState).toEqual 'Testing'
 
       it 'should go to state Publishing', ->
         @buildScreenStateManager.send 'clickedPublishButton'
@@ -112,10 +112,10 @@ describe 'build screen state manager', ->
       beforeEach ->
         sinon.spy @buildScreenStateManager, 'goToState'
 
-      it 'should set the current state as origin state for possible fallbacks', ->
+      it 'should set the current state as fallback', ->
         @buildScreenStateManager.send 'clickedPublishButton'
 
-        (expect @buildScreenStateManager.originState).toEqual 'Editing'
+        (expect @buildScreenStateManager.publishingFallbackState).toEqual 'Editing'
 
       it 'should set the state manager´s target state to Publishing', ->
         @buildScreenStateManager.send 'clickedPublishButton'
@@ -196,12 +196,12 @@ describe 'build screen state manager', ->
     describe 'canceling publication', ->
 
       beforeEach ->
-        @originState = 'RandomState'
-        @buildScreenStateManager.originState = @originState
+        @fallbackState = 'RandomState'
+        @buildScreenStateManager.publishingFallbackState = @fallbackState
 
       it 'should fall back to the previous state', ->
         sinon.spy @buildScreenStateManager, 'goToState'
 
         @buildScreenStateManager.send 'clickedCancelButton'
 
-        (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith @originState
+        (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith @fallbackState

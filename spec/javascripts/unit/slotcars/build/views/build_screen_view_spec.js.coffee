@@ -38,7 +38,7 @@ describe 'build screen view', ->
       # just tests one case - should be enough as the buttons are all instances of one object and can´t be separated
       @currentStateMock =
         name: 'Editing'
-        accessibleStates: ['Testing', 'Publishing']
+        reachableStates: ['Testing', 'Publishing']
 
     it 'should reset all buttons', ->
       @buildScreenStateManagerMock.set 'currentState', @currentStateMock # triggers observer

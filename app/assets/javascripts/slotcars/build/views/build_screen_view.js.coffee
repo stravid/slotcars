@@ -29,10 +29,10 @@ Build.BuildScreenView = Ember.View.extend
     @_resetButtons()
 
     currentState = @stateManager.currentState
-    accessibleStates = currentState.accessibleStates
-    accessibleStates ?= []
+    reachableStates = currentState.reachableStates
+    reachableStates ?= []
 
-    for state in accessibleStates
+    for state in reachableStates
       switch state
         when 'Drawing'    then @drawButton.set 'disabled', false
         when 'Editing'    then @editButton.set 'disabled', false

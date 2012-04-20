@@ -44,8 +44,8 @@ describe Api::TracksController do
 
   describe '#create' do
 
-    it 'should return an bad request error when params do not contain a track key' do
-      post :create, :key => 'bla'
+    it 'should return an bad request error when params hash does not contain a `track` key' do
+      post :create, :some_key => 'bla'
 
       response.should be_bad_request
     end
