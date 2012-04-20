@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Track do
 
   it { should validate_presence_of :rasterized }
-  it { should have_many(:runs) }
+  it { should have_many :runs }
   
   describe 'validation of raphael' do
     valid_raphael_path = FactoryGirl.generate :valid_raphael_path
