@@ -6,3 +6,6 @@ Account.ProfileView = Ember.View.extend
   templateName: 'slotcars_account_templates_profile_view_template'
 
   user: null
+  logoutFailed: false
+
+  onLogoutButtonClicked: -> (@get 'delegate').signOutCurrentUser()
