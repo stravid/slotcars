@@ -42,6 +42,7 @@ Shared.User.reopenClass
       jQuery.ajax "/api/sign_out",
 
         type: "DELETE"
+        dataType: 'json'
 
         success: ->
           Shared.User.current = null
