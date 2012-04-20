@@ -1,24 +1,19 @@
 <h2>Create Your Account</h2>
 
-{{#if validationErrors.username}}
-  {{#each validationErrors.username}}
-    <p class="error">Username {{this}}</p>
-  {{/each}}
-{{/if}}
+
+{{#each validationErrors.username}}
+  <p class="error">Username {{this}}</p>
+{{/each}}
 <input id="username-field" type="text" placeholder="Username"/>
 
-{{#if validationErrors.email}}
-  {{#each validationErrors.email}}
-    <p class="error">Email {{this}}</p>
-  {{/each}}
-{{/if}}
+{{#each validationErrors.email}}
+  <p class="error">Email {{this}}</p>
+{{/each}}
 <input id="email-field" type="email" placeholder="Email"/>
 
-{{#if validationErrors.password}}
-  {{#each validationErrors.password}}
-    <p class="error">Password {{this}}</p>
-  {{/each}}
-{{/if}}
+{{#each validationErrors.password}}
+  <p class="error">Password {{this}}</p>
+{{/each}}
 <input id="password-field" type="password" placeholder="Password" />
 
 <button class="cancel" {{action "onCancelSignUpButtonClicked"}}>Cancel</button>
