@@ -38,6 +38,9 @@ Shared.User.reopenClass
 
     if @current?
       jQuery.ajax "/api/sign_out",
+
+        type: "DELETE"
+
         success: ->
           Shared.User.current = null
           successCallback()

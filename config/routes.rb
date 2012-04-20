@@ -16,7 +16,7 @@ Slotcars::Application.routes.draw do
     root :to => "devise/sessions#new", :as => :users
     post 'api/users', :to => "devise/registrations#create"
     post 'api/sign_in', :to => "api/sessions#create"
-    get 'api/sign_out', :to => "api/sessions#destroy"
+    delete 'api/sign_out', :to => "api/sessions#destroy"
   end
 
 end

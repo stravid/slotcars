@@ -36,7 +36,7 @@ describe Api::SessionsController do
     end
 
     it 'should return 200 if user was successfully signed out' do
-      get :destroy
+      delete :destroy
 
       response.code.should eq '200'
     end
@@ -44,7 +44,7 @@ describe Api::SessionsController do
     it 'should return 400 when trying to sign out when nobody is signed in' do
       sign_out user
 
-      get :destroy
+      delete :destroy
 
       response.code.should eq '400'
     end

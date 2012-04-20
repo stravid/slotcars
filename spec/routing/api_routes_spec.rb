@@ -35,8 +35,8 @@ describe "Sessions" do
       )
   end
 
-  it "routes get /api/sign_out to api::sessions#destroy" do
-    { :get => "api/sign_out" }.should route_to(
+  it "routes delete /api/sign_out to api::sessions#destroy" do
+    { :delete => "api/sign_out" }.should route_to(
         :controller => "api/sessions",
         :action => "destroy"
       )
