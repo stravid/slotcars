@@ -7,7 +7,10 @@ Account.AccountWidget = Ember.Object.extend Shared.Widget, Shared.Container,
 
   init: ->
     @set 'view', Account.AccountWidgetView.create()
-    @showLoginWidget()
+    if Shared.User.current?
+      @showProfileWidget()
+    else
+      @showLoginWidget()
 
   showLoginWidget: ->
     loginWidget = Shared.WidgetFactory.getInstance().getInstanceOf 'LoginWidget'
