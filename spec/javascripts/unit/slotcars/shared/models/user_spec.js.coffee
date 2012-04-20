@@ -115,7 +115,7 @@ describe 'Shared.User', ->
     it 'should not reset current user if request had errors', ->
       Shared.User.signOutCurrentUser()
 
-      @requests[0].respond 500, { "Content-Type": "application/json" },''
+      @requests[0].respond 400, { "Content-Type": "application/json" },''
 
       (expect Shared.User.current).toBeInstanceOf Shared.User
 
@@ -133,6 +133,6 @@ describe 'Shared.User', ->
 
       Shared.User.signOutCurrentUser (->), errorCallbackSpy
 
-      @requests[0].respond 500, { "Content-Type": "application/json" },''
+      @requests[0].respond 400, { "Content-Type": "application/json" },''
 
       (expect errorCallbackSpy).toHaveBeenCalledOnce()
