@@ -22,6 +22,15 @@ describe 'Shared.User', ->
 
       (expect Shared.ModelStore.commit).toHaveBeenCalledOnce()
 
+    it 'should return created user model', ->
+      createdUser = {}
+
+      Shared.User.createRecord.returns createdUser
+
+      returnedUser = Shared.User.signUp()
+
+      (expect returnedUser).toBe createdUser
+
 
   describe 'sign in user with credentials', ->
 
@@ -76,3 +85,63 @@ describe 'Shared.User', ->
         @server.respond()
 
         (expect errorCallback).toHaveBeenCalledOnce()
+
+
+  describe 'signin current user out', ->
+
+    beforeEach ->
+      @xhr = sinon.useFakeXMLHttpRequest()
+      @requests = []
+
+      @xhr.onCreate = (xhr) => @requests.push xhr
+
+      Shared.User.current = Shared.User._create()
+
+    afterEach ->
+      @xhr.restore()
+      Shared.User.current = null
+
+    it 'should send sign out request if current user is set', ->
+      Shared.User.signOutCurrentUser()
+
+      (expect @requests[0].url).toBe '/api/sign_out'
+      (expect @requests[0].method).toBe 'DELETE'
+
+    it 'should not send sign out request if there is no current user', ->
+      Shared.User.current = null
+
+      Shared.User.signOutCurrentUser()
+
+      (expect @requests.length).toBe 0
+
+    it 'should reset current user if request was successful', ->
+      Shared.User.signOutCurrentUser()
+
+      @requests[0].respond 200, { "Content-Type": "application/json" }
+
+      (expect Shared.User.current).toBe null
+
+    it 'should not reset current user if request had errors', ->
+      Shared.User.signOutCurrentUser()
+
+      @requests[0].respond 400, { "Content-Type": "application/json" }
+
+      (expect Shared.User.current).toBeInstanceOf Shared.User
+
+    it 'should call success callback when user was signed out successfully', ->
+      successCallbackSpy = sinon.spy()
+
+      Shared.User.signOutCurrentUser successCallbackSpy
+
+      @requests[0].respond 200, { "Content-Type": "application/json" }
+
+      (expect successCallbackSpy).toHaveBeenCalledOnce()
+
+    it 'should call error callback when sign out failed', ->
+      errorCallbackSpy = sinon.spy()
+
+      Shared.User.signOutCurrentUser (->), errorCallbackSpy
+
+      @requests[0].respond 400, { "Content-Type": "application/json" }
+
+      (expect errorCallbackSpy).toHaveBeenCalledOnce()

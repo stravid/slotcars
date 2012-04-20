@@ -14,7 +14,7 @@ describe 'Build.DrawController', ->
   afterEach ->
     @buildScreenStateManagerMock.restore()
 
-  describe 'add path points to track model on mouse move', ->
+  describe 'drawing by mouse move', ->
 
     it 'should add point to model if it has enough distance from last point', ->
       testPoint = x: 9999, y: 0
@@ -36,27 +36,31 @@ describe 'Build.DrawController', ->
 
       (expect @trackMock.addPathPoint).not.toHaveBeenCalledWith testPoint
 
-  describe 'clearing the track path', ->
+  describe 'finishing drawing', ->
 
-    beforeEach ->
-      @trackMock.clearPath = sinon.spy()
+    describe 'when track length is valid', ->
 
-    it 'should tell the track model to clear path', ->
-      @drawController.clearTrack()
+      beforeEach ->
+        @trackMock.hasValidTotalLength = sinon.stub().returns true
+        @trackMock.cleanPath = sinon.spy()
 
-      (expect @trackMock.clearPath).toHaveBeenCalled()
+      it 'should clean the track on mouse up event', ->
+        @drawController.onTouchMouseUp()
 
-  describe 'cleaning the track when user finished drawing', ->
+        (expect @trackMock.cleanPath).toHaveBeenCalled()
 
-    beforeEach ->
-      @trackMock.cleanPath = sinon.spy()
+      it 'should signalize the end of drawing to the state manager', ->
+        @drawController.onTouchMouseUp()
 
-    it 'should clean the track on mouse up event', ->
-      @drawController.onTouchMouseUp()
+        (expect @buildScreenStateManagerMock.send).toHaveBeenCalledWith 'finishedDrawing'
 
-      (expect @trackMock.cleanPath).toHaveBeenCalled()
+    describe 'when track length is invalid', ->
 
-    it 'should signalize the end of drawing to the state manager', ->
-      @drawController.onTouchMouseUp()
+      beforeEach ->
+        @trackMock.hasValidTotalLength = sinon.stub().returns false
+        @trackMock.clearPath = sinon.spy()
 
-      (expect @buildScreenStateManagerMock.send).toHaveBeenCalledWith 'finishedDrawing'
+      it 'should tell the track model to clear path', ->
+        @drawController.onTouchMouseUp()
+
+        (expect @trackMock.clearPath).toHaveBeenCalled()

@@ -14,4 +14,10 @@ h3 {
 p {
   margin: 1em 0;
   line-height: 1.3em;
+
+  &.error {
+    color: #990000;
+    margin: 0;
+    font-size: 0.9em;
+  }
 }

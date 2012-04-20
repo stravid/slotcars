@@ -15,16 +15,38 @@ describe Api::SessionsController do
       serializer = UserSerializer.new user, :root => "user"
       serialized_user = serializer.as_json
 
-      post :create, { :user => { :email => user.email, :password => user.password } }
+      post :create, { :user => { :login => user.email, :password => user.password } }
 
       response.body.should == serialized_user.to_json
       response.should be_success
     end
 
     it 'should return 401 unauthorized when login failed' do
-      post :create, { :user => { :email => "wrong", :password => "data" } }
+      post :create, { :user => { :login => "wrong", :password => "data" } }
 
       response.code.should eq '401'
+    end
+
+  end
+
+  describe '#destroy' do
+
+    before do
+      sign_in user
+    end
+
+    it 'should return 200 if user was successfully signed out' do
+      delete :destroy
+
+      response.code.should eq '200'
+    end
+
+    it 'should return 400 when trying to sign out when nobody is signed in' do
+      sign_out user
+
+      delete :destroy
+
+      response.code.should eq '400'
     end
 
   end

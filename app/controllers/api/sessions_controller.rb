@@ -15,6 +15,17 @@ class Api::SessionsController < Devise::SessionsController
   end
 
   def failure
-    return render :nothing => true, :status => '401'
+    return render :status => '401', :json => {}
   end
+
+  def destroy
+    signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
+
+    if signed_out
+      render :status => 200, :json => {}
+    else
+      render :status => 400, :json => {}
+    end
+  end
+
 end

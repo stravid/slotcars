@@ -21,14 +21,18 @@ Build.BuildScreenView = Ember.View.extend
     event.preventDefault() if event?
     @stateManager.send 'clickedTestdriveButton' unless (@get 'testdriveButton').get 'disabled'
 
+  onPublishButtonClicked: (event) ->
+    event.preventDefault() if event?
+    @stateManager.send 'clickedPublishButton' unless (@get 'publishButton').get 'disabled'
+
   onCurrentStateChanged: (->
     @_resetButtons()
 
     currentState = @stateManager.currentState
-    accessibleStates = currentState.accessibleStates
-    accessibleStates ?= []
+    reachableStates = currentState.reachableStates
+    reachableStates ?= []
 
-    for state in accessibleStates
+    for state in reachableStates
       switch state
         when 'Drawing'    then @drawButton.set 'disabled', false
         when 'Editing'    then @editButton.set 'disabled', false

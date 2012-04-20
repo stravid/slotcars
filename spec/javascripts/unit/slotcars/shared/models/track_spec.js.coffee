@@ -46,6 +46,23 @@ describe 'Shared.Track', ->
 
       (expect totalLength).toBe expectedLength
 
+  describe 'determine if track is long enough', ->
+
+    it 'should return true if the track´s total length is high enough', ->
+      track = Shared.Track.createRecord()
+      @raphaelPathMock.get = sinon.stub().withArgs('totalLength').returns 400.1
+
+      isLengthValid = track.hasValidTotalLength()
+
+      (expect isLengthValid).toBe true
+
+    it 'should return false if the track´s total length too low', ->
+      track = Shared.Track.createRecord()
+      @raphaelPathMock.get = sinon.stub().withArgs('totalLength').returns 399.9
+
+      isLengthValid = track.hasValidTotalLength()
+
+      (expect isLengthValid).toBe false
 
   describe 'getting point on length of track', ->
 
@@ -88,14 +105,6 @@ describe 'Shared.Track', ->
       @track.cleanPath()
 
       (expect @raphaelPathMock.rasterize).not.toHaveBeenCalled()
-
-  describe 'route to the track resource', ->
-
-    it 'should return the correct route with client id', ->
-      track = Shared.Track.createRecord()
-      id = track.get 'clientId'
-
-      (expect track.get 'playRoute').toEqual "play/#{id}"
 
 
   describe 'lap count for tracks', ->
