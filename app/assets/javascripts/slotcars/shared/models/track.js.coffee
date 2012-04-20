@@ -1,30 +1,37 @@
-Shared.Track = DS.Model.extend
+#= require slotcars/shared/lib/id_observable
+
+Shared.Track = DS.Model.extend Shared.IdObservable,
 
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'
 
   numberOfLaps: 3
 
+  id: DS.attr 'number'
   raphael: DS.attr 'string'
   rasterized: DS.attr 'string'
 
   isRasterizing: false
   rasterizedPath: null
 
-  playRoute: (->
-    clientId = @get('clientId')
-    "play/#{clientId}"
-  ).property 'clientId'
-
   init: ->
     @_super()
     @set '_raphaelPath', Shared.RaphaelPath.create()
 
-  save: ->
+  save: (@_creationCallback) ->
     @set 'raphael', @_raphaelPath.get 'path'
     @set 'rasterized', JSON.stringify (@_raphaelPath.get '_rasterizedPath').asFixedLengthPointArray()
 
     Shared.ModelStore.commit()
+
+  # Use the IdObservable mixin to ensure to get notified as soon as
+  # the 'id' property is available - ember-data´s 'didCreate' callback is called too early.
+  # This is a temporary fix - if ember-data worked as expected, the IdObservable would no longer be needed!
+  didCreate: ->
+    if @_creationCallback?
+      Ember.run.next =>
+        @_creationCallback()
+        @_creationCallback = null
 
   didLoad: ->
     points =

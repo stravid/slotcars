@@ -1,0 +1,5 @@
+<div id="publication-dialog">
+  <p>To publish your track and make it accessible to all players hit 'publish'. If you think your track is not yet ready hit 'cancel'.</p>
+  <button class="default-button" {{action "onCancelButtonClicked"}}>Cancel</button>
+  <button class="default-button" {{action "onPublishButtonClicked"}}>Publish</button>
+</div>

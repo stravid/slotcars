@@ -14,6 +14,7 @@ Build.BuildScreen = Ember.Object.extend Shared.Appendable,
     @_buildScreenStateManager.goToState 'Drawing'
 
   setupDrawing: ->
+    @track.deleteRecord() if @track?
     @track = Shared.Track.createRecord()
 
     @_builder = Build.Builder.create
@@ -47,8 +48,21 @@ Build.BuildScreen = Ember.Object.extend Shared.Appendable,
   teardownRasterizing: ->
     @_rasterizer.destroy()
 
+  setupPublishing: ->
+    @_publisher = Build.Publisher.create
+      stateManager: @_buildScreenStateManager
+      buildScreenView: @view
+      track: @track
+
+  performPublishing: ->
+    @_publisher.publish()
+
+  teardownPublishing: ->
+    @_publisher.destroy()
+
   destroy: ->
     @_super()
     @_buildScreenStateManager.destroy()
+    @track.deleteRecord() if @track? and @track.get 'isDirty'
 
 Shared.ScreenFactory.getInstance().registerScreen 'BuildScreen', Build.BuildScreen

@@ -1,10 +1,10 @@
 describe 'slotcars application screen management', ->
 
   beforeEach ->
-    @RouteManagerCreateStub = mockEmberClass Shared.RouteManager
+    @RouteManagerMock = mockEmberClass Shared.RouteManager, start: sinon.spy()
 
   afterEach ->
-    @RouteManagerCreateStub.restore()
+    @RouteManagerMock.restore()
 
   describe 'interaction with screens', ->
 
@@ -50,8 +50,11 @@ describe 'slotcars application screen management', ->
       @slotcarsApplication.destroy()
 
     it 'should create route manager and register itself as delegate', ->
-      (expect @RouteManagerCreateStub.create).toHaveBeenCalledWithAnObjectLike
+      (expect @RouteManagerMock.create).toHaveBeenCalledWithAnObjectLike
         delegate: @slotcarsApplication
 
     it 'should make the route manager a singleton that can be directly accessed', ->
-      (expect Shared.routeManager).toBe @RouteManagerCreateStub
+      (expect Shared.routeManager).toBe @RouteManagerMock
+
+    it 'should start the route manager', ->
+      (expect Shared.routeManager.start).toHaveBeenCalled()
