@@ -1,6 +1,6 @@
 class ChangeRasterizedFormatInTracks < ActiveRecord::Migration
   def up
-    change_column :tracks, :rasterized, :text, :limit => 64000
+    change_column :tracks, :rasterized, :text
   end
 
   def down
