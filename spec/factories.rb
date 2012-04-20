@@ -11,5 +11,4 @@ FactoryGirl.define do
   sequence :invalid_raphael_path do |n|
     "string#{n}"
   end
-
 end
