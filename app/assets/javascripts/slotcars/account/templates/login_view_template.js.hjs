@@ -5,7 +5,7 @@
     <p class="error">Email or password are wrong.</p>
   {{/if}}
 
-  <input id="email-field" type="text" placeholder="Email" />
+  <input id="login-field" type="text" placeholder="Username or Email" />
   <input id="password-field" type="password" placeholder="Password" />
   <button {{action "onLoginButtonClicked"}}>Log in</button>
 </div>
