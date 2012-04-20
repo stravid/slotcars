@@ -5,14 +5,25 @@
 Account.SignUpWidget = Ember.Object.extend Shared.Widget, Ember.Evented,
 
   init: -> @set 'view', Account.SignUpView.create delegate: this
-  user: null
+  userToSignUp: null
 
   cancelSignUp: -> @fire 'signUpCancelled'
 
-  signUpUserWithCredentials: (credentials) -> @set 'user', Shared.User.signUp credentials
+  signUpUserWithCredentials: (credentials) -> @set 'userToSignUp', Shared.User.signUp credentials
 
-  userSignedUpSuccessfully: (->
-    (@fire 'userSignedUpSuccessfully') if @user.get('id')?
-  ).observes 'user.id'
+  _tellAboutSuccessfulSignUp: (->
+    if (@userToSignUp.get 'id')?
+      Shared.User.current = @userToSignUp
+      @fire 'userSignedUpSuccessfully'
+  ).observes 'userToSignUp.id'
+
+  _handleSignUpErrors: (->
+    userToSignUp = (@get 'userToSignUp')
+
+    if userToSignUp.get 'hasValidationErrors'
+      (@get 'view').showErrorMessagesForFailedSignUp userToSignUp.get 'validationErrors'
+
+  ).observes 'userToSignUp.hasValidationErrors'
+
 
 Shared.WidgetFactory.getInstance().registerWidget 'SignUpWidget', Account.SignUpWidget
