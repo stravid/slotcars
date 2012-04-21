@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.0'
 gem 'devise' # authentication
+gem 'airbrake'
 
 # better serialization of models
 gem "active_model_serializers", :git => "git://github.com/josevalim/active_model_serializers.git"
