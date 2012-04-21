@@ -35,6 +35,9 @@ GEM
     activesupport (3.2.0)
       i18n (~> 0.6)
       multi_json (~> 1.0)
+    airbrake (3.0.9)
+      activesupport
+      builder
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
     bcrypt-ruby (3.0.1-x86-mingw32)
@@ -172,6 +175,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers!
+  airbrake
   coffee-rails (~> 3.2.1)
   devise
   embient (= 0.0.9)
