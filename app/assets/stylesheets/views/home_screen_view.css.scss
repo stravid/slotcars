@@ -4,9 +4,11 @@
 
 #home-navigation {
   position: absolute;
-  top: 253px;
-  left: 392px;
-  
+  top: 200px;
+  left: 220px;
+
+  list-style: none;
+
   li {
     margin-bottom: 30px;
   }
@@ -44,3 +46,43 @@
   bottom: 0;
   left: 0;
 }
+
+#home-right-column {
+  width: 300px;
+
+  position:absolute;
+  top: 205px;
+  left: 500px;
+
+  border: 1px solid white;
+  border-radius: 10px;
+
+  background-color: rgba(252, 252, 252, 0.22);
+}
+
+#login-widget-view {
+  button {
+    width: 100px;
+    font-weight: bold;
+  }
+
+  #login-form {
+    margin: 20px;
+  }
+
+  #not-yet-registered {
+    padding: 20px;
+    background: rgba(253, 255, 252, 0.36);
+    border-radius: 0 0 10px 10px;
+  }
+}
+
+#signup-widget-view {
+  margin: 20px;
+}
+
+#profile-widget-view {
+  margin: 20px;
+  color: white;
+}
+

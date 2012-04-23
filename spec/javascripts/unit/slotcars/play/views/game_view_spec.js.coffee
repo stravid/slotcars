@@ -1,19 +1,10 @@
-
-#= require slotcars/play/views/game_view
-#= require slotcars/play/views/result_view
-#= require slotcars/play/controllers/game_controller
-
-describe 'slotcars.play.views.GameView (unit)', ->
-
-  GameView = slotcars.play.views.GameView
-  ResultView = slotcars.play.views.ResultView
-  GameController = slotcars.play.controllers.GameController
+describe 'Play.GameView (unit)', ->
 
   beforeEach ->
-    @resultViewMock = mockEmberClass ResultView
-    @gameControllerMock = mockEmberClass GameController
+    @resultViewMock = mockEmberClass Play.ResultView
+    @gameControllerMock = mockEmberClass Play.GameController
 
-    @gameView = GameView.create
+    @gameView = Play.GameView.create
       gameController: @gameControllerMock
         
   afterEach ->
@@ -21,7 +12,7 @@ describe 'slotcars.play.views.GameView (unit)', ->
     @gameControllerMock.restore()
 
   it 'should extend Ember.View', ->
-    (expect GameView).toExtend Ember.View
+    (expect Play.GameView).toExtend Ember.View
 
   it 'should restart game when button was clicked', ->
     @gameControllerMock.restartGame = sinon.spy()
@@ -48,4 +39,4 @@ describe 'slotcars.play.views.GameView (unit)', ->
     it 'should use the dynamic view to insert result view', ->
       @gameView.onRaceStatusChange()
 
-      (expect @gameView.get 'overlayView').toEqual ResultView.create()
+      (expect @gameView.get 'overlayView').toEqual Play.ResultView.create()

@@ -1,11 +1,4 @@
-
-#= require slotcars/shared/views/track_view
-#= require slotcars/play/controllers/game_controller
-
 describe 'track view', ->
-
-  TrackView = slotcars.shared.views.TrackView
-  GameController = slotcars.play.controllers.GameController
 
   beforeEach ->
     @raphaelBackup = window.Raphael
@@ -19,13 +12,12 @@ describe 'track view', ->
       rect: @raphaelElementStub
       clear: @paperClearSpy
 
-    @gameControllerMock = mockEmberClass GameController
+    @gameControllerMock = mockEmberClass Play.GameController
 
-    @trackView = TrackView.create
+    @trackView = Shared.TrackView.create
       gameController: @gameControllerMock
 
     @trackView.appendTo '<div>'
-
     Ember.run.end()
 
   afterEach ->
@@ -33,15 +25,25 @@ describe 'track view', ->
     @gameControllerMock.restore()
 
   it 'should be a subclass of ember view', ->
-    (expect TrackView).toExtend Ember.View
+    (expect Shared.TrackView).toExtend Ember.View
 
-  it 'should create raphael paper view is appended to DOM', ->
-    (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], 1024 * @trackView.scaleFactor, 768 * @trackView.scaleFactor
+  describe 'appendeding view to DOM', ->
+
+    it 'should create raphael paper', ->
+      @trackView.didInsertElement()
+
+      (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], 1024 * @trackView.scaleFactor, 768 * @trackView.scaleFactor
+
+    it 'should mime a change of the raphaelPath on the track', ->
+      sinon.spy @trackView, 'onTrackChange'
+      @trackView.didInsertElement()
+
+      (expect @trackView.onTrackChange).toHaveBeenCalled()
 
   describe 'drawing the track', ->
 
     it 'should not ignore drawing if not inserted in DOM', ->
-      trackView = TrackView.create()
+      trackView = Shared.TrackView.create()
 
       (expect trackView.drawTrack).not.toThrow()
 
@@ -49,24 +51,3 @@ describe 'track view', ->
       @trackView.drawTrack('M0,0Z')
 
       (expect @paperClearSpy).toHaveBeenCalled()
-
-    describe 'drawTrackOnDidInsertElement flag', ->
-
-      beforeEach ->
-        @drawTrackSpy = sinon.spy()
-        @trackView = TrackView.create
-          track:
-            get: ->
-          drawTrack: @drawTrackSpy
-
-      it 'should draw the track if flag is set', ->
-        @trackView.drawTrackOnDidInsertElement = true
-
-        @trackView.didInsertElement()
-
-        (expect @drawTrackSpy).toHaveBeenCalled()
-
-      it 'should not draw the track if flag is not set', ->
-        @trackView.didInsertElement()
-
-        (expect @drawTrackSpy).not.toHaveBeenCalled()

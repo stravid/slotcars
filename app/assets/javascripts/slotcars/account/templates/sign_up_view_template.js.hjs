@@ -1,0 +1,20 @@
+<h2>Create Your Account</h2>
+
+
+{{#each validationErrors.username}}
+  <p class="error">Username {{this}}</p>
+{{/each}}
+<input id="username-field" type="text" placeholder="Username"/>
+
+{{#each validationErrors.email}}
+  <p class="error">Email {{this}}</p>
+{{/each}}
+<input id="email-field" type="email" placeholder="Email"/>
+
+{{#each validationErrors.password}}
+  <p class="error">Password {{this}}</p>
+{{/each}}
+<input id="password-field" type="password" placeholder="Password" />
+
+<button class="cancel" {{action "onCancelSignUpButtonClicked"}}>Cancel</button>
+<button class="ok" {{action "onSignUpButtonClicked"}}>Create Account</button>

@@ -1,84 +1,27 @@
-
-#= require slotcars/play/controllers/game_controller
-#= require slotcars/play/controllers/game_loop_controller
-
-#= require slotcars/shared/models/track
-#= require slotcars/shared/models/car
-
-describe 'slotcars.play.controllers.GameController (unit)', ->
-
-  GameController = slotcars.play.controllers.GameController
-  GameLoopController = slotcars.play.controllers.GameLoopController
-  Track = slotcars.shared.models.Track
-  Car = slotcars.shared.models.Car
+describe 'Play.GameController (unit)', ->
 
   beforeEach ->
-    @carMock = mockEmberClass Car,
+    @xhr = sinon.useFakeXMLHttpRequest()
+
+    @carMock = mockEmberClass Shared.Car,
       update: sinon.spy()
       reset: sinon.spy()
 
-    @trackMock = mockEmberClass Track,
+    @trackMock = mockEmberClass Shared.Track,
       getPointAtLength: sinon.stub().returns { x: 0, y: 0 }
       getTotalLength: sinon.stub().returns 5
 
-    @gameController = GameController.create
+    @gameController = Play.GameController.create
       track: @trackMock
       car: @carMock
 
   afterEach ->
+    @xhr.restore()
+
     @carMock.restore()
     @trackMock.restore()
 
-  it 'should extend Ember.Object', ->
-    (expect GameController).toExtend Ember.Object
-
-  it 'should set isTouchMouseDown to false by default', ->
-    (expect @gameController.isTouchMouseDown).toBe false
-
-  it 'should set carControlsEnabled to false by default', ->
-    (expect @gameController.carControlsEnabled).toBe false
-
-  it 'should throw an error when no track is provided', ->
-    (expect => GameController.create car: Car.create()).toThrow()
-
-  it 'should throw an error when no car is provided', ->
-    (expect => GameController.create track: @trackMock).toThrow()
-
-  it 'should create a game loop controller', ->
-    @GameLoopControllerMock = mockEmberClass GameLoopController
-    GameController.create
-      track: @trackMock
-      car: Car.create()
-
-    (expect @GameLoopControllerMock.create).toHaveBeenCalledOnce()
-    
-    @GameLoopControllerMock.restore()
-
-  describe '#onTouchMouseDown', ->
-
-    it 'should set isTouchMouseDown to true', ->
-      eventStub = originalEvent: preventDefault: ->
-
-      @gameController.onTouchMouseDown eventStub
-
-      (expect @gameController.isTouchMouseDown).toBe true
-
-  describe '#onTouchMouseUp', ->
-
-    it 'should set isTouchMouseDown to false', ->
-      eventStub = originalEvent:
-        preventDefault: ->
-
-      @gameController.onTouchMouseUp eventStub
-
-      (expect @gameController.isTouchMouseDown).toBe false
-
   describe '#update', ->
-
-    it 'should call the update function of the car', ->
-      @gameController.update()
-
-      (expect @carMock.update).toHaveBeenCalledWith @gameController.isTouchMouseDown
 
     describe 'updating race time', ->
 
@@ -113,30 +56,8 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
   describe '#start', ->
 
-    beforeEach ->
-      @trackStub = Track.createRecord()
-      @trackStub.addPathPoint { x: 10, y: 10 }
-      @trackStub.addPathPoint { x: 20, y: 50 }
-      @trackStub.addPathPoint { x: 30, y: 40 }
-
-      @gameLoopControllerMock = mockEmberClass GameLoopController,
-        start: (renderCallback) ->
-          renderCallback()
-
-      @gameController.track = @trackStub
-      @gameController.update = sinon.spy()
-      sinon.spy @gameController, 'restartGame'
-
-    afterEach ->
-      @gameLoopControllerMock.restore()
-
-    it 'should start the game loop with #update method as renderCallback', ->
-      @gameController.gameLoopController = @gameLoopControllerMock
-      @gameController.start()
-
-      (expect @gameController.update).toHaveBeenCalled()
-
     it 'should call the restart game function', ->
+      sinon.spy @gameController, 'restartGame'
       @gameController.start()
 
       (expect @gameController.restartGame).toHaveBeenCalled()
@@ -146,6 +67,7 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
     beforeEach ->
       @gameController.carControlsEnabled = true
       @gameController.isTouchMouseDown = true
+      sinon.spy @gameController, 'saveRaceTime'
 
     it 'should save timestamp', ->
       @gameController.finish()
@@ -160,15 +82,28 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
       (expect @gameController.carControlsEnabled).toBe false
 
-    it 'should disable stop acceleration', ->
+    it 'should stop acceleration', ->
       @gameController.finish()
 
       (expect @gameController.isTouchMouseDown).toBe false
       
-    it 'should set a flag when race is over', ->
+    it 'should set a flag that race is over', ->
       @gameController.finish()
       
       (expect @gameController.get 'isRaceFinished').toBe true
+
+    it 'should call saveRaceTime if Shared.User.current is present', ->
+      Shared.User.current = {}
+      @gameController.finish()
+
+      (expect @gameController.saveRaceTime).toHaveBeenCalled()
+
+    it 'should not call saveRaceTime if Shared.User.current is not present', ->
+      Shared.User.current = null
+      @gameController.finish()
+
+      (expect @gameController.saveRaceTime).not.toHaveBeenCalled()
+
 
   describe 'observing crossed finish line property of car', ->
 
@@ -295,11 +230,33 @@ describe 'slotcars.play.controllers.GameController (unit)', ->
 
   describe 'destroy', ->
 
-    it 'should call destroy of the game loop controller', ->
-      gameLoopControllerStub =
-        destroy: sinon.spy()
-
-      @gameController.set 'gameLoopController', gameLoopControllerStub
+    it 'should disable car controls', ->
+      sinon.spy @gameController, 'set'
       @gameController.destroy()
 
-      (expect gameLoopControllerStub.destroy).toHaveBeenCalled()
+      (expect @gameController.set).toHaveBeenCalledWith 'carControlsEnabled', false
+
+  describe 'saveRaceTime', ->
+
+    beforeEach ->
+      sinon.spy Shared.Run, 'createRecord'
+      sinon.spy Shared.ModelStore, 'commit'
+
+    afterEach ->
+      Shared.Run.createRecord.restore()
+      Shared.ModelStore.commit.restore()
+
+    it 'should create a new Run record', ->
+      time = 100
+      @gameController.set 'raceTime', time
+      @gameController.saveRaceTime()
+
+      (expect Shared.Run.createRecord).toHaveBeenCalledWithAnObjectLike
+        track: @trackMock
+        time: time
+        user: Shared.User.current
+
+    it 'should call commit on the ModelStore', ->
+      @gameController.saveRaceTime()
+
+      (expect Shared.ModelStore.commit).toHaveBeenCalled()

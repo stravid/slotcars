@@ -1,5 +1,4 @@
-
-(namespace 'Slotcars.shared.components').Container = Ember.Mixin.create
+Shared.Container = Ember.Mixin.create
 
   view: Ember.required()
 

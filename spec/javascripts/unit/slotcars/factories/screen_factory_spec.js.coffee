@@ -1,17 +1,11 @@
-
-#= require slotcars/factories/factory
-#= require slotcars/factories/screen_factory
-
 describe 'screen factory', ->
 
-  ScreenFactory = slotcars.factories.ScreenFactory
-
-  it 'should be a factory', -> (expect ScreenFactory).toExtend Slotcars.factories.Factory
-
+  it 'should be a factory', ->
+    (expect Shared.ScreenFactory).toExtend Shared.Factory
 
   describe 'registering screens', ->
 
-    beforeEach -> @screenFactory = ScreenFactory.create()
+    beforeEach -> @screenFactory = Shared.ScreenFactory.create()
 
     it 'should provide specific method for registering screens', ->
       registerTypeStub = sinon.stub @screenFactory, 'registerType'

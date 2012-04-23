@@ -1,18 +1,10 @@
-
-#= require slotcars/slotcars_application
-#= require slotcars/route_manager
-#= require slotcars/factories/screen_factory
-
 describe 'slotcars application screen management', ->
 
-  SlotcarsApplication = slotcars.SlotcarsApplication
-  ScreenFactory = slotcars.factories.ScreenFactory
-
   beforeEach ->
-    @RouteManagerCreateStub = mockEmberClass slotcars.RouteManager
+    @RouteManagerMock = mockEmberClass Shared.RouteManager, start: sinon.spy()
 
   afterEach ->
-    @RouteManagerCreateStub.restore()
+    @RouteManagerMock.restore()
 
   describe 'interaction with screens', ->
 
@@ -20,13 +12,13 @@ describe 'slotcars application screen management', ->
       @screenMock = append: sinon.spy()
       @screenFactoryMock = getInstanceOf: sinon.stub().returns @screenMock
 
-      (sinon.stub ScreenFactory, 'getInstance').returns @screenFactoryMock
+      (sinon.stub Shared.ScreenFactory, 'getInstance').returns @screenFactoryMock
 
       @slotcarsApplication = SlotcarsApplication.create()
 
     afterEach ->
       @slotcarsApplication.destroy()
-      ScreenFactory.getInstance.restore()
+      Shared.ScreenFactory.getInstance.restore()
 
 
     it 'should get the correct screen from factory and tell it to append', ->
@@ -58,8 +50,11 @@ describe 'slotcars application screen management', ->
       @slotcarsApplication.destroy()
 
     it 'should create route manager and register itself as delegate', ->
-      (expect @RouteManagerCreateStub.create).toHaveBeenCalledWithAnObjectLike
+      (expect @RouteManagerMock.create).toHaveBeenCalledWithAnObjectLike
         delegate: @slotcarsApplication
 
     it 'should make the route manager a singleton that can be directly accessed', ->
-      (expect slotcars.routeManager).toBe @RouteManagerCreateStub
+      (expect Shared.routeManager).toBe @RouteManagerMock
+
+    it 'should start the route manager', ->
+      (expect Shared.routeManager.start).toHaveBeenCalled()

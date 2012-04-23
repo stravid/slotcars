@@ -1,39 +1,37 @@
+#= require slotcars/shared/lib/id_observable
 
-#= require embient/ember-data
-#= require helpers/math/raphael_path
-#= require vendor/raphael
-#= require slotcars/shared/models/model_store
-
-RaphaelPath = helpers.math.RaphaelPath
-ModelStore = slotcars.shared.models.ModelStore
-
-Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend
+Shared.Track = DS.Model.extend Shared.IdObservable,
 
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'
 
   numberOfLaps: 3
 
+  id: DS.attr 'number'
   raphael: DS.attr 'string'
   rasterized: DS.attr 'string'
 
   isRasterizing: false
   rasterizedPath: null
 
-  playRoute: (->
-    clientId = @get('clientId')
-    "play/#{clientId}"
-  ).property 'clientId'
-
   init: ->
     @_super()
-    @set '_raphaelPath', RaphaelPath.create()
+    @set '_raphaelPath', Shared.RaphaelPath.create()
 
-  save: ->
+  save: (@_creationCallback) ->
     @set 'raphael', @_raphaelPath.get 'path'
     @set 'rasterized', JSON.stringify (@_raphaelPath.get '_rasterizedPath').asFixedLengthPointArray()
 
-    ModelStore.commit()
+    Shared.ModelStore.commit()
+
+  # Use the IdObservable mixin to ensure to get notified as soon as
+  # the 'id' property is available - ember-data´s 'didCreate' callback is called too early.
+  # This is a temporary fix - if ember-data worked as expected, the IdObservable would no longer be needed!
+  didCreatePersistently: ->
+    if @_creationCallback?
+      Ember.run.next =>
+        @_creationCallback()
+        @_creationCallback = null
 
   didLoad: ->
     points =
@@ -45,6 +43,8 @@ Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend
   addPathPoint: (point) -> (@get '_raphaelPath').addPoint point
 
   getTotalLength: -> (@get '_raphaelPath').get 'totalLength'
+
+  hasValidTotalLength: -> (@get '_raphaelPath').get('totalLength') > Shared.Track.MINIMUM_TRACK_LENGTH
 
   getPointAtLength: (length) -> (@get '_raphaelPath').getPointAtLength length
 
@@ -75,13 +75,8 @@ Track = (namespace 'slotcars.shared.models').Track = DS.Model.extend
           finishCallback() if finishCallback?
     ), 50
 
-  cancelRasterization: ->
-    (@get '_raphaelPath').cancelRasterization()
-    @set 'isRasterizing', false
-    @set 'rasterizedPath', null
-
   _onRasterizationProgress: (rasterizedLength) ->
     @set 'rasterizedPath', Raphael.getSubpath (@get 'raphaelPath'), 0, rasterizedLength
 
-
-Track.reopenClass toString: -> 'slotcars.shared.models.Track'
+Shared.Track.reopenClass
+  MINIMUM_TRACK_LENGTH: 400

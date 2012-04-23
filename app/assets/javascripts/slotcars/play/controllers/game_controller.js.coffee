@@ -1,21 +1,7 @@
 
-#= require slotcars/play/controllers/game_loop_controller
-#= require slotcars/shared/models/car
-#= require slotcars/play/views/car_view
+#= require slotcars/shared/controllers/base_game_controller
 
-#= require helpers/event_normalize
-
-Car = slotcars.shared.models.Car
-CarView = slotcars.play.views.CarView
-GameLoopController = slotcars.play.controllers.GameLoopController
-
-(namespace 'slotcars.play.controllers').GameController = Ember.Object.extend
-
-  car: null
-  track: null
-  gameLoopController: null
-  isTouchMouseDown: false
-  carControlsEnabled: false
+Play.GameController = Shared.BaseGameController.extend
   
   isCountdownVisible: false
   isRaceFinished: false
@@ -28,17 +14,9 @@ GameLoopController = slotcars.play.controllers.GameLoopController
   timeouts: []
   lapTimes: []
 
-  init: ->
-    @gameLoopController = GameLoopController.create()
-
-    unless @track?
-      throw new Error 'track has to be provided'
-    unless @car?
-      throw new Error 'car has to be provided'
-
   start: ->
+    @_super()
     @restartGame()
-    @gameLoopController.start => @update()
 
   finish: ->
     @_setCurrentTime()
@@ -47,6 +25,17 @@ GameLoopController = slotcars.play.controllers.GameLoopController
     @set 'isRaceFinished', true
     @set 'carControlsEnabled', false
     @isTouchMouseDown = false
+
+    @saveRaceTime() if Shared.User.current
+
+  saveRaceTime: ->
+    Shared.Run.createRecord
+      track: @track
+      time: @get 'raceTime'
+      user: Shared.User.current
+
+    Shared.ModelStore.commit()
+
 
   onCarCrossedFinishLine: (->
     car = @get 'car'
@@ -65,17 +54,8 @@ GameLoopController = slotcars.play.controllers.GameLoopController
   ).observes 'car.currentLap'
 
   update: ->
-    @car.update @isTouchMouseDown
-
+    @_super()
     @_setCurrentTime()
-
-  onTouchMouseDown: (event) ->
-    event.originalEvent.preventDefault()
-    @isTouchMouseDown = true
-
-  onTouchMouseUp: (event) ->
-    event.originalEvent.preventDefault()
-    @isTouchMouseDown = false
 
   restartGame: ->
     @set 'carControlsEnabled', false
@@ -110,10 +90,9 @@ GameLoopController = slotcars.play.controllers.GameLoopController
       @set 'raceTime', @endTime - @startTime
 
   destroy: ->
+    @_super()
     # clear all timeouts
     @_clearTimeouts()
 
     # force unbinding of car controls
     @set 'carControlsEnabled', false
-
-    @gameLoopController.destroy()

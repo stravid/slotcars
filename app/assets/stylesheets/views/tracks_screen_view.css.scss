@@ -1,0 +1,20 @@
+.track {
+  float: left;
+  width: 50%;
+}
+
+.track-container {
+  width: 390px;
+  margin: 0 auto;
+}
+
+#swiper {
+  position: absolute;
+  top: 143px;
+  left: 25px;
+  width: 976px;
+  height: 600px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 30px;
+  overflow: hidden;
+}

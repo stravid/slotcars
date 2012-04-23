@@ -1,5 +1,5 @@
 
-class (namespace 'helpers.math').LinkedList
+Shared.LinkedList = Ember.Object.extend
 
   head: null
   tail: null
@@ -69,6 +69,3 @@ class (namespace 'helpers.math').LinkedList
 
   getCircularPreviousOf: (element) ->
     if element is @head then @tail else element.previous
-
-  @create: ->
-    new LinkedList()

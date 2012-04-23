@@ -1,9 +1,6 @@
+describe 'Shared.Vector (unit)', ->
 
-#= require helpers/math/vector
-
-describe 'helpers.math.Vector (unit)', ->
-
-  Vector = helpers.math.Vector
+  Vector = Shared.Vector
 
   describe '#create', ->
 

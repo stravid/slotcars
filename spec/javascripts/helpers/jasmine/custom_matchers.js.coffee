@@ -20,3 +20,5 @@ beforeEach ->
       @env.equals_ @actual.__ember_observes__[0], expectedBindingPath
 
     toBeAPositiveNumber: -> (parseInt @actual) > 0
+
+    toHaveBeenCalledFourTimes: (count) -> @actual.callCount == 4

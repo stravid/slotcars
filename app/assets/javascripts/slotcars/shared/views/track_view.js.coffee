@@ -1,9 +1,4 @@
-
-#= require vendor/raphael
-
-Vector = helpers.math.Vector
-
-(namespace 'slotcars.shared.views').TrackView = Ember.View.extend
+Shared.TrackView = Ember.View.extend
 
   track: null
   
@@ -23,8 +18,7 @@ Vector = helpers.math.Vector
 
   didInsertElement: ->
     @_paper = Raphael @$()[0], 1024 * @scaleFactor, 768 * @scaleFactor
-
-    @drawTrack @track.get 'raphaelPath' if @drawTrackOnDidInsertElement
+    @onTrackChange()
 
   onTrackChange: ( -> 
     return unless @track?

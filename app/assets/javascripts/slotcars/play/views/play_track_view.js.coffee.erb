@@ -1,32 +1,10 @@
 
-#= require helpers/event_normalize
 #= require slotcars/shared/views/track_view
-#= require helpers/math/vector
 
-Vector = helpers.math.Vector
-
-namespace('slotcars.play.views').PlayTrackView = slotcars.shared.views.TrackView.extend
-
-  gameController: null
+Play.PlayTrackView = Shared.TrackView.extend
   
   _finishLine: null
-  
-  didInsertElement: ->
-    @_super()
     
-    @onTrackChange()
-    @onCarControlsChange()
-
-  onCarControlsChange: (->
-    @$().off 'touchMouseDown'
-    @$().off 'touchMouseUp'
-
-    if @gameController.get 'carControlsEnabled'
-      @$().on 'touchMouseDown', (event) => @gameController.onTouchMouseDown event
-      @$().on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
-
-  ).observes 'gameController.carControlsEnabled'
-  
   drawTrack: (path) ->
     @_super path
     @_drawFinishLine()
@@ -34,14 +12,13 @@ namespace('slotcars.play.views').PlayTrackView = slotcars.shared.views.TrackView
   _drawFinishLine: ->
     return unless @_paper?
   
-    pointA = @track.getPointAtLength(20)
-    pointB = @track.getPointAtLength(23)
+    pointA = @track.getPointAtLength 20
+    pointB = @track.getPointAtLength 23
     
     x = pointB.x - pointA.x
     y = pointB.y - pointA.y
     
-    vector = Vector.create x: x, y: y
+    vector = Shared.Vector.create x: x, y: y
     
-    @_finishLine.remove() if @_finishLine
     @_finishLine = @_paper.image "<%= asset_path('views/play/finish-line.jpg') %>", pointA.x, pointA.y, 70, 20
     @_finishLine.transform "t#{-35},#{-10}r#{vector.clockwiseAngle()}"

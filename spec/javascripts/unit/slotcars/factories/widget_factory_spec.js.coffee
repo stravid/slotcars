@@ -1,18 +1,10 @@
+describe 'Shared.WidgetFactory', ->
 
-#= require slotcars/factories/factory
-#= require slotcars/factories/widget_factory
-
-describe 'Slotcars.factories.WidgetFactory', ->
-
-  Factory = Slotcars.factories.Factory
-  WidgetFactory = Slotcars.factories.WidgetFactory
-
-  it 'should be a factory', -> (expect WidgetFactory).toExtend Factory
-
+  it 'should be a factory', -> (expect Shared.WidgetFactory).toExtend Shared.Factory
 
   describe 'registering widgets', ->
 
-      beforeEach -> @widgetFactory = WidgetFactory.create()
+      beforeEach -> @widgetFactory = Shared.WidgetFactory.create()
 
       it 'should provide specific method for registering widgets', ->
         registerTypeStub = sinon.stub @widgetFactory, 'registerType'

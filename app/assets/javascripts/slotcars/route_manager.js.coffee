@@ -1,12 +1,4 @@
-
-#= require embient/ember-routemanager
-
-#= require slotcars/build/build_screen
-#= require slotcars/home/home_screen
-#= require slotcars/play/play_screen
-#= require slotcars/tracks/tracks_screen
-
-(namespace 'slotcars').RouteManager = Ember.RouteManager.extend
+Shared.RouteManager = Ember.RouteManager.extend
 
   wantsHistory: true # use html5 push state
   delegate: null

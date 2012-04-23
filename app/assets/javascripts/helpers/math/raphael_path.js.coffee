@@ -1,20 +1,13 @@
-
-#= require helpers/math/path
-#= require vendor/raphael
-
 EMPTY_RAPHAEL_PATH_STRING = 'M0,0z'
 
-Path = helpers.math.Path
-
-RaphaelPath = (namespace 'helpers.math').RaphaelPath = Ember.Object.extend
+Shared.RaphaelPath = Ember.Object.extend
 
   path: EMPTY_RAPHAEL_PATH_STRING
   _path: null
   _rasterizedPath: null
-  _cancelRasterization: false
 
   init: ->
-    @set '_path', Path.create()
+    @set '_path', Shared.Path.create()
 
   addPoint: (point) ->
     @_path.push point, true
@@ -39,10 +32,6 @@ RaphaelPath = (namespace 'helpers.math').RaphaelPath = Ember.Object.extend
     @_updateCatmullRomPath()
 
   rasterize: (parameters) ->
-    if @_cancelRasterization
-      @_cancelRasterization = false
-      return @_rasterizedPath = null
-
     parameters ?= {}
     totalLength = parameters.totalLength ?= @get 'totalLength'
 
@@ -60,7 +49,7 @@ RaphaelPath = (namespace 'helpers.math').RaphaelPath = Ember.Object.extend
     currentEndLength = totalLength if currentEndLength > totalLength
 
     # create and fill rasterized path with points
-    @_rasterizedPath ?= Path.create()
+    @_rasterizedPath ?= Shared.Path.create()
     @_rasterizePointsFromTo currentStartLength, currentEndLength, stepSize
 
     # tell progress handler the current rasterization length
@@ -74,8 +63,6 @@ RaphaelPath = (namespace 'helpers.math').RaphaelPath = Ember.Object.extend
       Ember.run.next => @rasterize parameters
     else
       parameters.onFinished() if parameters.onFinished?
-
-  cancelRasterization: -> @_cancelRasterization = true
 
   _rasterizePointsFromTo: (start, end, stepSize) ->
     path = @get 'path'
@@ -111,8 +98,8 @@ RaphaelPath = (namespace 'helpers.math').RaphaelPath = Ember.Object.extend
 
   setRaphaelPath: (path) -> @set 'path', path
 
-  setRasterizedPath: (points) -> @set '_rasterizedPath', Path.create points
+  setRasterizedPath: (points) -> @set '_rasterizedPath', Shared.Path.create points
 
 # provide static class properties
-RaphaelPath.reopenClass
+Shared.RaphaelPath.reopenClass
   EMPTY_PATH_STRING: EMPTY_RAPHAEL_PATH_STRING

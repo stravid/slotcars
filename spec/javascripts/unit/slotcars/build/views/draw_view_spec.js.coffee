@@ -1,20 +1,9 @@
-
-#= require slotcars/build/views/draw_view
-#= require slotcars/shared/views/track_view
-#= require slotcars/build/controllers/draw_controller
-#= require slotcars/shared/models/track
-
-describe 'slotcars.build.views.DrawView', ->
-
-  TrackView = slotcars.shared.views.TrackView
-  DrawView = slotcars.build.views.DrawView
-  DrawController = slotcars.build.controllers.DrawController
-  Track = slotcars.shared.models.Track
+describe 'Build.DrawView', ->
 
   DRAW_VIEW_PAPER_WRAPPER_ID = '#draw-view-paper'
 
   it 'should extend TrackView', ->
-    (expect DrawView).toExtend TrackView
+    (expect Build.DrawView).toExtend Shared.TrackView
 
   beforeEach ->
     @raphaelBackup = window.Raphael
@@ -36,7 +25,7 @@ describe 'slotcars.build.views.DrawView', ->
   describe 'raphaelPath bindings on track', ->
 
     it 'should not throw exceptions when track is not yet available', ->
-      DrawView.create()
+      Build.DrawView.create()
 
       (expect -> Ember.run.end()).not.toThrow()
 
@@ -44,29 +33,21 @@ describe 'slotcars.build.views.DrawView', ->
 
     beforeEach ->
       @originalTestPath = 'M0,0L3,4Z'
-      @track = mockEmberClass Track
-      @drawController = DrawController.create
+      @track = mockEmberClass Shared.Track
+      @drawController = Build.DrawController.create
         track: @track
 
-      @drawView = DrawView.create drawController: @drawController, track: @track
+      @drawView = Build.DrawView.create drawController: @drawController, track: @track
       @drawView.appendTo '<div>'
       
       Ember.run.end()
       
     afterEach -> @track.restore()
 
-    it 'should create raphael paper view is appended to DOM', ->
+    it 'should create raphael paper when view is appended to DOM', ->
       (expect @raphaelStub).toHaveBeenCalledWith @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)[0], 1024, 768
 
-    it 'should tell raphael to build a closed track while not in drawing mode', ->
-      @drawController.set 'finishedDrawing', true
-      @drawView.drawTrack @originalTestPath
-
-      (expect @paperStub.path).toHaveBeenCalledWith @originalTestPath
-
     it 'should tell raphael to build an open track while in drawing mode', ->
-
-      @drawController.set 'finishedDrawing', false
       modifiedPathWithoutZ = 'M0,0L3,4'
 
       @drawView.drawTrack @originalTestPath
@@ -77,9 +58,9 @@ describe 'slotcars.build.views.DrawView', ->
   describe 'event handling in draw view when appended to DOM', ->
 
     beforeEach ->
-      @track = Track.createRecord()
-      @drawControllerMock = mockEmberClass DrawController
-      @drawView = DrawView.create drawController: @drawControllerMock, track: @track
+      @track = Shared.Track.createRecord()
+      @drawControllerMock = mockEmberClass Build.DrawController
+      @drawView = Build.DrawView.create drawController: @drawControllerMock, track: @track
 
       # append it into DOM to test real jQuery events
       @drawView.appendTo '<div>'
@@ -142,23 +123,3 @@ describe 'slotcars.build.views.DrawView', ->
         (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseMove'
 
         (expect @drawControllerMock.onTouchMouseMove).not.toHaveBeenCalled()
-
-
-    describe 'clearing the track', ->
-
-      it 'should tell the controller when user clicked the clear button', ->
-        @drawControllerMock.onClearTrack = sinon.spy()
-
-        @drawView.onClearButtonClicked()
-
-        (expect @drawControllerMock.onClearTrack).toHaveBeenCalled()
-
-
-    describe 'playing created track', ->
-
-      it 'should tell the controller when the user wants to play the created track', ->
-        @drawControllerMock.onPlayCreatedTrack = sinon.spy()
-
-        @drawView.onPlayCreatedTrackButtonClicked()
-
-        (expect @drawControllerMock.onPlayCreatedTrack).toHaveBeenCalled()

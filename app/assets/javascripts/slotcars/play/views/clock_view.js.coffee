@@ -1,7 +1,4 @@
-
-#= require slotcars/play/templates/clock_view_template
-
-(namespace 'slotcars.play.views').ClockView = Ember.View.extend
+Play.ClockView = Ember.View.extend
 
   elementId: 'clock'
   templateName: 'slotcars_play_templates_clock_view_template'
@@ -25,7 +22,7 @@
   lapChar: null
   totalLapClass: "letter-0"
   totalLapChar: null
-    
+
   didInsertElement: ->
     @chars = [
       @$('#clock-minutes .first')
@@ -35,11 +32,11 @@
       @$('#clock-milliseconds .first')
       @$('#clock-milliseconds .second')
     ]
-    
+
     @lapChar = @$('#clock-lap .first')
     @totalLapChar = @$('#clock-lap .third')
     
-    @_setLapStats()
+    @updateLapAmount @trackModel.get 'numberOfLaps'
     
   onUpdateRaceTime: ( ->
     @updateTime @gameController.get 'raceTime'
@@ -91,8 +88,3 @@
   _twoDigets: (value) ->
     value = value.toString()
     if value.length >= 2 then value.substr(0, 2) else "0#{value}"
-    
-  _setLapStats: ->
-    @updateLap @carModel.get 'currentLap'
-    @updateLapAmount @trackModel.get 'numberOfLaps'
-    

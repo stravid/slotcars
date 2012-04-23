@@ -48,3 +48,57 @@
     text-shadow: 0 0 15px #EEE;
   }
 }
+
+#publication-dialog {
+  position: absolute;
+  left: 300px;
+  top: 250px;
+  padding: 50px;
+  width: 300px;
+  background: rgba(0,0,0,0.7);
+  -webkit-box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow:    0px 0px 11px rgba(0, 0, 0, 0.7);
+  box-shadow:         0px 0px 11px rgba(0, 0, 0, 0.7);
+  text-align: center;
+
+  p {
+    margin-bottom: 40px;
+    font-family: sans-serif;
+    color: white;
+    font-size: 20px;
+    text-shadow: 0 0 15px #EEE;
+  }
+}
+
+#toolbar {
+  position: absolute;
+  top: 32px;
+  left: 350px;
+  width: 324px;
+  text-align: center;
+
+  div {
+    display: inline-block;
+    width: 67px;
+    height: 67px;
+    margin: 0 5px;
+    background-image: image-url("buttons/build-toolbar.png");
+    background-repeat: no-repeat;
+    background-position: left top;
+    cursor: pointer;
+
+    &.disabled {
+      background-position-y: -140px;
+      cursor: default;
+    }
+    &.active {
+      background-position-y: -70px;
+      cursor: default;
+    }
+  }
+
+  #draw-button { background-position-x: 0; }
+  #edit-button { background-position-x: -70px; }
+  #testdrive-button { background-position-x: -140px; }
+  #publish-button { background-position-x: -210px; }
+}
