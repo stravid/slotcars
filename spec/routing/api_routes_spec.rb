@@ -21,6 +21,14 @@ describe "Tracks" do
       )
   end
 
+  it "routes GET /api/tracks/:id/highscores to api::tracks#highscores" do
+    { :get => "/api/tracks/1/highscores" }.should route_to(
+        :controller => "api/tracks",
+        :action => "highscores",
+        :id => "1"
+      )
+  end
+
 end
 
 describe "Users" do
