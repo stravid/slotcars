@@ -10,6 +10,7 @@ Play.GameController = Shared.BaseGameController.extend
   startTime: null
   endTime: null
   raceTime: null
+  highscores: null
 
   timeouts: []
   lapTimes: []
@@ -26,16 +27,27 @@ Play.GameController = Shared.BaseGameController.extend
     @set 'carControlsEnabled', false
     @isTouchMouseDown = false
 
-    @saveRaceTime() if Shared.User.current
+    if Shared.User.current?
+      @saveRaceTime()
+    else
+      @loadHighscores()
 
   saveRaceTime: ->
-    Shared.Run.createRecord
+    run = Shared.Run.createRecord
       track: @track
       time: @get 'raceTime'
       user: Shared.User.current
 
-    Shared.ModelStore.commit()
+    run.save => @loadHighscores()
 
+  loadHighscores: ->
+    jQuery.ajax "/api/tracks/#{@track.get 'id'}/highscores",
+      type: "GET"
+      dataType: 'json'
+      success: (response) => @onHighscoresLoaded response
+
+  onHighscoresLoaded: (highscores) ->
+    @set 'highscores', Shared.Highscores.create runs: highscores
 
   onCarCrossedFinishLine: (->
     car = @get 'car'
