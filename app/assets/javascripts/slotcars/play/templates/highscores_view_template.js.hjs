@@ -1,0 +1,16 @@
+<table id="highscore-table">
+  <tbody>
+    <tr>
+      <th>Rank</th>
+      <th>Player</th>
+      <th>Time</th>
+    </tr>
+    {{#each highscores.displayedRuns}}
+      <tr>
+        <td>{{rank}}</td>
+        <td>{{username}}</td>
+        <td>{{racetime time}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
