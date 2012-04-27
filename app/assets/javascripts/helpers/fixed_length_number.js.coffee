@@ -1,5 +1,5 @@
 Shared.fixedLengthNumber = (number, length = 2) ->
-  string = '' + number
+  string = number.toString()
 
   string = '0' + string while string.length < length
 
