@@ -2,6 +2,9 @@ language: ruby
 rvm:
   - 1.9.3
 
+env:
+  - SECRET_TOKEN=7253bfac749406c8646ca152c815662995945175783379a4aadb028d4edf92ceb9bb95155300eaacee259eb4ac5255f8f765766fcb7dd4ca4a76f899bcae14e7
+
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"

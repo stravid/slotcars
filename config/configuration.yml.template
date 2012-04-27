@@ -1,0 +1,10 @@
+development: &defaults
+  secret_token:
+  airbrake_api_key:
+  newrelic_license_key:
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

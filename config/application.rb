@@ -11,6 +11,14 @@ end
 
 module Slotcars
   class Application < Rails::Application
+
+    # To ensure that the necessary environment variables are loaded early enough it should at least
+    # happen in the 'before_configuration' hook (or in the 'before_initialize' hook).
+    # It is especially important for the license key of the NewRelic gem.
+    config.before_configuration do
+        require File.expand_path('../configure', __FILE__)
+    end
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
