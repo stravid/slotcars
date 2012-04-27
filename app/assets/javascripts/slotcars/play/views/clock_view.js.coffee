@@ -50,9 +50,9 @@ Play.ClockView = Ember.View.extend
     date = new Date()
     date.setTime time
     
-    minutes = @_twoDigets date.getMinutes()
-    seconds = @_twoDigets date.getSeconds()
-    milliseconds = @_twoDigets date.getMilliseconds()
+    minutes = Shared.fixedLengthNumber date.getMinutes()
+    seconds = Shared.fixedLengthNumber date.getSeconds()
+    milliseconds = Shared.fixedLengthNumber date.getMilliseconds()
     
     @_setLetters [
       minutes.substr 0, 1
@@ -84,7 +84,3 @@ Play.ClockView = Ember.View.extend
       className = "letter-#{letters[i]}"
       @values[i] = className
       char.addClass className
-      
-  _twoDigets: (value) ->
-    value = value.toString()
-    if value.length >= 2 then value.substr(0, 2) else "0#{value}"
