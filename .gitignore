@@ -26,6 +26,5 @@
 # ignore mac store files
 .DS_Store
 
-
 # ignore app configuration file
 /config/configuration.yml
