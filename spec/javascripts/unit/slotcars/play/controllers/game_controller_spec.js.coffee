@@ -10,6 +10,7 @@ describe 'Play.GameController (unit)', ->
     @trackMock = mockEmberClass Shared.Track,
       getPointAtLength: sinon.stub().returns { x: 0, y: 0 }
       getTotalLength: sinon.stub().returns 5
+      loadHighscores: sinon.stub()
 
     @gameController = Play.GameController.create
       track: @trackMock

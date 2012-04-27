@@ -41,10 +41,7 @@ Play.GameController = Shared.BaseGameController.extend
     run.save => @loadHighscores()
 
   loadHighscores: ->
-    jQuery.ajax "/api/tracks/#{@track.get 'id'}/highscores",
-      type: "GET"
-      dataType: 'json'
-      success: (response) => @onHighscoresLoaded response
+    @track.loadHighscores (highscores) => @onHighscoresLoaded highscores
 
   onHighscoresLoaded: (highscores) ->
     @set 'highscores', Shared.Highscores.create runs: highscores
