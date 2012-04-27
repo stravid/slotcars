@@ -38,21 +38,13 @@ describe 'Highscores', ->
         runs: @runs
         userId: 4
 
-      (expect highscores.displayedRuns[0].user_id).toBe 2
-      (expect highscores.displayedRuns[1].user_id).toBe 3
       (expect highscores.displayedRuns[2].user_id).toBe 4
-      (expect highscores.displayedRuns[3].user_id).toBe 5
-      (expect highscores.displayedRuns[4].user_id).toBe 6
 
     it 'should select the correct runs when the current user is last', ->
       highscores = Shared.Highscores.create
         runs: @runs
         userId: 7
 
-      (expect highscores.displayedRuns[0].user_id).toBe 3
-      (expect highscores.displayedRuns[1].user_id).toBe 4
-      (expect highscores.displayedRuns[2].user_id).toBe 5
-      (expect highscores.displayedRuns[3].user_id).toBe 6
       (expect highscores.displayedRuns[4].user_id).toBe 7
 
     it 'should select the correct runs when the current user is first', ->
@@ -61,29 +53,17 @@ describe 'Highscores', ->
         userId: 1
 
       (expect highscores.displayedRuns[0].user_id).toBe 1
-      (expect highscores.displayedRuns[1].user_id).toBe 2
-      (expect highscores.displayedRuns[2].user_id).toBe 3
-      (expect highscores.displayedRuns[3].user_id).toBe 4
-      (expect highscores.displayedRuns[4].user_id).toBe 5
 
     it 'should select the correct runs when the current user is nearly the last', ->
       highscores = Shared.Highscores.create
         runs: @runs
         userId: 6
 
-      (expect highscores.displayedRuns[0].user_id).toBe 3
-      (expect highscores.displayedRuns[1].user_id).toBe 4
-      (expect highscores.displayedRuns[2].user_id).toBe 5
       (expect highscores.displayedRuns[3].user_id).toBe 6
-      (expect highscores.displayedRuns[4].user_id).toBe 7
 
     it 'should select the correct runs when the current user is nearly the first', ->
       highscores = Shared.Highscores.create
         runs: @runs
         userId: 2
 
-      (expect highscores.displayedRuns[0].user_id).toBe 1
       (expect highscores.displayedRuns[1].user_id).toBe 2
-      (expect highscores.displayedRuns[2].user_id).toBe 3
-      (expect highscores.displayedRuns[3].user_id).toBe 4
-      (expect highscores.displayedRuns[4].user_id).toBe 5
