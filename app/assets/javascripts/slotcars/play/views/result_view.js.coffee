@@ -18,27 +18,12 @@ Play.ResultView = Ember.View.extend
     milliSeconds = @gameController.get 'lapTimes'
     
     for time, i in milliSeconds
-      times[i] = "lap #{i + 1}: #{@_formatTime time}"
+      times[i] = "lap #{i + 1}: #{Shared.racetimeString time}"
       
     @set 'lapTimes', times
   ).observes 'gameController.lapTimes'
   
   onRaceTimeChange: (->
     return unless @gameController?
-    @set 'raceTime', @_formatTime (@gameController.get 'raceTime') 
+    @set 'raceTime', Shared.racetimeString (@gameController.get 'raceTime') 
   ).observes 'gameController.raceTime'
-  
-  _formatTime: (value) ->
-    date = new Date()
-    date.setTime value
-    
-    minutes = @_formatNumber date.getMinutes()
-    seconds = @_formatNumber date.getSeconds()
-    milliseconds = @_formatNumber date.getMilliseconds()
-    
-    "#{minutes}:#{seconds}:#{milliseconds}"
-    
-  _formatNumber: (value) ->
-    string = value.toString()
-    if string.length < 2 then '0' + string else string
-    

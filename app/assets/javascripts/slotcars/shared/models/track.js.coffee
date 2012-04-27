@@ -40,6 +40,12 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
     @_raphaelPath.setRaphaelPath @get 'raphael'
     @_raphaelPath.setRasterizedPath points
 
+  loadHighscores: (callback) ->
+    jQuery.ajax "/api/tracks/#{@get 'id'}/highscores",
+      type: "GET"
+      dataType: 'json'
+      success: (response) -> callback response
+
   addPathPoint: (point) -> (@get '_raphaelPath').addPoint point
 
   getTotalLength: -> (@get '_raphaelPath').get 'totalLength'
