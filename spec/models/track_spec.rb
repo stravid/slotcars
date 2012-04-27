@@ -14,4 +14,28 @@ describe Track do
       it { should_not allow_value(value).for(:raphael) }
     end
   end
+
+  describe 'highscores' do
+    let(:track) { FactoryGirl.create :track }
+
+    it 'should get the correct highscores' do
+      user_a = FactoryGirl.create :user, :username => 'david'
+      user_b = FactoryGirl.create :user, :username => 'tom'
+      user_c = FactoryGirl.create :user, :username => 'dominik'
+
+      track.runs.create :user_id => user_a.id, :time => 100
+      track.runs.create :user_id => user_b.id, :time => 200
+      track.runs.create :user_id => user_c.id, :time => 50
+      track.runs.create :user_id => user_a.id, :time => 300
+
+      highscores = track.highscores
+
+      highscores[0].username.should eq 'dominik'
+      highscores[0].time.should eq 50
+      highscores[1].username.should eq 'david'
+      highscores[1].time.should eq 100
+      highscores[2].username.should eq 'tom'
+      highscores[2].time.should eq 200
+    end
+  end
 end

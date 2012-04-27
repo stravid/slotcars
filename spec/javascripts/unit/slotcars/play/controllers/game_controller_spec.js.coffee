@@ -10,6 +10,7 @@ describe 'Play.GameController (unit)', ->
     @trackMock = mockEmberClass Shared.Track,
       getPointAtLength: sinon.stub().returns { x: 0, y: 0 }
       getTotalLength: sinon.stub().returns 5
+      loadHighscores: sinon.stub()
 
     @gameController = Play.GameController.create
       track: @trackMock
@@ -240,11 +241,9 @@ describe 'Play.GameController (unit)', ->
 
     beforeEach ->
       sinon.spy Shared.Run, 'createRecord'
-      sinon.spy Shared.ModelStore, 'commit'
 
     afterEach ->
       Shared.Run.createRecord.restore()
-      Shared.ModelStore.commit.restore()
 
     it 'should create a new Run record', ->
       time = 100
@@ -255,8 +254,3 @@ describe 'Play.GameController (unit)', ->
         track: @trackMock
         time: time
         user: Shared.User.current
-
-    it 'should call commit on the ModelStore', ->
-      @gameController.saveRaceTime()
-
-      (expect Shared.ModelStore.commit).toHaveBeenCalled()
