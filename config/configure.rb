@@ -9,6 +9,6 @@ if File.exists? configuration_file
   configuration_hash.each do |key, value|
       ENV[key.upcase] = value
   end
-elsif Rails.env.development? || Rails.env.test?
+elsif Rails.env.development?
   throw 'Missing `config/configuration.yml` to specify important application configuration variables. You can use `config/configuration.yml.template` as base.'
 end
