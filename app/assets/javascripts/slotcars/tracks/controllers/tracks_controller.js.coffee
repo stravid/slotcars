@@ -22,8 +22,11 @@ Tracks.TracksController = Ember.Object.extend
 
     @tracksScreenView.set 'contentView', @tracksView
 
-  reloadPageATracks: (offset) -> @set 'pageATracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }
+  reloadPageATracks: (offset) ->
+    (@set 'pageATracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }) if offset >= 0
 
-  reloadPageBTracks: (offset) -> @set 'pageBTracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }
+  reloadPageBTracks: (offset) ->
+    (@set 'pageBTracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }) if offset >= 0
 
-  reloadPageCTracks: (offset) -> @set 'pageCTracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }
+  reloadPageCTracks: (offset) ->
+    (@set 'pageCTracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }) if offset >= 0
