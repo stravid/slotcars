@@ -32,13 +32,8 @@ Play.ResultView = Ember.View.extend
     date = new Date()
     date.setTime value
     
-    minutes = @_formatNumber date.getMinutes()
-    seconds = @_formatNumber date.getSeconds()
-    milliseconds = @_formatNumber date.getMilliseconds()
+    minutes = Shared.fixedLengthNumber date.getMinutes()
+    seconds = Shared.fixedLengthNumber date.getSeconds()
+    milliseconds = Shared.fixedLengthNumber date.getMilliseconds()
     
     "#{minutes}:#{seconds}:#{milliseconds}"
-    
-  _formatNumber: (value) ->
-    string = value.toString()
-    if string.length < 2 then '0' + string else string
-    
