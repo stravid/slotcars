@@ -105,7 +105,6 @@ GEM
     newrelic_rpm (3.3.4.1)
     orm_adapter (0.0.7)
     pg (0.13.2)
-    pg (0.13.2-x86-mingw32)
     polyglot (0.3.3)
     rack (1.4.1)
     rack-cache (1.2)
