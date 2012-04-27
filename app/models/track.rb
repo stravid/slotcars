@@ -6,17 +6,6 @@ class Track < ActiveRecord::Base
   validates :rasterized, :presence => true
 
   def highscores
-    Run.find_by_sql(["
-      SELECT
-        username,
-        user_id,
-        MIN(time) AS time
-      FROM runs
-      INNER JOIN users
-      ON (runs.user_id = users.id)
-      WHERE track_id='?'
-      GROUP BY user_id, username
-      ORDER BY time ASC
-    ", self.id])
+    runs.select('user_id, username, MIN(time) AS time').joins(:user).order(:time).group(:user_id, :username)
   end
 end
