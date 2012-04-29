@@ -2,6 +2,8 @@ development: &defaults
   secret_token:
   airbrake_api_key:
   newrelic_license_key:
+  postgres_username:
+  postgres_password:
 
 test:
   <<: *defaults
