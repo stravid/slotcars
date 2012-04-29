@@ -97,7 +97,7 @@ Tracks.TracksView = Ember.View.extend
     @pages[2].setOrigin -1 * @width
 
     # load new data, decrement currentPage
-    @currentPage--
+    @set 'currentPage', (@get 'currentPage') - 1
     @loadData @pages[2], @tracksPerPage * (@currentPage - 2)
 
     @pages.unshift @pages.pop()
@@ -112,7 +112,7 @@ Tracks.TracksView = Ember.View.extend
     @pages[2].enableTransitions()
 
     # load new data, increment currentPage
-    @currentPage++
+    @set 'currentPage', (@get 'currentPage') + 1
     @loadData @pages[0], @tracksPerPage * @currentPage
 
     @pages.push @pages.shift()
