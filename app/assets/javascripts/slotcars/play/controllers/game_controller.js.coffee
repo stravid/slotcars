@@ -52,6 +52,9 @@ Play.GameController = Shared.BaseGameController.extend
   ).observes 'car.crossedFinishLine'
   
   onLapChange: (->
+    # prevent taking time when lap number changes from 0 to 1
+    return unless (@car.get 'currentLap') > 1
+
     lapTimes = @get 'lapTimes'
     sum = lapTimes.reduce (previous, current) -> 
       previous + current
