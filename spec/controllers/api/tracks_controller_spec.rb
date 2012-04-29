@@ -74,4 +74,15 @@ describe Api::TracksController do
     end
   end
 
+  describe '#count' do
+
+    it 'should return the number of tracks as JSON' do
+      count = tracks.count
+
+      get :count
+
+      response.body.should eq count.to_json
+    end
+  end
+
 end
