@@ -13,6 +13,10 @@ Slotcars::Application.routes.draw do
       member do
         get 'highscores'
       end
+
+      collection do
+        get 'count'
+      end
     end
 
     resources :runs, :only => [:create]
