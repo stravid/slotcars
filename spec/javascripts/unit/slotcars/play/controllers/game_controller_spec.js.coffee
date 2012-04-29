@@ -194,11 +194,14 @@ describe 'Play.GameController (unit)', ->
         (expect @gameController.get 'isCountdownVisible').toBe false
 
   describe 'saving lap times', ->
-    
-    it 'should save lap time when current lap of car changes', ->
+
+    beforeEach ->
+      @carMock.set 'currentLap', 2 # car finished first lap -> enters second lap
       @gameController.lapTimes = []
+
+    it 'should save lap time when current lap of car changes', ->
       @gameController.onLapChange()
-      
+
       (expect @gameController.lapTimes.length).toBe 1
       
     it 'should save the difference of total minus first lap', ->
@@ -213,21 +216,17 @@ describe 'Play.GameController (unit)', ->
       @gameController._setCurrentTime() # normaly caused by game loop
       @gameController.onLapChange()
 
+      (expect @gameController.lapTimes[0]).toBe 2000
       (expect @gameController.lapTimes[1]).toBe 3000
-      
+
       fakeTimer.restore()
 
-    it 'should not save lap time if lap time is zero', ->
-      # this test sounds weird but it´s neccessary to check
-      fakeTimer = sinon.useFakeTimers()
-      @gameController.restartGame()
-
-      @gameController._setCurrentTime() # normaly caused by game loop
+    it 'should not save lap time before car reaches second lap', ->
+      @carMock.set 'currentLap', 1 # car crossed start line - enters first lap
       @gameController.onLapChange()
-      
+
       (expect @gameController.lapTimes.length).toBe 0
 
-      fakeTimer.restore()
 
   describe 'destroy', ->
 
