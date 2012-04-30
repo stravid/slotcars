@@ -14,6 +14,8 @@ Play.CarView = Ember.View.extend
   didInsertElement: ->
     (jQuery '#car').css 'top', 0
     (jQuery '#car').css 'left', 0
+    (jQuery '#car').css '-webkit-transform', "translate3d(0,-10000px,0)"
+    (jQuery '#car').css '-moz-transform', "translate3d(0,-10000px,0)"
 
   onPositionChange: (-> @update()).observes 'car.position'
 
