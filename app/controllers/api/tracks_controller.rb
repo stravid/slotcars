@@ -34,4 +34,7 @@ class Api::TracksController < Api::ApiController
     render :json => highscores.to_json
   end
 
+  def count
+    render :json => Track.count.to_json
+  end
 end

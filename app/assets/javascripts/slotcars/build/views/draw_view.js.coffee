@@ -34,7 +34,8 @@ Build.DrawView = Shared.TrackView.extend
 
   _onTouchMouseMove: (event) ->
     event.originalEvent.preventDefault() if event.originalEvent?
-    @drawController.onTouchMouseMove x: event.pageX, y: event.pageY
+    offset = @$().offset()
+    @drawController.onTouchMouseMove x: event.pageX - offset.left, y: event.pageY - offset.top
 
   _onTouchMouseUp: ->
     @$(PAPER_WRAPPER_ID).off 'touchMouseMove'

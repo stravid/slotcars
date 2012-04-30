@@ -67,7 +67,7 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
 
     # clamp return value to maximum number of laps
     if lap > numberOfLaps then lap = numberOfLaps
-    if lap is 0 then return 1 else return lap
+    return lap
 
   rasterize: (finishCallback) ->
     @set 'isRasterizing', true
