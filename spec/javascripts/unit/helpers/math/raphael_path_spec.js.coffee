@@ -275,3 +275,36 @@ describe 'raphael path', ->
       (expect (raphaelPath.get '_rasterizedPath').head.x).toEqual 1
       (expect (raphaelPath.get '_rasterizedPath').head.y).toEqual 2
       (expect (raphaelPath.get '_rasterizedPath').head.angle).toEqual 3
+
+
+  describe 'setting a new linked path', ->
+
+    beforeEach ->
+      @points = [ { x: 1, y: 0 }, { x: 0, y: 1 } ]
+      @raphaelPath = Shared.RaphaelPath.create()
+
+      # pretends that path has already been rasterized
+      @raphaelPath._rasterizedPath = @pathMock
+
+    it 'should destroy the old path and the rasterized path', ->
+      sinon.spy @pathMock, 'destroy'
+
+      @raphaelPath.setLinkedPath @points
+
+      (expect @pathMock.destroy).toHaveBeenCalledTwice()
+
+    it 'should create a new path and set it as property', ->
+      sinon.spy @raphaelPath, 'set'
+
+      @raphaelPath.setLinkedPath @points
+
+      (expect @pathMock.create).toHaveBeenCalledWith points: @points
+      (expect @raphaelPath.set).toHaveBeenCalledWith '_path', @pathMock
+
+    it 'should create a new rasterized path and set it as property', ->
+      sinon.spy @raphaelPath, 'set'
+
+      @raphaelPath.setLinkedPath @points
+
+      (expect @pathMock.create).toHaveBeenCalled()
+      (expect @raphaelPath.set).toHaveBeenCalledWith '_rasterizedPath', @pathMock

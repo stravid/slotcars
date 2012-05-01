@@ -3,6 +3,7 @@ describe 'Build.EditView', ->
   beforeEach ->
     @trackMock = mockEmberClass Shared.Track,
       getPathPoints: sinon.stub().returns [{x: 0, y: 0}, {x: 10, y: 10}, {x: 20, y: 5}]
+      updateRaphaelPath: sinon.spy()
 
     @editView = Build.EditView.create
       track: @trackMock
@@ -58,3 +59,24 @@ describe 'Build.EditView', ->
       @editView.drawTrack @raphaelPathString
 
       (expect @editView.circles.drag).toHaveBeenCalled()
+
+  describe 'updating track', ->
+
+    beforeEach ->
+      @editView.pathPoints = [] # normally set in drawTrack
+
+    it 'should update the moved point in the path points array', ->
+      index = 2
+      point = x: 78, y: 13
+
+      @editView.updateTrack index, point
+
+      (expect @editView.pathPoints[index]).toBe point
+
+    it 'should update the track´s path with the current path points', ->
+      index = 2
+      point = x: 78, y: 13
+
+      @editView.updateTrack index, point
+
+      (expect @trackMock.updateRaphaelPath).toHaveBeenCalled()

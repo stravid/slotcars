@@ -102,6 +102,15 @@ Shared.RaphaelPath = Ember.Object.extend
 
   setRasterizedPath: (points) -> @set '_rasterizedPath', Shared.Path.create points: points
 
+  setLinkedPath: (points) ->
+    @_path.destroy()
+    @_rasterizedPath.destroy() if @_rasterizedPath?
+
+    @set '_path', Shared.Path.create points: points
+    @set '_rasterizedPath', Shared.Path.create()
+
+    @_updateCatmullRomPath()
+
 # provide static class properties
 Shared.RaphaelPath.reopenClass
   EMPTY_PATH_STRING: EMPTY_RAPHAEL_PATH_STRING

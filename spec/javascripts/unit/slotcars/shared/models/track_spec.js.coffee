@@ -165,6 +165,20 @@ describe 'Shared.Track', ->
       (expect @track.lapForLength lengthBiggerThanTotalLaps).toBe @track.get 'numberOfLaps'
 
 
+  describe 'updating raphael path', ->
+
+    beforeEach ->
+      @raphaelPathMock.setLinkedPath = sinon.spy()
+      @track = Shared.Track.createRecord()
+
+    it 'should pass the passed points to the linked path', ->
+      points = [ { x: 1, y: 0 }, { x: 0, y: 1 } ]
+
+      @track.updateRaphaelPath points
+
+      (expect @raphaelPathMock.setLinkedPath).toHaveBeenCalledWith points
+
+
   describe 'rasterizing the track', ->
 
     beforeEach ->

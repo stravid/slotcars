@@ -16,8 +16,10 @@ Build.EditView = Shared.TrackView.extend
       circle = @_paper.circle point.x, point.y, 24
       circle.attr stroke: '#000000', 'stroke-width': 3
       circle.attr 'fill', '#00a2bf' # Raphael.getColor()
+      circle.data 'index', i
       @circles.push circle
 
+    @circles.data 'viewContext', @
     @circles.drag @_onEditHandleMove, @_onEditHandleDragStart
 
   _onEditHandleDragStart: (x, y, event) ->
@@ -29,4 +31,10 @@ Build.EditView = Shared.TrackView.extend
     @attr cx: X, cy: Y
 
     @dx = dx
+    @dy = dy
 
+    (@data 'viewContext').updateTrack (@data 'index'), { x: X, y: Y }
+
+  updateTrack: (index, point) ->
+    @pathPoints[index] = point
+    @track.updateRaphaelPath @pathPoints
