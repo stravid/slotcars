@@ -12,10 +12,10 @@ Build.BuildScreenStateManager = Ember.StateManager.extend
 
   Editing: Ember.State.create
     # states which are reachable from 'Editing' - used for menu button states in the build screen (enable/disable)
-    reachableStates: ['Testing', 'Publishing']
+    reachableStates: ['Drawing', 'Testing', 'Publishing']
 
     enter: (manager) -> manager.delegate.setupEditing()
-    # clickedDrawButton: (manager) -> manager.goToState 'Drawing'
+    clickedDrawButton: (manager) -> manager.goToState 'Drawing'
     clickedTestdriveButton: (manager) ->
       manager.targetState = 'Testing'
       manager.goToState 'Rasterizing'
@@ -29,11 +29,11 @@ Build.BuildScreenStateManager = Ember.StateManager.extend
 
   Testing: Ember.State.create
     # states which are reachable from 'Testing' - used for menu button states in the build screen (enable/disable)
-    reachableStates: ['Drawing', 'Publishing']
+    reachableStates: ['Drawing', 'Editing', 'Publishing']
 
     enter: (manager) -> manager.delegate.setupTesting()
     clickedDrawButton: (manager) -> manager.goToState 'Drawing'
-    # clickedEditButton: (manager) -> manager.goToState 'Editing'
+    clickedEditButton: (manager) -> manager.goToState 'Editing'
     clickedPublishButton: (manager) ->
       manager.publishingFallbackState = @name
       manager.goToState 'Publishing'

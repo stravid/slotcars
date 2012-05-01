@@ -42,23 +42,6 @@ describe 'build screen state manager', ->
       (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith 'Editing'
 
 
-  describe 'editing', ->
-
-    beforeEach ->
-      @buildScreenStateManager = Build.BuildScreenStateManager.create
-        delegate: @delegateMock
-
-      @buildScreenStateManager.goToState 'Editing'
-
-    it 'should prepare editing environment on entering the state', ->
-      (expect @delegateMock.setupEditing).toHaveBeenCalled()
-
-    it 'should tear editing environment down on leaving the state', ->
-      @buildScreenStateManager.send 'exit'
-
-      (expect @delegateMock.teardownEditing).toHaveBeenCalled()
-
-
   describe 'testing', ->
 
     beforeEach ->
@@ -81,7 +64,15 @@ describe 'build screen state manager', ->
         sinon.spy @buildScreenStateManager, 'goToState'
         @buildScreenStateManager.send 'clickedDrawButton'
 
-        (expect @buildScreenStateManager.goToState).toHaveBeenCalled 'Drawing'
+        (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith 'Drawing'
+
+    describe 'clicked edit button', ->
+
+      it 'should go to state Editing', ->
+        sinon.spy @buildScreenStateManager, 'goToState'
+        @buildScreenStateManager.send 'clickedEditButton'
+
+        (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith 'Editing'
 
     describe 'clicked publish button', ->
 
@@ -96,7 +87,7 @@ describe 'build screen state manager', ->
       it 'should go to state Publishing', ->
         @buildScreenStateManager.send 'clickedPublishButton'
 
-        (expect @buildScreenStateManager.goToState).toHaveBeenCalled 'Publishing'
+        (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith 'Publishing'
 
 
   describe 'editing', ->
@@ -106,6 +97,14 @@ describe 'build screen state manager', ->
         delegate: @delegateMock
 
       @buildScreenStateManager.goToState 'Editing'
+
+    it 'should prepare editing environment on entering the state', ->
+      (expect @delegateMock.setupEditing).toHaveBeenCalled()
+
+    it 'should tear editing environment down on leaving the state', ->
+      @buildScreenStateManager.send 'exit'
+
+      (expect @delegateMock.teardownEditing).toHaveBeenCalled()
 
     describe 'clicked test drive button', ->
 
@@ -118,38 +117,47 @@ describe 'build screen state manager', ->
         sinon.spy @buildScreenStateManager, 'goToState'
         @buildScreenStateManager.send 'clickedTestdriveButton'
 
-        (expect @buildScreenStateManager.goToState).toHaveBeenCalled 'Rasterizing'
+        (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith 'Rasterizing'
 
       it 'should tell the Rasterizing state to start rasterization', ->
         @buildScreenStateManager.send 'clickedTestdriveButton'
 
         (expect @delegateMock.startRasterizing).toHaveBeenCalled()
 
-
     describe 'clicked publish button', ->
 
       beforeEach ->
         sinon.spy @buildScreenStateManager, 'goToState'
-
-      it 'should set the current state as fallback', ->
-        @buildScreenStateManager.send 'clickedPublishButton'
-
-        (expect @buildScreenStateManager.publishingFallbackState).toEqual 'Editing'
 
       it 'should set the state manager´s target state to Publishing', ->
         @buildScreenStateManager.send 'clickedPublishButton'
 
         (expect @buildScreenStateManager.targetState).toEqual 'Publishing'
 
+      it 'should set the current state as fallback state', ->
+        @buildScreenStateManager.send 'clickedPublishButton'
+
+        (expect @buildScreenStateManager.publishingFallbackState).toEqual 'Editing'
+
       it 'should go to state Rasterizing', ->
         @buildScreenStateManager.send 'clickedPublishButton'
 
-        (expect @buildScreenStateManager.goToState).toHaveBeenCalled 'Rasterizing'
+        (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith 'Rasterizing'
 
       it 'should tell the Rasterizing state to start rasterization', ->
-        @buildScreenStateManager.send 'clickedPublishButton'
+        @buildScreenStateManager.send 'clickedTestdriveButton'
 
         (expect @delegateMock.startRasterizing).toHaveBeenCalled()
+
+    describe 'clicked draw button', ->
+
+      beforeEach ->
+        sinon.spy @buildScreenStateManager, 'goToState'
+
+      it 'should go to state Drawing', ->
+        @buildScreenStateManager.send 'clickedDrawButton'
+
+        (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith 'Drawing'
 
 
   describe 'rasterizing', ->

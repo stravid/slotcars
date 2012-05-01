@@ -17,6 +17,10 @@ Build.BuildScreenView = Ember.View.extend
     event.preventDefault() if event?
     @stateManager.send 'clickedDrawButton'
 
+  onEditButtonClicked: (event) ->
+    event.preventDefault() if event?
+    @stateManager.send 'clickedEditButton'
+
   onTestdriveButtonClicked: (event) ->
     event.preventDefault() if event?
     @stateManager.send 'clickedTestdriveButton'
