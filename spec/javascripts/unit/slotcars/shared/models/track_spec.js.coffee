@@ -35,6 +35,17 @@ describe 'Shared.Track', ->
       (expect @raphaelPathMock.addPoint).toHaveBeenCalledWith point
 
 
+  describe 'getting all path points', ->
+
+    it 'should ask its raphael path for path points as an array', ->
+      track = Shared.Track.createRecord()
+      @raphaelPathMock.getPathPointArray = sinon.spy()
+
+      track.getPathPoints()
+
+      (expect @raphaelPathMock.getPathPointArray).toHaveBeenCalled()
+
+
   describe 'getting total length of path', ->
 
     it 'should ask its raphael path for total length', ->

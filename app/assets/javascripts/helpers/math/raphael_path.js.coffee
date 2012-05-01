@@ -23,6 +23,8 @@ Shared.RaphaelPath = Ember.Object.extend
     else
       Raphael.getPointAtLength (@get 'path'), length
 
+  getPathPointArray: -> @_path.asPointArray()
+
   clear: ->
     @_path.clear()
     @_updateCatmullRomPath()

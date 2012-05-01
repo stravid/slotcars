@@ -28,6 +28,15 @@ describe 'raphael path', ->
       (expect @pathMock.push).toHaveBeenCalledWith testPoint, true
 
 
+  describe 'getting path points as array', ->
+
+    it 'should fetch path points from its path', ->
+      raphaelPath = Shared.RaphaelPath.create()
+      raphaelPath.getPathPointArray()
+
+      (expect @pathMock.asPointArray).toHaveBeenCalled()
+
+
   describe 'updating of path string', ->
 
     beforeEach ->
@@ -36,7 +45,6 @@ describe 'raphael path', ->
       @firstPoint = { x: 1, y: 0 }
       @secondPoint = { x: 2, y: 1 }
       @thirdPoint = { x: 3, y: 2 }
-      @fourthPoint = { x: 4, y: 5 }
 
     it 'should use an empty path by default and provide default raphael path', ->
       (expect @raphaelPath.get 'path').not.toBe undefined
@@ -63,7 +71,6 @@ describe 'raphael path', ->
       @raphaelPath.addPoint @thirdPoint
 
       (expect @raphaelPath.get 'path').toEqual 'M1,0R2,1,3,2z'
-
 
 
   describe 'total length of path', ->

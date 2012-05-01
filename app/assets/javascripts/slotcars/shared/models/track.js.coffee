@@ -57,6 +57,8 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
 
   cleanPath: -> (@get '_raphaelPath').clean minAngle: 10, minLength: 100, maxLength: 400
 
+  getPathPoints: -> (@get '_raphaelPath').getPathPointArray()
+
   isLengthAfterFinishLine: (length) ->
     @getTotalLength() * (@get 'numberOfLaps') < length
 
