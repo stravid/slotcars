@@ -98,7 +98,7 @@ Shared.RaphaelPath = Ember.Object.extend
 
   setRaphaelPath: (path) -> @set 'path', path
 
-  setRasterizedPath: (points) -> @set '_rasterizedPath', Shared.Path.create points
+  setRasterizedPath: (points) -> @set '_rasterizedPath', Shared.Path.create points: points
 
 # provide static class properties
 Shared.RaphaelPath.reopenClass

@@ -78,7 +78,6 @@ describe 'raphael path', ->
       (expect totalLength).toBe expectedLength
 
 
-
   describe 'getting point on length of track', ->
 
     it 'should as Raphael for point at specific length on path', ->
@@ -116,7 +115,6 @@ describe 'raphael path', ->
       @raphaelPath.clear()
 
       (expect @raphaelPath.get 'path').toBe Shared.RaphaelPath.EMPTY_PATH_STRING
-
 
 
   describe 'cleaning the path', ->
@@ -243,6 +241,7 @@ describe 'raphael path', ->
       (expect Ember.run.next).toHaveBeenCalledTwice()
       (expect finishSpy).toHaveBeenCalledOnce()
 
+
   describe 'setting the raphael path', ->
 
     it 'should set the raphael path', ->
@@ -253,16 +252,16 @@ describe 'raphael path', ->
 
       (expect raphaelPath.get 'path').toEqual path
 
+
   describe 'setting the rasterized path', ->
 
     it 'should set the rasterized path', ->
       @pathMock.restore()
 
       raphaelPath = Shared.RaphaelPath.create()
-      points =
-        points: [
-          { x: '1', y: '2', angle: '3' }
-        ]
+      points = [
+        { x: '1', y: '2', angle: '3' }
+      ]
 
       raphaelPath.setRasterizedPath points
 

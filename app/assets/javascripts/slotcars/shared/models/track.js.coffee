@@ -34,8 +34,7 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
         @_creationCallback = null
 
   didLoad: ->
-    points =
-      points: JSON.parse (@get 'rasterized')
+    points = JSON.parse (@get 'rasterized')
 
     @_raphaelPath.setRaphaelPath @get 'raphael'
     @_raphaelPath.setRasterizedPath points

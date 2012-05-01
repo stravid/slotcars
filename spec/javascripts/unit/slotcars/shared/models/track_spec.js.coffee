@@ -234,8 +234,7 @@ describe 'Shared.Track', ->
       it 'should setup the raphael path', ->
         raphael = 'M0,0L1,0z'
         rasterized = '[{"x":"1.00","y":"1.00","angle":"1.00"}]'
-        points =
-          points: JSON.parse rasterized
+        points = JSON.parse rasterized
 
         track = Shared.Track.createRecord()
 
