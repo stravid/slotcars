@@ -4,6 +4,8 @@ describe 'build screen state manager', ->
     @delegateMock =
       setupDrawing: sinon.spy()
       teardownDrawing: sinon.spy()
+      setupEditing: sinon.spy()
+      teardownEditing: sinon.spy()
       setupTesting: sinon.spy()
       teardownTesting: sinon.spy()
       setupRasterizing: sinon.spy()
@@ -38,6 +40,23 @@ describe 'build screen state manager', ->
       @buildScreenStateManager.send 'finishedDrawing'
 
       (expect @buildScreenStateManager.goToState).toHaveBeenCalledWith 'Editing'
+
+
+  describe 'editing', ->
+
+    beforeEach ->
+      @buildScreenStateManager = Build.BuildScreenStateManager.create
+        delegate: @delegateMock
+
+      @buildScreenStateManager.goToState 'Editing'
+
+    it 'should prepare editing environment on entering the state', ->
+      (expect @delegateMock.setupEditing).toHaveBeenCalled()
+
+    it 'should tear editing environment down on leaving the state', ->
+      @buildScreenStateManager.send 'exit'
+
+      (expect @delegateMock.teardownEditing).toHaveBeenCalled()
 
 
   describe 'testing', ->
