@@ -20,4 +20,29 @@ class User < ActiveRecord::Base
     where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.strip.downcase }]).first
   end
 
+  def highscores
+    user_runs = runs.group(:track_id).includes(:track)
+    track_highscores = {}
+
+    user_runs.each do |run|
+      track_highscores[run.track.id] = run.track.highscores
+    end
+
+    user_highscores = []
+
+    track_highscores.each_pair do |track_id, highscore|
+      highscore.each_with_index do |run, index|
+        if run.user_id == self.id
+          hash = {}
+          hash[:track_id] = track_id
+          hash[:time] = run.time
+          hash[:rank] = index + 1
+
+          user_highscores << hash
+        end
+      end
+    end
+
+    user_highscores
+  end
 end
