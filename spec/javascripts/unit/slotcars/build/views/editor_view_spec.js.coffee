@@ -60,23 +60,23 @@ describe 'Build.EditView', ->
 
       (expect @editView.circles.drag).toHaveBeenCalled()
 
-  describe 'updating track', ->
+  describe 'updating path points', ->
 
     beforeEach ->
       @editView.pathPoints = [] # normally set in drawTrack
 
     it 'should update the moved point in the path points array', ->
       index = 2
-      point = x: 78, y: 13
+      point = x: 0, y: 1
 
-      @editView.updateTrack index, point
+      @editView._updatePathPoint index, point
 
       (expect @editView.pathPoints[index]).toBe point
 
     it 'should update the track´s path with the current path points', ->
       index = 2
-      point = x: 78, y: 13
+      point = x: 1, y: 0
 
-      @editView.updateTrack index, point
+      @editView._updatePathPoint index, point
 
       (expect @trackMock.updateRaphaelPath).toHaveBeenCalled()

@@ -1,7 +1,7 @@
 Shared.TrackView = Ember.View.extend
 
   track: null
-  
+  _displayedRaphaelElements: []
   _paper: null
 
   scaleFactor: 1
@@ -18,17 +18,21 @@ Shared.TrackView = Ember.View.extend
 
   didInsertElement: ->
     @_paper = Raphael @$()[0], 1024 * @scaleFactor, 768 * @scaleFactor
-    @onTrackChange()
-
-  onTrackChange: ( -> 
-    return unless @track?
     @drawTrack @track.get 'raphaelPath'
+
+  onTrackChange: ( ->
+    return unless @_paper?
+    @updateTrack @track.get 'raphaelPath'
   ).observes 'track.raphaelPath'
+
+  updateTrack: (path) ->
+    (element.attr 'path', path) for element in @_displayedRaphaelElements
 
   drawTrack: (path) ->
     return unless @_paper?
 
     @_paper.clear()
+    @_displayedRaphaelElements = []
 
     @_drawPath path, @DIRT_WIDTH * @scaleFactor, @DIRT_COLOR
     @_drawPath path, @BORDER_ASPHALT_WIDTH * @scaleFactor, @ASPHALT_COLOR
@@ -37,11 +41,13 @@ Shared.TrackView = Ember.View.extend
     @_drawDashedLine path
 
   _drawPath: (path, width, color) ->
-    path = @_paper.path path;
+    path = @_paper.path path
     path.attr 'stroke', color
     path.attr 'stroke-width', width
 
     path.transform "s#{@scaleFactor},#{@scaleFactor},0,0"
+
+    @_displayedRaphaelElements.push path
 
     path
 
