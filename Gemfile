@@ -6,6 +6,8 @@ gem 'devise' # authentication
 gem 'airbrake'
 gem 'newrelic_rpm'
 
+gem 'pusher'
+
 # better serialization of models
 gem "active_model_serializers", :git => "git://github.com/josevalim/active_model_serializers.git"
 
