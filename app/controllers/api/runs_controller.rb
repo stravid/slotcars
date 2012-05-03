@@ -7,6 +7,15 @@ class Api::RunsController < ApplicationController
     run = current_user.runs.new params[:run]
 
     if run.save
+      new_run = {
+        :user_id => current_user.id,
+        :username => current_user.username,
+        :track_id => run.track_id,
+        :time => run.time
+      }
+
+      Pusher['slotcars'].trigger('new-run', new_run) unless Rails.env.test?
+      
       render :json => run, :status => :created
     else
       head :error 

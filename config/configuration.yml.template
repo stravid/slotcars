@@ -2,6 +2,9 @@ development: &defaults
   secret_token:
   airbrake_api_key:
   newrelic_license_key:
+  pusher_app_id:
+  pusher_key:
+  pusher_secret:
 
 test:
   <<: *defaults
