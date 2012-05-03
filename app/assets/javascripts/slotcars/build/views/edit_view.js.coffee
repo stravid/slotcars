@@ -37,3 +37,5 @@ Build.EditView = Shared.TrackView.extend
   _updatePathPoint: (index, newPoint) ->
     @pathPoints[index] = newPoint
     @track.updateRaphaelPath @pathPoints
+
+    Ember.run.sync() # reduces sluggishness while dragging
