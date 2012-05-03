@@ -33,12 +33,11 @@ class User < ActiveRecord::Base
     track_highscores.each_pair do |track_id, highscore|
       highscore.each_with_index do |run, index|
         if run.user_id == self.id
-          hash = {}
-          hash[:track_id] = track_id
-          hash[:time] = run.time
-          hash[:rank] = index + 1
-
-          user_highscores << hash
+          user_highscores << {
+            :track_id => track_id,
+            :time => run.time,
+            :rank => index + 1
+          }
         end
       end
     end
