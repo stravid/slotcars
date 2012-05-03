@@ -47,6 +47,14 @@ describe "Users" do
         )
   end
 
+  it "routes GET /api/users/:id/highscores to api::users#highscores" do
+    { :get => "/api/users/1/highscores" }.should route_to(
+        :controller => "api/users",
+        :action => "highscores",
+        :id => "1"
+      )
+  end
+
 end
 
 describe "Sessions" do

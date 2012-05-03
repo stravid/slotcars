@@ -145,3 +145,33 @@ describe 'Shared.User', ->
       @requests[0].respond 400, { "Content-Type": "application/json" }
 
       (expect errorCallbackSpy).toHaveBeenCalledOnce()
+
+  describe '#loadHighscore', ->
+
+    beforeEach ->
+      @xhr = sinon.useFakeXMLHttpRequest()
+      @requests = []
+
+      @xhr.onCreate = (xhr) => @requests.push xhr
+
+      @user = Shared.User.createRecord
+        id: 1
+
+    afterEach ->
+      @xhr.restore()
+
+    it 'should send the correct request', ->
+      @user.loadHighscores ->
+
+      (expect @requests[0].url).toBe '/api/users/1/highscores'
+      (expect @requests[0].method).toBe 'GET'
+
+    it 'should call the callback with the response', ->
+      response = '[{"id":1},{"id":2}]'
+      callback = sinon.stub()
+
+      @user.loadHighscores (highscores) => callback highscores
+
+      @requests[0].respond 200, { "Content-Type": "application/json" }, response
+
+      (expect callback).toHaveBeenCalledWith JSON.parse response
