@@ -4,16 +4,17 @@ describe 'track view', ->
     @raphaelBackup = window.Raphael
 
     @paperElementAttrSpy = sinon.spy()
-    @paperClearSpy = sinon.spy()
 
     @raphaelElementStub = sinon.stub().returns
       attr: @paperElementAttrSpy
       transform: ->
 
-    @raphaelStub = window.Raphael = sinon.stub().returns
+    @paperStub =
       path: @raphaelElementStub
       rect: @raphaelElementStub
-      clear: @paperClearSpy
+      clear: sinon.spy()
+
+    @raphaelStub = window.Raphael = sinon.stub().returns @paperStub
 
     @trackMock = mockEmberClass Shared.Track
 
@@ -50,13 +51,6 @@ describe 'track view', ->
 
       (expect trackView.drawTrack).not.toThrow()
 
-    it 'should clear the paper before drawing', ->
-      @trackView.didInsertElement() # paper gets created
-
-      @trackView.drawTrack('M0,0Z')
-
-      (expect @paperClearSpy).toHaveBeenCalled()
-
   describe 'updating the track', ->
 
     beforeEach ->
@@ -76,3 +70,16 @@ describe 'track view', ->
       @trackView.updateTrack @raphaelPath
 
       (expect @paperElementAttrSpy).toHaveBeenCalledWith 'path', @raphaelPath
+
+  describe 'destroying', ->
+
+    beforeEach ->
+      @raphaelPath = "M0,0R1,0z"
+      sinon.stub(@trackMock, 'get').withArgs('raphaelPath').returns @raphaelPath
+
+      @trackView.didInsertElement() # paper gets created + track is drawn
+
+    it 'should clear the paper', ->
+      @trackView.destroy()
+
+      (expect @paperStub.clear).toHaveBeenCalled()

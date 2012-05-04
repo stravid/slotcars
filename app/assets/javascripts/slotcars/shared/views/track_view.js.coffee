@@ -4,6 +4,10 @@ Shared.TrackView = Ember.View.extend
   _displayedRaphaelElements: []
   _paper: null
 
+  # configure which path layers NOT to draw
+  # valid properties: 'dirt', 'outerLine', 'asphalt', 'medianStrip'
+  excludedPathLayers: {}
+
   scaleFactor: 1
 
   DASHED_LINE_WIDTH: 3
@@ -31,14 +35,20 @@ Shared.TrackView = Ember.View.extend
   drawTrack: (path) ->
     return unless @_paper?
 
-    @_paper.clear()
     @_displayedRaphaelElements = []
 
-    @_drawPath path, @DIRT_WIDTH * @scaleFactor, @DIRT_COLOR
-    @_drawPath path, @BORDER_ASPHALT_WIDTH * @scaleFactor, @ASPHALT_COLOR
-    @_drawPath path, @BORDER_LINE_WIDTH * @scaleFactor, @LINE_COLOR
-    @_drawPath path, @ASPHALT_WIDTH * @scaleFactor, @ASPHALT_COLOR
-    @_drawDashedLine path
+    unless @excludedPathLayers.dirt
+      @_drawPath path, @DIRT_WIDTH * @scaleFactor, @DIRT_COLOR
+
+    unless @excludedPathLayers.outerLine
+      @_drawPath path, @BORDER_ASPHALT_WIDTH * @scaleFactor, @ASPHALT_COLOR
+      @_drawPath path, @BORDER_LINE_WIDTH * @scaleFactor, @LINE_COLOR
+
+    unless @excludedPathLayers.asphalt
+      @_drawPath path, @ASPHALT_WIDTH * @scaleFactor, @ASPHALT_COLOR
+
+    unless @excludedPathLayers.medianStrip
+      @_drawDashedLine path
 
   _drawPath: (path, width, color) ->
     path = @_paper.path path
@@ -55,3 +65,7 @@ Shared.TrackView = Ember.View.extend
     path = @_drawPath path, @DASHED_LINE_WIDTH * @scaleFactor, @LINE_COLOR
     path.attr 'stroke-dasharray', '- '
     path.attr 'stroke-linecap', 'square'
+
+  destroy: ->
+    @_super()
+    @_paper.clear()
