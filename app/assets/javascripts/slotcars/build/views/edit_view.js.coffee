@@ -19,10 +19,14 @@ Build.EditView = Shared.TrackView.extend
       @circles.push circle
 
     @circles.data 'viewContext', this
-    @circles.drag @_onEditHandleMove, @_onEditHandleDragStart
+    @circles.drag @_onEditHandleMove, @_onEditHandleDragStart, @_onEditHandleDragEnd
+
+  _onEditHandleDragEnd: (x, y, event) ->
+    @animate { r: 34, opacity: 1 }, 300, 'bounce'
 
   _onEditHandleDragStart: (x, y, event) ->
     @deltaX = @deltaY = 0
+    @animate { r: 49, opacity: .7 }, 300, '<'
 
   _onEditHandleMove: (deltaX, deltaY, x, y, event) ->
     X = (@attr 'cx') + (deltaX - @deltaX)
