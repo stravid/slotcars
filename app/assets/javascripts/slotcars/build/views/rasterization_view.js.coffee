@@ -9,14 +9,14 @@ Build.RasterizationView = Shared.TrackView.extend
   excludedPathLayers: outerLine: true, medianStrip: true
   _displayedOverlayPaths: []
 
-  didInsertElement: ->
-    @_super()
+  drawTrack: (path) ->
+    @_super path
+
     @_drawTrackOverlay (@get 'track').get 'rasterizedPath'
 
   onRasterizedPathChanged: (->
     rasterizedPath = (@get 'track').get 'rasterizedPath'
     (element.attr 'path', rasterizedPath) for element in @_displayedOverlayPaths
-
   ).observes 'track.rasterizedPath'
 
   _drawTrackOverlay: (rasterizedPath) ->
