@@ -74,6 +74,7 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
 
   rasterize: (finishCallback) ->
     @set 'isRasterizing', true
+    @set 'rasterizedPath', null
     Ember.run.later (=>
       (@get '_raphaelPath').rasterize
         stepSize: 10

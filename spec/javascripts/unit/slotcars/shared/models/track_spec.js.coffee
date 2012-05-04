@@ -205,6 +205,11 @@ describe 'Shared.Track', ->
 
       (expect @track.get 'isRasterizing').toBe true
 
+    it 'should reset the rasterized path', ->
+      @track.rasterize()
+
+      (expect @track.get 'rasterizedPath').toBe null
+
     it 'should defer rasterization with ember', ->
       @track.rasterize()
 
