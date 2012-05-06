@@ -28,6 +28,15 @@ describe 'raphael path', ->
       (expect @pathMock.push).toHaveBeenCalledWith testPoint, true
 
 
+  describe 'getting path points as array', ->
+
+    it 'should fetch path points from its path', ->
+      raphaelPath = Shared.RaphaelPath.create()
+      raphaelPath.getPathPointArray()
+
+      (expect @pathMock.asPointArray).toHaveBeenCalled()
+
+
   describe 'updating of path string', ->
 
     beforeEach ->
@@ -36,7 +45,6 @@ describe 'raphael path', ->
       @firstPoint = { x: 1, y: 0 }
       @secondPoint = { x: 2, y: 1 }
       @thirdPoint = { x: 3, y: 2 }
-      @fourthPoint = { x: 4, y: 5 }
 
     it 'should use an empty path by default and provide default raphael path', ->
       (expect @raphaelPath.get 'path').not.toBe undefined
@@ -65,7 +73,6 @@ describe 'raphael path', ->
       (expect @raphaelPath.get 'path').toEqual 'M1,0R2,1,3,2z'
 
 
-
   describe 'total length of path', ->
 
     it 'should return the paths current total lenght', ->
@@ -76,7 +83,6 @@ describe 'raphael path', ->
       totalLength = raphaelPath.get 'totalLength'
 
       (expect totalLength).toBe expectedLength
-
 
 
   describe 'getting point on length of track', ->
@@ -116,7 +122,6 @@ describe 'raphael path', ->
       @raphaelPath.clear()
 
       (expect @raphaelPath.get 'path').toBe Shared.RaphaelPath.EMPTY_PATH_STRING
-
 
 
   describe 'cleaning the path', ->
@@ -243,6 +248,7 @@ describe 'raphael path', ->
       (expect Ember.run.next).toHaveBeenCalledTwice()
       (expect finishSpy).toHaveBeenCalledOnce()
 
+
   describe 'setting the raphael path', ->
 
     it 'should set the raphael path', ->
@@ -253,19 +259,52 @@ describe 'raphael path', ->
 
       (expect raphaelPath.get 'path').toEqual path
 
+
   describe 'setting the rasterized path', ->
 
     it 'should set the rasterized path', ->
       @pathMock.restore()
 
       raphaelPath = Shared.RaphaelPath.create()
-      points =
-        points: [
-          { x: '1', y: '2', angle: '3' }
-        ]
+      points = [
+        { x: '1', y: '2', angle: '3' }
+      ]
 
       raphaelPath.setRasterizedPath points
 
       (expect (raphaelPath.get '_rasterizedPath').head.x).toEqual 1
       (expect (raphaelPath.get '_rasterizedPath').head.y).toEqual 2
       (expect (raphaelPath.get '_rasterizedPath').head.angle).toEqual 3
+
+
+  describe 'setting a new linked path', ->
+
+    beforeEach ->
+      @points = [ { x: 1, y: 0 }, { x: 0, y: 1 } ]
+      @raphaelPath = Shared.RaphaelPath.create()
+
+      # pretends that path has already been rasterized
+      @raphaelPath._rasterizedPath = @pathMock
+
+    it 'should destroy the old path and the rasterized path', ->
+      sinon.spy @pathMock, 'destroy'
+
+      @raphaelPath.setLinkedPath @points
+
+      (expect @pathMock.destroy).toHaveBeenCalledTwice()
+
+    it 'should create a new path and set it as property', ->
+      sinon.spy @raphaelPath, 'set'
+
+      @raphaelPath.setLinkedPath @points
+
+      (expect @pathMock.create).toHaveBeenCalledWith points: @points
+      (expect @raphaelPath.set).toHaveBeenCalledWith '_path', @pathMock
+
+    it 'should create a new rasterized path and set it as property', ->
+      sinon.spy @raphaelPath, 'set'
+
+      @raphaelPath.setLinkedPath @points
+
+      (expect @pathMock.create).toHaveBeenCalled()
+      (expect @raphaelPath.set).toHaveBeenCalledWith '_rasterizedPath', @pathMock

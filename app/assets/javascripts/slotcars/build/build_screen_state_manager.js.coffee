@@ -8,13 +8,14 @@ Build.BuildScreenStateManager = Ember.StateManager.extend
     enter: (manager) -> manager.delegate.setupDrawing()
     finishedDrawing: (manager) ->
       manager.goToState 'Editing'
-      manager.send 'clickedTestdriveButton' # bridges Editing state
     exit: (manager) -> manager.delegate.teardownDrawing()
 
   Editing: Ember.State.create
     # states which are reachable from 'Editing' - used for menu button states in the build screen (enable/disable)
-    reachableStates: ['Testing', 'Publishing']
+    reachableStates: ['Drawing', 'Testing', 'Publishing']
 
+    enter: (manager) -> manager.delegate.setupEditing()
+    clickedDrawButton: (manager) -> manager.goToState 'Drawing'
     clickedTestdriveButton: (manager) ->
       manager.targetState = 'Testing'
       manager.goToState 'Rasterizing'
@@ -24,13 +25,15 @@ Build.BuildScreenStateManager = Ember.StateManager.extend
       manager.targetState = 'Publishing'
       manager.goToState 'Rasterizing'
       manager.send 'rasterize'
+    exit: (manager) -> manager.delegate.teardownEditing()
 
   Testing: Ember.State.create
     # states which are reachable from 'Testing' - used for menu button states in the build screen (enable/disable)
-    reachableStates: ['Drawing', 'Publishing']
+    reachableStates: ['Drawing', 'Editing', 'Publishing']
 
     enter: (manager) -> manager.delegate.setupTesting()
     clickedDrawButton: (manager) -> manager.goToState 'Drawing'
+    clickedEditButton: (manager) -> manager.goToState 'Editing'
     clickedPublishButton: (manager) ->
       manager.publishingFallbackState = @name
       manager.goToState 'Publishing'

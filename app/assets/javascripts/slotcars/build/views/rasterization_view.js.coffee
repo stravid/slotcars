@@ -6,17 +6,23 @@ Build.RasterizationView = Shared.TrackView.extend
   templateName: 'slotcars_build_templates_rasterization_view_template'
   track: null
 
+  excludedPathLayers: outerLine: true, medianStrip: true
+  _displayedOverlayPaths: []
+
+  drawTrack: (path) ->
+    @_super path
+
+    @_drawTrackOverlay (@get 'track').get 'rasterizedPath'
+
   onRasterizedPathChanged: (->
-    # clean up before drawing anything
-    @_rasterizedTrackPath.remove() if @_rasterizedTrackPath?
-    @_rasterizedTrackPath = null
-
-    # we can't draw if the track is null
-    track = @get 'track'
-    return unless track?
-
-    # we can't draw the rasterized path if there is none
-    rasterizedPath = (track.get 'rasterizedPath')
-    if rasterizedPath
-      @_rasterizedTrackPath = @_drawPath rasterizedPath, @ASPHALT_WIDTH, 'rgba(0, 255, 0, 0.5)'
+    rasterizedPath = (@get 'track').get 'rasterizedPath'
+    (element.attr 'path', rasterizedPath) for element in @_displayedOverlayPaths
   ).observes 'track.rasterizedPath'
+
+  _drawTrackOverlay: (rasterizedPath) ->
+    @_displayedOverlayPaths = []
+
+    @_displayedOverlayPaths.push @_drawPath rasterizedPath, @BORDER_ASPHALT_WIDTH, @ASPHALT_COLOR
+    @_displayedOverlayPaths.push @_drawPath rasterizedPath, @BORDER_LINE_WIDTH, @LINE_COLOR
+    @_displayedOverlayPaths.push @_drawPath rasterizedPath, @ASPHALT_WIDTH, @ASPHALT_COLOR
+    @_displayedOverlayPaths.push @_drawDashedLine rasterizedPath
