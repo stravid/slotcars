@@ -10,8 +10,8 @@ Play.PlayTrackView = Shared.TrackView.extend
     @_drawFinishLine()
   
   _drawFinishLine: ->
-    return unless @_paper?
-  
+    return unless @_paper? and @track.get 'isLoaded'
+
     pointA = @track.getPointAtLength 20
     pointB = @track.getPointAtLength 23
     

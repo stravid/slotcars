@@ -46,6 +46,6 @@ Shared.User.reopenClass
 
         success: ->
           Shared.User.current = null
-          successCallback()
+          successCallback() if successCallback?
 
-        error: -> errorCallback()
+        error: -> errorCallback() if errorCallback?

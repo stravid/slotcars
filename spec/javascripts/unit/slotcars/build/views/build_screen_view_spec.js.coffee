@@ -64,13 +64,6 @@ describe 'build screen view', ->
 
       (expect @buildScreenStateManagerMock.send).toHaveBeenCalledWith 'clickedTestdriveButton'
 
-    it 'should not inform state manager when testdrive button is disabled', ->
-      @buildScreenView.testdriveButton.set 'disabled', true
-
-      @buildScreenView.onTestdriveButtonClicked()
-
-      (expect @buildScreenStateManagerMock.send).not.toHaveBeenCalled()
-
   describe 'clicking on draw button', ->
 
     it 'should inform the state manager about draw button being clicked', ->
@@ -80,13 +73,6 @@ describe 'build screen view', ->
 
       (expect @buildScreenStateManagerMock.send).toHaveBeenCalledWith 'clickedDrawButton'
 
-    it 'should not inform state manager when draw button is disabled', ->
-      @buildScreenView.drawButton.set 'disabled', true
-
-      @buildScreenView.onDrawButtonClicked()
-
-      (expect @buildScreenStateManagerMock.send).not.toHaveBeenCalled()
-
   describe 'clicking on publish button', ->
 
     it 'should inform the state manager about publish button being clicked', ->
@@ -95,10 +81,3 @@ describe 'build screen view', ->
       @buildScreenView.onPublishButtonClicked()
 
       (expect @buildScreenStateManagerMock.send).toHaveBeenCalledWith 'clickedPublishButton'
-
-    it 'should not inform state manager when publish button is disabled', ->
-      @buildScreenView.publishButton.set 'disabled', true
-
-      @buildScreenView.onPublishButtonClicked()
-
-      (expect @buildScreenStateManagerMock.send).not.toHaveBeenCalled()
