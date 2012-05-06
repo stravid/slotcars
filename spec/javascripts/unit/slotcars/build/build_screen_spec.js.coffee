@@ -82,7 +82,7 @@ describe 'Build.BuildScreen', ->
         (expect @trackMock.deleteRecord).not.toHaveBeenCalled()
         (expect Shared.Track.createRecord).toHaveBeenCalled()
 
-      it 'should create the builder and provide build screen view and track', ->
+      it 'should create the builder and provide state manager, build screen view and track', ->
         @buildScreen.setupDrawing()
 
         (expect @builderMock.create).toHaveBeenCalledWithAnObjectLike
@@ -100,6 +100,35 @@ describe 'Build.BuildScreen', ->
         @buildScreen.teardownDrawing()
 
         (expect @builderMock.destroy).toHaveBeenCalled()
+
+  describe 'drawing capabilities', ->
+
+    beforeEach ->
+      @editorMock = mockEmberClass Build.Editor
+      @buildScreen.track = @trackMock # track gets only created in drawing setup - so set it by hand for this test case
+
+    afterEach ->
+      @editorMock.restore()
+
+    describe 'prepare for editing', ->
+
+      it 'should create the editor and provide build screen view and track', ->
+        @buildScreen.setupEditing()
+
+        (expect @editorMock.create).toHaveBeenCalledWithAnObjectLike
+          buildScreenView: @buildScreenViewMock
+          track: @trackMock
+
+    describe 'clean up editing', ->
+
+      beforeEach ->
+        @buildScreen.setupEditing() # creates Editor
+
+      it 'should tell the editor to destroy itself', ->
+        @editorMock.destroy = sinon.spy()
+        @buildScreen.teardownEditing()
+
+        (expect @editorMock.destroy).toHaveBeenCalled()
 
   describe 'test drive capabilities', ->
 

@@ -2,8 +2,8 @@
 
 <div id="toolbar">
   <button id="draw-button" {{action "onDrawButtonClicked"}} {{bindAttr class=":override-button drawButton.active" disabled="drawButton.disabled"}}>Draw</button>
-  <button id="edit-button" {{bindAttr class=":override-button editButton.active" disabled="editButton.disabled"}}>Edit</button>
-  <button id="testdrive-button" {{action "onTestdriveButtonClicked"}} {{bindAttr class=":override-button testdriveButton.active" disabled="editButton.disabled"}}>Testdrive</button>
+  <button id="edit-button" {{action "onEditButtonClicked"}} {{bindAttr class=":override-button editButton.active" disabled="editButton.disabled"}}>Edit</button>
+  <button id="testdrive-button" {{action "onTestdriveButtonClicked"}} {{bindAttr class=":override-button testdriveButton.active" disabled="testdriveButton.disabled"}}>Testdrive</button>
   <button id="publish-button" {{action "onPublishButtonClicked"}} {{bindAttr class=":override-button publishButton.active" disabled="publishButton.disabled"}}>Publish</button>
 </div>
 
