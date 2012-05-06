@@ -73,6 +73,15 @@ describe 'build screen view', ->
 
       (expect @buildScreenStateManagerMock.send).toHaveBeenCalledWith 'clickedDrawButton'
 
+  describe 'clicking on edit button', ->
+
+    it 'should inform the state manager about edit button being clicked', ->
+      @buildScreenView.editButton.set 'disabled', false
+
+      @buildScreenView.onEditButtonClicked()
+
+      (expect @buildScreenStateManagerMock.send).toHaveBeenCalledWith 'clickedEditButton'
+
   describe 'clicking on publish button', ->
 
     it 'should inform the state manager about publish button being clicked', ->

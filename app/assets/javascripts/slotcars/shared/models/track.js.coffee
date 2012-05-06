@@ -34,8 +34,7 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
         @_creationCallback = null
 
   didLoad: ->
-    points =
-      points: JSON.parse (@get 'rasterized')
+    points = JSON.parse (@get 'rasterized')
 
     @_raphaelPath.setRaphaelPath @get 'raphael'
     @_raphaelPath.setRasterizedPath points
@@ -58,6 +57,10 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
 
   cleanPath: -> (@get '_raphaelPath').clean minAngle: 10, minLength: 100, maxLength: 400
 
+  getPathPoints: -> (@get '_raphaelPath').getPathPointArray()
+
+  updateRaphaelPath: (points) -> (@get '_raphaelPath').setLinkedPath points
+
   isLengthAfterFinishLine: (length) ->
     @getTotalLength() * (@get 'numberOfLaps') < length
 
@@ -71,6 +74,7 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
 
   rasterize: (finishCallback) ->
     @set 'isRasterizing', true
+    @set 'rasterizedPath', null
     Ember.run.later (=>
       (@get '_raphaelPath').rasterize
         stepSize: 10
