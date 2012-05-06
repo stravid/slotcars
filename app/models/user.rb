@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   end
 
   def highscores
-    user_runs = runs.group(:id, :track_id).includes(:track)
+    user_runs = runs.select(:track_id).group(:track_id).includes(:track)
     track_highscores = {}
 
     user_runs.each do |run|
