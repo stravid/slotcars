@@ -77,8 +77,10 @@
   width: 324px;
   text-align: center;
 
-  div {
+  button {
     display: inline-block;
+    background: transparent;
+    border: none;
     width: 67px;
     height: 67px;
     margin: 0 5px;
@@ -87,7 +89,7 @@
     background-position: left top;
     cursor: pointer;
 
-    &.disabled {
+    &[disabled="disabled"] {
       background-position-y: -140px;
       cursor: default;
     }

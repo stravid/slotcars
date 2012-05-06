@@ -16,14 +16,25 @@ Tracks.TracksController = Ember.Object.extend
       currentPage: 1
       tracksPerPage: @tracksPerPage
 
+    @_loadTrackCount (trackCount) => @tracksView.set 'trackCount', trackCount
+
     @set 'pageATracks', []
     @set 'pageBTracks', Shared.Track.find { offset: 0, limit: @tracksPerPage }
     @set 'pageCTracks', Shared.Track.find { offset: 4, limit: @tracksPerPage }
 
     @tracksScreenView.set 'contentView', @tracksView
 
-  reloadPageATracks: (offset) -> @set 'pageATracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }
+  reloadPageATracks: (offset) ->
+    (@set 'pageATracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }) if offset >= 0
 
-  reloadPageBTracks: (offset) -> @set 'pageBTracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }
+  reloadPageBTracks: (offset) ->
+    (@set 'pageBTracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }) if offset >= 0
 
-  reloadPageCTracks: (offset) -> @set 'pageCTracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }
+  reloadPageCTracks: (offset) ->
+    (@set 'pageCTracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }) if offset >= 0
+
+  _loadTrackCount: (callback) ->
+    jQuery.ajax "/api/tracks/count",
+      type: "GET"
+      dataType: 'json'
+      success: (response) -> callback response

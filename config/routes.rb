@@ -9,7 +9,16 @@ Slotcars::Application.routes.draw do
   get '/play/:id' => 'slotcars#index'
 
   namespace :api do
-    resources :tracks, :only => [:index, :show, :create]
+    resources :tracks, :only => [:index, :show, :create] do
+      member do
+        get 'highscores'
+      end
+
+      collection do
+        get 'count'
+      end
+    end
+
     resources :runs, :only => [:create]
   end
 

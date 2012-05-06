@@ -1,11 +1,20 @@
+html {
+  background: url("global/background-noise.jpg") repeat;
+}
+
 body {
+  position: relative;
   width: 1024px;
   height: 768px;
+  margin: 0 auto;
   overflow: hidden;
   background-image: image-url("global/grass-squares.jpg");
   background-repeat: no-repeat;
-  position: relative;
+  background-position: center center;
   font-family: sans-serif;
+  -webkit-box-shadow: 0 0 50px 0px #030303;
+  -moz-box-shadow:    0 0 50px 0px #030303;
+  box-shadow:         0 0 50px 0px #030303;
 }
 
 .default-button {

@@ -10,6 +10,7 @@ Play.GameController = Shared.BaseGameController.extend
   startTime: null
   endTime: null
   raceTime: null
+  highscores: null
 
   timeouts: []
   lapTimes: []
@@ -26,16 +27,24 @@ Play.GameController = Shared.BaseGameController.extend
     @set 'carControlsEnabled', false
     @isTouchMouseDown = false
 
-    @saveRaceTime() if Shared.User.current
+    if Shared.User.current?
+      @saveRaceTime()
+    else
+      @loadHighscores()
 
   saveRaceTime: ->
-    Shared.Run.createRecord
+    run = Shared.Run.createRecord
       track: @track
       time: @get 'raceTime'
       user: Shared.User.current
 
-    Shared.ModelStore.commit()
+    run.save => @loadHighscores()
 
+  loadHighscores: ->
+    @track.loadHighscores (highscores) => @onHighscoresLoaded highscores
+
+  onHighscoresLoaded: (highscores) ->
+    @set 'highscores', Shared.Highscores.create runs: highscores
 
   onCarCrossedFinishLine: (->
     car = @get 'car'
@@ -43,13 +52,14 @@ Play.GameController = Shared.BaseGameController.extend
   ).observes 'car.crossedFinishLine'
   
   onLapChange: (->
-    lapTimes = @get 'lapTimes'
-    sum = lapTimes.reduce (previous, current) -> 
+    # prevent taking time when car enters first lap
+    return unless (@car.get 'currentLap') > 1
+
+    sum = (@get 'lapTimes').reduce (previous, current) ->
       previous + current
     , 0
-    unless (@get 'raceTime') == sum
-      lapTimes.push (@get 'raceTime') - sum
-    @set 'lapTimes', lapTimes
+
+    (@get 'lapTimes').push (@get 'raceTime') - sum
 
   ).observes 'car.currentLap'
 

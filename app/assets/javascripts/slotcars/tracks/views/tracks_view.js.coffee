@@ -7,6 +7,7 @@ Tracks.TracksView = Ember.View.extend
   swipeTreshhold: null
   currentPage: null
   tracksPerPage: null
+  trackCount: null
 
   swipeStartPosition: null
   lastSwipePosition: null
@@ -15,6 +16,11 @@ Tracks.TracksView = Ember.View.extend
   pageViewB: null
   pageViewC: null
   width: null
+  pageCount: null
+
+  onTrackCountChange: ( ->
+    @set 'pageCount', Math.ceil @trackCount / @tracksPerPage
+  ).observes 'trackCount'
 
   didInsertElement: ->
     @width = (@$ '#swiper').width()
@@ -76,7 +82,7 @@ Tracks.TracksView = Ember.View.extend
   swipe: (direction) ->
     if direction > 0 and @currentPage > 1
       @swipeToTheRight()
-    else
+    else if direction < 0 and @currentPage < @pageCount
       @swipeToTheLeft()
 
     page.moveToOrigin() for page in @pages
@@ -91,7 +97,7 @@ Tracks.TracksView = Ember.View.extend
     @pages[2].setOrigin -1 * @width
 
     # load new data, decrement currentPage
-    @currentPage--
+    @set 'currentPage', (@get 'currentPage') - 1
     @loadData @pages[2], @tracksPerPage * (@currentPage - 2)
 
     @pages.unshift @pages.pop()
@@ -106,7 +112,7 @@ Tracks.TracksView = Ember.View.extend
     @pages[2].enableTransitions()
 
     # load new data, increment currentPage
-    @currentPage++
+    @set 'currentPage', (@get 'currentPage') + 1
     @loadData @pages[0], @tracksPerPage * @currentPage
 
     @pages.push @pages.shift()
@@ -123,7 +129,8 @@ Tracks.TracksView = Ember.View.extend
       page.moveToOrigin()
 
   moveWithUserMovement: (delta) ->
-    return if @currentPage is 1 && delta > 0
+    return if @currentPage is 1 and delta > 0
+    return if @currentPage is @pageCount and delta < 0
 
     page.moveTo delta for page in @pages
 

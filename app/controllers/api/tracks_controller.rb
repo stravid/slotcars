@@ -27,4 +27,14 @@ class Api::TracksController < Api::ApiController
 
   end
 
+  def highscores
+    track = Track.find params[:id]
+    highscores = track.highscores
+
+    render :json => highscores.to_json
+  end
+
+  def count
+    render :json => Track.count.to_json
+  end
 end
