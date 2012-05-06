@@ -20,6 +20,12 @@ Slotcars::Application.routes.draw do
     end
 
     resources :runs, :only => [:create]
+
+    resources :users, :only => [] do
+      member do
+        get 'highscores'
+      end
+    end
   end
 
   devise_scope :user do
