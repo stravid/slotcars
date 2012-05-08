@@ -5,10 +5,6 @@ Shared.NotificationsController = Ember.Object.extend
   displayedNotification: null
 
   init: ->
-    # disable notifications for testing
-    # yes, this is a very bad way of doing this
-    return unless Pusher?
-
     @set 'pusher', new Pusher PUSHER_KEY
     @set 'slotcarsChannel', (@get 'pusher').subscribe 'slotcars'
 
