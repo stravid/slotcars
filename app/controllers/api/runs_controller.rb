@@ -14,7 +14,7 @@ class Api::RunsController < ApplicationController
         :time => run.time
       }
 
-      Pusher['slotcars'].trigger('new-run', new_run) unless Rails.env.test?
+      Pusher['slotcars'].trigger('new-run', new_run)
       
       render :json => run, :status => :created
     else
