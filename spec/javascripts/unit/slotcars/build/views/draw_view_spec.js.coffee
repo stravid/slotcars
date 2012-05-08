@@ -8,11 +8,12 @@ describe 'Build.DrawView', ->
   beforeEach ->
     @raphaelBackup = window.Raphael
 
-    raphaelElementStub = attr: sinon.spy(), transform: ->
+    @raphaelElementAttrSpy = sinon.spy()
+    @raphaelElementStub = attr: @raphaelElementAttrSpy, transform: ->
 
     @paperStub =
-      path: sinon.stub().returns raphaelElementStub
-      rect: sinon.stub().returns raphaelElementStub
+      path: sinon.stub().returns @raphaelElementStub
+      rect: sinon.stub().returns @raphaelElementStub
       clear: sinon.spy()
 
     @raphaelStub = window.Raphael = sinon.stub().returns @paperStub
@@ -29,11 +30,12 @@ describe 'Build.DrawView', ->
 
       (expect -> Ember.run.end()).not.toThrow()
 
-  describe 'rendering of track', ->
+  describe 'inserting in DOM', ->
 
     beforeEach ->
       @originalTestPath = 'M0,0L3,4Z'
-      @track = mockEmberClass Shared.Track
+      @track = mockEmberClass Shared.Track,
+        get: sinon.stub().withArgs('raphaelPath').returns @originalTestPath
       @drawController = Build.DrawController.create
         track: @track
 
@@ -44,15 +46,33 @@ describe 'Build.DrawView', ->
       
     afterEach -> @track.restore()
 
-    it 'should create raphael paper when view is appended to DOM', ->
+    it 'should create raphael paper', ->
       (expect @raphaelStub).toHaveBeenCalledWith @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)[0], 1024, 768
+
+    it 'should draw the track', ->
+      (expect @paperStub.path).toHaveBeenCalledWith @originalTestPath
+
+  describe 'updating track', ->
+
+    beforeEach ->
+      @originalTestPath = 'M0,0L3,4Z'
+      @track = mockEmberClass Shared.Track,
+        get: sinon.stub().withArgs('raphaelPath').returns @originalTestPath
+      @drawController = Build.DrawController.create
+        track: @track
+
+      @drawView = Build.DrawView.create drawController: @drawController, track: @track
+      @drawView.didInsertElement()
+
+    afterEach -> @track.restore()
 
     it 'should tell raphael to build an open track while in drawing mode', ->
       modifiedPathWithoutZ = 'M0,0L3,4'
 
-      @drawView.drawTrack @originalTestPath
+      @drawView.updateTrack @originalTestPath
 
-      (expect @paperStub.path).toHaveBeenCalledWith modifiedPathWithoutZ
+      # 'updateTrack' calls '_super' with the modified path string - no idea how to test that '_super' was called
+      (expect @raphaelElementAttrSpy).toHaveBeenCalledWith 'path', modifiedPathWithoutZ
 
 
   describe 'event handling in draw view when appended to DOM', ->
@@ -81,19 +101,19 @@ describe 'Build.DrawView', ->
 
 
       it 'should bind mouse move on mouse down', ->
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseDown'
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseMove'
+        @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID).trigger 'touchMouseDown'
+        @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID).trigger 'touchMouseMove'
 
         (expect @drawControllerMock.onTouchMouseMove).toHaveBeenCalled()
 
       it 'should notifiy draw controller of move events', ->
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseDown'
+        @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID).trigger 'touchMouseDown'
 
         # manually create touch mouse move event
         testPosition = x: 3, y: 4
         touchMouseMoveEvent = jQuery.Event 'touchMouseMove', pageX: testPosition.x, pageY: testPosition.y
 
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger touchMouseMoveEvent
+        @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID).trigger touchMouseMoveEvent
 
         (expect @drawControllerMock.onTouchMouseMove).toHaveBeenCalledWithAnObjectLike testPosition
 
