@@ -35,6 +35,17 @@ describe 'Shared.Track', ->
       (expect @raphaelPathMock.addPoint).toHaveBeenCalledWith point
 
 
+  describe 'getting all path points', ->
+
+    it 'should ask its raphael path for path points as an array', ->
+      track = Shared.Track.createRecord()
+      @raphaelPathMock.getPathPointArray = sinon.spy()
+
+      track.getPathPoints()
+
+      (expect @raphaelPathMock.getPathPointArray).toHaveBeenCalled()
+
+
   describe 'getting total length of path', ->
 
     it 'should ask its raphael path for total length', ->
@@ -154,6 +165,20 @@ describe 'Shared.Track', ->
       (expect @track.lapForLength lengthBiggerThanTotalLaps).toBe @track.get 'numberOfLaps'
 
 
+  describe 'updating raphael path', ->
+
+    beforeEach ->
+      @raphaelPathMock.setLinkedPath = sinon.spy()
+      @track = Shared.Track.createRecord()
+
+    it 'should pass the passed points to the linked path', ->
+      points = [ { x: 1, y: 0 }, { x: 0, y: 1 } ]
+
+      @track.updateRaphaelPath points
+
+      (expect @raphaelPathMock.setLinkedPath).toHaveBeenCalledWith points
+
+
   describe 'rasterizing the track', ->
 
     beforeEach ->
@@ -179,6 +204,11 @@ describe 'Shared.Track', ->
       @track.rasterize()
 
       (expect @track.get 'isRasterizing').toBe true
+
+    it 'should reset the rasterized path', ->
+      @track.rasterize()
+
+      (expect @track.get 'rasterizedPath').toBe null
 
     it 'should defer rasterization with ember', ->
       @track.rasterize()
@@ -234,8 +264,7 @@ describe 'Shared.Track', ->
       it 'should setup the raphael path', ->
         raphael = 'M0,0L1,0z'
         rasterized = '[{"x":"1.00","y":"1.00","angle":"1.00"}]'
-        points =
-          points: JSON.parse rasterized
+        points = JSON.parse rasterized
 
         track = Shared.Track.createRecord()
 

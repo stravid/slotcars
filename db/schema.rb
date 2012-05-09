@@ -22,10 +22,10 @@ ActiveRecord::Schema.define(:version => 20120420195423) do
   end
 
   create_table "tracks", :force => true do |t|
-    t.datetime "created_at",                  :null => false
-    t.datetime "updated_at",                  :null => false
-    t.text     "raphael",    :limit => 64000
-    t.text     "rasterized", :limit => 64000
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.text     "raphael"
+    t.text     "rasterized"
   end
 
   create_table "users", :force => true do |t|

@@ -25,6 +25,14 @@ Build.BuildScreen = Ember.Object.extend Shared.Appendable,
   teardownDrawing: ->
     @_builder.destroy()
 
+  setupEditing: ->
+    @_editor = Build.Editor.create
+      buildScreenView: @view
+      track: @track
+
+  teardownEditing: ->
+    @_editor.destroy()
+
   setupTesting: ->
     @_testDrive = Build.TestDrive.create
       stateManager: @_buildScreenStateManager

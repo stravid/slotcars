@@ -4,6 +4,16 @@ Shared.User = DS.Model.extend
   email: DS.attr 'string'
   password: DS.attr 'string'
 
+  highscores: null
+
+  didLoad: -> @loadHighscores (highscores) => @set 'highscores', highscores
+
+  loadHighscores: (callback) ->
+    jQuery.ajax "/api/users/#{@get 'id'}/highscores",
+      type: "GET"
+      dataType: 'json'
+      success: (response) -> callback response
+
 Shared.User.reopenClass
 
   current: null

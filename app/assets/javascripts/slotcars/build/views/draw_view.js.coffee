@@ -19,11 +19,19 @@ Build.DrawView = Shared.TrackView.extend
     @$(PAPER_WRAPPER_ID).on 'touchMouseDown', (event) => @_onTouchMouseDown(event)
     @$(PAPER_WRAPPER_ID).on 'touchMouseUp', (event) => @_onTouchMouseUp(event)
 
+    @drawTrack @track.get 'raphaelPath'
+
   # overrides TrackView.drawTrack for specialized drawing in builder
   drawTrack: (path) ->
     return unless @_paper?
+    @_paper.clear()
+    # only draw the raw asphalt for better performance on iPad
+    @_drawPath path, @BORDER_ASPHALT_WIDTH, @ASPHALT_COLOR
 
-    @_drawTrackWhileDrawing path
+  updateTrack: (path) ->
+    # remove the Z from path to not close it while drawing
+    path = (path.substr 0, path.length - 1)
+    @_super path
 
   willDestroyElement: ->
     @$(PAPER_WRAPPER_ID).off 'touchMouseDown'
@@ -40,10 +48,3 @@ Build.DrawView = Shared.TrackView.extend
   _onTouchMouseUp: ->
     @$(PAPER_WRAPPER_ID).off 'touchMouseMove'
     @drawController.onTouchMouseUp()
-
-  _drawTrackWhileDrawing: (path) ->
-    # remove the Z from path to not close it while drawing
-    path = (path.substr 0, path.length - 1)
-    @_paper.clear()
-    # only draw the raw asphalt for better performance on iPad
-    @_drawPath path, @BORDER_ASPHALT_WIDTH, @ASPHALT_COLOR

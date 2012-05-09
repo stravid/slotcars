@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.0'
+gem 'pg'
+
 gem 'devise' # authentication
 
 gem 'airbrake'
@@ -19,8 +21,6 @@ gem 'jquery-rails'
 gem 'embient', '0.0.9'
 
 group :development, :test do
-  gem 'sqlite3'
-
   # jasmine testing + coffeescript support
   gem 'jasminerice'
 
@@ -34,8 +34,4 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
-end
-
-group :production do
-  gem 'pg'
 end
