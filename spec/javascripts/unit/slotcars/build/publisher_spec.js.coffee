@@ -7,59 +7,71 @@ describe 'Build.Publisher', ->
     @buildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager, send: sinon.spy()
     @buildScreenViewMock = mockEmberClass Build.BuildScreenView, set: sinon.spy()
     @PublicationViewMock = mockEmberClass Build.PublicationView
-
-    @publisher = Build.Publisher.create
-      stateManager: @buildScreenStateManagerMock
-      buildScreenView: @buildScreenViewMock
-      track: @trackMock
+    @AuthorizerViewMock = mockEmberClass Build.AuthorizerView
 
   afterEach ->
     @buildScreenStateManagerMock.restore()
     @buildScreenViewMock.restore()
     @PublicationViewMock.restore()
+    @AuthorizerViewMock.restore()
 
   it 'should extend Ember.Object', ->
     (expect Build.Publisher).toExtend Ember.Object
 
-  it 'should create a rastrization view and provide the track', ->
-    (expect @PublicationViewMock.create).toHaveBeenCalledWithAnObjectLike stateManager: @buildScreenStateManagerMock, track: @trackMock
+  describe 'no current user present', ->
+    
+    beforeEach ->
+      @publisher = Build.Publisher.create
+        stateManager: @buildScreenStateManagerMock
+        buildScreenView: @buildScreenViewMock
+        track: @trackMock
 
-  it 'should append rasterization view to build screen view view', ->
-    (expect @buildScreenViewMock.set).toHaveBeenCalledWith 'contentView', @PublicationViewMock
+    it 'should create a authorizer view', ->
+      (expect @AuthorizerViewMock.create).toHaveBeenCalledWithAnObjectLike
+        stateManager: @buildScreenStateManagerMock
+        delegate: @publisher
 
-  describe 'publishing', ->
+    it 'should append the authorizer view to the build screen view', ->
+      (expect @buildScreenViewMock.set).toHaveBeenCalledWith 'contentView', @AuthorizerViewMock
+
+  describe 'current user present', ->
 
     beforeEach ->
-      Shared.routeManager = mockEmberClass Shared.RouteManager, set: sinon.spy()
+      Shared.User.current = {}
 
-    afterEach ->
-      Shared.routeManager.restore()
+      @publisher = Build.Publisher.create
+        stateManager: @buildScreenStateManagerMock
+        buildScreenView: @buildScreenViewMock
+        track: @trackMock
 
-    it 'should save the track', ->
-      @publisher.publish()
+    it 'should create a publication view', ->
+      (expect @PublicationViewMock.create).toHaveBeenCalledWithAnObjectLike
+        stateManager: @buildScreenStateManagerMock
+        track: @trackMock
 
-      (expect @trackMock.save).toHaveBeenCalled()
+    it 'should append the publication view to the build screen view', ->
+      (expect @buildScreenViewMock.set).toHaveBeenCalledWith 'contentView', @PublicationViewMock
 
-    it 'should provide a callback to switch to game mode after track was saved', ->
-      @trackId = 30
-      @trackMock.set 'id', @trackId
+    describe 'publishing', ->
 
-      @publisher.publish()
+      beforeEach ->
+        Shared.routeManager = mockEmberClass Shared.RouteManager, set: sinon.spy()
 
-      publicationCallback = @trackMock.save.args[0][0]
-      publicationCallback() # gets normally called by track.save
+      afterEach ->
+        Shared.routeManager.restore()
 
-      (expect Shared.routeManager.set).toHaveBeenCalledWith 'location', "play/#{@trackId}"
+      it 'should save the track', ->
+        @publisher.publish()
 
-  describe 'destroying', ->
+        (expect @trackMock.save).toHaveBeenCalled()
 
-    it 'should unset the content view on build screen view', ->
-      @publisher.destroy()
+      it 'should provide a callback to switch to game mode after track was saved', ->
+        @trackId = 30
+        @trackMock.set 'id', @trackId
 
-      (expect @buildScreenViewMock.set).toHaveBeenCalledWith 'contentView', null
+        @publisher.publish()
 
-    it 'should destroy the rasterization view', ->
-      @PublicationViewMock.destroy = sinon.spy()
-      @publisher.destroy()
+        publicationCallback = @trackMock.save.args[0][0]
+        publicationCallback() # gets normally called by track.save
 
-      (expect @PublicationViewMock.destroy).toHaveBeenCalled()
+        (expect Shared.routeManager.set).toHaveBeenCalledWith 'location', "play/#{@trackId}"
