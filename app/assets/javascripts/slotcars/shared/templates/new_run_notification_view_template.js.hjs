@@ -1,3 +1,0 @@
-<div class='notification'>
-  <strong>{{username}}</strong> finished track {{track_id}} in {{racetime time}}
-</div>

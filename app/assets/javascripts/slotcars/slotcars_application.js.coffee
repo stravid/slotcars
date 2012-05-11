@@ -17,8 +17,6 @@ window.SlotcarsApplication = Ember.Application.extend
     Shared.routeManager.start()
     Shared.routeLocalLinks Shared.routeManager
 
-    Shared.NotificationsController.create()
-
   showScreen: (screenId, createParamters) ->
     @_destroyCurrentScreen()
     @_currentScreen = Shared.ScreenFactory.getInstance().getInstanceOf screenId, createParamters
