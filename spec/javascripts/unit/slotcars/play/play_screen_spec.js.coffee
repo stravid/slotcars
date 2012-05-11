@@ -77,7 +77,10 @@ describe 'play screen', ->
 
   describe 'destroying', ->
 
-    beforeEach -> @gameStub = destroy: sinon.spy()
+    beforeEach ->
+      @gameStub = destroy: sinon.spy()
+      @playScreenNotificationsControllerStub = destroy: sinon.spy()
+      @playScreenNotificationsViewStub = remove: sinon.spy()
 
     it 'should tell the game to destroy itself', ->
       @playScreen.set '_game', @gameStub
@@ -89,3 +92,25 @@ describe 'play screen', ->
       @playScreen.destroy()
 
       (expect @gameStub.destroy).not.toHaveBeenCalled()
+
+    it 'should tell the play screen notifications controller to destroy itself', ->
+      @playScreen.set '_playScreenNotificationsController', @playScreenNotificationsControllerStub
+      @playScreen.destroy()
+
+      (expect @playScreenNotificationsControllerStub.destroy).toHaveBeenCalled()
+
+    it 'should only destroy the play screen notifications controller if it is present', ->
+      @playScreen.destroy()
+
+      (expect @playScreenNotificationsControllerStub.destroy).not.toHaveBeenCalled()
+
+    it 'should tell the play screen notifications view to remove itself', ->
+      @playScreen.set '_playScreenNotificationsView', @playScreenNotificationsViewStub
+      @playScreen.destroy()
+
+      (expect @playScreenNotificationsViewStub.remove).toHaveBeenCalled()
+
+    it 'should only remove the play screen notifications view if it is present', ->
+      @playScreen.destroy()
+
+      (expect @playScreenNotificationsViewStub.remove).not.toHaveBeenCalled()
