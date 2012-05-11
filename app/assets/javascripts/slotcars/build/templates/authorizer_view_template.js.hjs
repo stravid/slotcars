@@ -1,0 +1,9 @@
+<div id="authorize-dialog">
+<p>
+  Hello, it seems you are not logged in. Please login or register to publish your awesome new track!
+  <button class="default-button" {{action "onCancelButtonClicked"}}>Cancel</button>
+</p>
+<p>
+  {{dynamicView content}}
+</p>
+</div>
