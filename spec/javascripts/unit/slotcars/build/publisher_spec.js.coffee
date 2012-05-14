@@ -7,13 +7,13 @@ describe 'Build.Publisher', ->
     @buildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager, send: sinon.spy()
     @buildScreenViewMock = mockEmberClass Build.BuildScreenView, set: sinon.spy()
     @PublicationViewMock = mockEmberClass Build.PublicationView
-    @AuthorizerViewMock = mockEmberClass Build.AuthorizerView
+    @AuthorizationViewMock = mockEmberClass Build.AuthorizationView
 
   afterEach ->
     @buildScreenStateManagerMock.restore()
     @buildScreenViewMock.restore()
     @PublicationViewMock.restore()
-    @AuthorizerViewMock.restore()
+    @AuthorizationViewMock.restore()
 
   it 'should extend Ember.Object', ->
     (expect Build.Publisher).toExtend Ember.Object
@@ -26,13 +26,13 @@ describe 'Build.Publisher', ->
         buildScreenView: @buildScreenViewMock
         track: @trackMock
 
-    it 'should create a authorizer view', ->
-      (expect @AuthorizerViewMock.create).toHaveBeenCalledWithAnObjectLike
+    it 'should create a authorization view', ->
+      (expect @AuthorizationViewMock.create).toHaveBeenCalledWithAnObjectLike
         stateManager: @buildScreenStateManagerMock
         delegate: @publisher
 
-    it 'should append the authorizer view to the build screen view', ->
-      (expect @buildScreenViewMock.set).toHaveBeenCalledWith 'contentView', @AuthorizerViewMock
+    it 'should append the authorization view to the build screen view', ->
+      (expect @buildScreenViewMock.set).toHaveBeenCalledWith 'contentView', @AuthorizationViewMock
 
   describe 'current user present', ->
 

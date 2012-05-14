@@ -8,7 +8,7 @@ Build.Publisher = Ember.Object.extend
     if Shared.User.current?
       @setupPublicationView()
     else
-      @setupAuthorizerView()
+      @setupAuthorizationView()
 
   setupPublicationView: ->
     @publicationView = Build.PublicationView.create
@@ -17,12 +17,12 @@ Build.Publisher = Ember.Object.extend
 
     @buildScreenView.set 'contentView', @publicationView
 
-  setupAuthorizerView: ->
-    @authorizerView = Build.AuthorizerView.create
+  setupAuthorizationView: ->
+    @authorizationView = Build.AuthorizationView.create
       stateManager: @stateManager
       delegate: this
 
-    @buildScreenView.set 'contentView', @authorizerView
+    @buildScreenView.set 'contentView', @authorizationView
 
   signedIn: -> @setupPublicationView()
 
@@ -35,4 +35,4 @@ Build.Publisher = Ember.Object.extend
     @_super()
     @buildScreenView.set 'contentView', null
     @publicationView.destroy() if @publicationView?
-    @authorizerView.destroy() if @authorizerView?
+    @authorizationView.destroy() if @authorizationView?

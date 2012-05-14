@@ -1,6 +1,6 @@
-Build.AuthorizerView = Ember.View.extend Shared.Container,
+Build.AuthorizationView = Ember.View.extend Shared.Container,
 
-  templateName: 'slotcars_build_templates_authorizer_view_template'
+  templateName: 'slotcars_build_templates_authorization_view_template'
 
   stateManager: null
   delegate: null
