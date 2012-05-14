@@ -9,8 +9,8 @@ Play.NewRunOnCurrentTrackNotificationView = Ember.View.extend
 
   didInsertElement: ->
     Ember.run.later (=> @_fadeIn()), 10
-    Ember.run.later (=> @_fadeOut()), 3000
-    Ember.run.later (=> @_remove()), 4500
+    Ember.run.later (=> @_fadeOut()), 5000
+    Ember.run.later (=> @_remove()), 6500
     
   _fadeIn: ->
     @$().css
