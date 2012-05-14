@@ -11,11 +11,19 @@ describe 'play screen', ->
       start: sinon.spy()
       destroy: sinon.spy()
 
+    @playScreenNotificationsControllerMock = mockEmberClass Play.PlayScreenNotificationsController,
+      on: sinon.stub()
+
+    @playScreenNotificationsViewMock = mockEmberClass Play.PlayScreenNotificationsView,
+      append: sinon.stub()
+
     @playScreen = Play.PlayScreen.create()
 
   afterEach ->
     Shared.ModelStore.find.restore()
     @playScreenViewMock.restore()
+    @playScreenNotificationsControllerMock.restore()
+    @playScreenNotificationsViewMock.restore()
     @playScreenStateManagerMock.restore()
     @GameMock.restore()
 
@@ -55,6 +63,8 @@ describe 'play screen', ->
   describe 'initializing', ->
 
     beforeEach ->
+      @testTrackId = 1
+      @playScreen.set 'trackId', @testTrackId
       @playScreen.load()
       @playScreen.initialize()
 
@@ -64,6 +74,16 @@ describe 'play screen', ->
         track: @playScreen.track
         car: @playScreen.car
 
+    it 'should create the play screen notifications controller', ->
+      (expect @playScreenNotificationsControllerMock.create).toHaveBeenCalledWithAnObjectLike
+        trackId: @testTrackId
+
+    it 'should create the play screen notifications view', ->
+      (expect @playScreenNotificationsViewMock.create).toHaveBeenCalledWithAnObjectLike
+        controller: @playScreenNotificationsControllerMock
+
+    it 'should append the play screen notifications view', ->
+      (expect @playScreenNotificationsViewMock.append).toHaveBeenCalled()
 
   describe 'playing', ->
 
