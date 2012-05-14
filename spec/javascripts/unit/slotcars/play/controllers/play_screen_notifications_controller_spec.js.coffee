@@ -1,11 +1,12 @@
 describe 'PlayScreenNotificationsController', ->
 
   beforeEach ->
-    @PlayScreenNotificationsController = Play.PlayScreenNotificationsController.create trackId: 1
+    @currentTrackId = 1
+    @PlayScreenNotificationsController = Play.PlayScreenNotificationsController.create trackId: @currentTrackId
 
   it 'should fire an event for a new run on the current track', ->
     sinon.stub @PlayScreenNotificationsController, 'fire'
-    run = track_id: 1
+    run = track_id: @currentTrackId
 
     @PlayScreenNotificationsController._onNewRunEvent run
 
