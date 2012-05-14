@@ -37,9 +37,9 @@ Build.EditView = Shared.TrackView.extend
     @deltaX = deltaX
     @deltaY = deltaY
 
-    (@data 'viewContext')._updatePathPoint (@data 'index'), { x: X, y: Y }
+    (@data 'viewContext').updatePathPoint (@data 'index'), { x: X, y: Y }
 
-  _updatePathPoint: (index, newPoint) ->
+  updatePathPoint: (index, newPoint) ->
     @pathPoints[index] = newPoint
     @track.updateRaphaelPath @pathPoints
 
