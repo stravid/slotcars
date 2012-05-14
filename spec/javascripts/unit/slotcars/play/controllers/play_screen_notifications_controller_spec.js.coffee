@@ -19,3 +19,19 @@ describe 'PlayScreenNotificationsController', ->
     @PlayScreenNotificationsController._onNewRunEvent run
 
     (expect @PlayScreenNotificationsController.fire).not.toHaveBeenCalled()
+
+  it 'should not fire an event for my own runs', ->
+    testUserId = 1
+
+    sinon.stub @PlayScreenNotificationsController, 'fire'
+
+    Shared.User.current =
+      get: -> testUserId
+
+    run = 
+      track_id: 1
+      user_id: testUserId
+
+    @PlayScreenNotificationsController._onNewRunEvent run
+
+    (expect @PlayScreenNotificationsController.fire).not.toHaveBeenCalled()

@@ -18,6 +18,7 @@ Play.PlayScreenNotificationsController = Ember.Object.extend Ember.Evented,
 
   _onNewRunEvent: (run) ->
     return unless run.track_id is @get 'trackId'
+    return if Shared.User.current? and run.user_id is Shared.User.current.get 'id'
 
     @fire 'newRunOnCurrentTrack', run
 
