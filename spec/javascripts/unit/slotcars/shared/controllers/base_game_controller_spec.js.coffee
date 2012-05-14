@@ -1,7 +1,7 @@
 describe 'base game controller', ->
 
   beforeEach ->
-    @carMock = mockEmberClass Shared.Car, update: sinon.spy()
+    @carMock = mockEmberClass Shared.Car, drive: sinon.spy()
     @trackMock = mockEmberClass Shared.Track
 
     @baseGameController = Shared.BaseGameController.create
@@ -57,10 +57,10 @@ describe 'base game controller', ->
 
   describe '#update', ->
 
-    it 'should call the update function of the car', ->
+    it 'should call the drive function of the car', ->
       @baseGameController.update()
 
-      (expect @carMock.update).toHaveBeenCalledWith @baseGameController.isTouchMouseDown
+      (expect @carMock.drive).toHaveBeenCalledWith @baseGameController.isTouchMouseDown
 
   describe '#start', ->
 
