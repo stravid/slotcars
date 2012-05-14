@@ -26,7 +26,7 @@ Shared.BaseGameController = Ember.Object.extend
     @gameLoopController.start => @update()
 
   update: ->
-    @car.update @isTouchMouseDown
+    @car.drive @isTouchMouseDown
 
   destroy: ->
     @_super()
