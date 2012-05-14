@@ -1,6 +1,7 @@
 #= require slotcars/shared/lib/id_observable
+#= require slotcars/shared/lib/rasterizable
 
-Shared.Track = DS.Model.extend Shared.IdObservable,
+Shared.Track = DS.Model.extend Shared.IdObservable, Shared.Rasterizable,
 
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'
@@ -9,10 +10,6 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
 
   id: DS.attr 'number'
   raphael: DS.attr 'string'
-  rasterized: DS.attr 'string'
-
-  isRasterizing: false
-  rasterizedPath: null
 
   init: ->
     @_super()
@@ -61,8 +58,7 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
 
   updateRaphaelPath: (points) -> (@get '_raphaelPath').setLinkedPath points
 
-  isLengthAfterFinishLine: (length) ->
-    @getTotalLength() * (@get 'numberOfLaps') < length
+  isLengthAfterFinishLine: (length) -> @getTotalLength() * (@get 'numberOfLaps') < length
 
   lapForLength: (length) ->
     lap = Math.ceil length / @getTotalLength()
@@ -71,22 +67,6 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
     # clamp return value to maximum number of laps
     if lap > numberOfLaps then lap = numberOfLaps
     return lap
-
-  rasterize: (finishCallback) ->
-    @set 'isRasterizing', true
-    @set 'rasterizedPath', null
-    Ember.run.later (=>
-      (@get '_raphaelPath').rasterize
-        stepSize: 10
-        pointsPerTick: 50
-        onProgress: ($.proxy @_onRasterizationProgress, this)
-        onFinished: =>
-          @set 'isRasterizing', false
-          finishCallback() if finishCallback?
-    ), 50
-
-  _onRasterizationProgress: (rasterizedLength) ->
-    @set 'rasterizedPath', Raphael.getSubpath (@get 'raphaelPath'), 0, rasterizedLength
 
 Shared.Track.reopenClass
   MINIMUM_TRACK_LENGTH: 400
