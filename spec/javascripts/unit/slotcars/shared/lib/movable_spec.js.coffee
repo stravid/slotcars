@@ -1,18 +1,129 @@
 describe 'Shared.Movable', ->
 
-  describe 'move to a position', ->
+  beforeEach ->
+    @trackMock = mockEmberClass Shared.Track
+    @movable = Ember.Object.extend(Shared.Movable).create track: @trackMock
+
+  afterEach -> @trackMock.restore()
+
+
+  describe 'moving to next position', ->
 
     beforeEach ->
-      @movable = Ember.Object.extend(Shared.Movable).create() # because a mixin has no 'create' method
+      sinon.stub @movable, 'calculateNextPosition'
+      sinon.stub @movable, 'calculateNextRotation'
 
-    it 'should update its position', ->
-      position = { x: 3, y: 2 }
-      @movable.moveTo position
+    it 'should calculate its next position', ->
+      @movable.moveToNextPosition()
 
-      (expect @movable.position).toEqual position
+      (expect @movable.calculateNextPosition).toHaveBeenCalled()
 
-    it 'should update its rotation', ->
-      @movable.position = { x: 0, y: 0 }
-      @movable.moveTo x: 1, y: 0
+    it 'should calculate its next rotation', ->
+      @movable.moveToNextPosition()
 
-      (expect @movable.rotation).toBeApproximatelyEqual 90
+      (expect @movable.calculateNextRotation).toHaveBeenCalled()
+
+    it 'should update all properties to the calculated ones', ->
+      @movable.set 'nextLengthAtTrack', 1
+      @movable.set 'nextPosition', { x: 1, y: 1 }
+      @movable.set 'nextRotation', 30
+
+      @movable.moveToNextPosition()
+
+      (expect @movable.get 'lengthAtTrack').toEqual @movable.get 'nextLengthAtTrack'
+      (expect @movable.get 'position').toEqual @movable.get 'nextPosition'
+      (expect @movable.get 'rotation').toEqual @movable.get 'nextRotation'
+
+
+  describe 'moving along track', ->
+
+    beforeEach -> sinon.stub @movable, 'moveToNextPosition'
+
+    it 'should calculate and update the next length at track based on current speed', ->
+      currentSpeed = 9
+      @movable.set 'speed', currentSpeed
+
+      @movable.moveAlongTrack()
+
+      (expect @movable.nextLengthAtTrack).toBe currentSpeed #default length at track is zero
+
+    it 'should move to next position', ->
+      @movable.moveAlongTrack()
+
+      (expect @movable.moveToNextPosition).toHaveBeenCalled()
+
+
+  describe 'moving to start position', ->
+
+    beforeEach -> sinon.stub @movable, 'moveToNextPosition'
+
+    it 'should reset speed and length at track', ->
+
+      # random values for properties which should be reset
+      @movable.set 'speed', 1
+      @movable.set 'lengthAtTrack', 1
+      @movable.set 'nextLengthAtTrack', 9
+
+      @movable.moveToStartPosition()
+
+      (expect @movable.speed).toBe 0
+      (expect @movable.lengthAtTrack).toBe 0
+      (expect @movable.nextLengthAtTrack).toBe 0
+
+    it 'should move to next position', ->
+      @movable.moveToStartPosition()
+
+      (expect @movable.moveToNextPosition).toHaveBeenCalled()
+
+
+  describe 'calculating next position on track', ->
+
+    beforeEach -> @trackMock.getPointAtLength = sinon.stub()
+
+    it 'should update next position based on next length at track', ->
+      testLengthAtTrack = 9
+      @movable.set 'nextLengthAtTrack', testLengthAtTrack
+      testPointAtLength = {}
+      @trackMock.getPointAtLength.returns testPointAtLength
+
+      @movable.calculateNextPosition()
+
+      (expect @trackMock.getPointAtLength).toHaveBeenCalledWith testLengthAtTrack
+      (expect @movable.nextPosition).toBe testPointAtLength
+
+
+  describe 'calculating the next rotation on track', ->
+
+    beforeEach ->
+      @vectorMock = mockEmberClass Shared.Vector, clockwiseAngle: sinon.stub()
+      @trackMock.getPointAtLength = sinon.stub()
+
+    afterEach -> @vectorMock.restore()
+
+
+    it 'should get position for previous length at track', ->
+      testLengthAtTrack = 1
+      @movable.set 'lengthAtTrack', testLengthAtTrack
+
+      @movable.calculateNextRotation()
+
+      (expect @trackMock.getPointAtLength).toHaveBeenCalledWith testLengthAtTrack - 0.1
+
+    it 'should create direction from calculated positions', ->
+      previousPosition = {}
+      nextPosition = {}
+
+      @movable.set 'nextPosition', nextPosition
+      @trackMock.getPointAtLength.returns previousPosition
+
+      @movable.calculateNextRotation()
+
+      (expect Shared.Vector.create).toHaveBeenCalledWithAnObjectLike from: previousPosition, to: nextPosition
+
+    it 'should set next rotation to clockwise angle of calculated direction', ->
+      testAngle = {}
+      @vectorMock.clockwiseAngle.returns testAngle
+
+      @movable.calculateNextRotation()
+
+      (expect @movable.nextRotation).toBe testAngle
