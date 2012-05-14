@@ -2,28 +2,28 @@ describe 'PlayScreenNotificationsController', ->
 
   beforeEach ->
     @currentTrackId = 1
-    @PlayScreenNotificationsController = Play.PlayScreenNotificationsController.create trackId: @currentTrackId
+    @playScreenNotificationsController = Play.PlayScreenNotificationsController.create trackId: @currentTrackId
 
   it 'should fire an event for a new run on the current track', ->
-    sinon.stub @PlayScreenNotificationsController, 'fire'
+    sinon.stub @playScreenNotificationsController, 'fire'
     run = track_id: @currentTrackId
 
-    @PlayScreenNotificationsController._onNewRunEvent run
+    @playScreenNotificationsController._onNewRunEvent run
 
-    (expect @PlayScreenNotificationsController.fire).toHaveBeenCalledWith 'newRunOnCurrentTrack', run
+    (expect @playScreenNotificationsController.fire).toHaveBeenCalledWith 'newRunOnCurrentTrack', run
 
   it 'should not fire an event for other tracks', ->
-    sinon.stub @PlayScreenNotificationsController, 'fire'
+    sinon.stub @playScreenNotificationsController, 'fire'
     run = track_id: 2
 
-    @PlayScreenNotificationsController._onNewRunEvent run
+    @playScreenNotificationsController._onNewRunEvent run
 
-    (expect @PlayScreenNotificationsController.fire).not.toHaveBeenCalled()
+    (expect @playScreenNotificationsController.fire).not.toHaveBeenCalled()
 
   it 'should not fire an event for my own runs', ->
     testUserId = 1
 
-    sinon.stub @PlayScreenNotificationsController, 'fire'
+    sinon.stub @playScreenNotificationsController, 'fire'
 
     Shared.User.current =
       get: -> testUserId
@@ -32,6 +32,6 @@ describe 'PlayScreenNotificationsController', ->
       track_id: 1
       user_id: testUserId
 
-    @PlayScreenNotificationsController._onNewRunEvent run
+    @playScreenNotificationsController._onNewRunEvent run
 
-    (expect @PlayScreenNotificationsController.fire).not.toHaveBeenCalled()
+    (expect @playScreenNotificationsController.fire).not.toHaveBeenCalled()
