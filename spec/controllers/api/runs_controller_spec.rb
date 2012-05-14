@@ -1,5 +1,14 @@
 require 'spec_helper'
 
+class PusherChannelMock
+  def trigger(event, message)
+  end
+end
+
+Pusher = {
+  'slotcars' => PusherChannelMock.new
+}
+
 describe Api::RunsController do
 
   describe '#create' do
