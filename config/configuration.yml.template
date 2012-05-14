@@ -4,6 +4,9 @@ development: &defaults
   newrelic_license_key:
   postgres_username:
   postgres_password:
+  pusher_app_id:
+  pusher_key:
+  pusher_secret:
 
 test:
   <<: *defaults
