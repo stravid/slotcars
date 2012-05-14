@@ -35,7 +35,7 @@ Shared.Crashable = Ember.Mixin.create
     angle = @direction.angleFrom @nextDirection
     if angle * @speed > @traction then true else false
 
-  updateDirection: -> @direction = @nextDirection
+  updateDirection: -> @set 'direction', @nextDirection
 
   slowDownCrashingCar: ->
     @set 'speed', @speed - @crashDeceleration

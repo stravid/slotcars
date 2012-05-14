@@ -30,6 +30,7 @@ Play.PlayScreen = Ember.Object.extend Shared.Appendable,
       crashDeceleration: 0.3
       maxSpeed: 20
       traction: 100
+      offRoadThreshold: 40
 
     @_playScreenStateManager.send 'loaded'
 

@@ -81,6 +81,7 @@ describe 'Shared.Crashable', ->
 
     beforeEach ->
       @vectorMock = mockEmberClass Shared.Vector
+      @crashable.calculateOffRoadFriction = sinon.stub()
 
     afterEach -> @vectorMock.restore()
 
