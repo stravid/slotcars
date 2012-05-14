@@ -4,6 +4,7 @@ describe Api::TracksController do
 
   let(:track) { FactoryGirl.create :track }
   let(:tracks) { FactoryGirl.create_list :track, 10 }
+  let(:user) { FactoryGirl.create :user }
 
   describe '#index' do
 
@@ -44,33 +45,54 @@ describe Api::TracksController do
 
   describe '#create' do
 
-    it 'should return an bad request error when params hash does not contain a `track` key' do
-      post :create, :some_key => 'bla'
+    describe 'no logged in user' do
 
-      response.should be_bad_request
+      before(:each) do
+        sign_out user
+      end
+
+      it 'should return an bad request error when no user is logged in' do
+        post :create, :track => { :raphael => FactoryGirl.generate(:valid_raphael_path), :rasterized => 'rasterized path points' }
+
+        response.should be_bad_request
+      end
     end
 
-    it 'should create a track using the passed params' do
-      post :create, :track => { :raphael => FactoryGirl.generate(:valid_raphael_path), :rasterized => 'rasterized path points' }
+    describe 'logged in user' do
 
-      response.code.should eq '201' # created
-    end
+      before(:each) do
+        sign_in user
+      end
 
-    it 'should serialize created track and return it as JSON' do
-      post :create, :track => { :raphael => FactoryGirl.generate(:valid_raphael_path), :rasterized => 'rasterized path points' }
+      it 'should return an bad request error when params hash does not contain a `track` key' do
+        post :create, :some_key => 'bla'
 
-      created_track = Track.last
+        response.should be_bad_request
+      end
 
-      serializer = TrackSerializer.new created_track, :root => "track"
-      serialized_track = serializer.as_json
+      it 'should create a track using the passed params for the current user' do
+        post :create, :track => { :raphael => FactoryGirl.generate(:valid_raphael_path), :rasterized => 'rasterized path points' }
 
-      response.body.should == serialized_track.to_json
-    end
+        response.code.should eq '201' # created
+        Track.last.user_id.should eq user.id
+      end
 
-    it 'should return a server error when creating track fails' do
-      post :create, :track => { :raphael => FactoryGirl.generate(:invalid_raphael_path), :rasterized => 'rasterized path points' }
+      it 'should serialize created track and return it as JSON' do
+        post :create, :track => { :raphael => FactoryGirl.generate(:valid_raphael_path), :rasterized => 'rasterized path points' }
 
-      response.should be_error
+        created_track = Track.last
+
+        serializer = TrackSerializer.new created_track, :root => "track"
+        serialized_track = serializer.as_json
+
+        response.body.should == serialized_track.to_json
+      end
+
+      it 'should return a server error when creating track fails' do
+        post :create, :track => { :raphael => FactoryGirl.generate(:invalid_raphael_path), :rasterized => 'rasterized path points' }
+
+        response.should be_error
+      end
     end
   end
 
