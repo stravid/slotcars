@@ -1,6 +1,5 @@
 Build.TestDrive = Ember.Object.extend
 
-  stateManager: null
   buildScreenView: null
   track: null
   car: null

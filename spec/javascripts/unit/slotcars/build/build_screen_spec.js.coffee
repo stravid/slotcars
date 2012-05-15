@@ -152,7 +152,6 @@ describe 'Build.BuildScreen', ->
         @buildScreen.setupTesting()
 
         (expect @testDriveMock.create).toHaveBeenCalledWithAnObjectLike
-          stateManager: @BuildScreenStateManagerMock
           buildScreenView: @buildScreenViewMock
           track: @trackMock
           car: @CarMock

@@ -14,7 +14,6 @@ describe 'test drive', ->
       set: sinon.spy()
 
     @testDrive = Build.TestDrive.create
-      stateManager: @buildScreenStateManagerMock
       buildScreenView: @buildScreenViewMock
       track: @trackMock
       car: @carMock
@@ -33,7 +32,6 @@ describe 'test drive', ->
 
   it 'should create a game controller and provide necessary dependencies', ->
     (expect @TestDriveControllerMock.create).toHaveBeenCalledWithAnObjectLike
-      stateManager: @buildScreenStateManagerMock
       track: @trackMock
       car: @carMock
 
