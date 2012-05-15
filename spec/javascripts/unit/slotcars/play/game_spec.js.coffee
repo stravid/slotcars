@@ -11,6 +11,7 @@ describe 'game', ->
     @PlayTrackViewMock = mockEmberClass Play.PlayTrackView,
       gameController: {}  # gameController is required by Controllable mixin which is used here
     @ClockViewMock = mockEmberClass Play.ClockView
+    @BaseGameViewContainerMock = mockEmberClass Shared.BaseGameViewContainer, set: sinon.spy()
 
     @game = Play.Game.create
       playScreenView: @playScreenViewMock
@@ -26,6 +27,7 @@ describe 'game', ->
     @GameViewMock.restore()
     @PlayTrackViewMock.restore()
     @ClockViewMock.restore()
+    @BaseGameViewContainerMock.restore()
 
 
   describe 'creating the game', ->
@@ -45,17 +47,20 @@ describe 'game', ->
     it 'should create a game view and provide a game controller', ->
       (expect @GameViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock
 
-    it 'should append car view to play screen view', ->
-      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'carView', @CarViewMock
+    it 'should append car view to base game view container', ->
+      (expect @BaseGameViewContainerMock.set).toHaveBeenCalledWith 'trackView', @PlayTrackViewMock
+
+    it 'should append car view to base game view container', ->
+      (expect @BaseGameViewContainerMock.set).toHaveBeenCalledWith 'carView', @CarViewMock
+
+    it 'should append game view to base game view container', ->
+      (expect @BaseGameViewContainerMock.set).toHaveBeenCalledWith 'gameView', @GameViewMock
+
+    it 'should append clock view to base game view container', ->
+      (expect @BaseGameViewContainerMock.set).toHaveBeenCalledWith 'clockView', @ClockViewMock
 
     it 'should append track view to play screen view', ->
-      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'contentView', @PlayTrackViewMock
-
-    it 'should append game view to play screen view', ->
-      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'gameView', @GameViewMock
-
-    it 'should append clock view to play screen view', ->
-      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'clockView', @ClockViewMock
+      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'contentView', @BaseGameViewContainerMock
 
 
   describe 'starting the game', ->

@@ -20,16 +20,20 @@ Play.Game = Ember.Object.extend
       carModel: @car
       trackModel: @track
 
+    @_baseGameViewContainer = Shared.BaseGameViewContainer.create()
+
     @_appendViews()
 
   start: ->
     @_gameController.start()
 
   _appendViews: ->
-    @playScreenView.set 'contentView', @_trackView
-    @playScreenView.set 'carView', @_carView
-    @playScreenView.set 'gameView', @_gameView
-    @playScreenView.set 'clockView', @_clockView
+    @_baseGameViewContainer.set 'trackView', @_trackView
+    @_baseGameViewContainer.set 'carView', @_carView
+    @_baseGameViewContainer.set 'clockView', @_clockView
+    @_baseGameViewContainer.set 'gameView', @_gameView
+
+    @playScreenView.set 'contentView', @_baseGameViewContainer
 
   destroy: ->
     @_gameController.destroy()

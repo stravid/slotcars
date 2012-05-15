@@ -8,10 +8,9 @@ describe 'test drive', ->
     @BaseGameControllerMock = mockEmberClass Shared.BaseGameController, set: sinon.spy()
     @TrackViewMock = mockEmberClass Shared.TrackView, gameController: {}
     @CarViewMock = mockEmberClass Play.CarView
-    @TestDriveViewMock = mockEmberClass Build.TestDriveView, set: sinon.spy()
+    @BaseGameViewContainerMock = mockEmberClass Shared.BaseGameViewContainer, set: sinon.spy()
 
-    @buildScreenViewMock =
-      set: sinon.spy()
+    @buildScreenViewMock = set: sinon.spy()
 
     @testDrive = Build.TestDrive.create
       buildScreenView: @buildScreenViewMock
@@ -25,7 +24,7 @@ describe 'test drive', ->
     @BaseGameControllerMock.restore()
     @TrackViewMock.restore()
     @CarViewMock.restore()
-    @TestDriveViewMock.restore()
+    @BaseGameViewContainerMock.restore()
 
   it 'should extend Ember.Object', ->
     (expect Build.TestDrive).toExtend Ember.Object
@@ -45,16 +44,16 @@ describe 'test drive', ->
     (expect @TrackViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @BaseGameControllerMock, track: @trackMock
 
   it 'should create a test drive view and provide the game controller', ->
-    (expect @TestDriveViewMock.create).toHaveBeenCalled()
+    (expect @BaseGameViewContainerMock.create).toHaveBeenCalled()
 
   it 'should append car view to test drive view', ->
-    (expect @TestDriveViewMock.set).toHaveBeenCalledWith 'carView', @CarViewMock
+    (expect @BaseGameViewContainerMock.set).toHaveBeenCalledWith 'carView', @CarViewMock
 
   it 'should append track view to play screen view', ->
-    (expect @TestDriveViewMock.set).toHaveBeenCalledWith 'trackView', @TrackViewMock
+    (expect @BaseGameViewContainerMock.set).toHaveBeenCalledWith 'trackView', @TrackViewMock
 
   it 'should append car view to test drive view', ->
-    (expect @buildScreenViewMock.set).toHaveBeenCalledWith 'contentView', @TestDriveViewMock
+    (expect @buildScreenViewMock.set).toHaveBeenCalledWith 'contentView', @BaseGameViewContainerMock
 
   describe 'starting the game', ->
 
@@ -72,7 +71,6 @@ describe 'test drive', ->
       @BaseGameControllerMock.destroy = sinon.spy()
       @CarViewMock.destroy = sinon.spy()
       @TrackViewMock.destroy = sinon.spy()
-      @TestDriveViewMock.destroy = sinon.spy()
       @BaseGameViewContainerMock.destroy = sinon.spy()
 
       @testDrive.destroy()
@@ -87,7 +85,7 @@ describe 'test drive', ->
       (expect @TrackViewMock.destroy).toHaveBeenCalled()
 
     it 'should tell the test drive view to destroy itself', ->
-      (expect @TestDriveViewMock.destroy).toHaveBeenCalled()
+      (expect @BaseGameViewContainerMock.destroy).toHaveBeenCalled()
 
     it 'should call destroy on the game controller', ->
       (expect @BaseGameControllerMock.destroy).toHaveBeenCalled()

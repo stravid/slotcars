@@ -18,20 +18,23 @@ Build.TestDrive = Ember.Object.extend
 
     Shared.Controllable.apply @_trackView # this line is untested - don´t know how to do it
 
-    @_testDriveView = Build.TestDriveView.create
-      testDriveController: @_gameController
+    @_baseGameViewContainer = Shared.BaseGameViewContainer.create()
 
-    @_testDriveView.set 'trackView', @_trackView
-    @_testDriveView.set 'carView', @_carView
+    @_appendViews()
 
-    @buildScreenView.set 'contentView', @_testDriveView
 
   start: ->
     @_gameController.start()
+
+  _appendViews: ->
+    @_baseGameViewContainer.set 'trackView', @_trackView
+    @_baseGameViewContainer.set 'carView', @_carView
+
+    @buildScreenView.set 'contentView', @_baseGameViewContainer
 
   destroy: ->
     @buildScreenView.set 'contentView', null
     @_carView.destroy()
     @_trackView.destroy()
-    @_testDriveView.destroy()
+    @_baseGameViewContainer.destroy()
     @_gameController.destroy()
