@@ -17,6 +17,7 @@ describe 'test drive', ->
       stateManager: @buildScreenStateManagerMock
       buildScreenView: @buildScreenViewMock
       track: @trackMock
+      car: @carMock
 
   afterEach ->
     @carMock.restore()
@@ -29,9 +30,6 @@ describe 'test drive', ->
 
   it 'should extend Ember.Object', ->
     (expect Build.TestDrive).toExtend Ember.Object
-
-  it 'should create a car', ->
-    (expect @carMock.create).toHaveBeenCalled()
 
   it 'should create a game controller and provide necessary dependencies', ->
     (expect @TestDriveControllerMock.create).toHaveBeenCalledWithAnObjectLike
@@ -74,7 +72,6 @@ describe 'test drive', ->
 
     beforeEach ->
       @TestDriveControllerMock.destroy = sinon.spy()
-      @carMock.destroy = sinon.spy()
       @CarViewMock.destroy = sinon.spy()
       @TrackViewMock.destroy = sinon.spy()
       @TestDriveViewMock.destroy = sinon.spy()
@@ -92,9 +89,6 @@ describe 'test drive', ->
 
     it 'should tell the test drive view to destroy itself', ->
       (expect @TestDriveViewMock.destroy).toHaveBeenCalled()
-
-    it 'should tell the car to destroy itself', ->
-      (expect @carMock.destroy).toHaveBeenCalled()
 
     it 'should call destroy on the game controller', ->
       (expect @TestDriveControllerMock.destroy).toHaveBeenCalled()

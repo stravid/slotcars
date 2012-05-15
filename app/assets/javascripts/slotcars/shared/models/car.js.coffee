@@ -6,6 +6,13 @@ Shared.Car = Ember.Object.extend Shared.Movable, Shared.Drivable, Shared.Crashab
 
   track: null
 
+  # default configuration
+  acceleration: 0.1
+  deceleration: 0.2
+  crashDeceleration: 0.3
+  maxSpeed: 20
+  traction: 100
+
   currentLap: 0
   crossedFinishLine: false
 

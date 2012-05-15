@@ -133,13 +133,20 @@ describe 'Build.BuildScreen', ->
   describe 'test drive capabilities', ->
 
     beforeEach ->
+      @CarMock = mockEmberClass Shared.Car
       @testDriveMock = mockEmberClass Build.TestDrive, start: sinon.spy()
       @buildScreen.track = @trackMock # track gets only created in drawing setup - so set it by hand for this test case
 
     afterEach ->
       @testDriveMock.restore()
+      @CarMock.restore()
 
     describe 'prepare for test drive', ->
+
+      it 'should create a car', ->
+        @buildScreen.setupTesting()
+
+        (expect @CarMock.create).toHaveBeenCalledWith track: @trackMock
 
       it 'should create the test drive and provide dependencies', ->
         @buildScreen.setupTesting()
@@ -148,6 +155,7 @@ describe 'Build.BuildScreen', ->
           stateManager: @BuildScreenStateManagerMock
           buildScreenView: @buildScreenViewMock
           track: @trackMock
+          car: @CarMock
 
       it 'should start the test drive', ->
         @buildScreen.setupTesting()
@@ -164,6 +172,12 @@ describe 'Build.BuildScreen', ->
         @buildScreen.teardownTesting()
 
         (expect @testDriveMock.destroy).toHaveBeenCalled()
+
+      it 'should destroy the car', ->
+        @CarMock.destroy = sinon.spy()
+        @buildScreen.teardownTesting()
+
+        (expect @CarMock.destroy).toHaveBeenCalled()
 
   describe 'rasterization capabilities', ->
 

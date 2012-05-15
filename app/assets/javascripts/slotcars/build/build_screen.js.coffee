@@ -34,14 +34,17 @@ Build.BuildScreen = Ember.Object.extend Shared.Appendable,
     @_editor.destroy()
 
   setupTesting: ->
+    @_car = Shared.Car.create track: @track
+
     @_testDrive = Build.TestDrive.create
-      stateManager: @_buildScreenStateManager
       buildScreenView: @view
       track: @track
+      car: @_car
 
     @_testDrive.start()
 
   teardownTesting: ->
+    @_car.destroy()
     @_testDrive.destroy()
 
   setupRasterizing: ->

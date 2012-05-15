@@ -6,14 +6,6 @@ Build.TestDrive = Ember.Object.extend
   car: null
 
   init: ->
-    @car = Shared.Car.create
-      track: @track
-      acceleration: 0.1
-      deceleration: 0.2
-      crashDeceleration: 0.3
-      maxSpeed: 20
-      traction: 100
-
     @_gameController = Build.TestDriveController.create
       stateManager: @stateManager
       track: @track
@@ -44,5 +36,4 @@ Build.TestDrive = Ember.Object.extend
     @_carView.destroy()
     @_trackView.destroy()
     @_testDriveView.destroy()
-    @car.destroy()
     @_gameController.destroy()
