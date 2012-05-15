@@ -5,8 +5,7 @@ Build.TestDrive = Ember.Object.extend
   car: null
 
   init: ->
-    @_gameController = Build.TestDriveController.create
-      stateManager: @stateManager
+    @_gameController = Shared.BaseGameController.create
       track: @track
       car: @car
 
