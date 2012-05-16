@@ -14,12 +14,6 @@ Play.PlayScreen = Ember.Object.extend Shared.Appendable,
     @_playScreenStateManager = Play.PlayScreenStateManager.create delegate: this
     @_playScreenStateManager.send 'load'
 
-  destroy: ->
-    @_super()
-    @_game.destroy() if @_game?
-    @_playScreenNotificationsController.destroy() if @_playScreenNotificationsController?
-    @_playScreenNotificationsView.remove() if @_playScreenNotificationsView?
-
   load: ->
     @track = Shared.ModelStore.find Shared.Track, @trackId
     @car = Shared.Car.create track: @track
@@ -44,5 +38,11 @@ Play.PlayScreen = Ember.Object.extend Shared.Appendable,
 
   play: ->
     @_game.start()
+
+  destroy: ->
+    @_super()
+    @_game.destroy() if @_game?
+    @_playScreenNotificationsController.destroy() if @_playScreenNotificationsController?
+    @_playScreenNotificationsView.remove() if @_playScreenNotificationsView?
 
 Shared.ScreenFactory.getInstance().registerScreen 'PlayScreen', Play.PlayScreen

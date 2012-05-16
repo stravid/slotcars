@@ -15,16 +15,9 @@ Play.GameView = Ember.View.extend
 
   ).observes 'gameController.isRaceFinished'
 
-  raceTimeInSeconds: (Ember.computed ->
-    @convertMillisecondsToSeconds (@gameController.get 'raceTime')
-  ).property 'gameController.raceTime'
-
   onCountdownVisibleChange: ( ->
     if @gameController.get 'isCountdownVisible'
       (@$ '#countdown').removeClass 'squashed'
     else 
       (@$ '#countdown').addClass 'squashed'
   ).observes 'gameController.isCountdownVisible'
-
-  convertMillisecondsToSeconds: (value) ->
-    value / 1000
