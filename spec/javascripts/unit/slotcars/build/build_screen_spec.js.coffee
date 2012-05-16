@@ -134,11 +134,11 @@ describe 'Build.BuildScreen', ->
 
     beforeEach ->
       @CarMock = mockEmberClass Shared.Car
-      @testDriveMock = mockEmberClass Build.TestDrive, start: sinon.spy()
+      @baseGameMock = mockEmberClass Shared.BaseGame, start: sinon.spy()
       @buildScreen.track = @trackMock # track gets only created in drawing setup - so set it by hand for this test case
 
     afterEach ->
-      @testDriveMock.restore()
+      @baseGameMock.restore()
       @CarMock.restore()
 
     describe 'prepare for test drive', ->
@@ -151,15 +151,15 @@ describe 'Build.BuildScreen', ->
       it 'should create the test drive and provide dependencies', ->
         @buildScreen.setupTesting()
 
-        (expect @testDriveMock.create).toHaveBeenCalledWithAnObjectLike
-          buildScreenView: @buildScreenViewMock
+        (expect @baseGameMock.create).toHaveBeenCalledWithAnObjectLike
+          screenView: @buildScreenViewMock
           track: @trackMock
           car: @CarMock
 
       it 'should start the test drive', ->
         @buildScreen.setupTesting()
 
-        (expect @testDriveMock.start).toHaveBeenCalled()
+        (expect @baseGameMock.start).toHaveBeenCalledWith true
 
     describe 'clean up test drive', ->
 
@@ -167,10 +167,10 @@ describe 'Build.BuildScreen', ->
         @buildScreen.setupTesting() # creates TestDrive
 
       it 'should tell the test drive to destroy itself', ->
-        @testDriveMock.destroy = sinon.spy()
+        @baseGameMock.destroy = sinon.spy()
         @buildScreen.teardownTesting()
 
-        (expect @testDriveMock.destroy).toHaveBeenCalled()
+        (expect @baseGameMock.destroy).toHaveBeenCalled()
 
       it 'should destroy the car', ->
         @CarMock.destroy = sinon.spy()

@@ -36,12 +36,12 @@ Build.BuildScreen = Ember.Object.extend Shared.Appendable,
   setupTesting: ->
     @_car = Shared.Car.create track: @track
 
-    @_testDrive = Build.TestDrive.create
-      buildScreenView: @view
+    @_testDrive = Shared.BaseGame.create
+      screenView: @view
       track: @track
       car: @_car
 
-    @_testDrive.start()
+    @_testDrive.start true
 
   teardownTesting: ->
     @_car.destroy()
