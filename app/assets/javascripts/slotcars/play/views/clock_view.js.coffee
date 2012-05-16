@@ -3,8 +3,8 @@ Play.ClockView = Ember.View.extend
   elementId: 'clock'
   templateName: 'slotcars_play_templates_clock_view_template'
   
-  trackModel: null
-  carModel: null
+  track: null
+  car: null
   gameController: null
 
   chars: null
@@ -36,15 +36,15 @@ Play.ClockView = Ember.View.extend
     @lapChar = @$('#clock-lap .first')
     @totalLapChar = @$('#clock-lap .third')
     
-    @updateLapAmount @trackModel.get 'numberOfLaps'
+    @updateLapAmount @track.get 'numberOfLaps'
     
   onUpdateRaceTime: ( ->
     @updateTime @gameController.get 'raceTime'
   ).observes 'gameController.raceTime'
   
   onUpdateLab: ( ->
-    @updateLap @carModel.get 'currentLap'
-  ).observes 'carModel.currentLap'
+    @updateLap @car.get 'currentLap'
+  ).observes 'car.currentLap'
   
   updateTime: (time) ->
     date = new Date()

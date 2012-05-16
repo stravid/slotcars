@@ -1,79 +1,60 @@
-describe 'game', ->
+describe 'Play.Game', ->
 
   beforeEach ->
     @carMock = mockEmberClass Shared.Car
     @trackMock = mockEmberClass Shared.Track
-    @playScreenViewMock = mockEmberClass Play.PlayScreenView, set: sinon.spy()
+    @screenViewMock = set: sinon.spy()
 
     @GameControllerMock = mockEmberClass Play.GameController
+    @TrackViewMock = mockEmberClass Shared.TrackView, gameController: {}, track: @trackMock
     @CarViewMock = mockEmberClass Play.CarView
     @GameViewMock = mockEmberClass Play.GameView
-    @PlayTrackViewMock = mockEmberClass Play.PlayTrackView,
-      gameController: {}  # gameController is required by Controllable mixin which is used here
     @ClockViewMock = mockEmberClass Play.ClockView
+    @BaseGameViewContainerMock = mockEmberClass Shared.BaseGameViewContainer, set: sinon.spy()
 
     @game = Play.Game.create
-      playScreenView: @playScreenViewMock
+      screenView: @screenViewMock
       track: @trackMock
       car: @carMock
 
   afterEach ->
     @carMock.restore()
     @trackMock.restore()
-    @playScreenViewMock.restore()
-    @CarViewMock.restore()
     @GameControllerMock.restore()
+    @TrackViewMock.restore()
+    @CarViewMock.restore()
     @GameViewMock.restore()
-    @PlayTrackViewMock.restore()
     @ClockViewMock.restore()
-
+    @BaseGameViewContainerMock.restore()
 
   describe 'creating the game', ->
 
-    it 'should extend Ember.Object', ->
-      (expect Play.Game).toExtend Ember.Object
-
-    it 'should create a car view and provide the car', ->
-      (expect @CarViewMock.create).toHaveBeenCalledWithAnObjectLike car: @carMock
+    it 'should extend Shared.BaseGame', ->
+      (expect Play.Game).toExtend Shared.BaseGame
 
     it 'should create a game controller and provide necessary dependencies', ->
       (expect @GameControllerMock.create).toHaveBeenCalledWithAnObjectLike car: @carMock, track: @trackMock
 
-    it 'should create a track view', ->
-      (expect @PlayTrackViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock, track: @trackMock
-
     it 'should create a game view and provide a game controller', ->
       (expect @GameViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @GameControllerMock
 
-    it 'should append car view to play screen view', ->
-      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'carView', @CarViewMock
+    it 'should append game view to base game view container', ->
+      (expect @BaseGameViewContainerMock.set).toHaveBeenCalledWith 'gameView', @GameViewMock
 
-    it 'should append track view to play screen view', ->
-      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'contentView', @PlayTrackViewMock
-
-    it 'should append game view to play screen view', ->
-      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'gameView', @GameViewMock
-
-    it 'should append clock view to play screen view', ->
-      (expect @playScreenViewMock.set).toHaveBeenCalledWith 'clockView', @ClockViewMock
-
-
-  describe 'starting the game', ->
-
-    beforeEach ->
-      @GameControllerMock.start = sinon.spy()
-
-    it 'should start the game controller', ->
-      @game.start()
-
-      (expect @GameControllerMock.start).toHaveBeenCalled()
+    it 'should append clock view to base game view container', ->
+      (expect @BaseGameViewContainerMock.set).toHaveBeenCalledWith 'clockView', @ClockViewMock
 
   describe 'destroying the game', ->
 
     beforeEach ->
+      @ClockViewMock.destroy = sinon.spy()
+      @GameViewMock.destroy = sinon.spy()
       @GameControllerMock.destroy = sinon.spy()
 
-    it 'should call destroy on the game controller', ->
       @game.destroy()
 
-      (expect @GameControllerMock.destroy).toHaveBeenCalled()
+    it 'should call destroy on the clock view', ->
+      (expect @ClockViewMock.destroy).toHaveBeenCalled()
+
+    it 'should call destroy on the game view', ->
+      (expect @GameViewMock.destroy).toHaveBeenCalled()
