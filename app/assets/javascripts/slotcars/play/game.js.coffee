@@ -1,39 +1,34 @@
-Play.Game = Ember.Object.extend
+#= require slotcars/shared/base_game
 
-  playScreenView: null
-  track: null
-  car: null
+Play.Game = Shared.BaseGame.extend
 
-  init: ->
-    @_gameController = Play.GameController.create track: @track, car: @car
-
-    @_carView = Play.CarView.create car: @car
-    @_trackView = Play.PlayTrackView.create 
+  # override method of Shared.BaseGame
+  _createGameController: ->
+    @_gameController = Play.GameController.create
       track: @track
-      gameController: @_gameController
+      car: @car
 
-    Shared.Controllable.apply @_trackView # this line is untested - don´t know how to do it
+  _createViews: ->
+    @_super()
 
-    @_gameView = Play.GameView.create gameController: @_gameController
     @_clockView = Play.ClockView.create
       gameController: @_gameController
-      carModel: @car
-      trackModel: @track
+      car: @car
+      track: @track
 
-    @_baseGameViewContainer = Shared.BaseGameViewContainer.create()
+    @_gameView = Play.GameView.create
+      gameController: @_gameController
 
-    @_appendViews()
-
-  start: ->
-    @_gameController.start()
+  _applyMixins: ->
+    @_super()
+    Shared.Finishable.apply @_trackView
 
   _appendViews: ->
-    @_baseGameViewContainer.set 'trackView', @_trackView
-    @_baseGameViewContainer.set 'carView', @_carView
+    @_super()
     @_baseGameViewContainer.set 'clockView', @_clockView
     @_baseGameViewContainer.set 'gameView', @_gameView
 
-    @playScreenView.set 'contentView', @_baseGameViewContainer
-
   destroy: ->
-    @_gameController.destroy()
+    @_super()
+    @_gameView.destroy()
+    @_clockView.destroy()

@@ -28,7 +28,7 @@ Play.PlayScreen = Ember.Object.extend Shared.Appendable,
 
   initialize: ->
     @_game = Play.Game.create
-      playScreenView: @view
+      screenView: @view
       track: @track
       car: @car
 
