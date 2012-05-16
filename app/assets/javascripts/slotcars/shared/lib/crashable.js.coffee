@@ -37,9 +37,7 @@ Shared.Crashable = Ember.Mixin.create
 
   updateDirection: -> @set 'direction', @nextDirection
 
-  slowDownCrashingCar: ->
-    @set 'speed', @speed - @crashDeceleration
-    @clampMinSpeed()
+  slowDownCrashingCar: -> @set 'speed', Math.max 0, @speed - @crashDeceleration
 
   checkForCrashEnd: -> @set 'isCrashing', false if @speed <= 0
 

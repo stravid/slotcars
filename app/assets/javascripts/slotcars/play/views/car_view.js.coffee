@@ -22,9 +22,13 @@ Play.CarView = Ember.View.extend
   update: ->
     position = @car.position
     rotation = @car.rotation
+    offset = @car.steeringOffset
+
     drawPosition =
-      x: position.x - @width / 2
-      y: position.y - @height / 4
+      x: position.x
+      y: position.y
 
     (jQuery '#car').css '-webkit-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
     (jQuery '#car').css '-moz-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
+
+    (jQuery '#car-offset').css 'left', offset

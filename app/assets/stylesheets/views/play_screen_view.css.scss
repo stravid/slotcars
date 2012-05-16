@@ -91,3 +91,26 @@
   text-align: center;
   text-shadow: 0 0 15px #eee;
 }
+
+#car {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+
+  #car-graphic {
+    position: absolute;
+    top: -8px;
+    left: -13px;
+    width: 27px;
+    height: 39px;
+    background-image: image-url("car/car-red.png");
+    background-repeat: no-repeat;
+  }
+
+  #car-offset {
+    position: absolute;
+    left: 0;
+  }
+}

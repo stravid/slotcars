@@ -35,6 +35,12 @@ Shared.Vector = Ember.Object.extend
 
     if @x < 0 then 360 - angle else angle
 
+  relativeClockwiseAngleTo: (otherVector) ->
+    y = @x * otherVector.y - @y * otherVector.x
+    x = @x * otherVector.x + @y * otherVector.y
+
+    -(180/Math.PI) * Math.atan2 y, x
+
   center: ->
     Shared.Vector.create
       x: @x / 2

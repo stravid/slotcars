@@ -1,1 +1,5 @@
-<img src="/assets/car/car-red.png" id="car" style="position: absolute;" />
+<div id="car">
+  <div id="car-offset">
+    <div id="car-graphic">&nbsp;</div>
+  </div>
+</div>
