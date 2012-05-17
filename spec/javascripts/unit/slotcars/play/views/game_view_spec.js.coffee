@@ -20,12 +20,6 @@ describe 'Play.GameView (unit)', ->
     
     (expect @gameControllerMock.restartGame).toHaveBeenCalled()
 
-  it 'should update race time when it changes', ->
-    timeValue = 28
-    @gameControllerMock.set 'raceTime', timeValue
-
-    (expect @gameView.get 'raceTimeInSeconds').toBe @gameView.convertMillisecondsToSeconds timeValue
-
   describe 'when race finishes', ->
 
     beforeEach ->

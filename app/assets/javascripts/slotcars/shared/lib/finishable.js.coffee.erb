@@ -1,8 +1,6 @@
+Shared.Finishable = Ember.Mixin.create
 
-#= require slotcars/shared/views/track_view
-
-Play.PlayTrackView = Shared.TrackView.extend
-  
+  track: Ember.required()
   _finishLine: null
     
   drawTrack: (path) ->
