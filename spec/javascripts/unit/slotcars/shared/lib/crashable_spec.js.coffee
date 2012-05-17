@@ -19,18 +19,30 @@ describe 'Shared.Crashable', ->
 
   describe 'calculating if car is too fast in curve', ->
 
-    it 'should return true if speed multiplied by angle is bigger than traction', ->
-      @crashable.set 'speed', 1
-      @crashable.set 'traction', 9
+    it 'should return true if calculated angle speed is bigger than traction', ->
+      # formular: angle * speedPercentageMultiplier + speed * speedPercentageMultiplier
+      @crashable.set 'maxSpeed', 10
+      # speedPercentageMultiplier = 2 in this example
+      @crashable.set 'speed', 10
       testAngle = 10
+
+      # the calculation is 40, so stay lower here
+      @crashable.set 'traction', 39
+
       @crashable.set 'direction', angleFrom: sinon.stub().returns testAngle
 
       (expect @crashable.isTooFastInCurve()).toBe true
 
     it 'should return false if speed multiplied by angle is smaller than traction', ->
-      @crashable.set 'speed', 1
-      @crashable.set 'traction', 11
+      # formular: angle * speedPercentageMultiplier + speed * speedPercentageMultiplier
+      @crashable.set 'maxSpeed', 10
+      # speedPercentageMultiplier = 2 in this example
+      @crashable.set 'speed', 10
       testAngle = 10
+
+      # the calculation is 40, so stay higher here
+      @crashable.set 'traction', 41
+
       @crashable.set 'direction', angleFrom: sinon.stub().returns testAngle
 
       (expect @crashable.isTooFastInCurve()).toBe false
