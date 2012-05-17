@@ -139,9 +139,14 @@ describe 'Shared.User', ->
       it 'should update CSRF token meta-tag', ->
         Shared.User.signOutCurrentUser()
 
+        attrSpy = sinon.spy()
+        jQueryBackup = window.jQuery
+        window.jQuery = sinon.stub().withArgs('meta[name="csrf-token"]').returns attr: attrSpy
+
         @requests[0].respond 200, { "Content-Type": "application/json" }, @successResponseBody
 
-        (expect (jQuery 'meta[name="csrf-token"]').attr 'content').toEqual @fake_authenticity_token
+        (expect attrSpy).toHaveBeenCalledWith 'content', @fake_authenticity_token
+        window.jQuery = jQueryBackup
 
     describe 'when sign out failed', ->
 
