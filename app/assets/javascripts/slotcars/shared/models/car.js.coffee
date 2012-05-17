@@ -13,6 +13,9 @@ Shared.Car = Ember.Object.extend Shared.Movable, Shared.Drivable, Shared.Crashab
   maxSpeed: 18
   traction: 45
 
+  width: 27
+  height: 39
+
   currentLap: 0
   crossedFinishLine: false
 

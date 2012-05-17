@@ -6,7 +6,10 @@ describe 'Shared.BaseGame', ->
     @buildScreenStateManagerMock = mockEmberClass Build.BuildScreenStateManager
 
     @BaseGameControllerMock = mockEmberClass Shared.BaseGameController
-    @TrackViewMock = mockEmberClass Shared.TrackView, gameController: {}
+    @TrackViewMock = mockEmberClass Shared.TrackView,
+      gameController: {}
+      car: @carMock
+
     @CarViewMock = mockEmberClass Play.CarView
     @BaseGameViewContainerMock = mockEmberClass Shared.BaseGameViewContainer, set: sinon.spy()
 
@@ -36,7 +39,10 @@ describe 'Shared.BaseGame', ->
     (expect @CarViewMock.create).toHaveBeenCalledWithAnObjectLike car: @carMock
 
   it 'should create a track view and provide dependencies', ->
-    (expect @TrackViewMock.create).toHaveBeenCalledWithAnObjectLike gameController: @BaseGameControllerMock, track: @trackMock
+    (expect @TrackViewMock.create).toHaveBeenCalledWithAnObjectLike
+      gameController: @BaseGameControllerMock
+      track: @trackMock
+      car: @carMock
 
   it 'should create a view container to append the single views', ->
     (expect @BaseGameViewContainerMock.create).toHaveBeenCalled()
