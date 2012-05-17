@@ -87,7 +87,7 @@ describe 'raphael path', ->
 
   describe 'getting point on length of track', ->
 
-    it 'should as Raphael for point at specific length on path', ->
+    it 'should ask Raphael for point at specific length on path', ->
       raphaelPath = Shared.RaphaelPath.create()
       expectedPoint = { x: 3, y: 31 }
 
@@ -157,12 +157,20 @@ describe 'raphael path', ->
   describe 'rasterizing the path for performance lookups', ->
 
     beforeEach ->
+      # rasterization checks for previous to last point's angle
+      @pathMock.tail = previous: angle: 1
+
       @raphaelPath = Shared.RaphaelPath.create()
+      @path = @raphaelPath.get 'path'
 
       @RaphaelMock.getPointAtLength = sinon.stub()
 
-      # provide simplest config for tests
-      @parameters = stepSize: 1, pointsPerTick: 1
+      # testing params
+      @parameters =
+        minLengthPerPoint: 1
+        lengthLimitForAngleFactor: 20
+        minAngle: 0.3
+        lengthPerRasterizingPhase: 10
 
       # there must be a minimum of two points rasterized
       @RaphaelMock.getTotalLength = sinon.stub().returns 2
@@ -173,25 +181,54 @@ describe 'raphael path', ->
     afterEach ->
       Ember.run.next = @EmberNextBackup
 
-    it 'should create a new path for rasterization', ->
-      @raphaelPath.rasterize @parameters
-
-      # once at create() and once in rasterize()
-      (expect @pathMock.create).toHaveBeenCalledTwice()
-
 
     it 'should push point at current length into rasterization path', ->
       testPoint = {}
       @RaphaelMock.getTotalLength = sinon.stub().returns 2
       expectedLength = 1
-
-      path = @raphaelPath.get 'path'
-      @RaphaelMock.getPointAtLength.withArgs(path, expectedLength).returns testPoint
-
       @parameters.currentLength = expectedLength
+
+      @RaphaelMock.getPointAtLength.withArgs(@path, expectedLength).returns testPoint
+
       @raphaelPath.rasterize @parameters
 
       (expect @pathMock.push).toHaveBeenCalledWithExactly testPoint, true
+
+    it 'should consider angle of last point for length to next point', ->
+      previousPointAngle = 2
+      @pathMock.tail = previous: angle: previousPointAngle
+
+      expectedPoint = {}
+      expectedLength = @parameters.minLengthPerPoint + 1 / Math.pow previousPointAngle, 2
+      @RaphaelMock.getPointAtLength.withArgs(@path, expectedLength).returns expectedPoint
+
+      @raphaelPath.rasterize @parameters
+
+      (expect @pathMock.push).toHaveBeenCalledWithExactly expectedPoint, true
+
+    it 'should take length limit for angle factor if the factor is too big', ->
+      # very low angles would result in (too) high length distances (1 / (0,1 * 0,1) = 100)
+      @pathMock.tail = previous: angle: 0.1
+      # simulate path length of 101
+      @RaphaelMock.getTotalLength = sinon.stub().returns 101
+      @parameters.lengthPerRasterizingPhase = 101
+
+      expectedPoint = {}
+      expectedLength = @parameters.lengthLimitForAngleFactor
+      @RaphaelMock.getPointAtLength.withArgs(@path, expectedLength).returns expectedPoint
+
+      @raphaelPath.rasterize @parameters
+
+      (expect @pathMock.push).toHaveBeenCalledWithExactly expectedPoint, true
+
+    it 'should remove points with an angle lower than minimum angle', ->
+      # add a point at the head that should be removed
+      @pathMock.head = angle: @parameters.minAngle - 0.001
+      @pathMock.remove = sinon.stub()
+
+      @raphaelPath.rasterize @parameters
+
+      (expect @pathMock.remove).toHaveBeenCalledWith @pathMock.head
 
 
     it 'should call the progress handler with rasterized length', ->
@@ -206,18 +243,9 @@ describe 'raphael path', ->
       (expect progressCallback).toHaveBeenCalledWith expectedCurrentEndLength
 
 
-    it 'should not rasterize if total length is zero', ->
-      @RaphaelMock.getTotalLength = sinon.stub().returns 0
-
-      @raphaelPath.rasterize()
-
-      (expect Ember.run.next).not.toHaveBeenCalled()
-      (expect @pathMock.create).toHaveBeenCalledOnce() # only once on creation
-
-
     it 'should tell ember to run rasterize on next tick and avoid infinite loops', ->
       # let it rasterize twice (call ember once)
-      @RaphaelMock.getTotalLength = sinon.stub().returns 3
+      @RaphaelMock.getTotalLength = sinon.stub().returns 2 * @parameters.lengthPerRasterizingPhase
 
       @raphaelPath.rasterize @parameters
 
@@ -238,7 +266,7 @@ describe 'raphael path', ->
       @parameters.onFinished = finishSpy
 
       # let it rasterize three times (call ember twice)
-      @RaphaelMock.getTotalLength = sinon.stub().returns 5
+      @RaphaelMock.getTotalLength = sinon.stub().returns 3 * @parameters.lengthPerRasterizingPhase
 
       # simulate Ember.run.next by always calling the callback immediately
       Ember.run.next.yields()

@@ -50,12 +50,19 @@ describe 'Shared.Rasterizable', ->
 
       (expect @raphaelPathMock.rasterize).toHaveBeenCalled()
 
-    it 'should configure step size for rasterization', ->
+    it 'should configure minimum length per point for rasterization', ->
       @track.rasterize()
 
-      providedStepSize = @raphaelPathMock.rasterize.args[0][0].stepSize
+      providedMinLengthPerPoint = @raphaelPathMock.rasterize.args[0][0].minLengthPerPoint
 
-      (expect providedStepSize).toBeAPositiveNumber()
+      (expect providedMinLengthPerPoint).toBeAPositiveNumber()
+
+    it 'should configure length per rasterization phase', ->
+      @track.rasterize()
+
+      providedLengthPerRasterizingPhase = @raphaelPathMock.rasterize.args[0][0].lengthPerRasterizingPhase
+
+      (expect providedLengthPerRasterizingPhase).toBeAPositiveNumber()
 
     it 'should provide rasterization progress callback that updates rasterized path', ->
       # needed to check for correct raphael path
