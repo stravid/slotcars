@@ -71,28 +71,14 @@ describe 'Build.EditView', ->
       @fakePathPoint = x: 1, y: 1
       @indexOfDragHandle = 0
 
-      # use classic event dispatching because of Raphael - jQuery.trigger does not work
-      @mouseDownEvent = document.createEvent("MouseEvents");
-      @mouseDownEvent.initMouseEvent("mousedown", true, false);
-      @mouseMoveEvent = document.createEvent("MouseEvents");
-      @mouseMoveEvent.initMouseEvent("mousemove", true, false, window, 0, 0, 0, @fakePathPoint.x, @fakePathPoint.y);
-      @mouseUpEvent = document.createEvent("MouseEvents");
-      @mouseUpEvent.initMouseEvent("mouseup", true, false);
-
     it 'should update the position of the moved drag-handle in the path points array', ->
-      circle = @editView.circles[@indexOfDragHandle]
-
-      circle.node.dispatchEvent @mouseDownEvent
-      document.dispatchEvent @mouseMoveEvent
-      document.dispatchEvent @mouseUpEvent
+      # simulates succesful dragging - using real events does not work in headless browsers
+      @editView.updatePathPoint @indexOfDragHandle, @fakePathPoint
 
       (expect @editView.pathPoints[@indexOfDragHandle]).toEqual @fakePathPoint
 
     it 'should update the track´s path with the current path points', ->
-      circle = @editView.circles[@indexOfDragHandle]
-
-      circle.node.dispatchEvent @mouseDownEvent
-      document.dispatchEvent @mouseMoveEvent
-      document.dispatchEvent @mouseUpEvent
+      # simulates succesful dragging - using real events does not work in headless browsers
+      @editView.updatePathPoint @indexOfDragHandle, @fakePathPoint
 
       (expect @trackMock.updateRaphaelPath).toHaveBeenCalled()

@@ -1,3 +1,5 @@
+@import "config";
+
 html {
   background: url("global/background-noise.jpg") repeat;
 }
@@ -15,6 +17,15 @@ body {
   -webkit-box-shadow: 0 0 50px 0px #030303;
   -moz-box-shadow:    0 0 50px 0px #030303;
   box-shadow:         0 0 50px 0px #030303;
+}
+
+.panable {
+  width: 3 * $screen-width;
+  height: 3 * $screen-height;
+  background-image: image-url("global/grass-squares.jpg");
+  background-repeat: repeat;
+  background-position: center center;
+  padding: $screen-height $screen-width;
 }
 
 .default-button {

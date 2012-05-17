@@ -12,10 +12,6 @@
   
   <script src="http://js.pusher.com/1.11/pusher.min.js"></script>
 
-  <script type="text/javascript">
-    window.PUSHER_KEY = '<%= ENV['PUSHER_KEY'] %>';
-  </script>
-
   <% if current_user %>
     <script type="text/javascript">
       Shared.ModelStore.load(Shared.User, {
