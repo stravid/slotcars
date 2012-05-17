@@ -20,7 +20,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'embient', '0.0.9'
+gem 'embient', '0.1.0'
 
 group :development, :test do
   # jasmine testing + coffeescript support
