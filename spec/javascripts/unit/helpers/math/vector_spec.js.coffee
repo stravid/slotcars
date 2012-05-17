@@ -48,6 +48,12 @@ describe 'Shared.Vector (unit)', ->
 
       (expect vector1.angleFrom vector2).toBeApproximatelyEqual 90
 
+    it 'should return angle zero for values that are NaN', ->
+      vector1 = Vector.create x: 0, y: 1
+      vector2 = Vector.create x: 0, y: 1
+
+      (expect vector1.angleFrom vector2).toBeApproximatelyEqual 0
+
   describe '#clockwiseAngle', ->
 
     it 'should return correct angles for first quadrant', ->
