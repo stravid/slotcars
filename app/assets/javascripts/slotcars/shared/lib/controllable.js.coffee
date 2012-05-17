@@ -2,6 +2,8 @@ Shared.Controllable = Ember.Mixin.create
 
   gameController: Ember.required()
   
+  scaleFactor: 2
+
   didInsertElement: ->
     @_super()
     @onCarControlsChange()
