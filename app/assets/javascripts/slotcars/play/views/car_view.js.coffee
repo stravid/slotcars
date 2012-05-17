@@ -10,8 +10,8 @@ Play.CarView = Ember.View.extend
   puffStep: 0
 
   didInsertElement: ->
-    (jQuery '#car').css 'top', 384
-    (jQuery '#car').css 'left', 512
+    (jQuery '#car').css 'top', SCREEN_HEIGHT / 2
+    (jQuery '#car').css 'left', SCREEN_WIDTH / 2
 
   onPositionChange: (-> @update()).observes 'car.position'
 

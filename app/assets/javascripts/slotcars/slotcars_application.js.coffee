@@ -6,6 +6,8 @@
 
 #= require namespaces
 
+#= require configuration
+
 #= require_tree ../helpers
 #= require_tree ../slotcars
 
