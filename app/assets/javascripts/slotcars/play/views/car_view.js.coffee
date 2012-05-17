@@ -6,8 +6,6 @@ Play.CarView = Ember.View.extend
   car: null
   offset: null
 
-  width: 27
-  height: 39
   puffInterval: 2
   puffStep: 0
 
