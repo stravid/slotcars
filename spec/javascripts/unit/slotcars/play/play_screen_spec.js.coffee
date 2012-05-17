@@ -38,9 +38,6 @@ describe 'play screen', ->
   it 'should create the play screen state manager', ->
     (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
 
-  it 'should create the play screen state manager', ->
-    (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
-
 
   describe 'loading', ->
 
@@ -70,7 +67,7 @@ describe 'play screen', ->
 
     it 'should create game and provide necessary dependencies', ->
       (expect @GameMock.create).toHaveBeenCalledWithAnObjectLike
-        playScreenView: @playScreenViewMock
+        screenView: @playScreenViewMock
         track: @playScreen.track
         car: @playScreen.car
 

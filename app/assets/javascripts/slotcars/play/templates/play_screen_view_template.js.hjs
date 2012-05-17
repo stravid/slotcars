@@ -1,7 +1,3 @@
 {{dynamicView contentView id="play-screen-content-view"}}
-{{dynamicView carView tagName=""}}
-{{dynamicView gameView tagName=""}}
-{{dynamicView clockView tagName=""}}
-
 
 <a id="home-button" class="override-button js-route" href="">Home</a>
