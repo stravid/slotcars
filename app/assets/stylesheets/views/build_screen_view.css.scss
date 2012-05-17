@@ -5,6 +5,10 @@
 
 @import "config";
 
+#build-screen-view {
+  overflow: hidden;
+}
+
 #clear-track-button, #test-track-button {
   position: absolute;
   bottom: $border-padding;

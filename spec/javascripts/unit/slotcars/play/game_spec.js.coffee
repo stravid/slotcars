@@ -6,7 +6,11 @@ describe 'Play.Game', ->
     @screenViewMock = set: sinon.spy()
 
     @GameControllerMock = mockEmberClass Play.GameController
-    @TrackViewMock = mockEmberClass Shared.TrackView, gameController: {}, track: @trackMock
+    @TrackViewMock = mockEmberClass Shared.TrackView,
+      gameController: {}
+      track: @trackMock
+      car: @carMock
+
     @CarViewMock = mockEmberClass Play.CarView
     @GameViewMock = mockEmberClass Play.GameView
     @ClockViewMock = mockEmberClass Play.ClockView
