@@ -22,6 +22,7 @@ Shared.BaseGame = Ember.Object.extend
   _createViews: ->
     @_trackView = Shared.TrackView.create
       track: @track
+      car: @car
       gameController: @_gameController
 
     @_carView = Play.CarView.create car: @car
@@ -29,6 +30,7 @@ Shared.BaseGame = Ember.Object.extend
 
   _applyMixins: ->
     Shared.Controllable.apply @_trackView
+    Shared.Panable.apply @_trackView
 
   _appendViews: ->
     @_baseGameViewContainer.set 'trackView', @_trackView

@@ -7,6 +7,10 @@
 
 @import "config";
 
+#play-screen-view {
+  overflow: hidden;
+}
+
 #retry-button {
   width: 163px;
   height: 66px;
