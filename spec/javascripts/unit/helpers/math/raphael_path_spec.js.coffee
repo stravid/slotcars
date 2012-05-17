@@ -167,9 +167,9 @@ describe 'raphael path', ->
 
       # testing params
       @parameters =
-        minLengthPerPoint: 1
+        minimumLengthPerPoint: 1
         lengthLimitForAngleFactor: 20
-        minAngle: 0.3
+        minimumAngle: 0.3
         lengthPerRasterizingPhase: 10
 
       # there must be a minimum of two points rasterized
@@ -199,7 +199,7 @@ describe 'raphael path', ->
       @pathMock.tail = previous: angle: previousPointAngle
 
       expectedPoint = {}
-      expectedLength = @parameters.minLengthPerPoint + 1 / Math.pow previousPointAngle, 2
+      expectedLength = @parameters.minimumLengthPerPoint + 1 / Math.pow previousPointAngle, 2
       @RaphaelMock.getPointAtLength.withArgs(@path, expectedLength).returns expectedPoint
 
       @raphaelPath.rasterize @parameters
@@ -223,7 +223,7 @@ describe 'raphael path', ->
 
     it 'should remove points with an angle lower than minimum angle', ->
       # add a point at the head that should be removed
-      @pathMock.head = angle: @parameters.minAngle - 0.001
+      @pathMock.head = angle: @parameters.minimumAngle - 0.001
       @pathMock.remove = sinon.stub()
 
       @raphaelPath.rasterize @parameters

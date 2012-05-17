@@ -47,7 +47,7 @@ Shared.RaphaelPath = Ember.Object.extend
     # fill rasterized path with points
     @_rasterizePointsFromTo currentStartLength,
                             currentEndLength,
-                            parameters.minLengthPerPoint,
+                            parameters.minimumLengthPerPoint,
                             parameters.lengthLimitForAngleFactor
 
     # tell progress handler the current rasterization length
@@ -60,10 +60,10 @@ Shared.RaphaelPath = Ember.Object.extend
       parameters.currentLength = nextCurrentStartLength
       Ember.run.next => @rasterize parameters
     else
-      @_cleanRasterizedPath parameters.minAngle
+      @_cleanRasterizedPath parameters.minimumAngle
       parameters.onFinished() if parameters.onFinished?
 
-  _rasterizePointsFromTo: (startLength, endLength, minLengthPerPoint, lengthLimitForAngleFactor) ->
+  _rasterizePointsFromTo: (startLength, endLength, minimumLengthPerPoint, lengthLimitForAngleFactor) ->
     path = @get 'path'
     currentLength = startLength
 
@@ -73,22 +73,22 @@ Shared.RaphaelPath = Ember.Object.extend
       @_rasterizedPath.push point, true
 
       # look at previous point and consider its angle for next length
-      lengthRelativeToCurrentAngle = minLengthPerPoint
+      lengthRelativeToCurrentAngle = minimumLengthPerPoint
       previousPoint = @_rasterizedPath.tail.previous
 
       if previousPoint and previousPoint.angle > 0
         # low angles (0 - 0.9) increase the length by angleFactor
         angleFactor = Math.pow previousPoint.angle, 2
         # lengthLimitForAngleFactor: very low angles would result in (too) high length distances
-        lengthRelativeToCurrentAngle = (Math.min lengthLimitForAngleFactor, minLengthPerPoint + 1 / angleFactor)
+        lengthRelativeToCurrentAngle = (Math.min lengthLimitForAngleFactor, minimumLengthPerPoint + 1 / angleFactor)
 
       currentLength += lengthRelativeToCurrentAngle
 
-  _cleanRasterizedPath: (minAngle) ->
+  _cleanRasterizedPath: (minimumAngle) ->
     currentPoint = @_rasterizedPath.head
 
     while currentPoint?
-      @_rasterizedPath.remove currentPoint if currentPoint.angle < minAngle
+      @_rasterizedPath.remove currentPoint if currentPoint.angle < minimumAngle
       currentPoint = currentPoint.next
 
   # Generates catmull-rom paths for raphel with format: x1 y1 (x y)+

@@ -53,7 +53,7 @@ describe 'Shared.Rasterizable', ->
     it 'should configure minimum length per point for rasterization', ->
       @track.rasterize()
 
-      providedMinLengthPerPoint = @raphaelPathMock.rasterize.args[0][0].minLengthPerPoint
+      providedMinLengthPerPoint = @raphaelPathMock.rasterize.args[0][0].minimumLengthPerPoint
 
       (expect providedMinLengthPerPoint).toBeAPositiveNumber()
 
