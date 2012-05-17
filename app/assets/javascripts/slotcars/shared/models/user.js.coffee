@@ -54,8 +54,9 @@ Shared.User.reopenClass
         type: "DELETE"
         dataType: 'json'
 
-        success: ->
+        success: (data) ->
           Shared.User.current = null
           successCallback() if successCallback?
+          (jQuery 'meta[name="csrf-token"]').attr 'content', data.new_authenticity_token
 
         error: -> errorCallback() if errorCallback?
