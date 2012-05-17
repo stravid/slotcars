@@ -22,7 +22,7 @@ class Api::SessionsController < Devise::SessionsController
     signed_out = (Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name))
 
     if signed_out
-      render :status => 200, :json => {}
+      render :status => 200, :json => { :new_authenticity_token => form_authenticity_token }
     else
       render :status => 400, :json => {}
     end
