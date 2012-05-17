@@ -1,13 +1,8 @@
 Shared.Movable = Ember.Mixin.create
 
   lengthAtTrack: 0
-  nextLengthAtTrack: 0
-
   position: null
-  nextPosition: null
-
   rotation: 0
-  nextRotation: 0
 
   init: ->
     @_super()
@@ -16,27 +11,21 @@ Shared.Movable = Ember.Mixin.create
   moveToStartPosition: ->
     @set 'speed', 0
     @set 'lengthAtTrack', 0
-    @set 'nextLengthAtTrack', 0
 
-    @moveToNextPosition()
+    @moveAlongTrack()
 
   moveAlongTrack: ->
-    @set 'nextLengthAtTrack', @lengthAtTrack + @speed
-    @moveToNextPosition()
+    @set 'rotation', @getNextRotation()
+    @set 'position', @getNextPosition()
+    @set 'lengthAtTrack', @getNextLengthAtTrack()
 
-  calculateNextPosition: -> @set 'nextPosition', @track.getPointAtLength @nextLengthAtTrack
+  getNextLengthAtTrack: -> @lengthAtTrack + @speed
 
-  calculateNextRotation: ->
+  getNextPosition: -> @track.getPointAtLength @getNextLengthAtTrack()
+
+  getNextRotation: ->
     previousLengthAtTrack = @lengthAtTrack - 0.1
     previousPosition = @track.getPointAtLength previousLengthAtTrack
 
-    directionToNextPosition = Shared.Vector.create from: previousPosition, to: @nextPosition
-    @set 'nextRotation', directionToNextPosition.clockwiseAngle()
-
-  moveToNextPosition: ->
-    @calculateNextPosition()
-    @calculateNextRotation()
-
-    @set 'lengthAtTrack', @nextLengthAtTrack
-    @set 'position', @nextPosition
-    @set 'rotation', @nextRotation
+    directionToNextPosition = Shared.Vector.create from: previousPosition, to: @getNextPosition()
+    directionToNextPosition.clockwiseAngle()

@@ -20,6 +20,9 @@ Shared.Car = Ember.Object.extend Shared.Movable, Shared.Drivable, Shared.Crashab
   crossedFinishLine: false
 
   drive: (shouldAccelerate) ->
+    @checkForCrash() unless @isCrashing
+    @checkForCrashEnd()
+
     if @isCrashing
       @moveCarInCrashingDirection()
     else

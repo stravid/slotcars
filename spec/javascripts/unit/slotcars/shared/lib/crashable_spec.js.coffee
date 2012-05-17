@@ -93,6 +93,7 @@ describe 'Shared.Crashable', ->
 
     beforeEach ->
       @vectorMock = mockEmberClass Shared.Vector
+      sinon.stub @crashable, 'getNextPosition'
 
     afterEach -> @vectorMock.restore()
 
@@ -133,11 +134,6 @@ describe 'Shared.Crashable', ->
       @crashable.moveCarInCrashingDirection()
 
       (expect @crashable.slowDownCrashingCar).toHaveBeenCalled()
-
-    it 'should check for crash end', ->
-      @crashable.moveCarInCrashingDirection()
-
-      (expect @crashable.checkForCrashEnd).toHaveBeenCalled()
 
     it 'should calculate next crashing position', ->
       testCrashVector = {}
