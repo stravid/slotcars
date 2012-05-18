@@ -11,8 +11,10 @@ Shared.Rasterizable = Ember.Mixin.create
     @set 'rasterizedPath', null
     Ember.run.later (=>
       (@get '_raphaelPath').rasterize
-        stepSize: 10
-        pointsPerTick: 50
+        minimumLengthPerPoint: 3
+        lengthLimitForAngleFactor: 20
+        minimumAngle: 0.3
+        lengthPerRasterizingPhase: 400
         onProgress: ($.proxy @_onRasterizationProgress, this)
         onFinished: =>
           @set 'isRasterizing', false

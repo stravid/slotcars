@@ -87,7 +87,7 @@ describe 'Shared.User', ->
         (expect errorCallback).toHaveBeenCalledOnce()
 
 
-  describe 'signin current user out', ->
+  describe 'sign out current user', ->
 
     beforeEach ->
       @xhr = sinon.useFakeXMLHttpRequest()
@@ -114,37 +114,57 @@ describe 'Shared.User', ->
 
       (expect @requests.length).toBe 0
 
-    it 'should reset current user if request was successful', ->
-      Shared.User.signOutCurrentUser()
+    describe 'when sign out succeeded', ->
 
-      @requests[0].respond 200, { "Content-Type": "application/json" }
+      beforeEach ->
+        @fake_authenticity_token = 'nfasdblgadsblewavdbahljv'
+        @successResponseBody = JSON.stringify { new_authenticity_token: @fake_authenticity_token }
 
-      (expect Shared.User.current).toBe null
+      it 'should reset current user', ->
+        Shared.User.signOutCurrentUser()
 
-    it 'should not reset current user if request had errors', ->
-      Shared.User.signOutCurrentUser()
+        @requests[0].respond 200, { "Content-Type": "application/json" }, @successResponseBody
 
-      @requests[0].respond 400, { "Content-Type": "application/json" }
+        (expect Shared.User.current).toBe null
 
-      (expect Shared.User.current).toBeInstanceOf Shared.User
+      it 'should call success callback', ->
+        successCallbackSpy = sinon.spy()
 
-    it 'should call success callback when user was signed out successfully', ->
-      successCallbackSpy = sinon.spy()
+        Shared.User.signOutCurrentUser successCallbackSpy
 
-      Shared.User.signOutCurrentUser successCallbackSpy
+        @requests[0].respond 200, { "Content-Type": "application/json" }, @successResponseBody
 
-      @requests[0].respond 200, { "Content-Type": "application/json" }
+        (expect successCallbackSpy).toHaveBeenCalledOnce()
 
-      (expect successCallbackSpy).toHaveBeenCalledOnce()
+      it 'should update CSRF token meta-tag', ->
+        Shared.User.signOutCurrentUser()
 
-    it 'should call error callback when sign out failed', ->
-      errorCallbackSpy = sinon.spy()
+        attrSpy = sinon.spy()
+        jQueryBackup = window.jQuery
+        window.jQuery = sinon.stub().withArgs('meta[name="csrf-token"]').returns attr: attrSpy
 
-      Shared.User.signOutCurrentUser (->), errorCallbackSpy
+        @requests[0].respond 200, { "Content-Type": "application/json" }, @successResponseBody
 
-      @requests[0].respond 400, { "Content-Type": "application/json" }
+        (expect attrSpy).toHaveBeenCalledWith 'content', @fake_authenticity_token
+        window.jQuery = jQueryBackup
 
-      (expect errorCallbackSpy).toHaveBeenCalledOnce()
+    describe 'when sign out failed', ->
+
+      it 'should not reset current user', ->
+        Shared.User.signOutCurrentUser()
+
+        @requests[0].respond 400, { "Content-Type": "application/json" }
+
+        (expect Shared.User.current).toBeInstanceOf Shared.User
+
+      it 'should call error callback', ->
+        errorCallbackSpy = sinon.spy()
+
+        Shared.User.signOutCurrentUser (->), errorCallbackSpy
+
+        @requests[0].respond 400, { "Content-Type": "application/json" }
+
+        (expect errorCallbackSpy).toHaveBeenCalledOnce()
 
   describe '#loadHighscore', ->
 
