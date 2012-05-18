@@ -5,6 +5,9 @@
 Play.PlayScreen = Ember.Object.extend Shared.Appendable,
 
   trackId: null
+  track: null
+  car: null
+
   _playScreenStateManager: null
   _game: null
 
@@ -15,10 +18,13 @@ Play.PlayScreen = Ember.Object.extend Shared.Appendable,
     @_playScreenStateManager.send 'load'
 
   load: ->
-    @track = Shared.ModelStore.find Shared.Track, @trackId
+    @track = Shared.Track.find @trackId
     @car = Shared.Car.create track: @track
 
-    @_playScreenStateManager.send 'loaded'
+    if @track.get 'isLoaded'
+      @_playScreenStateManager.send 'loaded'
+    else
+      @track.on 'didLoad', => @_playScreenStateManager.send 'loaded'
 
   initialize: ->
     @_game = Play.Game.create
