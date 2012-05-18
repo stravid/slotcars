@@ -56,10 +56,10 @@ GEM
       railties (~> 3.1)
       warden (~> 1.1.1)
     diff-lcs (1.1.3)
-    emberjs-rails (2012.2.22)
-      hamlbars
+    emberjs-rails (2012.5.1)
+      hamlbars (~> 1.0.0)
       rails (~> 3.1)
-    embient (0.0.9)
+    embient (0.1.0)
       emberjs-rails
       rails (>= 3.1.0)
     erubis (2.7.0)
@@ -181,7 +181,7 @@ DEPENDENCIES
   airbrake
   coffee-rails (~> 3.2.1)
   devise
-  embient (= 0.0.9)
+  embient (= 0.1.0)
   factory_girl_rails
   growl
   guard-jasmine
