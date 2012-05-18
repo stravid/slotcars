@@ -19,18 +19,41 @@ describe 'Shared.Crashable', ->
 
   describe 'calculating if car is too fast in curve', ->
 
-    it 'should return true if speed multiplied by angle is bigger than traction', ->
-      @crashable.set 'speed', 1
-      @crashable.set 'traction', 9
+    it 'should return true if calculated angle speed is bigger than traction', ->
+      # formular: angle * speedPercentageMultiplier + speed * speedPercentageMultiplier
+      @crashable.set 'maxSpeed', 10
+      # speedPercentageMultiplier = 2 in this example
+      @crashable.set 'speed', 10
       testAngle = 10
+
+      # the calculation is 40, so stay lower here
+      @crashable.set 'traction', 39
+
       @crashable.set 'direction', angleFrom: sinon.stub().returns testAngle
 
       (expect @crashable.isTooFastInCurve()).toBe true
 
     it 'should return false if speed multiplied by angle is smaller than traction', ->
-      @crashable.set 'speed', 1
-      @crashable.set 'traction', 11
+      # formular: angle * speedPercentageMultiplier + speed * speedPercentageMultiplier
+      @crashable.set 'maxSpeed', 10
+      # speedPercentageMultiplier = 2 in this example
+      @crashable.set 'speed', 10
       testAngle = 10
+
+      # the calculation is 40, so stay higher here
+      @crashable.set 'traction', 41
+
+      @crashable.set 'direction', angleFrom: sinon.stub().returns testAngle
+
+      (expect @crashable.isTooFastInCurve()).toBe false
+
+    it 'should return false if speed is zero', ->
+      # formular: angle * speedPercentageMultiplier + speed * speedPercentageMultiplier
+      @crashable.set 'speed', 0
+      testAngle = 10
+      # the calculation is 10, so stay lower here so it would crash normally
+      @crashable.set 'traction', 9
+
       @crashable.set 'direction', angleFrom: sinon.stub().returns testAngle
 
       (expect @crashable.isTooFastInCurve()).toBe false
@@ -81,6 +104,10 @@ describe 'Shared.Crashable', ->
 
     beforeEach ->
       @vectorMock = mockEmberClass Shared.Vector
+      sinon.stub @crashable, 'getNextPosition'
+      sinon.stub @crashable, 'updateDirection'
+      sinon.stub @crashable, 'isTooFastInCurve'
+      sinon.stub @crashable, 'updateTorque'
 
     afterEach -> @vectorMock.restore()
 
@@ -91,7 +118,7 @@ describe 'Shared.Crashable', ->
 
     it 'should crash if car is too fast in curve', ->
       @crashable.set 'direction', {}
-      (sinon.stub @crashable, 'isTooFastInCurve').returns true
+      @crashable.isTooFastInCurve.returns true
       sinon.stub @crashable, 'crash'
 
       @crashable.checkForCrash()
@@ -100,12 +127,19 @@ describe 'Shared.Crashable', ->
 
     it 'should update direction if car is not too fast in curve', ->
       @crashable.set 'direction', {}
-      (sinon.stub @crashable, 'isTooFastInCurve').returns false
-      sinon.stub @crashable, 'updateDirection'
+      @crashable.isTooFastInCurve.returns false
 
       @crashable.checkForCrash()
 
       (expect @crashable.updateDirection).toHaveBeenCalled()
+
+    it 'should update torque if not too fast in curve', ->
+      @crashable.set 'direction', {}
+      @crashable.isTooFastInCurve.returns false
+
+      @crashable.checkForCrash()
+
+      (expect @crashable.updateTorque).toHaveBeenCalled()
 
 
   describe 'moving car in crashing direction', ->
@@ -115,17 +149,12 @@ describe 'Shared.Crashable', ->
       sinon.stub @crashable, 'checkForCrashEnd'
       sinon.stub @crashable, 'calculateNextCrashingPosition'
       sinon.stub @crashable, 'getCrashVector'
-
+      sinon.stub @crashable, 'rotateCrashingCar'
 
     it 'should slow down crashing car', ->
       @crashable.moveCarInCrashingDirection()
 
       (expect @crashable.slowDownCrashingCar).toHaveBeenCalled()
-
-    it 'should check for crash end', ->
-      @crashable.moveCarInCrashingDirection()
-
-      (expect @crashable.checkForCrashEnd).toHaveBeenCalled()
 
     it 'should calculate next crashing position', ->
       testCrashVector = {}
@@ -134,6 +163,16 @@ describe 'Shared.Crashable', ->
       @crashable.moveCarInCrashingDirection()
 
       (expect @crashable.calculateNextCrashingPosition).toHaveBeenCalledWith testCrashVector
+
+    it 'should check for crash end', ->
+      @crashable.moveCarInCrashingDirection()
+
+      (expect @crashable.checkForCrashEnd).toHaveBeenCalled()
+
+    it 'should rotate crashing car', ->
+      @crashable.moveCarInCrashingDirection()
+
+      (expect @crashable.rotateCrashingCar).toHaveBeenCalled()
 
 
   describe 'getting next crash vector', ->
@@ -160,3 +199,38 @@ describe 'Shared.Crashable', ->
       returnedPosition = @crashable.calculateNextCrashingPosition x: 3, y: 2
 
       (expect returnedPosition).toEqual x: 4, y: 4
+
+
+  describe 'rotating crashing car', ->
+
+    beforeEach ->
+      sinon.stub @crashable, 'reduceTorque'
+
+    it 'should add torque to rotation', ->
+      testTorque = 1
+      testRotation = 1
+      @crashable.set 'torque', testTorque
+      @crashable.set 'rotation', testRotation
+
+      @crashable.rotateCrashingCar()
+
+      (expect @crashable.rotation).toBe testTorque + testRotation
+
+    it 'should reduce torque', ->
+      @crashable.rotateCrashingCar()
+
+      (expect @crashable.reduceTorque).toHaveBeenCalled()
+
+
+  describe 'reducing torque', ->
+
+    it 'should multiply torque with minimizeMultiplier', ->
+      testTorque = 1
+      testTorqueMinimizeMultiplier = 0.5
+
+      @crashable.set 'torque', testTorque
+      @crashable.set 'torqueMinimizeMultiplier', testTorqueMinimizeMultiplier
+
+      @crashable.reduceTorque()
+
+      (expect @crashable.torque).toBe testTorque * testTorqueMinimizeMultiplier

@@ -28,7 +28,6 @@ Shared.LinkedList = Ember.Object.extend
     # last element is special case
     if element is @head and element is @tail
       @head = @tail = null
-      console.warn "Last element removed from linked list"
       return
 
     if element.next?

@@ -1,7 +1,8 @@
 describe 'play screen', ->
 
   beforeEach ->
-    sinon.stub Shared.ModelStore, 'find', -> Shared.Track.createRecord()
+    @trackInstance = Shared.Track._create isLoaded: true
+    sinon.stub(Shared.Track, 'find').returns @trackInstance
 
     @playScreenViewMock = mockEmberClass Play.PlayScreenView,
       append: sinon.spy()
@@ -20,7 +21,7 @@ describe 'play screen', ->
     @playScreen = Play.PlayScreen.create()
 
   afterEach ->
-    Shared.ModelStore.find.restore()
+    Shared.Track.find.restore()
     @playScreenViewMock.restore()
     @playScreenNotificationsControllerMock.restore()
     @playScreenNotificationsViewMock.restore()
@@ -51,9 +52,20 @@ describe 'play screen', ->
 
       (expect @playScreen.car).toBeInstanceOf Shared.Car
 
-    it 'should send loaded to the play screen state manager', ->
+    it 'should send loaded to the play screen state manager immediatley if track is already loaded', ->
       @playScreen.load()
 
+      (expect @playScreenStateManagerMock.send).toHaveBeenCalledWith 'loaded'
+
+    it 'should send loaded to the play screen state manager after the track is loaded', ->
+      sinon.spy @trackInstance, 'on'
+      @trackInstance.set 'isLoaded', false
+      console.log @trackInstance.get 'isLoaded'
+
+      @playScreen.load()
+      @trackInstance.fire 'didLoad' # simulates that the track has been loaded
+
+      (expect @trackInstance.on).toHaveBeenCalledWith 'didLoad'
       (expect @playScreenStateManagerMock.send).toHaveBeenCalledWith 'loaded'
 
 

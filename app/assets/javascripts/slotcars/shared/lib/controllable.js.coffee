@@ -17,3 +17,7 @@ Shared.Controllable = Ember.Mixin.create
       (jQuery document).on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
 
   ).observes 'gameController.carControlsEnabled'
+
+  destroy: ->
+    @_super()
+    (jQuery document).off 'touchMouseUp'
