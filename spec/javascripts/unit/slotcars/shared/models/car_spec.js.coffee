@@ -71,24 +71,19 @@ describe 'Shared.Car', ->
         sinon.stub @car, 'moveAlongTrack'
         sinon.stub @car, 'checkForCrash'
         sinon.stub @car, 'checkForCrashEnd'
+        sinon.stub @car, 'moveCarInCrashingDirection'
 
       it 'should check for crash', ->
         @car.drive()
 
         (expect @car.checkForCrash).toHaveBeenCalled()
 
-      it 'should not check for crash while crashing', ->
+      it 'should move car in crashing direction while crashing', ->
         @car.set 'isCrashing', true
-        sinon.stub @car, 'moveCarInCrashingDirection'
 
         @car.drive()
 
-        (expect @car.checkForCrash).not.toHaveBeenCalled()
-
-      it 'should check for crash', ->
-        @car.drive()
-
-        (expect @car.checkForCrashEnd).toHaveBeenCalled()
+        (expect @car.moveCarInCrashingDirection).toHaveBeenCalled()
 
       it 'should accelerate when drive was called with true', ->
         @car.drive true
