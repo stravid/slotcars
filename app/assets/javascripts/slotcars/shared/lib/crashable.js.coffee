@@ -13,25 +13,25 @@ Shared.Crashable = Ember.Mixin.create
     throw new Error 'Crashable requires Movable' unless Shared.Movable.detect this
     throw new Error 'Crashable requires Drivable' unless Shared.Drivable.detect this
 
-  checkForCrash: (->
-    @set 'nextDirection', Shared.Vector.create from: @position, to: @nextPosition
+  checkForCrash: ->
+    @set 'nextDirection', Shared.Vector.create from: @position, to: @getNextPosition()
 
     unless @direction?
       @set 'direction', @nextDirection
     else
       if @isTooFastInCurve() then @crash() else @updateDirection()
 
-  ).observes 'nextPosition'
-
   crash: -> @set 'isCrashing', true
 
   moveCarInCrashingDirection: ->
-    @slowDownCrashingCar()
     @checkForCrashEnd()
+    @slowDownCrashingCar()
 
     @set 'position', @calculateNextCrashingPosition @getCrashVector()
 
   isTooFastInCurve: () ->
+    return false if @speed <= 0
+
     angle = @direction.angleFrom @nextDirection
     speedPercentageMultiplier = (@speed / @maxSpeed) + 1
 
@@ -43,7 +43,7 @@ Shared.Crashable = Ember.Mixin.create
     @set 'speed', @speed - @crashDeceleration
     @clampMinSpeed()
 
-  checkForCrashEnd: -> @set 'isCrashing', false if @speed <= 0
+  checkForCrashEnd: -> (@set 'isCrashing', false) if @speed <= 0
 
   getCrashVector: -> (@direction.normalize()).scale @speed
 
