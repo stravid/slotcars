@@ -4,57 +4,32 @@ describe 'Shared.Car', ->
     @trackMock = mockEmberClass Shared.Track,
       lapForLength: sinon.spy()
       isLengthAfterFinishLine: sinon.spy()
-      getPointAtLength: sinon.spy()
 
-    @car = Shared.Car.create
-      track: @trackMock
+    @car = Shared.Car.create track: @trackMock
 
-  afterEach ->
-    @trackMock.restore()
+  afterEach -> @trackMock.restore()
+
 
   describe 'usage of mixins', ->
 
-    it 'should use Movable', ->
-      (expect Shared.Movable.detect @car).toBe true
+    it 'should use Movable', -> (expect Shared.Movable.detect @car).toBe true
+    it 'should use Drivable', -> (expect Shared.Drivable.detect @car).toBe true
+    it 'should use Crashable', -> (expect Shared.Crashable.detect @car).toBe true
 
-    it 'should use Crashable', ->
-      (expect Shared.Crashable.detect @car).toBe true
 
   describe 'defaults on creation', ->
 
-    it 'should set speed to zero', ->
-      (expect @car.speed).toBe 0
-
-    it 'should set crashing to false', ->
-      (expect @car.isCrashing).toBe false
-
-    it 'should set currentLap to zero', ->
-      (expect @car.get 'currentLap').toBe 0
+    it 'should set currentLap to zero', -> (expect @car.get 'currentLap').toBe 0
 
 
   describe '#reset', ->
 
-    beforeEach ->
-      @trackMock.getPointAtLength = sinon.stub().returns { x: 0, y: 0, angle: 10 }
+    beforeEach -> sinon.stub @car, 'moveToStartPosition'
 
-      @car.speed = 10
-      @car.set 'lengthAtTrack', 293
-
-    it 'should reset speed', ->
+    it 'should move the car to start position', ->
       @car.reset()
 
-      (expect @car.speed).toEqual 0
-
-    it 'should reset lengthAtTrack', ->
-      @car.reset()
-
-      (expect @car.get 'lengthAtTrack').toEqual 0
-
-    it 'should move car to start', ->
-      sinon.spy @car, 'moveTo'
-      @car.reset()
-
-      (expect @car.moveTo).toHaveBeenCalledWith { x: 0, y: 0 }
+      (expect @car.moveToStartPosition).toHaveBeenCalled()
 
 
   describe 'reactions to changes of length at track', ->
@@ -87,90 +62,55 @@ describe 'Shared.Car', ->
         (expect @car.get 'crossedFinishLine').toBe true
 
 
-  describe 'updating car while moving', ->
+  describe 'driving the car', ->
 
-    beforeEach ->
-      @trackMock.getPointAtLength = sinon.stub().returns { x: 0, y: 0, angle: 10 }
-
-      @car.acceleration = 0.2
-      @car.deceleration = 0.4
-      @car.crashDeceleration = 0.5
-      @car.speed = 5
-      @car.maxSpeed = 10
-
-    describe 'when car is on track', ->
+    describe 'while on track', ->
 
       beforeEach ->
-        @car.set 'isCrashing', false
-
-      it 'should accelerate car when update is called with true', ->
-        currentSpeed = @car.get 'speed'
-        @car.update true
-
-        (expect @car.get 'speed').toEqual currentSpeed + @car.acceleration
-
-      it 'should not accelerate above maximum speed', ->
-        currentSpeed = @car.get 'speed'
-        @car.acceleration = 10
-        @car.update true
-
-        (expect @car.get 'speed').toEqual @car.maxSpeed
-
-      it 'should decelerate car when update is called with false', ->
-        currentSpeed = @car.get 'speed'
-        @car.update false
-
-        (expect @car.get 'speed').toEqual currentSpeed - @car.deceleration
-
-      it 'should not decelerate car below zero', ->
-        currentSpeed = @car.get 'speed'
-        @car.deceleration = 10
-        @car.update false
-
-        (expect @car.get 'speed').toEqual 0
-
-      it 'should move car', ->
-        sinon.spy @car, 'set'
-        sinon.spy @car, 'moveTo'
-        @car.update false  # does not matter wether true or false
-
-        (expect @car.set).toHaveBeenCalledWith 'lengthAtTrack'
-        (expect @car.moveTo).toHaveBeenCalled()
+        sinon.stub @car, 'accelerate'
+        sinon.stub @car, 'moveAlongTrack'
+        sinon.stub @car, 'checkForCrash'
+        sinon.stub @car, 'checkForCrashEnd'
+        sinon.stub @car, 'moveCarInCrashingDirection'
 
       it 'should check for crash', ->
-        @trackMock.getPointAtLength = sinon.stub().returns { x: 5, y: 5, angle: 15 }
-        sinon.spy @car, 'checkForCrash'
-        @car.update false # does not matter wether true or false
+        @car.drive()
 
-        (expect @car.checkForCrash).toHaveBeenCalledWith { x: 5, y: 5, angle: 15 }
+        (expect @car.checkForCrash).toHaveBeenCalled()
 
-    describe 'when car is crashing', ->
-
-      beforeEach ->
-        @car.update false # simulates normal driving mode
+      it 'should move car in crashing direction while crashing', ->
         @car.set 'isCrashing', true
 
-      it 'should slow down', ->
-        currentSpeed = @car.get 'speed'
-        @car.update false
+        @car.drive()
 
-        (expect @car.get 'speed').toEqual currentSpeed - @car.crashDeceleration
+        (expect @car.moveCarInCrashingDirection).toHaveBeenCalled()
 
-      it 'should not decelerate car below zero', ->
-        currentSpeed = @car.get 'speed'
-        @car.crashDeceleration = 10
-        @car.update false
+      it 'should accelerate when drive was called with true', ->
+        @car.drive true
 
-        (expect @car.get 'speed').toEqual 0
+        (expect @car.accelerate).toHaveBeenCalledWith true
 
-      it 'should not be possible to accelerate the car', ->
-        currentSpeed = @car.get 'speed'
-        @car.update true
+      it 'should decelerate when drive was called with false', ->
+        @car.drive false
 
-        (expect @car.get 'speed').toEqual currentSpeed - @car.crashDeceleration
+        (expect @car.accelerate).toHaveBeenCalledWith false
 
-      it 'should update the car´s position', ->
-        sinon.spy @car, 'crash'
-        @car.update false
+      it 'should move along track', ->
+        @car.drive()
 
-        (expect @car.crash).toHaveBeenCalledOnce()
+        (expect @car.moveAlongTrack).toHaveBeenCalled()
+
+
+    describe 'while crashing', ->
+
+      beforeEach ->
+        sinon.stub @car, 'checkForCrash'
+        sinon.stub @car, 'checkForCrashEnd'
+        sinon.stub @car, 'moveCarInCrashingDirection'
+
+      it 'should accelerate when drive was called with true', ->
+        @car.set 'isCrashing', true
+
+        @car.drive true
+
+        (expect @car.moveCarInCrashingDirection).toHaveBeenCalled()

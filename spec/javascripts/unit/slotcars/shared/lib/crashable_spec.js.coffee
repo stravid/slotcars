@@ -1,95 +1,186 @@
+
 describe 'Shared.Crashable', ->
 
   beforeEach ->
-    @crashable = Ember.Object.extend(Shared.Crashable, Shared.Movable).create
-      position:
-        x: 0
-        y: 0
+    @trackMock = mockEmberClass Shared.Track
+    @crashable = Ember.Object.extend(Shared.Movable, Shared.Drivable, Shared.Crashable).create
+      track: @trackMock
 
-  it 'should only work with Movable', ->
-    (expect => Ember.Object.extend(Shared.Crashable).create()).toThrow()
+  afterEach -> @trackMock.restore()
 
-  it 'should initially not be in crashing state', ->
-    (expect @crashable.isCrashing).toBe false
-
-
-  describe 'consider wether to crash', ->
-
-    describe 'when previous direction does not exist', ->
-
-      it 'should not crash', ->
-        position =
-          x: (Math.round Math.random())
-          y: (Math.round Math.random())
-
-        @crashable.checkForCrash position
-
-        (expect @crashable.isCrashing).toBe false
-
-    describe 'when previous direction exists', ->
-
-      beforeEach ->
-        @crashable.position = { x: 0, y: 0 }
-        @crashable.previousDirection = Shared.Vector.create x: 1, y: 0
-        @crashable.speed = 1
-
-      it 'should crash if traction is not high enough', ->
-        @crashable.traction = 89 # is less than (speed * angle)
-
-        @crashable.checkForCrash { x: 0, y: 1 }
-
-        (expect @crashable.isCrashing).toBe true
-
-      it 'should not crash if traction is high enough', ->
-        @crashable.traction = 90 # equals (speed * angle) - equals upper limit
-
-        @crashable.checkForCrash { x: 0, y: 1 }
-
-        (expect @crashable.isCrashing).toBe false
-
-      it 'should not save current direction if it crashes', ->
-        @crashable.traction = 89 # is less than (speed * angle)
-        nextPosition = { x: 0, y: 1 }
-
-        @crashable.checkForCrash nextPosition
-        direction = Shared.Vector.create from: @crashable.position, to: nextPosition
-
-        (expect @crashable.previousDirection).not.toEqual direction
-
-      it 'should save current direction for further calculations', ->
-        @crashable.position = { x: 0, y: 0 }
-        nextPosition = { x: 0, y: 1 }
-
-        @crashable.checkForCrash nextPosition
-        direction = Shared.Vector.create from: @crashable.position, to: nextPosition
-
-        (expect @crashable.previousDirection).toEqual direction
 
   describe 'crashing', ->
 
+    it 'should set crashing to true', ->
+      @crashable.crash()
+
+      (expect @crashable.isCrashing).toBe true
+
+
+  describe 'calculating if car is too fast in curve', ->
+
+    it 'should return true if calculated angle speed is bigger than traction', ->
+      # formular: angle * speedPercentageMultiplier + speed * speedPercentageMultiplier
+      @crashable.set 'maxSpeed', 10
+      # speedPercentageMultiplier = 2 in this example
+      @crashable.set 'speed', 10
+      testAngle = 10
+
+      # the calculation is 40, so stay lower here
+      @crashable.set 'traction', 39
+
+      @crashable.set 'direction', angleFrom: sinon.stub().returns testAngle
+
+      (expect @crashable.isTooFastInCurve()).toBe true
+
+    it 'should return false if speed multiplied by angle is smaller than traction', ->
+      # formular: angle * speedPercentageMultiplier + speed * speedPercentageMultiplier
+      @crashable.set 'maxSpeed', 10
+      # speedPercentageMultiplier = 2 in this example
+      @crashable.set 'speed', 10
+      testAngle = 10
+
+      # the calculation is 40, so stay higher here
+      @crashable.set 'traction', 41
+
+      @crashable.set 'direction', angleFrom: sinon.stub().returns testAngle
+
+      (expect @crashable.isTooFastInCurve()).toBe false
+
+    it 'should return false if speed is zero', ->
+      # formular: angle * speedPercentageMultiplier + speed * speedPercentageMultiplier
+      @crashable.set 'speed', 0
+      testAngle = 10
+      # the calculation is 10, so stay lower here so it would crash normally
+      @crashable.set 'traction', 9
+
+      @crashable.set 'direction', angleFrom: sinon.stub().returns testAngle
+
+      (expect @crashable.isTooFastInCurve()).toBe false
+
+
+  describe 'updating direction', ->
+
+    it 'should set direction to value of next direction', ->
+      testDirection = {}
+      @crashable.set 'nextDirection', testDirection
+
+      @crashable.updateDirection()
+
+      (expect @crashable.direction).toBe testDirection
+
+
+  describe 'checking for crash end', ->
+
+    it 'should set crashing to false if speed is zero or smaller', ->
+      @crashable.set 'speed', 0
+      @crashable.set 'isCrashing', true
+
+      @crashable.checkForCrashEnd()
+
+      (expect @crashable.isCrashing).toBe false
+
+
+  describe 'slowing down crashing car', ->
+
+    it 'should subtract crash deceleration from speed', ->
+      @crashable.set 'speed', 1
+      @crashable.set 'crashDeceleration', 1
+
+      @crashable.slowDownCrashingCar()
+
+      (expect @crashable.speed).toBe 0
+
+    it 'should clamp the decelerated speed to min speed', ->
+      @crashable.set 'speed', 1
+      @crashable.set 'crashDeceleration', 2
+
+      @crashable.slowDownCrashingCar()
+
+      (expect @crashable.speed).toBe 0
+
+
+  describe 'checking for crash', ->
+
     beforeEach ->
-      @crashable.isCrashing = true
-      @crashable.position = x: 0, y: 0
-      @crashable.previousDirection = Shared.Vector.create x: 1, y: 0
+      @vectorMock = mockEmberClass Shared.Vector
+      sinon.stub @crashable, 'getNextPosition'
 
-    describe 'when speed is zero', ->
+    afterEach -> @vectorMock.restore()
 
-      it 'should end crashing', ->
-        @crashable.speed = 0
-        @crashable.crash()
+    it 'should set direction to calculated next direction if it is null', ->
+      @crashable.checkForCrash()
 
-        (expect @crashable.isCrashing).toBe false
+      (expect @crashable.direction).toBe @vectorMock
 
-    describe 'when speed is bigger than zero', ->
+    it 'should crash if car is too fast in curve', ->
+      @crashable.set 'direction', {}
+      (sinon.stub @crashable, 'isTooFastInCurve').returns true
+      sinon.stub @crashable, 'crash'
 
-      it 'should continue crashing', ->
-        @crashable.speed = 1
-        @crashable.crash()
+      @crashable.checkForCrash()
 
-        (expect @crashable.isCrashing).toBe true
+      (expect @crashable.crash).toHaveBeenCalled()
 
-      it 'should continue driving in the last direction', ->
-        @crashable.speed = 0.5
-        @crashable.crash()
+    it 'should update direction if car is not too fast in curve', ->
+      @crashable.set 'direction', {}
+      (sinon.stub @crashable, 'isTooFastInCurve').returns false
+      sinon.stub @crashable, 'updateDirection'
 
-        (expect @crashable.position).toEqual { x: 0.5, y: 0 }
+      @crashable.checkForCrash()
+
+      (expect @crashable.updateDirection).toHaveBeenCalled()
+
+
+  describe 'moving car in crashing direction', ->
+
+    beforeEach ->
+      sinon.stub @crashable, 'slowDownCrashingCar'
+      sinon.stub @crashable, 'checkForCrashEnd'
+      sinon.stub @crashable, 'calculateNextCrashingPosition'
+      sinon.stub @crashable, 'getCrashVector'
+
+
+    it 'should slow down crashing car', ->
+      @crashable.moveCarInCrashingDirection()
+
+      (expect @crashable.slowDownCrashingCar).toHaveBeenCalled()
+
+    it 'should calculate next crashing position', ->
+      testCrashVector = {}
+      @crashable.getCrashVector.returns testCrashVector
+
+      @crashable.moveCarInCrashingDirection()
+
+      (expect @crashable.calculateNextCrashingPosition).toHaveBeenCalledWith testCrashVector
+
+    it 'should check for crash end', ->
+      @crashable.moveCarInCrashingDirection()
+
+      (expect @crashable.checkForCrashEnd).toHaveBeenCalled()
+
+
+  describe 'getting next crash vector', ->
+
+    it 'should normalize and scale current direction with speed', ->
+      returnedDirection = {}
+
+      fakeDirection =
+        normalize: -> this
+        scale: sinon.stub().returns returnedDirection
+
+      @crashable.set 'direction', fakeDirection
+
+      crashVector = @crashable.getCrashVector()
+
+      (expect crashVector).toBe returnedDirection
+
+
+  describe 'calculating next crashing position', ->
+
+    it 'should add crash vector to current position and return that position', ->
+      @crashable.set 'position', x: 1, y: 2
+
+      returnedPosition = @crashable.calculateNextCrashingPosition x: 3, y: 2
+
+      (expect returnedPosition).toEqual x: 4, y: 4

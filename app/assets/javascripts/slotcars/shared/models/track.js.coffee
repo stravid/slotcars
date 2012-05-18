@@ -1,6 +1,6 @@
-#= require slotcars/shared/lib/id_observable
+#= require slotcars/shared/lib/rasterizable
 
-Shared.Track = DS.Model.extend Shared.IdObservable,
+Shared.Track = DS.Model.extend Shared.Rasterizable,
 
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'
@@ -10,9 +10,6 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
   id: DS.attr 'number'
   raphael: DS.attr 'string'
   rasterized: DS.attr 'string'
-
-  isRasterizing: false
-  rasterizedPath: null
 
   init: ->
     @_super()
@@ -24,10 +21,7 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
 
     Shared.ModelStore.commit()
 
-  # Use the IdObservable mixin to ensure to get notified as soon as
-  # the 'id' property is available - ember-data´s 'didCreate' callback is called too early.
-  # This is a temporary fix - if ember-data worked as expected, the IdObservable would no longer be needed!
-  didCreatePersistently: ->
+  didCreate: ->
     if @_creationCallback?
       Ember.run.next =>
         @_creationCallback()
@@ -61,32 +55,14 @@ Shared.Track = DS.Model.extend Shared.IdObservable,
 
   updateRaphaelPath: (points) -> (@get '_raphaelPath').setLinkedPath points
 
-  isLengthAfterFinishLine: (length) ->
-    @getTotalLength() * (@get 'numberOfLaps') < length
+  isLengthAfterFinishLine: (length) -> @getTotalLength() * (@get 'numberOfLaps') < length
 
   lapForLength: (length) ->
     lap = Math.ceil length / @getTotalLength()
     numberOfLaps = @get 'numberOfLaps'
 
     # clamp return value to maximum number of laps
-    if lap > numberOfLaps then lap = numberOfLaps
-    return lap
-
-  rasterize: (finishCallback) ->
-    @set 'isRasterizing', true
-    @set 'rasterizedPath', null
-    Ember.run.later (=>
-      (@get '_raphaelPath').rasterize
-        stepSize: 10
-        pointsPerTick: 50
-        onProgress: ($.proxy @_onRasterizationProgress, this)
-        onFinished: =>
-          @set 'isRasterizing', false
-          finishCallback() if finishCallback?
-    ), 50
-
-  _onRasterizationProgress: (rasterizedLength) ->
-    @set 'rasterizedPath', Raphael.getSubpath (@get 'raphaelPath'), 0, rasterizedLength
+    if lap > numberOfLaps then return numberOfLaps else return lap
 
 Shared.Track.reopenClass
   MINIMUM_TRACK_LENGTH: 400

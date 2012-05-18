@@ -17,14 +17,15 @@ class Api::TracksController < Api::ApiController
 
   def create
     return head :bad_request if params[:track].nil?
+    return head :bad_request if current_user.nil?
 
-    track = Track.new params[:track]
+    track = current_user.tracks.new params[:track]
+
     if track.save
       render :json => track, :status => :created
     else
       head :error
     end
-
   end
 
   def highscores

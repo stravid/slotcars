@@ -37,4 +37,3 @@ describe 'controllable', ->
         (jQuery @controllable.$()).trigger 'touchMouseDown'
 
         (expect @gameControllerMock.onTouchMouseDown).not.toHaveBeenCalled()
-

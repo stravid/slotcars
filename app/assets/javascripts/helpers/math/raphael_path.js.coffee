@@ -8,6 +8,7 @@ Shared.RaphaelPath = Ember.Object.extend
 
   init: ->
     @set '_path', Shared.Path.create()
+    @_rasterizedPath = Shared.Path.create()
 
   addPoint: (point) ->
     @_path.push point, true
@@ -18,7 +19,7 @@ Shared.RaphaelPath = Ember.Object.extend
   ).property('path').cacheable()
 
   getPointAtLength: (length) ->
-    if @_rasterizedPath?
+    if @_rasterizedPath.length > 0
       @_rasterizedPath.getPointAtLength length
     else
       Raphael.getPointAtLength (@get 'path'), length
@@ -34,42 +35,61 @@ Shared.RaphaelPath = Ember.Object.extend
     @_updateCatmullRomPath()
 
   rasterize: (parameters) ->
-    parameters ?= {}
-    totalLength = parameters.totalLength ?= @get 'totalLength'
-
-    # stop immediately if total length is zero
-    return if totalLength <= 0
+    totalLength = @get 'totalLength'
 
     parameters.currentLength ?= 0
-
-    stepSize = parameters.stepSize
-    pointsPerTick = parameters.pointsPerTick
     currentStartLength = parameters.currentLength
 
     # clamp next current length to total length
-    currentEndLength = currentStartLength + pointsPerTick * stepSize
+    currentEndLength = currentStartLength + parameters.lengthPerRasterizingPhase
     currentEndLength = totalLength if currentEndLength > totalLength
 
-    # create and fill rasterized path with points
-    @_rasterizedPath ?= Shared.Path.create()
-    @_rasterizePointsFromTo currentStartLength, currentEndLength, stepSize
+    # fill rasterized path with points
+    @_rasterizePointsFromTo currentStartLength,
+                            currentEndLength,
+                            parameters.minimumLengthPerPoint,
+                            parameters.lengthLimitForAngleFactor
 
     # tell progress handler the current rasterization length
     parameters.onProgress currentEndLength if parameters.onProgress
 
-    nextCurrentStartLength = currentEndLength + stepSize
+    nextCurrentStartLength = currentEndLength
 
     # keep rasterizing if not finished yet
     if totalLength > nextCurrentStartLength
       parameters.currentLength = nextCurrentStartLength
       Ember.run.next => @rasterize parameters
     else
+      @_cleanRasterizedPath parameters.minimumAngle
       parameters.onFinished() if parameters.onFinished?
 
-  _rasterizePointsFromTo: (start, end, stepSize) ->
+  _rasterizePointsFromTo: (startLength, endLength, minimumLengthPerPoint, lengthLimitForAngleFactor) ->
     path = @get 'path'
-    for length in [start..end] by stepSize
-      @_rasterizedPath.push (Raphael.getPointAtLength path, length), true
+    currentLength = startLength
+
+    while currentLength < endLength
+      point = Raphael.getPointAtLength path, currentLength
+
+      @_rasterizedPath.push point, true
+
+      # look at previous point and consider its angle for next length
+      lengthRelativeToCurrentAngle = minimumLengthPerPoint
+      previousPoint = @_rasterizedPath.tail.previous
+
+      if previousPoint and previousPoint.angle > 0
+        # low angles (0 - 0.9) increase the length by angleFactor
+        angleFactor = Math.pow previousPoint.angle, 2
+        # lengthLimitForAngleFactor: very low angles would result in (too) high length distances
+        lengthRelativeToCurrentAngle = (Math.min lengthLimitForAngleFactor, minimumLengthPerPoint + 1 / angleFactor)
+
+      currentLength += lengthRelativeToCurrentAngle
+
+  _cleanRasterizedPath: (minimumAngle) ->
+    currentPoint = @_rasterizedPath.head
+
+    while currentPoint?
+      @_rasterizedPath.remove currentPoint if currentPoint.angle < minimumAngle
+      currentPoint = currentPoint.next
 
   # Generates catmull-rom paths for raphel with format: x1 y1 (x y)+
   # which results in pathes like: M0,0R,1,0,3,2,4,5z

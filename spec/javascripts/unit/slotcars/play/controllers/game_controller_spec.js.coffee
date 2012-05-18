@@ -4,7 +4,7 @@ describe 'Play.GameController (unit)', ->
     @xhr = sinon.useFakeXMLHttpRequest()
 
     @carMock = mockEmberClass Shared.Car,
-      update: sinon.spy()
+      drive: sinon.spy()
       reset: sinon.spy()
 
     @trackMock = mockEmberClass Shared.Track,

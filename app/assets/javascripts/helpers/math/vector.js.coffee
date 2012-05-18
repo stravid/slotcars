@@ -25,6 +25,9 @@ Shared.Vector = Ember.Object.extend
     if theta > 1 then theta = 1
 
     degrees = Math.acos(theta) * 180 / Math.PI
+    degrees = 0 if isNaN degrees
+
+    return degrees
 
   clockwiseAngle: ->
     upVector = Shared.Vector.create x: 0, y: -1

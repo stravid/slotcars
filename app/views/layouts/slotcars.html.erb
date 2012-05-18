@@ -11,6 +11,8 @@
   <%= stylesheet_link_tag    "slotcars", :media => "all" %>
   <%= javascript_include_tag "slotcars" %>
   <%= csrf_meta_tags %>
+  
+  <script src="http://js.pusher.com/1.11/pusher.min.js"></script>
 
   <% if current_user %>
     <script type="text/javascript">
@@ -22,6 +24,7 @@
       Shared.User.current = Shared.User.find(<%= current_user.id %>);
     </script>
   <% end %>
+
 </head>
 <body>
 

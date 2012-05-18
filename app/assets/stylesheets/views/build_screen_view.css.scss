@@ -5,6 +5,10 @@
 
 @import "config";
 
+#build-screen-view {
+  overflow: hidden;
+}
+
 #clear-track-button, #test-track-button {
   position: absolute;
   bottom: $border-padding;
@@ -103,4 +107,22 @@
   #edit-button { background-position-x: -70px; }
   #testdrive-button { background-position-x: -140px; }
   #publish-button { background-position-x: -210px; }
+}
+
+#authorization-dialog {
+  position: absolute;
+  left: 200px;
+  top: 150px;
+  padding: 10px;
+  width: 500px;
+  background: rgba(0,0,0,0.7);
+  -webkit-box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow:    0px 0px 11px rgba(0, 0, 0, 0.7);
+  box-shadow:         0px 0px 11px rgba(0, 0, 0, 0.7);
+
+  p {
+    font-family: sans-serif;
+    color: white;
+    font-size: 20px;
+  }
 }
