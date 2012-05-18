@@ -8,6 +8,10 @@ Shared.Crashable = Ember.Mixin.create
 
   isCrashing: false
 
+  # properties for crashing animation
+  torque: 0
+  torqueMinimizeMultiplier: 0.94
+
   init: ->
     @_super()
     throw new Error 'Crashable requires Movable' unless Shared.Movable.detect this
@@ -19,13 +23,18 @@ Shared.Crashable = Ember.Mixin.create
     unless @direction?
       @set 'direction', @nextDirection
     else
-      if @isTooFastInCurve() then @crash() else @updateDirection()
+      if @isTooFastInCurve()
+        @crash()
+      else
+        @updateDirection()
+        @updateTorque()
 
   crash: -> @set 'isCrashing', true
 
   moveCarInCrashingDirection: ->
     @checkForCrashEnd()
     @slowDownCrashingCar()
+    @rotateCrashingCar()
 
     @set 'position', @calculateNextCrashingPosition @getCrashVector()
 
@@ -52,3 +61,13 @@ Shared.Crashable = Ember.Mixin.create
       x: @position.x + crashVector.x
       y: @position.y + crashVector.y
     }
+
+  updateTorque: -> @set 'torque', (@getNextRotation() - @rotation) * 3 * @relativeSpeed()
+
+  relativeSpeed: -> @speed / @maxSpeed
+
+  rotateCrashingCar: ->
+    @set 'rotation', (@rotation + @torque)
+    @reduceTorque()
+
+  reduceTorque: -> @set 'torque', @torque *= @torqueMinimizeMultiplier
