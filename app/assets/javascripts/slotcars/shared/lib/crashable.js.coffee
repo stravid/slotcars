@@ -42,7 +42,7 @@ Shared.Crashable = Ember.Mixin.create
     return false if @speed <= 0
 
     angle = @direction.angleFrom @nextDirection
-    speedPercentageMultiplier = (@speed / @maxSpeed) + 1
+    speedPercentageMultiplier = @getRelativeSpeed() + 1
 
     if (angle * speedPercentageMultiplier) + (@speed * speedPercentageMultiplier) > @traction then true else false
 
@@ -62,9 +62,9 @@ Shared.Crashable = Ember.Mixin.create
       y: @position.y + crashVector.y
     }
 
-  updateTorque: -> @set 'torque', (@getNextRotation() - @rotation) * 3 * @relativeSpeed()
+  updateTorque: -> @set 'torque', (@getNextRotation() - @rotation) * 3 * @getRelativeSpeed()
 
-  relativeSpeed: -> @speed / @maxSpeed
+  getRelativeSpeed: -> @speed / @maxSpeed
 
   rotateCrashingCar: ->
     @set 'rotation', (@rotation + @torque)
