@@ -7,89 +7,74 @@ describe 'Shared.Movable', ->
   afterEach -> @trackMock.restore()
 
 
-  describe 'moving to next position', ->
-
-    beforeEach ->
-      sinon.stub @movable, 'calculateNextPosition'
-      sinon.stub @movable, 'calculateNextRotation'
-
-    it 'should calculate its next position', ->
-      @movable.moveToNextPosition()
-
-      (expect @movable.calculateNextPosition).toHaveBeenCalled()
-
-    it 'should calculate its next rotation', ->
-      @movable.moveToNextPosition()
-
-      (expect @movable.calculateNextRotation).toHaveBeenCalled()
-
-    it 'should update all properties to the calculated ones', ->
-      @movable.set 'nextLengthAtTrack', 1
-      @movable.set 'nextPosition', { x: 1, y: 1 }
-      @movable.set 'nextRotation', 30
-
-      @movable.moveToNextPosition()
-
-      (expect @movable.get 'lengthAtTrack').toEqual @movable.get 'nextLengthAtTrack'
-      (expect @movable.get 'position').toEqual @movable.get 'nextPosition'
-      (expect @movable.get 'rotation').toEqual @movable.get 'nextRotation'
-
-
   describe 'moving along track', ->
 
-    beforeEach -> sinon.stub @movable, 'moveToNextPosition'
+    beforeEach ->
+      sinon.stub @movable, 'getNextRotation'
+      sinon.stub @movable, 'getNextPosition'
+      sinon.stub @movable, 'getNextLengthAtTrack'
 
-    it 'should calculate and update the next length at track based on current speed', ->
-      currentSpeed = 9
-      @movable.set 'speed', currentSpeed
+    it 'should get the next rotation and set it for the car', ->
+      testRotation = 3
+      @movable.getNextRotation.returns testRotation
 
       @movable.moveAlongTrack()
 
-      (expect @movable.nextLengthAtTrack).toBe currentSpeed #default length at track is zero
+      (expect @movable.rotation).toBe testRotation
 
-    it 'should move to next position', ->
+    it 'should get the next position and set it for the car', ->
+      testPosition = 3
+      @movable.getNextPosition.returns testPosition
+
       @movable.moveAlongTrack()
 
-      (expect @movable.moveToNextPosition).toHaveBeenCalled()
+      (expect @movable.position).toBe testPosition
+
+    it 'should get the next length at track and set it for the car', ->
+      testLengthAtTrack = 3
+      @movable.getNextLengthAtTrack.returns testLengthAtTrack
+
+      @movable.moveAlongTrack()
+
+      (expect @movable.lengthAtTrack).toBe testLengthAtTrack
 
 
   describe 'moving to start position', ->
 
-    beforeEach -> sinon.stub @movable, 'moveToNextPosition'
+    beforeEach -> sinon.stub @movable, 'moveAlongTrack'
 
     it 'should reset speed and length at track', ->
 
       # random values for properties which should be reset
       @movable.set 'speed', 1
       @movable.set 'lengthAtTrack', 1
-      @movable.set 'nextLengthAtTrack', 9
 
       @movable.moveToStartPosition()
 
       (expect @movable.speed).toBe 0
       (expect @movable.lengthAtTrack).toBe 0
-      (expect @movable.nextLengthAtTrack).toBe 0
 
     it 'should move to next position', ->
       @movable.moveToStartPosition()
 
-      (expect @movable.moveToNextPosition).toHaveBeenCalled()
+      (expect @movable.moveAlongTrack).toHaveBeenCalled()
 
 
-  describe 'calculating next position on track', ->
+  describe 'getting next position on track', ->
 
-    beforeEach -> @trackMock.getPointAtLength = sinon.stub()
+    beforeEach ->
+      @trackMock.getPointAtLength = sinon.stub()
+      sinon.stub @movable, 'getNextLengthAtTrack'
 
     it 'should update next position based on next length at track', ->
       testLengthAtTrack = 9
-      @movable.set 'nextLengthAtTrack', testLengthAtTrack
+      @movable.getNextLengthAtTrack.returns testLengthAtTrack
       testPointAtLength = {}
-      @trackMock.getPointAtLength.returns testPointAtLength
+      (@trackMock.getPointAtLength.withArgs testLengthAtTrack).returns testPointAtLength
 
-      @movable.calculateNextPosition()
+      resultingPosition = @movable.getNextPosition()
 
-      (expect @trackMock.getPointAtLength).toHaveBeenCalledWith testLengthAtTrack
-      (expect @movable.nextPosition).toBe testPointAtLength
+      (expect resultingPosition).toBe testPointAtLength
 
 
   describe 'calculating the next rotation on track', ->
@@ -97,6 +82,7 @@ describe 'Shared.Movable', ->
     beforeEach ->
       @vectorMock = mockEmberClass Shared.Vector, clockwiseAngle: sinon.stub()
       @trackMock.getPointAtLength = sinon.stub()
+      sinon.stub @movable, 'getNextPosition'
 
     afterEach -> @vectorMock.restore()
 
@@ -105,7 +91,7 @@ describe 'Shared.Movable', ->
       testLengthAtTrack = 1
       @movable.set 'lengthAtTrack', testLengthAtTrack
 
-      @movable.calculateNextRotation()
+      @movable.getNextRotation()
 
       (expect @trackMock.getPointAtLength).toHaveBeenCalledWith testLengthAtTrack - 0.1
 
@@ -113,10 +99,10 @@ describe 'Shared.Movable', ->
       previousPosition = {}
       nextPosition = {}
 
-      @movable.set 'nextPosition', nextPosition
+      @movable.getNextPosition.returns nextPosition
       @trackMock.getPointAtLength.returns previousPosition
 
-      @movable.calculateNextRotation()
+      @movable.getNextRotation()
 
       (expect Shared.Vector.create).toHaveBeenCalledWithAnObjectLike from: previousPosition, to: nextPosition
 
@@ -124,6 +110,6 @@ describe 'Shared.Movable', ->
       testAngle = {}
       @vectorMock.clockwiseAngle.returns testAngle
 
-      @movable.calculateNextRotation()
+      resultingAngle = @movable.getNextRotation()
 
-      (expect @movable.nextRotation).toBe testAngle
+      (expect resultingAngle).toBe testAngle

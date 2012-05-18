@@ -47,6 +47,17 @@ describe 'Shared.Crashable', ->
 
       (expect @crashable.isTooFastInCurve()).toBe false
 
+    it 'should return false if speed is zero', ->
+      # formular: angle * speedPercentageMultiplier + speed * speedPercentageMultiplier
+      @crashable.set 'speed', 0
+      testAngle = 10
+      # the calculation is 10, so stay lower here so it would crash normally
+      @crashable.set 'traction', 9
+
+      @crashable.set 'direction', angleFrom: sinon.stub().returns testAngle
+
+      (expect @crashable.isTooFastInCurve()).toBe false
+
 
   describe 'updating direction', ->
 
@@ -93,6 +104,7 @@ describe 'Shared.Crashable', ->
 
     beforeEach ->
       @vectorMock = mockEmberClass Shared.Vector
+      sinon.stub @crashable, 'getNextPosition'
 
     afterEach -> @vectorMock.restore()
 
@@ -134,11 +146,6 @@ describe 'Shared.Crashable', ->
 
       (expect @crashable.slowDownCrashingCar).toHaveBeenCalled()
 
-    it 'should check for crash end', ->
-      @crashable.moveCarInCrashingDirection()
-
-      (expect @crashable.checkForCrashEnd).toHaveBeenCalled()
-
     it 'should calculate next crashing position', ->
       testCrashVector = {}
       @crashable.getCrashVector.returns testCrashVector
@@ -146,6 +153,11 @@ describe 'Shared.Crashable', ->
       @crashable.moveCarInCrashingDirection()
 
       (expect @crashable.calculateNextCrashingPosition).toHaveBeenCalledWith testCrashVector
+
+    it 'should check for crash end', ->
+      @crashable.moveCarInCrashingDirection()
+
+      (expect @crashable.checkForCrashEnd).toHaveBeenCalled()
 
 
   describe 'getting next crash vector', ->
