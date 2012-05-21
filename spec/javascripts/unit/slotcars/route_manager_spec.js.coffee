@@ -18,6 +18,11 @@ describe 'routing', ->
 
     (expect @slotcarsApplicationStub.showScreen).toHaveBeenCalledWith 'BuildScreen'
 
+  it 'should show the play screen', ->
+    @routeManager.set 'location', 'quickplay'
+
+    (expect @slotcarsApplicationStub.showScreen).toHaveBeenCalledWith 'PlayScreen'
+
   it 'should show the play screen with the correct id on /play/:id', ->
     @routeManager.set 'location', 'play/42'
 
