@@ -20,6 +20,7 @@ Slotcars::Application.routes.draw do
     end
 
     resources :runs, :only => [:create]
+    resources :ghosts, :only => [:create]
 
     resources :users, :only => [] do
       member do
