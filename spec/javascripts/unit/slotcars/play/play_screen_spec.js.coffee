@@ -18,8 +18,6 @@ describe 'play screen', ->
     @playScreenNotificationsViewMock = mockEmberClass Play.PlayScreenNotificationsView,
       append: sinon.stub()
 
-    @playScreen = Play.PlayScreen.create()
-
   afterEach ->
     Shared.Track.find.restore()
     @playScreenViewMock.restore()
@@ -28,44 +26,70 @@ describe 'play screen', ->
     @playScreenStateManagerMock.restore()
     @GameMock.restore()
 
-  it 'should create play screen view', ->
-    (expect @playScreenViewMock.create).toHaveBeenCalled()
-
   it 'should register itself at the screen factory', ->
     playScreen = Shared.ScreenFactory.getInstance().getInstanceOf 'PlayScreen'
 
     (expect playScreen).toBeInstanceOf Play.PlayScreen
 
-  it 'should create the play screen state manager', ->
-    (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
+
+  describe 'creating', ->
+
+    beforeEach ->
+      @playScreen = Play.PlayScreen.create trackId: 1
+
+    it 'should create play screen view', ->
+      (expect @playScreenViewMock.create).toHaveBeenCalled()
+
+    it 'should create the play screen state manager', ->
+      (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
 
 
   describe 'loading', ->
 
-    it 'should load a track', ->
-      @playScreen.load()
+    describe 'when no track id is passed', ->
 
-      (expect @playScreen.track).toBeInstanceOf Shared.Track
+      beforeEach ->
+        sinon.stub(Shared.Track, 'findRandom').returns @trackInstance
+        @playScreen = Play.PlayScreen.create()
 
-    it 'should create a car', ->
-      @playScreen.load()
+      afterEach ->
+        Shared.Track.findRandom.restore()
 
-      (expect @playScreen.car).toBeInstanceOf Shared.Car
+      it 'should request a random track', ->
+        @playScreen.load()
+
+        (expect Shared.Track.findRandom).toHaveBeenCalled()
+
+    describe 'when track id is passed', ->
+
+      beforeEach ->
+        @playScreen = Play.PlayScreen.create trackId: 1
+
+      it 'should load a track', ->
+        @playScreen.load()
+
+        (expect @playScreen.track).toBeInstanceOf Shared.Track
+
+      it 'should create a car', ->
+        @playScreen.load()
+
+        (expect @playScreen.car).toBeInstanceOf Shared.Car
 
     it 'should send loaded to the play screen state manager immediatley if track is already loaded', ->
+      @playScreen = Play.PlayScreen.create trackId: 1
+      # 'isLoaded' is 'true' on the track instance by default - see top of the page
+
       @playScreen.load()
 
       (expect @playScreenStateManagerMock.send).toHaveBeenCalledWith 'loaded'
 
     it 'should send loaded to the play screen state manager after the track is loaded', ->
-      sinon.spy @trackInstance, 'on'
+      @playScreen = Play.PlayScreen.create trackId: 1
       @trackInstance.set 'isLoaded', false
-      console.log @trackInstance.get 'isLoaded'
 
       @playScreen.load()
       @trackInstance.fire 'didLoad' # simulates that the track has been loaded
 
-      (expect @trackInstance.on).toHaveBeenCalledWith 'didLoad'
       (expect @playScreenStateManagerMock.send).toHaveBeenCalledWith 'loaded'
 
 
@@ -73,7 +97,7 @@ describe 'play screen', ->
 
     beforeEach ->
       @testTrackId = 1
-      @playScreen.set 'trackId', @testTrackId
+      @playScreen = Play.PlayScreen.create trackId: @testTrackId
       @playScreen.load()
       @playScreen.initialize()
 
@@ -97,6 +121,7 @@ describe 'play screen', ->
   describe 'playing', ->
 
     beforeEach ->
+      @playScreen = Play.PlayScreen.create trackId: 1
       @playScreen.load()
       @playScreen.initialize()
       @playScreen.play()
@@ -107,6 +132,7 @@ describe 'play screen', ->
   describe 'destroying', ->
 
     beforeEach ->
+      @playScreen = Play.PlayScreen.create trackId: 1
       @gameStub = destroy: sinon.spy()
       @playScreenNotificationsControllerStub = destroy: sinon.spy()
       @playScreenNotificationsViewStub = remove: sinon.spy()
