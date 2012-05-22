@@ -18,8 +18,8 @@ describe 'base game controller', ->
   it 'should set isTouchMouseDown to false by default', ->
     (expect @baseGameController.isTouchMouseDown).toBe false
 
-  it 'should set carControlsEnabled to false by default', ->
-    (expect @baseGameController.carControlsEnabled).toBe false
+  it 'should set isRaceRunning to false by default', ->
+    (expect @baseGameController.isRaceRunning).toBe false
 
   it 'should throw an error when no track is provided', ->
     (expect => Shared.BaseGameController.create car: @carMock).toThrow()
