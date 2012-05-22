@@ -1,19 +1,21 @@
   
 #= require slotcars/shared/controllers/base_game_controller
+#= require slotcars/play/mixins/countdownable
 
-Play.GameController = Shared.BaseGameController.extend
-  
-  isCountdownVisible: false
+Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
+
   isRaceFinished: false
-  currentCountdownValue: null
 
   startTime: null
   endTime: null
   raceTime: null
   highscores: null
 
-  timeouts: []
-  lapTimes: []
+  lapTimes: null
+
+  init: ->
+    @_super()
+    @set 'lapTimes', []
 
   start: ->
     @_super()
@@ -24,7 +26,7 @@ Play.GameController = Shared.BaseGameController.extend
     @onLapChange()
 
     @set 'isRaceFinished', true
-    @set 'carControlsEnabled', false
+    @set 'isRaceRunning', false
     @isTouchMouseDown = false
 
     if Shared.User.current?
@@ -87,41 +89,23 @@ Play.GameController = Shared.BaseGameController.extend
     @_setCurrentTime()
 
   restartGame: ->
-    @set 'carControlsEnabled', false
+    @set 'isRaceRunning', false
     @set 'isRaceFinished', false
     @set 'raceTime', 0
     @set 'lapTimes', []
 
     @car.reset()
+    @startCountdown => @startRace()
 
-    @set 'currentCountdownValue', 3
-    @set 'isCountdownVisible', true
-
-    @_clearTimeouts()
-    @timeouts[0] = setTimeout (=> @set 'currentCountdownValue', 2 ), 1000
-    @timeouts[1] = setTimeout (=> @set 'currentCountdownValue', 1 ), 2000
-
-    @timeouts[2] = setTimeout (=>
-      @set 'carControlsEnabled', true
-      @startTime = new Date().getTime()
-      @set 'currentCountdownValue', 'Go!'
-    ), 3000
-
-    @timeouts[3] = setTimeout (=> @set 'isCountdownVisible', false ), 3500
-
-  _clearTimeouts: ->
-    for timeout in @timeouts
-      clearTimeout timeout
+  startRace: ->
+    @set 'isRaceRunning', true
+    @startTime = new Date().getTime()
 
   _setCurrentTime: ->
     @endTime = new Date().getTime()
-    if @get 'carControlsEnabled'
+    if @get 'isRaceRunning'
       @set 'raceTime', @endTime - @startTime
 
   destroy: ->
     @_super()
-    # clear all timeouts
-    @_clearTimeouts()
-
-    # force unbinding of car controls
-    @set 'carControlsEnabled', false
+    @set 'isRaceRunning', false
