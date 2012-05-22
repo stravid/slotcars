@@ -67,15 +67,15 @@ describe 'Shared.BaseGame', ->
 
       (expect @BaseGameControllerMock.start).toHaveBeenCalled()
 
-    it 'should enable car controls on game controller if the passed parameter is true', ->
+    it 'should start race immediately if the passed parameter is true', ->
       @baseGame.start true
 
-      (expect @BaseGameControllerMock.set).toHaveBeenCalledWith 'carControlsEnabled', true
+      (expect @BaseGameControllerMock.set).toHaveBeenCalledWith 'isRaceRunning', true
 
-    it 'should enable car controls on game controller if parameter is passed', ->
+    it 'should not start race immediately if the passed parameter is false', ->
       @baseGame.start()
 
-      (expect @BaseGameControllerMock.set).not.toHaveBeenCalledWith 'carControlsEnabled', true
+      (expect @BaseGameControllerMock.set).not.toHaveBeenCalledWith 'isRaceRunning', true
 
   describe 'destroying the game', ->
 
