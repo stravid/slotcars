@@ -61,10 +61,10 @@ describe Api::GhostsController do
     end
 
     it 'should destroy the already present ghost' do
-      Ghost.create! :time => 40, :user_id => user.id, :track_id => track.id, :positions => 'yeahyeah'
+      Ghost.create! :time => 42, :user_id => user.id, :track_id => track.id, :positions => 'yeahyeah'
 
       sign_in user
-      new_time = 42
+      new_time = 40
 
       post :create, :ghost => { :time => new_time, :track_id => track.id, :positions => 'more yeah' }
 
@@ -72,12 +72,12 @@ describe Api::GhostsController do
     end
 
     it 'should not except ghosts which are worse than the already present one' do
-      old_time = 40
+      old_time = 39
       Ghost.create! :time => old_time, :user_id => user.id, :track_id => track.id, :positions => 'yeahyeah'
 
       sign_in user
 
-      post :create, :ghost => { :time => 39, :track_id => track.id, :positions => 'less yeah' }
+      post :create, :ghost => { :time => 40, :track_id => track.id, :positions => 'less yeah' }
 
       Ghost.first.time.should eq old_time
       response.should be_bad_request

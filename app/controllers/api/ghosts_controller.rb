@@ -5,7 +5,7 @@ class Api::GhostsController < ApplicationController
 
     old_ghost = current_user.ghosts.find_by_track_id params[:ghost][:track_id]
 
-    return head :bad_request if !old_ghost.nil? and old_ghost.time > params[:ghost][:time].to_i
+    return head :bad_request if !old_ghost.nil? and old_ghost.time < params[:ghost][:time].to_i
 
     old_ghost.destroy() unless old_ghost.nil?
 
