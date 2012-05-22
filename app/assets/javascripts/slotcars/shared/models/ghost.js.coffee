@@ -5,5 +5,4 @@ Shared.Ghost = DS.Model.extend
   user: DS.belongsTo 'Shared.User'
   track: DS.belongsTo 'Shared.Track'
 
-  save: ->
-    Shared.ModelStore.commit()
+  save: -> Shared.ModelStore.commit()
