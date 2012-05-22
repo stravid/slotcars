@@ -45,6 +45,11 @@ describe Api::TracksController do
 
   describe '#create' do
 
+    let(:attributes_for_valid_track) { FactoryGirl.attributes_for(:track) }
+    let(:attributes_for_invalid_track) do
+      FactoryGirl.attributes_for(:track, :raphael => FactoryGirl.generate(:invalid_raphael_path))
+    end
+
     describe 'no logged in user' do
 
       before(:each) do
@@ -52,7 +57,7 @@ describe Api::TracksController do
       end
 
       it 'should return an bad request error when no user is logged in' do
-        post :create, :track => { :raphael => FactoryGirl.generate(:valid_raphael_path), :rasterized => 'rasterized path points' }
+        post :create, :track => attributes_for_valid_track
 
         response.should be_bad_request
       end
@@ -71,14 +76,14 @@ describe Api::TracksController do
       end
 
       it 'should create a track using the passed params for the current user' do
-        post :create, :track => { :raphael => FactoryGirl.generate(:valid_raphael_path), :rasterized => 'rasterized path points' }
+        post :create, :track => attributes_for_valid_track
 
         response.code.should eq '201' # created
         Track.last.user_id.should eq user.id
       end
 
       it 'should serialize created track and return it as JSON' do
-        post :create, :track => { :raphael => FactoryGirl.generate(:valid_raphael_path), :rasterized => 'rasterized path points' }
+        post :create, :track => attributes_for_valid_track
 
         created_track = Track.last
 
@@ -89,7 +94,7 @@ describe Api::TracksController do
       end
 
       it 'should return a server error when creating track fails' do
-        post :create, :track => { :raphael => FactoryGirl.generate(:invalid_raphael_path), :rasterized => 'rasterized path points' }
+        post :create, :track => attributes_for_invalid_track
 
         response.should be_error
       end
