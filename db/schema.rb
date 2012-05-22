@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120511173616) do
+ActiveRecord::Schema.define(:version => 20120518170002) do
+
+  create_table "ghosts", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "track_id"
+    t.integer  "time"
+    t.text     "positions"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "runs", :force => true do |t|
     t.datetime "created_at", :null => false

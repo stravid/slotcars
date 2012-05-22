@@ -16,6 +16,10 @@ Shared.Highscores = Ember.Object.extend
     [startIndex, endIndex] = @_calculateIndices()
     @set 'displayedRuns', (@get 'runs')[startIndex..endIndex]
 
+  getTimeForUserId: (userId) ->
+    for run in @runs
+      return run.time if run.user_id is userId
+
   _calculateIndices: ->
     runs = @get 'runs'
     userId = @get 'userId'

@@ -5,6 +5,7 @@ describe Track do
   it { should validate_presence_of :rasterized }
   it { should belong_to :user }
   it { should have_many :runs }
+  it { should have_many :ghosts }
   
   describe 'validation of raphael' do
     valid_raphael_path = FactoryGirl.generate :valid_raphael_path
