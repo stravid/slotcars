@@ -17,4 +17,15 @@ class Api::GhostsController < ApplicationController
       head :error 
     end
   end
+
+  def index
+    track = Track.find_by_id params[:track_id]
+    ghost = track.ghosts.where('time < ?', params[:time]).order(:time).last
+
+    if ghost.nil?
+      ghost = track.ghosts.order(:time).first
+    end
+
+    render :json => ghost
+  end
 end

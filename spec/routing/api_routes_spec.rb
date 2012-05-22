@@ -90,8 +90,14 @@ describe "Runs" do
       )
   end
 
-end
+  it "routes GET /api/ghosts to api:ghosts#index" do
+    { :get => "api/ghosts" }.should route_to(
+        :controller => "api/ghosts",
+        :action => "index"
+      )
+  end
 
+end
 describe "Ghosts" do
 
   it "routes POST /api/ghosts to api:ghosts#create" do
