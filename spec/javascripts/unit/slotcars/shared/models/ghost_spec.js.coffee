@@ -1,10 +1,8 @@
 describe 'Shared.Ghost', ->
 
-  beforeEach ->
-    sinon.stub Shared.ModelStore, 'commit'
+  beforeEach -> sinon.stub Shared.ModelStore, 'commit'
 
-  afterEach ->
-    Shared.ModelStore.commit.restore()
+  afterEach -> Shared.ModelStore.commit.restore()
 
   it 'should extend DS.Model', ->
     (expect Shared.Ghost).toExtend DS.Model
