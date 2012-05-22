@@ -253,3 +253,52 @@ describe 'Play.GameController (unit)', ->
         track: @trackMock
         time: time
         user: Shared.User.current
+
+  describe '#checkForNewHighscore', ->
+
+    beforeEach ->
+      @highscoresMock = mockEmberClass Shared.Highscores,
+        getTimeForUserId: sinon.stub().returns 10
+
+      @gameController.onHighscoresLoaded()
+
+      Shared.User.current = 
+        get: ->
+
+    afterEach ->
+      @highscoresMock.restore()
+
+      Shared.User.current = null
+
+    it 'should call saveGhost if the highscores got better', ->
+      sinon.stub @gameController, 'saveGhost'
+
+      @gameController.raceTime = 9
+      @gameController.checkForNewHighscore()
+      (expect @gameController.saveGhost).not.toHaveBeenCalled()
+
+      @gameController.raceTime = 10
+      @gameController.checkForNewHighscore()
+      (expect @gameController.saveGhost).toHaveBeenCalled()
+
+  describe '#saveGhost', ->
+
+    beforeEach ->
+      sinon.spy Shared.Ghost, 'createRecord'
+
+    afterEach ->
+      Shared.Ghost.createRecord.restore()
+
+    it 'should create a new Ghost record', ->
+      time = 100
+      records = [{ x: 1 }, { x: 2 }]
+      @gameController.set 'raceTime', time
+      @gameController.set 'records', records
+
+      @gameController.saveGhost()
+
+      (expect Shared.Ghost.createRecord).toHaveBeenCalledWithAnObjectLike
+        track: @trackMock
+        time: time
+        user: Shared.User.current
+        positions: records

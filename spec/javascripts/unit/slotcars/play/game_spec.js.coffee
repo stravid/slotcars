@@ -5,7 +5,11 @@ describe 'Play.Game', ->
     @trackMock = mockEmberClass Shared.Track
     @screenViewMock = set: sinon.spy()
 
-    @GameControllerMock = mockEmberClass Play.GameController
+    @GameControllerMock = mockEmberClass Play.GameController,
+      carControlsEnabled: false
+      raceTime: null
+      car: @carMock
+
     @TrackViewMock = mockEmberClass Shared.TrackView,
       gameController: {}
       track: @trackMock

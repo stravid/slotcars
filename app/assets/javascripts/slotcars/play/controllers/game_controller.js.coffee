@@ -1,4 +1,4 @@
-
+  
 #= require slotcars/shared/controllers/base_game_controller
 
 Play.GameController = Shared.BaseGameController.extend
@@ -38,13 +38,30 @@ Play.GameController = Shared.BaseGameController.extend
       time: @get 'raceTime'
       user: Shared.User.current
 
-    run.save => @loadHighscores()
+    run.save => @loadHighscores => @checkForNewHighscore()
 
-  loadHighscores: ->
-    @track.loadHighscores (highscores) => @onHighscoresLoaded highscores
+  loadHighscores: (callback) ->
+    @track.loadHighscores (highscores) =>
+      @onHighscoresLoaded highscores
+
+      callback() if callback?
+
+  saveGhost: ->
+    ghost = Shared.Ghost.createRecord
+      positions: @records
+      track: @track
+      user: Shared.User.current
+      time: @get 'raceTime'
+
+    ghost.save()
 
   onHighscoresLoaded: (highscores) ->
     @set 'highscores', Shared.Highscores.create runs: highscores
+
+  checkForNewHighscore: ->
+    time = @highscores.getTimeForUserId Shared.User.current.get 'id'
+
+    @saveGhost() if time is @raceTime
 
   onCarCrossedFinishLine: (->
     car = @get 'car'
