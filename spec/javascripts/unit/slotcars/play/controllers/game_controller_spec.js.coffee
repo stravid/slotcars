@@ -32,8 +32,8 @@ describe 'Play.GameController (unit)', ->
       afterEach ->
         @fakeTimer.restore()
 
-      it 'should update race time as long car is allowed to drive', ->
-        @gameController.set 'carControlsEnabled', true
+      it 'should update race time if race is running', ->
+        @gameController.set 'isRaceRunning', true
 
         @gameController.set 'raceTime', 0
         @gameController.set 'startTime', new Date().getTime()
@@ -43,8 +43,8 @@ describe 'Play.GameController (unit)', ->
 
         (expect @gameController.get 'raceTime').toEqual 1000
 
-      it 'should not update race time when car isn´t allowed to drive', ->
-        @gameController.set 'carControlsEnabled', false
+      it 'should not update race time if race is not running', ->
+        @gameController.set 'isRaceRunning', false
 
         @gameController.set 'raceTime', 0
         @gameController.set 'startTime', new Date().getTime()
@@ -57,8 +57,12 @@ describe 'Play.GameController (unit)', ->
 
   describe '#start', ->
 
+    beforeEach ->
+      # base game controller starts the game loop in its #start method
+      @gameController.gameLoopController = start: sinon.spy()
+
     it 'should call the restart game function', ->
-      sinon.spy @gameController, 'restartGame'
+      sinon.stub @gameController, 'restartGame'
       @gameController.start()
 
       (expect @gameController.restartGame).toHaveBeenCalled()
@@ -66,7 +70,7 @@ describe 'Play.GameController (unit)', ->
   describe '#finish', ->
 
     beforeEach ->
-      @gameController.carControlsEnabled = true
+      @gameController.isRaceRunning = true
       @gameController.isTouchMouseDown = true
       sinon.spy @gameController, 'saveRaceTime'
 
@@ -78,10 +82,10 @@ describe 'Play.GameController (unit)', ->
       @gameController.finish()
       (expect @gameController.raceTime).toNotBe null
 
-    it 'should disable car controls', ->
+    it 'should set property that race is not running anymore', ->
       @gameController.finish()
 
-      (expect @gameController.carControlsEnabled).toBe false
+      (expect @gameController.isRaceRunning).toBe false
 
     it 'should stop acceleration', ->
       @gameController.finish()
@@ -126,6 +130,10 @@ describe 'Play.GameController (unit)', ->
 
   describe '#restartGame', ->
 
+    beforeEach ->
+      sinon.stub @gameController, 'startCountdown'
+      sinon.stub @gameController, 'startRace'
+
     it 'should reset raceTime', ->
       @gameController.raceTime = 18
       @gameController.restartGame()
@@ -137,23 +145,10 @@ describe 'Play.GameController (unit)', ->
 
       (expect @carMock.reset).toHaveBeenCalled()
 
-    it 'should clear timeouts', ->
-      clearTimeoutBackup = clearTimeout
-      window.clearTimeout = sinon.spy()
+    it 'should unset the flag that the race is running', ->
       @gameController.restartGame()
 
-      (expect window.clearTimeout).toHaveBeenCalled()
-      window.clearTimeout = clearTimeoutBackup
-
-    it 'should disable car controls', ->
-      @gameController.restartGame()
-
-      (expect @gameController.get 'carControlsEnabled').toBe false
-
-    it 'should set flag to show countdown', ->
-      @gameController.restartGame()
-      
-      (expect @gameController.get 'isCountdownVisible').toBe true
+      (expect @gameController.get 'isRaceRunning').toBe false
       
     it 'should unset the flag wether the race is finished', ->
       @gameController.restartGame()
@@ -165,61 +160,45 @@ describe 'Play.GameController (unit)', ->
       @gameController.restartGame()
        
       (expect @gameController.lapTimes).toEqual []
-  
-    describe 'after countdown', ->
 
-      beforeEach ->
-        @fakeTimer = sinon.useFakeTimers()
+    it 'should start countdown and provide start race method as callback', ->
+      @gameController.restartGame()
 
-      afterEach ->
-        @fakeTimer.restore()
+      # anonymous callback calls start race on the right context: => @startRace()
+      anonymousCallbackToStartCountdown = @gameController.startCountdown.args[0][0]
+      anonymousCallbackToStartCountdown()
 
-      it 'should enable controls after countdown', ->
-        @gameController.restartGame()
+      (expect @gameController.startCountdown).toHaveBeenCalled()
+      (expect @gameController.startRace).toHaveBeenCalled()
 
-        @fakeTimer.tick 3000
-        (expect @gameController.get 'carControlsEnabled').toBe true
 
-      it 'should save timestamp after countdown', ->
-        @gameController.restartGame()
+  describe 'starting race', ->
 
-        @fakeTimer.tick 3000
+    it 'should flag the race as running after countdown', ->
+      @gameController.startRace()
 
-        (expect @gameController.get 'startTime').toNotBe null
+      (expect @gameController.get 'isRaceRunning').toBe true
 
-      it 'should set flag to hide countdown', ->
-        @gameController.restartGame()
-        @fakeTimer.tick 3500
+    it 'should save timestamp after countdown', ->
+      @gameController.startRace()
 
-        (expect @gameController.get 'isCountdownVisible').toBe false
+      (expect @gameController.get 'startTime').toBeDefined()
+
 
   describe 'saving lap times', ->
 
-    beforeEach ->
-      @carMock.set 'currentLap', 2 # car finished first lap -> enters second lap
-      @gameController.lapTimes = []
-
     it 'should save lap time when current lap of car changes', ->
-      @gameController.onLapChange()
+      @carMock.set 'currentLap', 2
 
       (expect @gameController.lapTimes.length).toBe 1
       
-    it 'should save the difference of total minus first lap', ->
-      fakeTimer = sinon.useFakeTimers()
-      @gameController.restartGame()
-      
-      fakeTimer.tick 5000 # 3 seconds count down - 2 seconds lap
-      @gameController._setCurrentTime() # normaly caused by game loop
-      @gameController.onLapChange()
-      
-      fakeTimer.tick 3000
-      @gameController._setCurrentTime() # normaly caused by game loop
-      @gameController.onLapChange()
+    it 'should save the difference of total minus the previous laps', ->
+      @gameController.set 'raceTime', 1000
+      @gameController.set 'lapTimes', [200, 300]
 
-      (expect @gameController.lapTimes[0]).toBe 2000
-      (expect @gameController.lapTimes[1]).toBe 3000
+      @carMock.set 'currentLap', 3
 
-      fakeTimer.restore()
+      (expect @gameController.lapTimes[2]).toBe 500
 
     it 'should not save lap time before car reaches second lap', ->
       @carMock.set 'currentLap', 1 # car crossed start line - enters first lap
@@ -230,11 +209,15 @@ describe 'Play.GameController (unit)', ->
 
   describe 'destroy', ->
 
-    it 'should disable car controls', ->
+    beforeEach ->
+      # base game controller destroys the game loop in its #destroy method
+      @gameController.gameLoopController = destroy: sinon.spy()
+
+    it 'should set the flag that race is running to false', ->
       sinon.spy @gameController, 'set'
       @gameController.destroy()
 
-      (expect @gameController.set).toHaveBeenCalledWith 'carControlsEnabled', false
+      (expect @gameController.set).toHaveBeenCalledWith 'isRaceRunning', false
 
   describe 'saveRaceTime', ->
 

@@ -4,7 +4,8 @@ Shared.BaseGameController = Ember.Object.extend
   car: null
   gameLoopController: null
   isTouchMouseDown: false
-  carControlsEnabled: false
+
+  isRaceRunning: false
 
   init: ->
     @gameLoopController = Play.GameLoopController.create()
@@ -22,11 +23,13 @@ Shared.BaseGameController = Ember.Object.extend
     event.originalEvent.preventDefault()
     @isTouchMouseDown = false
 
-  start: ->
-    @gameLoopController.start => @update()
+  start: -> @gameLoopController.start => @update()
 
   update: ->
-    @car.drive @isTouchMouseDown
+    if @isRaceRunning
+      @car.drive @isTouchMouseDown
+    else
+      @car.drive false # disable control when race is not running
 
   destroy: ->
     @_super()
