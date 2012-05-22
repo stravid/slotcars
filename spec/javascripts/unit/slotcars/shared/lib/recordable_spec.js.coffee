@@ -7,16 +7,18 @@ describe 'Shared.Recordable', ->
 
   describe '#update', ->
 
-    it 'should only record the car position if the controls are enabled', ->
-      sinon.stub @recordable, 'recordCarPosition'
+    beforeEach -> sinon.stub @recordable, 'recordCarPosition'
 
+    it 'should only record the car position if the controls are enabled', ->
+      @recordable.carControlsEnabled = true
+      @recordable.update()
+      (expect @recordable.recordCarPosition).toHaveBeenCalled()
+
+    it 'should not record the car position if the controls are disabled', ->
       @recordable.carControlsEnabled = false
       @recordable.update()
       (expect @recordable.recordCarPosition).not.toHaveBeenCalled()
 
-      @recordable.carControlsEnabled = true
-      @recordable.update()
-      (expect @recordable.recordCarPosition).toHaveBeenCalled()
 
   describe '#recordCarPosition', ->
 
