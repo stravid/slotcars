@@ -38,7 +38,7 @@ Play.GameController = Shared.BaseGameController.extend
       time: @raceTime
       user: Shared.User.current
 
-    run.save => @loadHighscores => @checkForNewHighscore()
+    run.save => @loadHighscores => @saveGhost()
 
   loadHighscores: (callback) ->
     @track.loadHighscores (highscores) =>
@@ -47,6 +47,8 @@ Play.GameController = Shared.BaseGameController.extend
       callback() if callback?
 
   saveGhost: ->
+    return unless @isNewHighscore()
+
     ghost = Shared.Ghost.createRecord
       positions: @recordedPositions
       track: @track
@@ -58,10 +60,10 @@ Play.GameController = Shared.BaseGameController.extend
   onHighscoresLoaded: (highscores) ->
     @set 'highscores', Shared.Highscores.create runs: highscores
 
-  checkForNewHighscore: ->
+  isNewHighscore: ->
     time = @highscores.getTimeForUserId Shared.User.current.get 'id'
 
-    @saveGhost() if time is @raceTime
+    time is @raceTime
 
   onCarCrossedFinishLine: (->
     car = @get 'car'

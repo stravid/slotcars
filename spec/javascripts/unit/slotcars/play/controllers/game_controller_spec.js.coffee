@@ -254,7 +254,7 @@ describe 'Play.GameController (unit)', ->
         time: time
         user: Shared.User.current
 
-  describe '#checkForNewHighscore', ->
+  describe '#isNewHighscore', ->
 
     beforeEach ->
       @highscoreTime = 9
@@ -271,16 +271,12 @@ describe 'Play.GameController (unit)', ->
 
       Shared.User.current = null
 
-    it 'should call saveGhost if the highscores got better', ->
-      sinon.stub @gameController, 'saveGhost'
-
+    it 'should return if the highscore is better', ->
       @gameController.raceTime = 10
-      @gameController.checkForNewHighscore()
-      (expect @gameController.saveGhost).not.toHaveBeenCalled()
+      (expect @gameController.isNewHighscore()).toBe false
 
       @gameController.raceTime = @highscoreTime
-      @gameController.checkForNewHighscore()
-      (expect @gameController.saveGhost).toHaveBeenCalled()
+      (expect @gameController.isNewHighscore()).toBe true
 
   describe '#saveGhost', ->
 
@@ -290,11 +286,13 @@ describe 'Play.GameController (unit)', ->
     afterEach ->
       Shared.Ghost.createRecord.restore()
 
-    it 'should create a new Ghost record', ->
+    it 'should create a new Ghost record if it is a new highscore', ->
       time = 100
       recordedPositions = [{ x: 1 }, { x: 2 }]
       @gameController.set 'raceTime', time
       @gameController.set 'recordedPositions', recordedPositions
+
+      @gameController.isNewHighscore = sinon.stub().returns true
 
       @gameController.saveGhost()
 
@@ -303,3 +301,8 @@ describe 'Play.GameController (unit)', ->
         time: time
         user: Shared.User.current
         positions: recordedPositions
+
+    it 'should not create a new Ghost if it is not a new highscore', ->
+      @gameController.isNewHighscore = sinon.stub().returns false
+
+      (expect Shared.Ghost.createRecord).not.toHaveBeenCalled()
