@@ -72,9 +72,9 @@ Shared.Track = DS.Model.extend Shared.Rasterizable,
       @setRandomTitle()
 
   setRandomTitle: ->
-    randomTracks = Shared.Track.RANDOM_TRACK_TITLES
-    randomIndex = Math.floor (Math.random() * randomTracks.length)
-    @set 'title', randomTracks[randomIndex]
+    randomTrackTitles = Shared.Track.RANDOM_TRACK_TITLES
+    randomIndex = Math.floor (Math.random() * randomTrackTitles.length)
+    @set 'title', randomTrackTitles[randomIndex]
 
 Shared.Track.reopenClass
 
