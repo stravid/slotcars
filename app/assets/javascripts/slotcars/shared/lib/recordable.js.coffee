@@ -1,7 +1,7 @@
 Shared.Recordable = Ember.Mixin.create
 
   car: Ember.required()
-  carControlsEnabled: Ember.required()
+  isRaceRunning: Ember.required()
   raceTime: Ember.required()
 
   recordedPositions: []
@@ -9,7 +9,7 @@ Shared.Recordable = Ember.Mixin.create
   update: ->
     @_super()
 
-    @recordCarPosition() if @carControlsEnabled
+    @recordCarPosition() if @isRaceRunning
 
   recordCarPosition: ->
     @recordedPositions.push

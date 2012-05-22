@@ -6,7 +6,7 @@ describe 'Play.Game', ->
     @screenViewMock = set: sinon.spy()
 
     @GameControllerMock = mockEmberClass Play.GameController,
-      carControlsEnabled: false
+      isRaceRunning: false
       raceTime: null
       car: @carMock
 
