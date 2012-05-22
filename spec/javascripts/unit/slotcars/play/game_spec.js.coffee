@@ -54,11 +54,14 @@ describe 'Play.Game', ->
       @ClockViewMock.destroy = sinon.spy()
       @GameViewMock.destroy = sinon.spy()
       @GameControllerMock.destroy = sinon.spy()
-
-      @game.destroy()
+      @TrackViewMock.destroy = sinon.spy()
 
     it 'should call destroy on the clock view', ->
+      @game.destroy()
+
       (expect @ClockViewMock.destroy).toHaveBeenCalled()
 
     it 'should call destroy on the game view', ->
+      @game.destroy()
+
       (expect @GameViewMock.destroy).toHaveBeenCalled()

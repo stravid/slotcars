@@ -6,34 +6,59 @@ describe 'controllable', ->
     @controllable = Ember.View.extend(Shared.Controllable).create
       gameController: @gameControllerMock
 
-    @controllable.appendTo '<div>'
-    Ember.run.end()
-
   afterEach ->
     @gameControllerMock.restore()
 
-  describe 'bind/unbind car controls', ->
+  describe 'calling to set up touch listeners after inserted into DOM', ->
+
+    beforeEach -> sinon.stub @controllable, 'setupTouchListeners'
+
+    it 'should setup touch listeners on didInsertElement', ->
+      @controllable.didInsertElement()
+
+      (expect @controllable.setupTouchListeners).toHaveBeenCalled()
+
+
+  describe 'setup and remove touch listeners', ->
 
     beforeEach ->
       @gameControllerMock.onTouchMouseDown = sinon.spy()
       @gameControllerMock.onTouchMouseUp = sinon.spy()
+      @controllable.appendTo jQuery '<div>'
+      Ember.run.end()
 
-    describe 'when controls are enabled', ->
-  
-      it 'should call onTouchMouseDown on game controller', ->
-        @gameControllerMock.get = sinon.stub().withArgs('carControlsEnabled').returns true
-        @controllable.onCarControlsChange()
+    describe 'setting up touch listeners', ->
+
+      it 'should setup onTouchMouseDown listener on element and tell game controller about events', ->
+        @controllable.setupTouchListeners()
 
         (jQuery @controllable.$()).trigger 'touchMouseDown'
 
         (expect @gameControllerMock.onTouchMouseDown).toHaveBeenCalled()
 
-    describe 'when controls are disabled', ->
+      it 'should setup onTouchMouseUp listener on document and tell game controller about events', ->
+        @controllable.setupTouchListeners()
 
-      it 'should not call onTouchMouseDown on game controller', ->
-        @gameControllerMock.get = sinon.stub().withArgs('carControlsEnabled').returns false
-        @controllable.onCarControlsChange()
+        (jQuery document).trigger 'touchMouseUp'
+
+        (expect @gameControllerMock.onTouchMouseUp).toHaveBeenCalled()
+
+
+    describe 'removing touch listeners on destroy', ->
+
+      beforeEach ->
+        @controllable.setupTouchListeners()
+
+      it 'should remove the touch listeners from element', ->
+        @controllable.destroy()
 
         (jQuery @controllable.$()).trigger 'touchMouseDown'
 
         (expect @gameControllerMock.onTouchMouseDown).not.toHaveBeenCalled()
+
+      it 'should remove the touch listeners from document', ->
+        @controllable.destroy()
+
+        (jQuery document).trigger 'touchMouseUp'
+
+        (expect @gameControllerMock.onTouchMouseUp).not.toHaveBeenCalled()
