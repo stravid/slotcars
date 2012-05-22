@@ -1,6 +1,7 @@
 
 #= require slotcars/shared/lib/movable
 #= require slotcars/shared/lib/crashable
+#= require slotcars/shared/lib/drivable
 
 Shared.Car = Ember.Object.extend Shared.Movable, Shared.Drivable, Shared.Crashable,
 

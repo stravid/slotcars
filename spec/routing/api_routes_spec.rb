@@ -84,3 +84,14 @@ describe "Runs" do
   end
 
 end
+
+describe "Ghosts" do
+
+  it "routes POST /api/ghosts to api:ghosts#create" do
+    { :post => "api/ghosts" }.should route_to(
+        :controller => "api/ghosts",
+        :action => "create"
+      )
+  end
+
+end
