@@ -271,12 +271,13 @@ describe 'Play.GameController (unit)', ->
 
       Shared.User.current = null
 
-    it 'should return if the highscore is better', ->
-      @gameController.raceTime = 10
-      (expect @gameController.isNewHighscore()).toBe false
-
+    it 'should return true if the highscore is better', ->
       @gameController.raceTime = @highscoreTime
       (expect @gameController.isNewHighscore()).toBe true
+
+    it 'should return false if the highscore did not improve', ->
+      @gameController.raceTime = 10
+      (expect @gameController.isNewHighscore()).toBe false
 
   describe '#saveGhost', ->
 
