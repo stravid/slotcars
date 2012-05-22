@@ -34,16 +34,16 @@ describe 'Shared.Recordable', ->
 
       @recordable.recordCarPosition()
 
-      (expect @recordable.records[0].time).toBe raceTime
-      (expect @recordable.records[0].x).toBe position.x
-      (expect @recordable.records[0].y).toBe position.y
-      (expect @recordable.records[0].rotation).toBe rotation
+      (expect @recordable.recordedPositions[0].time).toBe raceTime
+      (expect @recordable.recordedPositions[0].x).toBe position.x
+      (expect @recordable.recordedPositions[0].y).toBe position.y
+      (expect @recordable.recordedPositions[0].rotation).toBe rotation
 
   describe '#restartGame', ->
 
     it 'should reset the records', ->
-      @recordable.records = [{}, {}]
+      @recordable.recordedPositions = [{}, {}]
 
       @recordable.restartGame()
 
-      (expect @recordable.records.length).toBe 0
+      (expect @recordable.recordedPositions.length).toBe 0

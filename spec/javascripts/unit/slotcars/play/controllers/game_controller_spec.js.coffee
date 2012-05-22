@@ -291,9 +291,9 @@ describe 'Play.GameController (unit)', ->
 
     it 'should create a new Ghost record', ->
       time = 100
-      records = [{ x: 1 }, { x: 2 }]
+      recordedPositions = [{ x: 1 }, { x: 2 }]
       @gameController.set 'raceTime', time
-      @gameController.set 'records', records
+      @gameController.set 'recordedPositions', recordedPositions
 
       @gameController.saveGhost()
 
@@ -301,4 +301,4 @@ describe 'Play.GameController (unit)', ->
         track: @trackMock
         time: time
         user: Shared.User.current
-        positions: records
+        positions: recordedPositions

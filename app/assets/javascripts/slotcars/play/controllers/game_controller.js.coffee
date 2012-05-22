@@ -35,7 +35,7 @@ Play.GameController = Shared.BaseGameController.extend
   saveRaceTime: ->
     run = Shared.Run.createRecord
       track: @track
-      time: @get 'raceTime'
+      time: @raceTime
       user: Shared.User.current
 
     run.save => @loadHighscores => @checkForNewHighscore()
@@ -48,10 +48,10 @@ Play.GameController = Shared.BaseGameController.extend
 
   saveGhost: ->
     ghost = Shared.Ghost.createRecord
-      positions: @records
+      positions: @recordedPositions
       track: @track
       user: Shared.User.current
-      time: @get 'raceTime'
+      time: @raceTime
 
     ghost.save()
 
