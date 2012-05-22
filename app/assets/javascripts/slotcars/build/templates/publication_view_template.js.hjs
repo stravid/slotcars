@@ -1,4 +1,5 @@
 <div id="publication-dialog">
+  <input type="text" id="track-title-input" placeholder="Enter Track Title.." />
   <p>To publish your track and make it accessible to all players hit 'publish'. If you think your track is not yet ready hit 'cancel'.</p>
   <button class="default-button" {{action "onCancelButtonClicked"}}>Cancel</button>
   <button class="default-button" {{action "onPublishButtonClicked"}}>Publish</button>

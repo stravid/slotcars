@@ -56,9 +56,9 @@ describe 'Build.Publisher', ->
 
       beforeEach ->
         Shared.routeManager = mockEmberClass Shared.RouteManager, set: sinon.spy()
+        sinon.stub @publisher, 'setTitleOnTrackToPublish'
 
-      afterEach ->
-        Shared.routeManager.restore()
+      afterEach -> Shared.routeManager.restore()
 
       it 'should save the track', ->
         @publisher.publish()
@@ -75,3 +75,23 @@ describe 'Build.Publisher', ->
         publicationCallback() # gets normally called by track.save
 
         (expect Shared.routeManager.set).toHaveBeenCalledWith 'location', "play/#{@trackId}"
+
+      it 'should set the title on the track before saving', ->
+        @publisher.publish()
+
+        (expect @publisher.setTitleOnTrackToPublish.calledBefore @trackMock.save).toBe true
+
+
+    describe 'setting title on track from publication form', ->
+
+      beforeEach ->
+        @trackMock.setTitle = sinon.spy()
+        @PublicationViewMock.getTrackTitleFromPublicationForm = sinon.stub()
+
+      it 'should get the track title from publication view and set it on track', ->
+        testTrackTitle = "muh"
+        @PublicationViewMock.getTrackTitleFromPublicationForm.returns testTrackTitle
+
+        @publisher.setTitleOnTrackToPublish()
+
+        (expect @trackMock.setTitle).toHaveBeenCalledWith testTrackTitle

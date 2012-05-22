@@ -3,6 +3,7 @@ Build.Publisher = Ember.Object.extend
   stateManager: null
   buildScreenView: null
   track: null
+  publicationView: null
 
   init: ->
     if Shared.User.current?
@@ -29,7 +30,10 @@ Build.Publisher = Ember.Object.extend
   signedUp: -> @setupPublicationView()
 
   publish: ->
+    @setTitleOnTrackToPublish()
     @track.save => Shared.routeManager.set 'location', "play/#{@track.get 'id'}"
+
+  setTitleOnTrackToPublish: -> @track.setTitle @publicationView.getTrackTitleFromPublicationForm()
 
   destroy: ->
     @_super()

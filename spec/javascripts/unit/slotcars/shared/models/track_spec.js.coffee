@@ -5,6 +5,7 @@ describe 'Shared.Track', ->
 
   beforeEach ->
     @raphaelPathMock = mockEmberClass Shared.RaphaelPath, setRaphaelPath: sinon.spy(), setRasterizedPath: sinon.spy()
+    @track = Shared.Track.createRecord()
 
   afterEach ->
     @raphaelPathMock.restore()
@@ -14,23 +15,21 @@ describe 'Shared.Track', ->
 
     it 'should bind raphaelPath property to path of RaphaelPath instance', ->
       expectedPathValue = 'test'
-      track = Shared.Track.createRecord()
 
       @raphaelPathMock.set 'path', expectedPathValue
 
       Ember.run.end()
 
-      (expect track.get 'raphaelPath').toEqual expectedPathValue
+      (expect @track.get 'raphaelPath').toEqual expectedPathValue
 
 
   describe 'adding path points', ->
 
     it 'should tell its raphael path to add points', ->
-      track = Shared.Track.createRecord()
       point = { x: 1, y: 0 }
       @raphaelPathMock.addPoint = sinon.spy()
 
-      track.addPathPoint point
+      @track.addPathPoint point
 
       (expect @raphaelPathMock.addPoint).toHaveBeenCalledWith point
 
@@ -38,10 +37,9 @@ describe 'Shared.Track', ->
   describe 'getting all path points', ->
 
     it 'should ask its raphael path for path points as an array', ->
-      track = Shared.Track.createRecord()
       @raphaelPathMock.getPathPointArray = sinon.spy()
 
-      track.getPathPoints()
+      @track.getPathPoints()
 
       (expect @raphaelPathMock.getPathPointArray).toHaveBeenCalled()
 
@@ -49,29 +47,26 @@ describe 'Shared.Track', ->
   describe 'getting total length of path', ->
 
     it 'should ask its raphael path for total length', ->
-      track = Shared.Track.createRecord()
       expectedLength = Math.random() * 10
       @raphaelPathMock.get = sinon.stub().withArgs('totalLength').returns expectedLength
 
-      totalLength = track.getTotalLength()
+      totalLength = @track.getTotalLength()
 
       (expect totalLength).toBe expectedLength
 
   describe 'determine if track is long enough', ->
 
     it 'should return true if the track´s total length is high enough', ->
-      track = Shared.Track.createRecord()
       @raphaelPathMock.get = sinon.stub().withArgs('totalLength').returns 400.1
 
-      isLengthValid = track.hasValidTotalLength()
+      isLengthValid = @track.hasValidTotalLength()
 
       (expect isLengthValid).toBe true
 
     it 'should return false if the track´s total length too low', ->
-      track = Shared.Track.createRecord()
       @raphaelPathMock.get = sinon.stub().withArgs('totalLength').returns 399.9
 
-      isLengthValid = track.hasValidTotalLength()
+      isLengthValid = @track.hasValidTotalLength()
 
       (expect isLengthValid).toBe false
 
@@ -82,17 +77,14 @@ describe 'Shared.Track', ->
       fakePointAtLength = {}
       @raphaelPathMock.getPointAtLength = sinon.stub().withArgs(length).returns fakePointAtLength
 
-      track = Shared.Track.createRecord()
-      resultPoint = track.getPointAtLength length
+      resultPoint = @track.getPointAtLength length
 
       (expect resultPoint).toBe fakePointAtLength
 
 
   describe 'clearing the path', ->
 
-    beforeEach ->
-      @raphaelPathMock.clear = sinon.spy()
-      @track = Shared.Track.createRecord()
+    beforeEach -> @raphaelPathMock.clear = sinon.spy()
 
     it 'should tell the path to clear', ->
       @track.clearPath()
@@ -105,7 +97,6 @@ describe 'Shared.Track', ->
     beforeEach ->
       @raphaelPathMock.clean = sinon.spy()
       @raphaelPathMock.rasterize = sinon.spy()
-      @track = Shared.Track.createRecord()
 
     it 'should tell the path to clean itself', ->
       @track.cleanPath()
@@ -121,8 +112,6 @@ describe 'Shared.Track', ->
   describe 'lap count for tracks', ->
 
     it 'should return the same static number of laps for all tracks', ->
-      @track = Shared.Track.createRecord()
-
       (expect @track.get 'numberOfLaps').toBe 3
 
 
@@ -131,7 +120,6 @@ describe 'Shared.Track', ->
     beforeEach ->
       @fakePathLength = 1
       @raphaelPathMock.totalLength = @fakePathLength
-      @track = Shared.Track.createRecord()
 
     it 'should return true when asked for length after finish line', ->
       lengthThatShouldBeAfter = (@track.get 'numberOfLaps') * @fakePathLength + 0.00001
@@ -147,7 +135,6 @@ describe 'Shared.Track', ->
     beforeEach ->
       @fakePathLength = 1
       @raphaelPathMock.totalLength = @fakePathLength
-      @track = Shared.Track.createRecord()
 
     it 'should return first lap for lengths smaller than the path length', ->
       lengthLessThanFirstLap = @fakePathLength - 0.0001
@@ -167,9 +154,7 @@ describe 'Shared.Track', ->
 
   describe 'updating raphael path', ->
 
-    beforeEach ->
-      @raphaelPathMock.setLinkedPath = sinon.spy()
-      @track = Shared.Track.createRecord()
+    beforeEach -> @raphaelPathMock.setLinkedPath = sinon.spy()
 
     it 'should pass the passed points to the linked path', ->
       points = [ { x: 1, y: 0 }, { x: 0, y: 1 } ]
@@ -186,12 +171,10 @@ describe 'Shared.Track', ->
         rasterized = '[{"x":"1.00","y":"1.00","angle":"1.00"}]'
         points = JSON.parse rasterized
 
-        track = Shared.Track.createRecord()
+        @track.set 'raphael', raphael
+        @track.set 'rasterized', rasterized
 
-        track.set 'raphael', raphael
-        track.set 'rasterized', rasterized
-
-        track.didLoad()
+        @track.didLoad()
 
         (expect @raphaelPathMock.setRaphaelPath).toHaveBeenCalledWith raphael
         (expect @raphaelPathMock.setRasterizedPath).toHaveBeenCalledWith points
@@ -199,7 +182,6 @@ describe 'Shared.Track', ->
     describe '#save', ->
 
       beforeEach ->
-        @track = Shared.Track.createRecord()
         @raphaelPathMock.get = sinon.stub()
         @raphaelPathMock.get.withArgs('_rasterizedPath').returns { asFixedLengthPointArray: -> }
         @raphaelPathMock.get.withArgs('path').returns ''
@@ -302,3 +284,33 @@ describe 'Shared.Track', ->
         @requests[0].respond 200, { "Content-Type": "application/json" }, JSON.stringify @responseJSON
 
         (expect record.get 'id').toEqual 42
+
+
+  describe 'setting title of track', ->
+
+    describe 'valid title provided', ->
+
+      it 'should set the title attribute on the track', ->
+        testTitle = "muh"
+
+        @track.setTitle testTitle
+
+        (expect @track.get 'title').toBe testTitle
+
+
+    describe 'invalid title provided', ->
+
+      beforeEach -> sinon.stub @track, 'setRandomTitle'
+
+      it 'should set random title when title is empty', ->
+        @track.setTitle ''
+
+        (expect @track.setRandomTitle).toHaveBeenCalled()
+
+
+  describe 'setting random title', ->
+
+    it 'should set a random track title from the random track titles array', ->
+      @track.setRandomTitle()
+
+      (expect Shared.Track.RANDOM_TRACK_TITLES).toContain @track.get 'title'
