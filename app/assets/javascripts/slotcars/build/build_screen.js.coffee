@@ -41,7 +41,7 @@ Build.BuildScreen = Ember.Object.extend Shared.Appendable,
       track: @track
       car: @_car
 
-    @_testDrive.start true
+    @_testDrive.start true # start race immediately
 
   teardownTesting: ->
     @_car.destroy()
