@@ -65,4 +65,24 @@ Shared.Track = DS.Model.extend Shared.Rasterizable,
     if lap > numberOfLaps then return numberOfLaps else return lap
 
 Shared.Track.reopenClass
+
   MINIMUM_TRACK_LENGTH: 400
+
+  findRandom: ->
+    randomTrack = Shared.ModelStore.materializeRecord Shared.Track, 0
+
+    jQuery.ajax "/api/tracks/random",
+      type: "GET"
+      dataType: "json"
+
+      success: (response) ->
+        trackData = response.track
+        trackIds = Shared.ModelStore.load Shared.Track, trackData
+
+        # update the 'clientId' - to ensure that the rest of the tracks data is updated properly
+        randomTrack.clientId = trackIds.clientId
+        randomTrack.send 'didChangeData'
+
+        randomTrack = Shared.ModelStore.find Shared.Track, trackData.id
+
+    randomTrack

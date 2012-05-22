@@ -96,6 +96,19 @@ describe Api::TracksController do
     end
   end
 
+  describe '#random' do
+
+    it 'should return a randomly chosen track' do
+      track_ids = tracks.map { |track| track.id }
+
+      get :random
+
+      responseJSON = JSON.parse response.body
+
+      track_ids.should include(responseJSON['track']['id'])
+    end
+  end
+
   describe '#count' do
 
     it 'should return the number of tracks as JSON' do

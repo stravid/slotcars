@@ -177,8 +177,7 @@ describe 'Shared.User', ->
       @user = Shared.User.createRecord
         id: 1
 
-    afterEach ->
-      @xhr.restore()
+    afterEach -> @xhr.restore()
 
     it 'should send the correct request', ->
       @user.loadHighscores ->

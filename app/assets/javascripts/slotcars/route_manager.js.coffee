@@ -8,6 +8,10 @@ Shared.RouteManager = Ember.RouteManager.extend
     route: 'build'
     enter: (manager) -> manager.delegate.showScreen 'BuildScreen'
 
+  Quickplay: Ember.State.create
+    route: 'quickplay'
+    enter: (manager) -> manager.delegate.showScreen 'PlayScreen'
+
   Play: Ember.State.create
     route: 'play/:id'
     enter: (manager) -> 
@@ -19,5 +23,4 @@ Shared.RouteManager = Ember.RouteManager.extend
 
   Home: Ember.State.create
     route: ''
-    enter: (manager) ->
-      manager.delegate.showScreen 'HomeScreen'
+    enter: (manager) -> manager.delegate.showScreen 'HomeScreen'
