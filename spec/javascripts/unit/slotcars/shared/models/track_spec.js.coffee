@@ -243,8 +243,7 @@ describe 'Shared.Track', ->
       @track = Shared.Track.createRecord
         id: 1
 
-    afterEach ->
-      @xhr.restore()
+    afterEach -> @xhr.restore()
 
     it 'should send the correct request', ->
       @track.loadHighscores ->
@@ -261,3 +260,45 @@ describe 'Shared.Track', ->
       @requests[0].respond 200, { "Content-Type": "application/json" }, response
 
       (expect callback).toHaveBeenCalledWith JSON.parse response
+
+  describe 'finding random track', ->
+
+    beforeEach ->
+      @xhr = sinon.useFakeXMLHttpRequest()
+      @requests = []
+
+      @xhr.onCreate = (xhr) => @requests.push xhr
+
+    afterEach ->
+      @xhr.restore()
+
+    it 'should request a random track from the server', ->
+      Shared.Track.findRandom()
+
+      (expect @requests[0].url).toBe '/api/tracks/random'
+      (expect @requests[0].method).toBe 'GET'
+
+    it 'should return a track record in loading state', ->
+      record = Shared.Track.findRandom()
+
+      (expect record).toBeInstanceOf Shared.Track
+      (expect record.get 'isLoaded').toBe false
+
+    describe 'when request succeeds', ->
+
+      beforeEach ->
+        @responseJSON = track: { id: 42, raphael: 'M0,0R1,1,0,1z', rasterized: '[{"x":"1.00","y":"1.00","angle":"1.00"}]' }
+
+      it 'should load the response into the model store', ->
+        sinon.spy Shared.ModelStore, 'load'
+
+        Shared.Track.findRandom()
+        @requests[0].respond 200, { "Content-Type": "application/json" }, JSON.stringify @responseJSON
+
+        (expect Shared.ModelStore.load).toHaveBeenCalledWith Shared.Track, @responseJSON.track
+
+      it 'should update the returned track record', ->
+        record = Shared.Track.findRandom()
+        @requests[0].respond 200, { "Content-Type": "application/json" }, JSON.stringify @responseJSON
+
+        (expect record.get 'id').toEqual 42

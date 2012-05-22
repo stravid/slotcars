@@ -6,6 +6,7 @@ Slotcars::Application.routes.draw do
 
   get '/tracks' => 'slotcars#index'
   get '/build' => 'slotcars#index'
+  get '/quickplay' => 'slotcars#index'
   get '/play/:id' => 'slotcars#index'
 
   namespace :api do
@@ -15,6 +16,7 @@ Slotcars::Application.routes.draw do
       end
 
       collection do
+        get 'random'
         get 'count'
       end
     end
