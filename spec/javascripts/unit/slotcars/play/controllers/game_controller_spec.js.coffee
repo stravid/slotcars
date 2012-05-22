@@ -257,8 +257,9 @@ describe 'Play.GameController (unit)', ->
   describe '#checkForNewHighscore', ->
 
     beforeEach ->
+      @highscoreTime = 9
       @highscoresMock = mockEmberClass Shared.Highscores,
-        getTimeForUserId: sinon.stub().returns 10
+        getTimeForUserId: sinon.stub().returns @highscoreTime
 
       @gameController.onHighscoresLoaded()
 
@@ -273,11 +274,11 @@ describe 'Play.GameController (unit)', ->
     it 'should call saveGhost if the highscores got better', ->
       sinon.stub @gameController, 'saveGhost'
 
-      @gameController.raceTime = 9
+      @gameController.raceTime = 10
       @gameController.checkForNewHighscore()
       (expect @gameController.saveGhost).not.toHaveBeenCalled()
 
-      @gameController.raceTime = 10
+      @gameController.raceTime = @highscoreTime
       @gameController.checkForNewHighscore()
       (expect @gameController.saveGhost).toHaveBeenCalled()
 
