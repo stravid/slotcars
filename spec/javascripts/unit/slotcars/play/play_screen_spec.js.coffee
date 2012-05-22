@@ -34,13 +34,14 @@ describe 'play screen', ->
 
   describe 'creating', ->
 
-    beforeEach ->
+    it 'should create play screen view', ->
       @playScreen = Play.PlayScreen.create trackId: 1
 
-    it 'should create play screen view', ->
       (expect @playScreenViewMock.create).toHaveBeenCalled()
 
     it 'should create the play screen state manager', ->
+      @playScreen = Play.PlayScreen.create trackId: 1
+
       (expect @playScreenStateManagerMock.create).toHaveBeenCalled()
 
 
@@ -52,8 +53,7 @@ describe 'play screen', ->
         sinon.stub(Shared.Track, 'findRandom').returns @trackInstance
         @playScreen = Play.PlayScreen.create()
 
-      afterEach ->
-        Shared.Track.findRandom.restore()
+      afterEach -> Shared.Track.findRandom.restore()
 
       it 'should request a random track', ->
         @playScreen.load()
@@ -62,8 +62,7 @@ describe 'play screen', ->
 
     describe 'when track id is passed', ->
 
-      beforeEach ->
-        @playScreen = Play.PlayScreen.create trackId: 1
+      beforeEach -> @playScreen = Play.PlayScreen.create trackId: 1
 
       it 'should load a track', ->
         @playScreen.load()
