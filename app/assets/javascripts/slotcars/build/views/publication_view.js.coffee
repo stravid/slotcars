@@ -13,3 +13,5 @@ Build.PublicationView = Shared.TrackView.extend
   onPublishButtonClicked: (event) ->
     event.preventDefault() if event?
     @stateManager.send 'clickedPublishButton'
+
+  getTrackTitleFromPublicationForm: -> @$('#track-title-input').val()
