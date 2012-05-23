@@ -24,20 +24,16 @@ class User < ActiveRecord::Base
 
   def highscores
     user_runs = runs.group(:id, :track_id).includes(:track)
-    track_highscores = {}
-
-    user_runs.each do |run|
-      track_highscores[run.track.id] = run.track.highscores
-    end
 
     user_highscores = []
 
-    track_highscores.each_pair do |track_id, highscore|
-      highscore.each_with_index do |run, index|
-        if run.user_id == self.id
+    user_runs.each do |run|
+      run.track.highscores.each_with_index do |highscore, index|
+        if highscore.user_id == self.id
           user_highscores << {
-            :track_id => track_id,
-            :time => run.time,
+            :track_id => run.track.id,
+            :track_title => run.track.title,
+            :time => highscore.time,
             :rank => index + 1
           }
         end
