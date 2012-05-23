@@ -194,3 +194,18 @@ describe 'Shared.User', ->
       @requests[0].respond 200, { "Content-Type": "application/json" }, response
 
       (expect callback).toHaveBeenCalledWith JSON.parse response
+
+
+  describe 'updating highscores', ->
+
+    beforeEach ->
+      @user = Shared.User.createRecord()
+      sinon.stub @user, 'loadHighscores'
+
+    it 'should load and set highscores on itself', ->
+      testHighscores = {}
+      @user.updateHighscores()
+
+      @user.loadHighscores.yield testHighscores
+
+      (expect @user.get 'highscores').toBe testHighscores

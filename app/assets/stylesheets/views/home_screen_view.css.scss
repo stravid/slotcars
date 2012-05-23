@@ -91,5 +91,29 @@
 #profile-widget-view {
   margin: 20px;
   color: white;
+
+  h3 {
+    float: left;
+    margin: 0 0 1em 0;
+  }
+
+  h4 {
+    clear: both;
+  }
+
+  button {
+    margin-left: 10px;
+    position: relative;
+    top: -5px;
+  }
 }
 
+#user-highscores {
+  margin-top: 10px;
+  height: 140px;
+  overflow-y: scroll;
+
+  #highscore-table {
+    with: 100%;
+  }
+}
