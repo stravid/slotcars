@@ -6,7 +6,9 @@ Shared.User = DS.Model.extend
 
   highscores: null
 
-  didLoad: -> @loadHighscores (highscores) => @set 'highscores', highscores
+  didLoad: -> @updateHighscores()
+
+  updateHighscores: -> @loadHighscores (highscores) => @set 'highscores', highscores
 
   loadHighscores: (callback) ->
     jQuery.ajax "/api/users/#{@get 'id'}/highscores",
