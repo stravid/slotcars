@@ -1,8 +1,8 @@
 Shared.RouteManager = Ember.RouteManager.extend
 
   wantsHistory: true # use html5 push state
-  delegate: null
   baseURI: window.location.origin || ( window.location.protocol + "//" + window.location.host )
+  delegate: null
 
   Build: Ember.State.create
     route: 'build'
@@ -21,6 +21,17 @@ Shared.RouteManager = Ember.RouteManager.extend
     route: 'tracks'
     enter: (manager) -> manager.delegate.showScreen 'TracksScreen'
 
+  Error: Ember.State.create
+    route: 'error'
+    enter: (manager) -> manager.delegate.showScreen 'ErrorScreen'
+
   Home: Ember.State.create
     route: ''
     enter: (manager) -> manager.delegate.showScreen 'HomeScreen'
+
+  404: Ember.State.create
+    enter: (manager) ->
+      manager.allowLocationUpdate()
+      manager.set 'location', 'error'
+
+  allowLocationUpdate: -> @_skipPush = false
