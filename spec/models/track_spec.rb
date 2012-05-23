@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Track do
 
   it { should validate_presence_of :rasterized }
+  it { should validate_presence_of :title }
   it { should belong_to :user }
   it { should have_many :runs }
   it { should have_many :ghosts }

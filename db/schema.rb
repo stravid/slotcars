@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120518170002) do
+ActiveRecord::Schema.define(:version => 20120522130342) do
 
   create_table "ghosts", :force => true do |t|
     t.integer  "user_id"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(:version => 20120518170002) do
     t.text     "raphael"
     t.text     "rasterized"
     t.integer  "user_id"
+    t.string   "title"
   end
 
   create_table "users", :force => true do |t|

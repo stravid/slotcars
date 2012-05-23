@@ -27,3 +27,18 @@ describe 'Build.PublicationView', ->
       @publicationView.onPublishButtonClicked()
 
       (expect @buildScreenStateManagerMock.send).toHaveBeenCalledWith 'clickedPublishButton'
+
+
+  describe 'getting the track title from publiction form', ->
+
+    beforeEach ->
+      @trackTitleElementStub = val: sinon.stub()
+      @publicationView.$ = sinon.stub().returns @trackTitleElementStub
+
+    it 'should get the value of the track title input and return it', ->
+      titleInPublicationForm = "muh"
+      @trackTitleElementStub.val.returns titleInPublicationForm
+
+      resultingTitle = @publicationView.getTrackTitleFromPublicationForm()
+
+      (expect resultingTitle).toBe titleInPublicationForm

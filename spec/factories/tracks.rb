@@ -2,6 +2,7 @@ FactoryGirl.define do
   factory :track do
     raphael     { FactoryGirl.generate :valid_raphael_path }
     rasterized  'rasterizedPath'
+    title 'Just Another Awesome One'
   end
 
   sequence :valid_raphael_path do |n|

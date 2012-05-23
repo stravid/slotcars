@@ -1,6 +1,15 @@
 .track {
   float: left;
   width: 50%;
+  position: relative;
+}
+
+.track h2 {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 0.5em;
+  z-index: 1000;
 }
 
 .track-container {
@@ -17,6 +26,14 @@
   background-color: rgba(255, 255, 255, 0.15);
   border-radius: 30px;
   overflow: hidden;
+}
+
+.page {
+  width: 100%;
+
+  & > .ember-view {
+    width: 100%
+  }
 }
 
 #page-indicator {
