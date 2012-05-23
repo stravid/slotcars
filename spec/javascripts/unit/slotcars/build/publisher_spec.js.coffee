@@ -79,7 +79,7 @@ describe 'Build.Publisher', ->
       it 'should set the title on the track before saving', ->
         @publisher.publish()
 
-        (expect @publisher.setTitleOnTrackToPublish.calledBefore @trackMock.save).toBe true
+        (expect @publisher.setTitleOnTrackToPublish).toHaveBeenCalledBefore @trackMock.save
 
 
     describe 'setting title on track from publication form', ->

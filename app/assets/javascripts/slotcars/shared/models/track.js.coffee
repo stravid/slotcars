@@ -81,9 +81,7 @@ Shared.Track.reopenClass
   MINIMUM_TRACK_LENGTH: 400
 
   # one of these is used if no title provided on publishing
-  RANDOM_TRACK_TITLES: [
-    'Just Another Awesome One'
-  ]
+  RANDOM_TRACK_TITLES: ['Just Another Awesome One']
 
   findRandom: ->
     randomTrack = Shared.ModelStore.materializeRecord Shared.Track, 0

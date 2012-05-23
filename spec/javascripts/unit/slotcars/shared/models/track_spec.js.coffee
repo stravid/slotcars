@@ -288,7 +288,7 @@ describe 'Shared.Track', ->
 
   describe 'setting title of track', ->
 
-    describe 'valid title provided', ->
+    describe 'when valid title provided', ->
 
       it 'should set the title attribute on the track', ->
         testTitle = "muh"
@@ -298,7 +298,7 @@ describe 'Shared.Track', ->
         (expect @track.get 'title').toBe testTitle
 
 
-    describe 'invalid title provided', ->
+    describe 'when invalid title provided', ->
 
       beforeEach -> sinon.stub @track, 'setRandomTitle'
 
