@@ -1,5 +1,5 @@
 Shared.ordinalNumber = (number) ->
-  ending = ["th","st","nd","rd"]
+  endings = ["th","st","nd","rd"]
   value = number % 100
 
-  number + (ending[(value-20) % 10] || ending[value] || ending[0])
+  number + (endings[(value-20) % 10] || endings[value] || endings[0])
