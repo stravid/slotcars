@@ -8,6 +8,7 @@ Slotcars::Application.routes.draw do
   get '/build' => 'slotcars#index'
   get '/quickplay' => 'slotcars#index'
   get '/play/:id' => 'slotcars#index'
+  get '/error' => 'slotcars#index'
 
   namespace :api do
     resources :tracks, :only => [:index, :show, :create] do

@@ -19,6 +19,12 @@ module Slotcars
         require File.expand_path('../configure', __FILE__)
     end
 
+    # adds a catch-all route - don´t do it in the routes.rb because that will
+    # disable all routes defined by engines that come with gems and such
+    config.after_initialize do |app|
+      app.routes.append{match '*path' => 'slotcars#index'}
+    end
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

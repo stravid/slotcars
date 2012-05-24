@@ -37,3 +37,13 @@ describe 'routing', ->
     @routeManager.set 'location', ''
 
     (expect @slotcarsApplicationStub.showScreen).toHaveBeenCalledWith 'HomeScreen'
+
+  it 'should show the error screen on /error', ->
+    @routeManager.set 'location', 'error'
+
+    (expect @slotcarsApplicationStub.showScreen).toHaveBeenCalledWith 'ErrorScreen'
+
+  it 'should show the error screen if location is no valid route', ->
+    @routeManager.set 'location', 'some/randomLocation'
+
+    (expect @slotcarsApplicationStub.showScreen).toHaveBeenCalledWith 'ErrorScreen'

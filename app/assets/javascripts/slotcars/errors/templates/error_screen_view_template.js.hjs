@@ -1,0 +1,8 @@
+<div id="error-overlay">
+  <p>Oooops &hellip; Looks like something went wrong here. To continue take one of the opportunities given below.</p>
+  <div class="buttons">
+    <a class="default-button" href="/">go home!</a>
+    <a class="default-button" href="tracks">choose a track</a>  
+    <a class="default-button" href="quickplay">do a quickplay</a>  
+  </div>
+</div>

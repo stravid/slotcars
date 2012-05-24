@@ -30,3 +30,23 @@ describe 'ApiAdapter', ->
 
       (expect testUser.get 'hasValidationErrors').toBe true
       (expect testUser.get 'validationErrors').toEqual validationErrors.errors
+
+  describe 'handling errors on find', ->
+
+    beforeEach ->
+      @server = sinon.fakeServer.create()
+      Shared.routeManager = mockEmberClass Shared.RouteManager, set: sinon.spy()
+
+    afterEach ->
+      @server.restore()
+      Shared.routeManager.restore()
+
+    it 'should route to the error page', ->
+      @server.respondWith "GET", "/api/tracks/1", [
+        404, { }, "Not found" ]
+
+      @adapterInstance.find Shared.Track, 1
+
+      @server.respond()
+
+      (expect Shared.routeManager.set).toHaveBeenCalledWith 'location', 'error'

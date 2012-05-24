@@ -39,4 +39,8 @@ body {
   margin: 5px 7px;
   background-color: white;
   color: #333;
+  text-decoration: none;
+
+  &:hover { text-decoration: none; }
+  &:active, &:focus { background-color: #cacaca; }
 }
