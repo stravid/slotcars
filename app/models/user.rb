@@ -23,6 +23,8 @@ class User < ActiveRecord::Base
   end
 
   def runs_grouped_by_track
+    # order('') removes the default ORDER_BY clause which solves the problem that we
+    # had to include the run.id before which resulted in duplicates in the highscores
     runs.select("track_id").group("track_id").order('').includes(:track)
   end
 
