@@ -1,17 +1,59 @@
 /*
  *= require helpers/utilities
+ *= require shared/fonts
  */
+
+h1 {
+  overflow: hidden;
+  text-indent: -10000px;
+  display: block;
+  width: 326px;
+  height: 415px;
+  background-image: image-url("views/home/logo-chain.png");
+  background-repeat: no-repeat;
+  margin-left: 42px;
+}
 
 #home-navigation {
   position: absolute;
-  top: 200px;
-  left: 220px;
-
+  top: 225px;
+  left: 48px;
   list-style: none;
+}
 
-  li {
-    margin-bottom: 30px;
-  }
+#quickplay-button {
+  width: 264px;
+  height: 66px;
+  background-image: image-url("views/home/quick-play.png");
+  background-repeat: no-repeat;
+}
+
+#quickplay-button:hover {
+  background-position: 0 -67px;
+}
+
+#tracks-button {
+  width: 264px;
+  height: 76px;
+  margin-top: 10px;
+  background-image: image-url("views/home/choose-track.png");
+  background-repeat: no-repeat;
+}
+
+#tracks-button:hover {
+  background-position: 0 -74px;
+}
+
+#build-button {
+  width: 264px;
+  height: 68px;
+  margin-top: 5px;
+  background-image: image-url("views/home/create-track.png");
+  background-repeat: no-repeat;
+}
+
+#build-button:hover {
+  background-position: 0 -67px;
 }
 
 #register-button {
@@ -21,25 +63,15 @@
   background-repeat: no-repeat;
 }
 
-#quickplay-button {
-  width: 231px;
-  height: 66px;
-  background-image: image-url("buttons/quick-play.png");
+#clipboard {
+  position: absolute;
+  top: 160px;
+  left: 360px;
+  width: 711px;
+  height: 858px;
+  background-image: image-url("shared/clipboard.png");
   background-repeat: no-repeat;
-}
-
-#tracks-button {
-  width: 177px;
-  height: 66px;
-  background-image: image-url("buttons/tracks.png");
-  background-repeat: no-repeat;
-}
-
-#build-button {
-  width: 151px;
-  height: 69px;
-  background-image: image-url("buttons/build.png");
-  background-repeat: no-repeat;
+  font-family: "JustTheWayYouAre", sans-serif;
 }
 
 #top-curve {
