@@ -4,10 +4,6 @@ Play.CarView = Ember.View.extend
   tagName: ''
 
   car: null
-  offset: null
-
-  puffInterval: 2
-  puffStep: 0
 
   didInsertElement: ->
     (jQuery '#car').css 'top', SCREEN_HEIGHT / 2
