@@ -8,21 +8,22 @@ describe Api::TracksController do
 
   describe '#index' do
 
-    it 'should serialize all tracks and return them as JSON' do
-      serializer = ActiveModel::ArraySerializer.new tracks, :root => "tracks"
-      serialized_tracks = serializer.as_json
-
+    it 'should return bad request if no params for offset and limit are provided' do
       get :index
 
-      response.body.should == serialized_tracks.to_json
-      response.should be_success
+      response.should be_bad_request
     end
 
     it 'should take offset and limit into account' do
-      serializer = ActiveModel::ArraySerializer.new tracks[1..3], :root => "tracks"
+      offset = 1
+      limit = 3
+      
+      tracks = Track.offset(offset).limit(limit).order("created_at DESC")
+      
+      serializer = ActiveModel::ArraySerializer.new tracks, :root => "tracks"
       serialized_tracks = serializer.as_json
 
-      get :index, :offset => 1, :limit => 3
+      get :index, :offset => offset, :limit => limit
 
       response.body.should == serialized_tracks.to_json
       response.should be_success
