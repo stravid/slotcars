@@ -36,9 +36,9 @@ describe User do
 
       highscores = user.highscores
 
-      highscores.should include :track_id => track_a.id, :time => 1, :rank => 1
-      highscores.should include :track_id => track_b.id, :time => 2, :rank => 2
-      highscores.should include :track_id => track_c.id, :time => 3, :rank => 3
+      highscores.should include :track_id => track_a.id, :track_title => track_a.title, :time => 1, :rank => 1
+      highscores.should include :track_id => track_b.id, :track_title => track_a.title, :time => 2, :rank => 2
+      highscores.should include :track_id => track_c.id, :track_title => track_a.title, :time => 3, :rank => 3
     end
   end
 end

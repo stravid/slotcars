@@ -4,3 +4,31 @@
   <p class="error">There was a problem with your logout, please try again!</p>
 {{/if}}
 <button {{action "onLogoutButtonClicked"}}>Log out</button>
+
+<h4>Your Highscores:</h4>
+
+<div id="user-highscores">
+  {{#if user.highscores.length}}
+    <table id="highscore-table">
+      <tbody>
+        <tr>
+          <th>Rank</th>
+          <th>Track</th>
+          <th>Time</th>
+        </tr>
+
+        {{#each user.highscores}}
+          <tr>
+            <td>{{ordinal_number rank}}</td>
+            <td>{{track_title}}</td>
+            <td>{{racetime time}}</td>
+          </tr>
+        {{/each}}
+
+      </tbody>
+    </table>
+
+  {{else}}
+   <p>You haven't finished any race yet!</p>
+  {{/if}}
+</div>

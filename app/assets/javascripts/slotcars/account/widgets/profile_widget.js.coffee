@@ -4,7 +4,9 @@
 
 Account.ProfileWidget = Ember.Object.extend Shared.Widget, Ember.Evented,
 
-  init: -> @set 'view', Account.ProfileView.create delegate: this, user: Shared.User.current
+  init: ->
+    @loadNewestUserHighscores()
+    @set 'view', Account.ProfileView.create delegate: this, user: Shared.User.current
 
   signOutCurrentUser: ->
     Shared.User.signOutCurrentUser (=> @_tellAboutSuccessfulLogout()), (=> @_showErrorMessageForFailedLogout())
@@ -12,5 +14,7 @@ Account.ProfileWidget = Ember.Object.extend Shared.Widget, Ember.Evented,
   _tellAboutSuccessfulLogout: -> @fire 'currentUserSignedOut'
 
   _showErrorMessageForFailedLogout: -> @view.set 'logoutFailed', true
+
+  loadNewestUserHighscores: -> Shared.User.current.updateHighscores()
 
 Shared.WidgetFactory.getInstance().registerWidget 'ProfileWidget', Account.ProfileWidget
