@@ -22,24 +22,42 @@ class User < ActiveRecord::Base
     where(conditions).where(["lower(username) = :value OR lower(email) = :value", { :value => login.strip.downcase }]).first
   end
 
-  def highscores
-    user_runs = runs.select("id, track_id").group(:id, :track_id).includes(:track)
+  def runs_grouped_by_track
+    # order('') removes the default ORDER_BY clause which solves the problem that we
+    # had to include the run.id before which resulted in duplicates in the highscores
+    runs.select("track_id").group("track_id").order('').includes(:track)
+  end
 
-    user_highscores = []
-
-    user_runs.each do |run|
-      run.track.highscores.each_with_index do |highscore, index|
-        if highscore.user_id == self.id
-          user_highscores << {
-            :track_id => run.track.id,
-            :track_title => run.track.title,
-            :time => highscore.time,
-            :rank => index + 1
-          }
-        end
+  def highscore_on_track(track)
+    track.highscores.each_with_index do |highscore, index|
+      if highscore.user_id == self.id
+        return {
+          :track_id => track.id,
+          :track_title => track.title,
+          :time => highscore.time,
+          :rank => index + 1
+        }
       end
     end
+  end
 
-    user_highscores
+  def sort_highscores_by_rank(highscores)
+    highscores.sort! { |highscoreA, highscoreB| highscoreA[:rank] <=> highscoreB[:rank] }
+  end
+
+  def highscores_for_runs(runs)
+    highscores = []
+
+    runs.each do |run|
+      highscores << highscore_on_track(run.track)
+    end
+
+    highscores
+  end
+
+  def highscores
+    user_runs = runs_grouped_by_track
+    user_highscores = highscores_for_runs user_runs
+    sort_highscores_by_rank user_highscores
   end
 end
