@@ -30,13 +30,12 @@ class Api::TracksController < Api::ApiController
 
   def highscores
     track = Track.find params[:id]
-    highscores = track.highscores
 
-    render :json => highscores.to_json
+    render :json => track.highscores.to_json
   end
 
   def random
-    @track = Track.order('random()').first
+    @track = Track.order('RANDOM()').first
     render :json => @track
   end
 
