@@ -8,8 +8,8 @@ class Track < ActiveRecord::Base
   validates :rasterized, :presence => true
   validates :title, :presence => true
 
-  def self.sorted_by_date(offset, limit)
-    Track.offset(offset).limit(limit).order("created_at DESC")
+  def self.sorted_by_date
+    Track.order("created_at DESC")
   end
 
   def highscores

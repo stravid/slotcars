@@ -2,7 +2,7 @@ class Api::TracksController < Api::ApiController
 
   def index
     if params.has_key?(:offset) and params.has_key?(:limit)
-      tracks = Track.sorted_by_date params[:offset], params[:limit]
+      tracks = Track.sorted_by_date.offset(params[:offset]).limit(params[:limit])
       render :json => tracks
     else
       head :bad_request
