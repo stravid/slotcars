@@ -9,6 +9,9 @@ class Track < ActiveRecord::Base
   validates :title, :presence => true
 
   def highscores
-    runs.select('user_id, username, MIN(time) AS time').joins(:user).order(:time).group(:user_id, :username)
+    highscores = runs.select('user_id, username, MIN(time) AS time, RANK() OVER(ORDER BY MIN(time))').joins(:user).group(:user_id, :username)
+
+    # cast rank to integer - this is not possible in the query (sadly)
+    highscores.each { |run| run.rank = run.rank.to_i }
   end
 end

@@ -35,10 +35,13 @@ describe Track do
 
       highscores[0].username.should eq 'dominik'
       highscores[0].time.should eq 50
+      highscores[0].rank.should eq 1
       highscores[1].username.should eq 'david'
       highscores[1].time.should eq 100
+      highscores[1].rank.should eq 2
       highscores[2].username.should eq 'tom'
       highscores[2].time.should eq 200
+      highscores[2].rank.should eq 3
     end
   end
 end
