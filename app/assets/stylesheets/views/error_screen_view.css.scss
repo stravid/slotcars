@@ -1,0 +1,14 @@
+#error-overlay {
+  position: absolute; 
+  top: 180px; 
+  left: 150px; 
+  color: white; 
+  font-size: 32px; 
+  font-family: sans-serif; 
+  background-color: rgba(0, 0, 0, 0.7); 
+  -webkit-box-shadow: 0 0 40px rgba(0, 0, 0, 0.7); 
+  width: 700px;
+  padding: 30px;
+
+  .buttons { text-align: center; }
+}
