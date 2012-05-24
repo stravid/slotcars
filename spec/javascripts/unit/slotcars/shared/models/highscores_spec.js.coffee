@@ -67,3 +67,15 @@ describe 'Highscores', ->
         userId: 2
 
       (expect highscores.displayedRuns[1].user_id).toBe 2
+
+  describe '#getTimeForUserId', ->
+
+    it 'should return the correct time for a given user id', ->
+      highscores = Shared.Highscores.create
+        runs: [
+          { user_id: 1, time: 1 }
+          { user_id: 2, time: 2 }
+          { user_id: 3, time: 3 }
+        ]
+
+      (expect highscores.getTimeForUserId 2).toBe 2

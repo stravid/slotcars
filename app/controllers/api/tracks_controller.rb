@@ -35,6 +35,11 @@ class Api::TracksController < Api::ApiController
     render :json => highscores.to_json
   end
 
+  def random
+    @track = Track.order('random()').first
+    render :json => @track
+  end
+
   def count
     render :json => Track.count.to_json
   end

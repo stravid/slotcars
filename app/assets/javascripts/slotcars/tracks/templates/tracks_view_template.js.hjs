@@ -2,7 +2,7 @@
   Page {{currentPage}} of {{pageCount}}
 </div>
 <div id="swiper">
-  {{dynamicView dynamicViewPageA}}
-  {{dynamicView dynamicViewPageB}}
-  {{dynamicView dynamicViewPageC}}
+  {{dynamicView dynamicViewPageA class="page"}}
+  {{dynamicView dynamicViewPageB class="page"}}
+  {{dynamicView dynamicViewPageC class="page"}}
 </div>

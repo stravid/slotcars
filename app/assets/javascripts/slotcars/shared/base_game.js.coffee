@@ -10,8 +10,8 @@ Shared.BaseGame = Ember.Object.extend
     @_applyMixins()
     @_appendViews()
 
-  start: (enableCarControls) ->
-    @_gameController.set 'carControlsEnabled', true if enableCarControls?
+  start: (startRaceImmediately) ->
+    @_gameController.set 'isRaceRunning', true if startRaceImmediately?
     @_gameController.start()
 
   _createGameController: ->

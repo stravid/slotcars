@@ -29,6 +29,13 @@ describe "Tracks" do
       )
   end
 
+  it "routes GET /api/tracks/random to api::tracks#random" do
+    { :get => "/api/tracks/random" }.should route_to(
+        :controller => "api/tracks",
+        :action => "random",
+      )
+  end
+
   it "routes GET /api/tracks/count to api::tracks#count" do
     { :get => "/api/tracks/count" }.should route_to(
         :controller => "api/tracks",
@@ -79,6 +86,17 @@ describe "Runs" do
   it "routes POST /api/runs to api::runs#create" do
     { :post => "api/runs" }.should route_to(
         :controller => "api/runs",
+        :action => "create"
+      )
+  end
+
+end
+
+describe "Ghosts" do
+
+  it "routes POST /api/ghosts to api:ghosts#create" do
+    { :post => "api/ghosts" }.should route_to(
+        :controller => "api/ghosts",
         :action => "create"
       )
   end

@@ -18,7 +18,11 @@ Play.PlayScreen = Ember.Object.extend Shared.Appendable,
     @_playScreenStateManager.send 'load'
 
   load: ->
-    @track = Shared.Track.find @trackId
+    if @trackId?
+      @track = Shared.Track.find @trackId
+    else
+      @track = Shared.Track.findRandom()
+
     @car = Shared.Car.create track: @track
 
     if @track.get 'isLoaded'

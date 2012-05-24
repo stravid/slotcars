@@ -8,6 +8,8 @@ Play.Game = Shared.BaseGame.extend
       track: @track
       car: @car
 
+    Shared.Recordable.apply @_gameController
+
   _createViews: ->
     @_super()
 

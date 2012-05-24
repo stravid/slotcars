@@ -1,23 +1,22 @@
 Shared.Controllable = Ember.Mixin.create
 
   gameController: Ember.required()
-  
+
+  # zoom into the track
   scaleFactor: 2
 
   didInsertElement: ->
     @_super()
-    @onCarControlsChange()
+    @setupTouchListeners()
 
-  onCarControlsChange: (->
-    @$().off 'touchMouseDown'
-    (jQuery document).off 'touchMouseUp'
-
-    if @gameController.get 'carControlsEnabled'
-      @$().on 'touchMouseDown', (event) => @gameController.onTouchMouseDown event
-      (jQuery document).on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
-
-  ).observes 'gameController.carControlsEnabled'
+  setupTouchListeners: ->
+    @$().on 'touchMouseDown', (event) => @gameController.onTouchMouseDown event
+    (jQuery document).on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
 
   destroy: ->
     @_super()
+    @_removeTouchListeners()
+
+  _removeTouchListeners: ->
+    @$().off 'touchMouseDown'
     (jQuery document).off 'touchMouseUp'

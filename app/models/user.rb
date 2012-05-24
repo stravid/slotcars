@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :runs
   has_many :tracks
+  has_many :ghosts
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
@@ -22,21 +23,17 @@ class User < ActiveRecord::Base
   end
 
   def highscores
-    user_runs = runs.select(:track_id).group(:track_id).includes(:track)
-    track_highscores = {}
-
-    user_runs.each do |run|
-      track_highscores[run.track.id] = run.track.highscores
-    end
+    user_runs = runs.group(:id, :track_id).includes(:track)
 
     user_highscores = []
 
-    track_highscores.each_pair do |track_id, highscore|
-      highscore.each_with_index do |run, index|
-        if run.user_id == self.id
+    user_runs.each do |run|
+      run.track.highscores.each_with_index do |highscore, index|
+        if highscore.user_id == self.id
           user_highscores << {
-            :track_id => track_id,
-            :time => run.time,
+            :track_id => run.track.id,
+            :track_title => run.track.title,
+            :time => highscore.time,
             :rank => index + 1
           }
         end

@@ -5,7 +5,11 @@ describe 'Play.Game', ->
     @trackMock = mockEmberClass Shared.Track
     @screenViewMock = set: sinon.spy()
 
-    @GameControllerMock = mockEmberClass Play.GameController
+    @GameControllerMock = mockEmberClass Play.GameController,
+      isRaceRunning: false
+      raceTime: null
+      car: @carMock
+
     @TrackViewMock = mockEmberClass Shared.TrackView,
       gameController: {}
       track: @trackMock
@@ -54,11 +58,14 @@ describe 'Play.Game', ->
       @ClockViewMock.destroy = sinon.spy()
       @GameViewMock.destroy = sinon.spy()
       @GameControllerMock.destroy = sinon.spy()
-
-      @game.destroy()
+      @TrackViewMock.destroy = sinon.spy()
 
     it 'should call destroy on the clock view', ->
+      @game.destroy()
+
       (expect @ClockViewMock.destroy).toHaveBeenCalled()
 
     it 'should call destroy on the game view', ->
+      @game.destroy()
+
       (expect @GameViewMock.destroy).toHaveBeenCalled()

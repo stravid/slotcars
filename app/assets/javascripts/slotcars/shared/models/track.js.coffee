@@ -8,6 +8,7 @@ Shared.Track = DS.Model.extend Shared.Rasterizable,
   numberOfLaps: 3
 
   id: DS.attr 'number'
+  title: DS.attr 'string'
   raphael: DS.attr 'string'
   rasterized: DS.attr 'string'
 
@@ -64,5 +65,39 @@ Shared.Track = DS.Model.extend Shared.Rasterizable,
     # clamp return value to maximum number of laps
     if lap > numberOfLaps then return numberOfLaps else return lap
 
+  setTitle: (title) ->
+    if title.length > 0
+      (@set 'title', title)
+    else
+      @setRandomTitle()
+
+  setRandomTitle: ->
+    randomTrackTitles = Shared.Track.RANDOM_TRACK_TITLES
+    randomIndex = Math.floor (Math.random() * randomTrackTitles.length)
+    @set 'title', randomTrackTitles[randomIndex]
+
 Shared.Track.reopenClass
+
   MINIMUM_TRACK_LENGTH: 400
+
+  # one of these is used if no title provided on publishing
+  RANDOM_TRACK_TITLES: ['Just Another Awesome One']
+
+  findRandom: ->
+    randomTrack = Shared.ModelStore.materializeRecord Shared.Track, 0
+
+    jQuery.ajax "/api/tracks/random",
+      type: "GET"
+      dataType: "json"
+
+      success: (response) ->
+        trackData = response.track
+        trackIds = Shared.ModelStore.load Shared.Track, trackData
+
+        # update the 'clientId' - to ensure that the rest of the tracks data is updated properly
+        randomTrack.clientId = trackIds.clientId
+        randomTrack.send 'didChangeData'
+
+        randomTrack = Shared.ModelStore.find Shared.Track, trackData.id
+
+    randomTrack

@@ -22,16 +22,14 @@ Build.BuildScreen = Ember.Object.extend Shared.Appendable,
       buildScreenView: @view
       track: @track
 
-  teardownDrawing: ->
-    @_builder.destroy()
+  teardownDrawing: -> @_builder.destroy()
 
   setupEditing: ->
     @_editor = Build.Editor.create
       buildScreenView: @view
       track: @track
 
-  teardownEditing: ->
-    @_editor.destroy()
+  teardownEditing: -> @_editor.destroy()
 
   setupTesting: ->
     @_car = Shared.Car.create track: @track
@@ -41,7 +39,7 @@ Build.BuildScreen = Ember.Object.extend Shared.Appendable,
       track: @track
       car: @_car
 
-    @_testDrive.start true
+    @_testDrive.start true # start race immediately
 
   teardownTesting: ->
     @_car.destroy()
@@ -53,11 +51,9 @@ Build.BuildScreen = Ember.Object.extend Shared.Appendable,
       buildScreenView: @view
       track: @track
 
-  startRasterizing: ->
-    @_rasterizer.start()
+  startRasterizing: -> @_rasterizer.start()
 
-  teardownRasterizing: ->
-    @_rasterizer.destroy()
+  teardownRasterizing: -> @_rasterizer.destroy()
 
   setupPublishing: ->
     @_publisher = Build.Publisher.create
@@ -65,11 +61,9 @@ Build.BuildScreen = Ember.Object.extend Shared.Appendable,
       buildScreenView: @view
       track: @track
 
-  performPublishing: ->
-    @_publisher.publish()
+  performPublishing: -> @_publisher.publish()
 
-  teardownPublishing: ->
-    @_publisher.destroy()
+  teardownPublishing: -> @_publisher.destroy()
 
   destroy: ->
     @_super()
