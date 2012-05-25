@@ -1,20 +1,34 @@
-<h2>Create Your Account</h2>
+<h2>Welcome Racer</h2>
+
+<p class="explanation">
+    Once you signed up, you will be able to build your own tracks 
+    and save your highscores! You just need to log in the next time 
+    you come back.
+</p>
 
 
-{{#each validationErrors.username}}
-  <p class="error">Username {{this}}</p>
-{{/each}}
-<input id="username-field" type="text" placeholder="Username"/>
+<label>Username:</label>
+<div>
+    <input id="username-field" type="text" />
+</div>
+<p class="error">
+{{#each validationErrors.username}}Username {{this}}{{/each}}&nbsp;
+</p>
+<br/>
 
-{{#each validationErrors.email}}
-  <p class="error">Email {{this}}</p>
-{{/each}}
-<input id="email-field" type="email" placeholder="Email"/>
+<label>E-Mail:</label>
+<div><input id="email-field" type="email" /></div>
+<p class="error">
+{{#each validationErrors.email}}Email {{this}}{{/each}}&nbsp;
+</p>
+<br/>
 
-{{#each validationErrors.password}}
-  <p class="error">Password {{this}}</p>
-{{/each}}
-<input id="password-field" type="password" placeholder="Password" />
+<label>Password:</label>
+<div><input id="password-field" type="password" /></div>
+<p class="error">
+{{#each validationErrors.password}}Password {{this}}{{/each}}&nbsp;
+</p>
+<br/>
 
 <button class="cancel" {{action "onCancelSignUpButtonClicked"}}>Cancel</button>
 <button class="ok" {{action "onSignUpButtonClicked"}}>Create Account</button>

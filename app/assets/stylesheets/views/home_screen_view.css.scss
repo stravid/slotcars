@@ -108,7 +108,52 @@ h1 {
 }
 
 #signup-widget-view {
-  margin: 20px;
+  @include rotate(-11deg);
+  
+  padding-left: 120px;
+  padding-top: 125px;
+  
+  h2 {
+    font-family: "JustTheWayYouAre", sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: #193773;
+    
+    @include rotate(3deg);
+  }
+  
+  .explanation {
+    line-height: 33px;
+    font-size: 20px;
+    color: #1e1e1e;
+    width: 400px;
+    display: block;
+  }
+  
+  label {
+    font-family: inherit;
+    font-size: 25px;
+    display: inline-block;
+    padding-top: 5px;
+  }
+  
+  div {
+    display: inline-block;
+    width: 200px;
+    height: 34px;
+    border-bottom: 2px dashed black;
+  }
+  
+  input {
+    display: inline-block;
+    width: 200px;
+    background-color: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: 25px;
+    position: relative;
+    top: -5px;
+  }
 }
 
 #profile-widget-view {
@@ -118,13 +163,15 @@ h1 {
   padding-left: 120px;
   padding-top: 105px;
   
+  width: 420px;
+  
   h3 {
     font-family: "JustTheWayYouAre", sans-serif;
     font-size: 40px;
     font-weight: bold;
     color: #193773;
   }
-
+  
   h4 {
     font-size: 30px;
     font-weight: bold;
