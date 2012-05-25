@@ -11,12 +11,26 @@
   {{#if user.highscores.length}}
     <table id="highscore-table">
       <tbody>
+
         <tr>
-          <th>Rank</th>
-          <th>Track</th>
-          <th>Time</th>
+            <td>12t</td>
+            <td>Hallodri</td>
+            <td>00:32:21</td>
+        </tr>
+        
+        <tr>
+            <td>3rd</td>
+            <td>Was soll das</td>
+            <td>00:34:23</td>
+        </tr>
+        
+        <tr>
+            <td>4th</td>
+            <td>Duda</td>
+            <td>00:23::34</td>
         </tr>
 
+        <!--
         {{#each user.highscores}}
           <tr>
             <td>{{ordinal_number rank}}</td>
@@ -24,7 +38,8 @@
             <td>{{racetime time}}</td>
           </tr>
         {{/each}}
-
+        -->
+        
       </tbody>
     </table>
 

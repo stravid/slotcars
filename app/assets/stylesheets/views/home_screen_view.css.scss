@@ -3,6 +3,8 @@
  *= require shared/fonts
  */
 
+@import "helpers/mixins";
+
 h1 {
   overflow: hidden;
   text-indent: -10000px;
@@ -19,6 +21,7 @@ h1 {
   top: 225px;
   left: 48px;
   list-style: none;
+  z-index: 100;
 }
 
 #quickplay-button {
@@ -26,11 +29,12 @@ h1 {
   height: 66px;
   background-image: image-url("views/home/quick-play.png");
   background-repeat: no-repeat;
+ 
+  &:hover {
+    background-position: 0 -67px;
+  }
 }
 
-#quickplay-button:hover {
-  background-position: 0 -67px;
-}
 
 #tracks-button {
   width: 264px;
@@ -38,10 +42,10 @@ h1 {
   margin-top: 10px;
   background-image: image-url("views/home/choose-track.png");
   background-repeat: no-repeat;
-}
-
-#tracks-button:hover {
-  background-position: 0 -74px;
+  
+  &:hover {
+    background-position: 0 -74px;
+  }
 }
 
 #build-button {
@@ -50,10 +54,10 @@ h1 {
   margin-top: 5px;
   background-image: image-url("views/home/create-track.png");
   background-repeat: no-repeat;
-}
-
-#build-button:hover {
-  background-position: 0 -67px;
+  
+  &:hover {
+    background-position: 0 -67px;
+  }
 }
 
 #register-button {
@@ -82,21 +86,8 @@ h1 {
 
 #bottom-curve {
   position: absolute;
-  bottom: 0;
+  bottom: -50px;
   left: 0;
-}
-
-#home-right-column {
-  width: 300px;
-
-  position:absolute;
-  top: 205px;
-  left: 500px;
-
-  border: 1px solid white;
-  border-radius: 10px;
-
-  background-color: rgba(252, 252, 252, 0.22);
 }
 
 #login-widget-view {
@@ -121,31 +112,61 @@ h1 {
 }
 
 #profile-widget-view {
-  margin: 20px;
-  color: white;
-
+  
+  @include rotate(-11deg);
+  
+  padding-left: 120px;
+  padding-top: 105px;
+  
   h3 {
-    float: left;
-    margin: 0 0 1em 0;
+    font-family: "JustTheWayYouAre", sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: #193773;
   }
 
   h4 {
+    font-size: 30px;
+    font-weight: bold;
     clear: both;
   }
-
+  
   button {
-    margin-left: 10px;
-    position: relative;
-    top: -5px;
+    @include rotate(11deg);
+    
+    width: 148px;
+    height: 170px;
+    position: absolute;
+    top: 160px;
+    left: -350px;
+    z-index: 0;
+    
+    background-image: image-url("views/home/logout.png");
+    background-repeat: no-repeat;
+    background-color: transparent;
+    
+    border: none;
+    text-indent: -10000px;
+    overflow: hidden;
+
+    &:hover {
+      background-position: 0 -174px
+    }
   }
 }
 
 #user-highscores {
-  margin-top: 10px;
-  height: 140px;
-  overflow-y: scroll;
+  width: 420px;
+  margin-top: 60px;
+
+  font-size: 26px;
+  line-height: 31px;
 
   #highscore-table {
-    with: 100%;
+    width: 100%;
+    
+    td:nth-child(3) {
+      text-align: right;
+    }
   }
 }
