@@ -35,8 +35,7 @@ class Api::TracksController < Api::ApiController
   end
 
   def random
-    @track = Track.order('RANDOM()').first
-    render :json => @track
+    render :json => Track.random
   end
 
   def count
