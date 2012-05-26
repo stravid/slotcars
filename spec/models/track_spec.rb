@@ -18,7 +18,7 @@ describe Track do
     end
   end
 
-  describe 'highscores' do
+  describe '#highscores' do
     let(:track) { FactoryGirl.create :track }
 
     it 'should get the correct highscores' do
@@ -35,10 +35,24 @@ describe Track do
 
       highscores[0].username.should eq 'dominik'
       highscores[0].time.should eq 50
+      highscores[0].rank.should eq 1
       highscores[1].username.should eq 'david'
       highscores[1].time.should eq 100
+      highscores[1].rank.should eq 2
       highscores[2].username.should eq 'tom'
       highscores[2].time.should eq 200
+      highscores[2].rank.should eq 3
+    end
+  end
+
+  describe '#random' do
+
+    it 'should choose a random track' do
+      tracks = FactoryGirl.create_list :track, 10
+
+      track = Track.random
+
+      tracks.should include(track)
     end
   end
 end
