@@ -1,4 +1,4 @@
-#= require slotcars/shared/lib/rasterizable
+#= require slotcars/shared/mixins/rasterizable
 
 Shared.Track = DS.Model.extend Shared.Rasterizable,
 

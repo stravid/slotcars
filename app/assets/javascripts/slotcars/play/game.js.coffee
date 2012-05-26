@@ -1,4 +1,4 @@
-#= require slotcars/shared/base_game
+#= require slotcars/shared/lib/base_game
 
 Play.Game = Shared.BaseGame.extend
 

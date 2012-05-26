@@ -1,5 +1,3 @@
-#= require slotcars/shared/lib/appendable
-
 Play.PlayScreenNotificationsView = Ember.ContainerView.extend
 
   elementId: 'play-screen-notifications-view'

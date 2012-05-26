@@ -1,6 +1,5 @@
-
+#= require slotcars/shared/mixins/appendable
 #= require slotcars/factories/screen_factory
-#= require slotcars/shared/lib/appendable
 #= require slotcars/shared/components/container
 
 Home.HomeScreen = Ember.Object.extend Shared.Appendable, Shared.Container,

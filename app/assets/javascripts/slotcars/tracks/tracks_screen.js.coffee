@@ -1,5 +1,4 @@
-
-#= require slotcars/shared/lib/appendable
+#= require slotcars/shared/mixins/appendable
 #= require slotcars/factories/screen_factory
 
 Tracks.TracksScreen = Ember.Object.extend Shared.Appendable,
