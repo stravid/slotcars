@@ -24,11 +24,6 @@ describe 'Appendable', ->
 
   describe 'destroying', ->
 
-    it 'should remove the view from DOM', ->
-      @appendable.destroy()
-
-      (expect @viewMock.remove).toHaveBeenCalled()
-
     it 'should destroy the view', ->
       @appendable.destroy()
 
