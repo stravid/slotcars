@@ -8,6 +8,10 @@ class Track < ActiveRecord::Base
   validates :rasterized, :presence => true
   validates :title, :presence => true
 
+  def self.sorted_by_date
+    Track.order("created_at DESC")
+  end
+
   def highscores
     runs.select('user_id, username, MIN(time) AS time').joins(:user).order(:time).group(:user_id, :username)
   end
