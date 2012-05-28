@@ -51,10 +51,18 @@ describe 'Play.Countdownable', ->
                                                     @countdownable.hideCountdown,
                                                     3500
 
+    it 'should store all created timers', ->
+      sinon.spy @countdownable.timers, 'push'
+
+      @countdownable.startCountdown()
+
+      (expect @countdownable.timers.push.callCount).toBe Ember.run.later.callCount
 
   describe 'resetting the countdown', ->
 
-    beforeEach -> sinon.stub @countdownable, 'showCountdown'
+    beforeEach ->
+      sinon.stub @countdownable, 'showCountdown'
+      sinon.stub @countdownable, 'cancelTimers'
 
     it 'should set the countdown value to 3', ->
       @countdownable.resetCountdown()
@@ -65,6 +73,11 @@ describe 'Play.Countdownable', ->
       @countdownable.resetCountdown()
 
       (expect @countdownable.showCountdown).toHaveBeenCalled()
+
+    it 'should cancel the timers', ->
+      @countdownable.resetCountdown()
+
+      (expect @countdownable.cancelTimers).toHaveBeenCalled()
 
 
   describe 'setting the countdown value', ->
@@ -113,3 +126,31 @@ describe 'Play.Countdownable', ->
       @countdownable.hideCountdown()
 
       (expect @countdownable.get 'isCountdownVisible').toBe false
+
+  describe 'canceling the timers', ->
+
+    beforeEach ->
+      @fakeTimer = sinon.useFakeTimers()
+
+    afterEach ->
+      @fakeTimer.restore()
+
+    it 'should cancel all stored timers', ->
+      spy = sinon.spy()
+
+      @countdownable.timers.push Ember.run.later this, spy, 1000
+      @countdownable.timers.push Ember.run.later this, spy, 2000
+
+      @countdownable.cancelTimers()
+
+      @fakeTimer.tick 3000
+
+      (expect spy).not.toHaveBeenCalled()
+
+    it 'should reset the timers array', ->
+      @countdownable.timers = ['a', 'b', 'c']
+
+      @countdownable.cancelTimers()
+
+      (expect @countdownable.timers.length).toBe 0
+
