@@ -26,6 +26,8 @@ class Api::GhostsController < ApplicationController
       ghost = track.ghosts.order(:time).first
     end
 
+    return :error if ghost.nil?
+
     render :json => ghost
   end
 end
