@@ -8,27 +8,25 @@
 
 
 <label>Username:</label>
-<div>
-    <input id="username-field" type="text" />
-</div>
+<div class="username"><input id="username-field" type="text" /></div>
 <p class="error">
 {{#each validationErrors.username}}Username {{this}}{{/each}}&nbsp;
 </p>
 <br/>
 
 <label>E-Mail:</label>
-<div><input id="email-field" type="email" /></div>
+<div class="email"><input id="email-field" type="email" /></div>
 <p class="error">
 {{#each validationErrors.email}}Email {{this}}{{/each}}&nbsp;
 </p>
 <br/>
 
 <label>Password:</label>
-<div><input id="password-field" type="password" /></div>
+<div class="password"><input id="password-field" type="password" /></div>
 <p class="error">
 {{#each validationErrors.password}}Password {{this}}{{/each}}&nbsp;
 </p>
 <br/>
 
-<button class="cancel" {{action "onCancelSignUpButtonClicked"}}>Cancel</button>
 <button class="ok" {{action "onSignUpButtonClicked"}}>Create Account</button>
+<button class="cancel" {{action "onCancelSignUpButtonClicked"}}>Cancel</button>

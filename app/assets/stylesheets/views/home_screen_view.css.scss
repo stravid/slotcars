@@ -4,6 +4,7 @@
  */
 
 @import "helpers/mixins";
+@import "shared/clipboard_button";
 
 h1 {
   overflow: hidden;
@@ -69,7 +70,7 @@ h1 {
 
 #clipboard {
   position: absolute;
-  top: 160px;
+  top: 132px;
   left: 360px;
   width: 711px;
   height: 858px;
@@ -111,7 +112,11 @@ h1 {
   @include rotate(-11deg);
   
   padding-left: 120px;
-  padding-top: 125px;
+  padding-top: 138px;
+  
+  font-weight: bold;
+  
+  width: 420px;
   
   h2 {
     font-family: "JustTheWayYouAre", sans-serif;
@@ -139,20 +144,35 @@ h1 {
   
   div {
     display: inline-block;
-    width: 200px;
+    width: 260px;
     height: 34px;
     border-bottom: 2px dashed black;
+    
+    &.email {
+      width: 308px;
+    }
+    
+    input {
+      display: inline-block;
+      width: 100%;
+      background-color: transparent;
+      border: none;
+      font-family: inherit;
+      font-size: 25px;
+      position: relative;
+      top: -5px;
+      
+      &:focus {
+        outline: none;
+      }
+    }
   }
   
-  input {
-    display: inline-block;
-    width: 200px;
-    background-color: transparent;
-    border: none;
-    font-family: inherit;
-    font-size: 25px;
-    position: relative;
-    top: -5px;
+  button {
+    @include clipboard-button;
+    
+    float: right;
+    margin-left: 10px;
   }
 }
 
@@ -161,7 +181,7 @@ h1 {
   @include rotate(-11deg);
   
   padding-left: 120px;
-  padding-top: 105px;
+  padding-top: 120px;
   
   width: 420px;
   
@@ -182,11 +202,12 @@ h1 {
     @include rotate(11deg);
     
     width: 148px;
-    height: 170px;
+    height: 167px;
     position: absolute;
-    top: 160px;
+    top: 200px;
     left: -350px;
     z-index: 0;
+    cursor: pointer;
     
     background-image: image-url("views/home/logout.png");
     background-repeat: no-repeat;
