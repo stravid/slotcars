@@ -1,12 +1,5 @@
 describe 'Highscores', ->
 
-  it 'should add ranks to the runs', ->
-    highscores = Shared.Highscores.create
-      runs: [{},{}]
-
-    (expect highscores.runs[0].rank).toBe 1
-    (expect highscores.runs[1].rank).toBe 2
-
   it 'should limit the displayedRuns by default to 5', ->
     highscores = Shared.Highscores.create
       runs: [{}, {}, {}, {}, {}, {}]
@@ -24,13 +17,13 @@ describe 'Highscores', ->
 
     beforeEach ->
       @runs = [
-        { user_id: 1 }
-        { user_id: 2 }
-        { user_id: 3 }
-        { user_id: 4 }
-        { user_id: 5 }
-        { user_id: 6 }
-        { user_id: 7 }
+        { user_id: 1, rank: 1 }
+        { user_id: 2, rank: 2 }
+        { user_id: 3, rank: 3 }
+        { user_id: 4, rank: 4 }
+        { user_id: 5, rank: 5 }
+        { user_id: 6, rank: 6 }
+        { user_id: 7, rank: 7 }
       ]
 
     it 'should select the runs around the current users run', ->
