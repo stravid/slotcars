@@ -1,10 +1,10 @@
 <h2>Welcome Racer</h2>
 
-<div>You want to</div>
+<div>You want to:</div>
 
 <ul>
-    <li><button {{action "onLoginButtonClicked"}}>Login</button></li>
-    <li><button {{action "onSignUpButtonClicked"}}>Sign Up</button></li>
+    <li><button class="loginButton" {{action "onLoginButtonClicked"}}>Login</button></li>
+    <li><button class="signUpButton" {{action "onSignUpButtonClicked"}}>Sign Up</button></li>
 </ul>
 
 <p>

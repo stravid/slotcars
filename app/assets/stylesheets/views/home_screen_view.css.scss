@@ -91,6 +91,72 @@ h1 {
   left: 0;
 }
 
+/* --------------- */
+/* --- WIDGETS --- */
+/* --------------- */
+
+@mixin widget-base {
+  @include rotate(-11deg);
+  
+  padding-left: 120px;
+  padding-top: 138px;
+  
+  font-weight: bold;
+  
+  width: 420px;
+}
+
+#menu-widget-view {
+  
+  @include widget-base;
+  
+  h2 {
+    @include rotate(3deg);
+    
+    font-family: "JustTheWayYouAre", sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: #193773;
+  }
+  
+  div {
+    width: 220px;
+    padding: 28px 0;
+    font-size: 24px;
+    margin-top: 60px;
+    background-image: image-url("views/home/lines.png");
+    background-position: top right;
+    background-repeat: no-repeat;
+  }
+  
+  li {
+    list-style: none;
+  }
+  
+  button {
+    @include clipboard-button;
+    
+    position: absolute;
+    
+    &.loginButton {
+      top: 210px;
+      left: 350px;
+    }
+    
+    &.signUpButton {
+      top: 275px;
+      left: 350px;
+    }
+  }
+  
+  p {
+    font-size: 21px;
+    line-height: 31px;
+    font-weight: normal;
+    margin-top: 52px;
+  }
+}
+
 #login-widget-view {
   button {
     width: 100px;
@@ -109,14 +175,7 @@ h1 {
 }
 
 #signup-widget-view {
-  @include rotate(-11deg);
-  
-  padding-left: 120px;
-  padding-top: 138px;
-  
-  font-weight: bold;
-  
-  width: 420px;
+  @include widget-base;
   
   h2 {
     font-family: "JustTheWayYouAre", sans-serif;
@@ -176,14 +235,12 @@ h1 {
   }
 }
 
+
 #profile-widget-view {
   
-  @include rotate(-11deg);
+  @include widget-base;
   
-  padding-left: 120px;
   padding-top: 120px;
-  
-  width: 420px;
   
   h3 {
     font-family: "JustTheWayYouAre", sans-serif;
@@ -221,20 +278,21 @@ h1 {
       background-position: 0 -174px
     }
   }
-}
-
-#user-highscores {
-  width: 420px;
-  margin-top: 60px;
-
-  font-size: 26px;
-  line-height: 31px;
-
-  #highscore-table {
-    width: 100%;
-    
-    td:nth-child(3) {
-      text-align: right;
+  
+  #user-highscores {
+    width: 420px;
+    margin-top: 60px;
+  
+    font-size: 26px;
+    line-height: 31px;
+  
+    #highscore-table {
+      width: 100%;
+      
+      td:nth-child(3) {
+        text-align: right;
+      }
     }
   }
 }
+
