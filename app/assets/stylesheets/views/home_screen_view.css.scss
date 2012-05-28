@@ -106,17 +106,21 @@ h1 {
   width: 420px;
 }
 
+@mixin widget-headline {
+  @include rotate(3deg);
+    
+  font-family: "JustTheWayYouAre", sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  color: #193773;
+}
+
 #menu-widget-view {
   
   @include widget-base;
   
   h2 {
-    @include rotate(3deg);
-    
-    font-family: "JustTheWayYouAre", sans-serif;
-    font-size: 40px;
-    font-weight: bold;
-    color: #193773;
+    @include widget-headline;
   }
   
   div {
@@ -158,19 +162,45 @@ h1 {
 }
 
 #login-widget-view {
+
+  @include widget-base;
+  
+  h2 {
+    @include widget-headline;
+  }
+  
+  label {
+    font-size: 26px;
+  }
+  
+  div.input-field {
+    margin-bottom: 30px;
+  }
+  
+  div.form {
+    width: 260px;
+    height: 34px;
+    display: inline-block;
+    border-bottom: 2px dashed black;
+    
+    input {
+      display: inline-block;
+      width: 100%;
+      background-color: transparent;
+      border: none;
+      font-family: inherit;
+      font-size: 25px;
+      position: relative;
+      top: -5px;
+      
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  
   button {
-    width: 100px;
-    font-weight: bold;
-  }
-
-  #login-form {
-    margin: 20px;
-  }
-
-  #not-yet-registered {
-    padding: 20px;
-    background: rgba(253, 255, 252, 0.36);
-    border-radius: 0 0 10px 10px;
+    @include clipboard-button;
   }
 }
 
@@ -178,12 +208,7 @@ h1 {
   @include widget-base;
   
   h2 {
-    font-family: "JustTheWayYouAre", sans-serif;
-    font-size: 40px;
-    font-weight: bold;
-    color: #193773;
-    
-    @include rotate(3deg);
+    @include widget-headline;
   }
   
   .explanation {
@@ -243,10 +268,7 @@ h1 {
   padding-top: 120px;
   
   h3 {
-    font-family: "JustTheWayYouAre", sans-serif;
-    font-size: 40px;
-    font-weight: bold;
-    color: #193773;
+    @include widget-headline;
   }
   
   h4 {
