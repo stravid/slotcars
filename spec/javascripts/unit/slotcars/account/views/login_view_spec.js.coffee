@@ -4,9 +4,9 @@ describe 'Account.LoginView', ->
     @loginView = Account.LoginView.create()
 
   it 'should tell delegate about click on sign up button', ->
-    delegate = switchToSignUp: sinon.spy()
+    delegate = switchToMenu: sinon.spy()
 
     @loginView.set 'delegate', delegate
-    @loginView.onSignUpButtonClicked()
+    @loginView.onCancelClicked()
 
-    (expect delegate.switchToSignUp).toHaveBeenCalled()
+    (expect delegate.switchToMenu).toHaveBeenCalled()
