@@ -37,7 +37,7 @@ Account.AccountWidget = Ember.Object.extend Shared.Widget, Shared.Container,
     @_removeCurrentContentWidget()
     profileWidget = Shared.WidgetFactory.getInstance().getInstanceOf 'ProfileWidget'
     profileWidget.addToContainerAtLocation this, 'content'
-    profileWidget.on 'currentUserSignedOut', this, 'showLoginWidget'
+    profileWidget.on 'currentUserSignedOut', this, 'showMenuWidget'
 
   _removeCurrentContentWidget: -> (@view.get 'content').destroy() if (@view.get 'content')
 
