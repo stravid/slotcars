@@ -1,6 +1,8 @@
 describe 'Play.GameController (unit)', ->
 
   beforeEach ->
+    Shared.User.current = null
+
     @xhr = sinon.useFakeXMLHttpRequest()
 
     @carMock = mockEmberClass Shared.Car,
@@ -91,10 +93,10 @@ describe 'Play.GameController (unit)', ->
       @gameController.finish()
 
       (expect @gameController.isTouchMouseDown).toBe false
-      
+
     it 'should set a flag that race is over', ->
       @gameController.finish()
-      
+
       (expect @gameController.get 'isRaceFinished').toBe true
 
     it 'should call saveRaceTime if Shared.User.current is present', ->
@@ -149,16 +151,16 @@ describe 'Play.GameController (unit)', ->
       @gameController.restartGame()
 
       (expect @gameController.get 'isRaceRunning').toBe false
-      
+
     it 'should unset the flag wether the race is finished', ->
       @gameController.restartGame()
-      
+
       (expect @gameController.get 'isRaceFinished').toBe false
-      
+
     it 'should reset lap times when race is reset', ->
       @gameController.lapTimes.push(123)
       @gameController.restartGame()
-       
+
       (expect @gameController.lapTimes).toEqual []
 
     it 'should start countdown and provide start race method as callback', ->
@@ -191,7 +193,7 @@ describe 'Play.GameController (unit)', ->
       @carMock.set 'currentLap', 2
 
       (expect @gameController.lapTimes.length).toBe 1
-      
+
     it 'should save the difference of total minus the previous laps', ->
       @gameController.set 'raceTime', 1000
       @gameController.set 'lapTimes', [200, 300]
@@ -244,10 +246,10 @@ describe 'Play.GameController (unit)', ->
       @highscoresMock = mockEmberClass Shared.Highscores,
         getTimeForUserId: sinon.stub().returns @highscoreTime
 
-      @gameController.onHighscoresLoaded()
-
-      Shared.User.current = 
+      Shared.User.current =
         get: ->
+
+      @gameController.onHighscoresLoaded()
 
     afterEach ->
       @highscoresMock.restore()

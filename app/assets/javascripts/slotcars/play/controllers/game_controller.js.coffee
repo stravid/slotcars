@@ -1,4 +1,4 @@
-  
+
 #= require slotcars/shared/controllers/base_game_controller
 #= require slotcars/play/mixins/countdownable
 
@@ -13,9 +13,18 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
 
   lapTimes: null
 
+  ghost: null
+
   init: ->
     @_super()
     @set 'lapTimes', []
+
+    @initializeGhostForCurrentUserHighscore() if Shared.User.current?
+
+  initializeGhostForCurrentUserHighscore: ->
+    highscoreOnTrack = Shared.User.current.getTimeForTrackId @track.get 'id'
+
+    @loadGhost highscoreOnTrack if highscoreOnTrack?
 
   start: ->
     @_super()
@@ -33,6 +42,7 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
       @saveRaceTime()
     else
       @loadHighscores()
+      @loadGhost @raceTime if @isGhostDefeated()
 
   saveRaceTime: ->
     run = Shared.Run.createRecord
@@ -40,38 +50,75 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
       time: @raceTime
       user: Shared.User.current
 
-    run.save => @loadHighscores => @saveGhost()
+    run.save => @loadHighscores()
 
-  loadHighscores: (callback) ->
+  loadHighscores: ->
     @track.loadHighscores (highscores) =>
       @onHighscoresLoaded highscores
 
-      callback() if callback?
+  loadGhost: (time) ->
+    jQuery.ajax "/api/ghosts",
+      type: "GET"
+      dataType: 'json'
+      data:
+        track_id: @track.get 'id'
+        time: time
+      success: (response) => @initializeGhost response.ghost
+      error: -> # no ghost for this track
 
   saveGhost: ->
-    return unless @isNewHighscore()
+    if @isRecording
+      @addObserver 'isRecording', this, 'onIsRecordingChange'
+    else
+      @createGhost()
 
+  onIsRecordingChange: ->
+    @removeObserver 'isRecording', this, 'onIsRecordingChange'
+
+    @createGhost()
+
+  createGhost: ->
     ghost = Shared.Ghost.createRecord
       positions: @recordedPositions
       track: @track
       user: Shared.User.current
       time: @raceTime
 
+    ghost.on 'didCreate', => @loadGhost @raceTime
     ghost.save()
 
   onHighscoresLoaded: (highscores) ->
     @set 'highscores', Shared.Highscores.create runs: highscores
+
+    if @isNewHighscore()
+      @saveGhost()
+    else
+      @loadGhost @raceTime if @isGhostDefeated()
 
   isNewHighscore: ->
     time = @highscores.getTimeForUserId Shared.User.current.get 'id'
 
     time is @raceTime
 
+  isGhostDefeated: ->
+    @raceTime < @ghost?.get 'time'
+
+  initializeGhost: (ghost) ->
+    Shared.ModelStore.load Shared.Ghost, ghost
+
+    @ghost = Shared.Ghost.find ghost.id
+
+    @ghost.fire 'didLoad'
+
+    @ghostView.set 'car', @car
+    @ghostView.set 'ghost', @ghost
+    @ghostView.show()
+
   onCarCrossedFinishLine: (->
     car = @get 'car'
     if car.get 'crossedFinishLine' then @finish()
   ).observes 'car.crossedFinishLine'
-  
+
   onLapChange: (->
     # prevent taking time when car enters first lap
     return unless (@car.get 'currentLap') > 1
@@ -88,6 +135,8 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
     @_super()
     @_setCurrentTime()
 
+    @ghost.drive @raceTime if @ghost?
+
   restartGame: ->
     @set 'isRaceRunning', false
     @set 'isRaceFinished', false
@@ -95,10 +144,13 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
     @set 'lapTimes', []
 
     @car.reset()
+    @ghost.reset() if @ghost?
+
     @startCountdown => @startRace()
 
   startRace: ->
     @set 'isRaceRunning', true
+
     @startTime = new Date().getTime()
 
   _setCurrentTime: ->
