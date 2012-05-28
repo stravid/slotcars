@@ -1,6 +1,5 @@
 <h1>Slotcars</h1>
 
-
 <ul id="home-navigation">
     <li><a id="quickplay-button" class="override-button js-route" href="quickplay">Quickplay</a></li>
     <li><a id="tracks-button" class="override-button js-route" href="tracks">Tracks</a></li>

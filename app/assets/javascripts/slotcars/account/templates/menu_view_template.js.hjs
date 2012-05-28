@@ -1,0 +1,13 @@
+<h2>Welcome Racer</h2>
+
+<div>You want to</div>
+
+<ul>
+    <li><button {{action "onLoginButtonClicked"}}>Login</button></li>
+    <li><button {{action "onSignUpButtonClicked"}}>Sign Up</button></li>
+</ul>
+
+<p>
+    * if you just want to look around and try the game, you don’t have to sign up. 
+    But to create own tracks and save highscores, you need to create an account!
+</p>

@@ -7,12 +7,7 @@
 
   <input id="login-field" type="text" placeholder="Username or Email" />
   <input id="password-field" type="password" placeholder="Password" />
+  
   <button {{action "onLoginButtonClicked"}}>Log in</button>
-</div>
-
-<div id="not-yet-registered">
-  <h3>Not Yet Registered?</h3>
-  <p>Create your Slotcars account and start building your own tracks and save your highscores!</p>
-
-  <button {{action "onSignUpButtonClicked"}}>Sign Up</button>
+  <button {{action "onCancelClicked"}}>Cancel</button>
 </div>
