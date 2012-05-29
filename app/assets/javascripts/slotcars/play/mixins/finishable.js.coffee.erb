@@ -4,6 +4,11 @@ Play.Finishable = Ember.Mixin.create
 
   track: Ember.required()
   finishLineImage: null
+
+  FINISH_LINE_START_POINT_OFFSET: 20
+  FINISH_LINE_ANGLE_POINT_OFFSET: 23
+
+  FINISH_LINE_X_OFFSET: -66
     
   didRenderTrack: ->
     @_super()
@@ -15,20 +20,20 @@ Play.Finishable = Ember.Mixin.create
     @finishLineImage.src = FINISH_LINE_DATA_URI
 
   drawFinishLine: ->
-    pointA = @track.getPointAtLength 20
-    pointB = @track.getPointAtLength 23
-    
-    x = pointB.x - pointA.x
-    y = pointB.y - pointA.y
-    
-    vector = Shared.Vector.create x: x, y: y
+    # take two points from the track with a small offset from the start
+    # so that the car has a small overlap over the finish line.
+    startPoint = @track.getPointAtLength @FINISH_LINE_START_POINT_OFFSET
+    anglePoint = @track.getPointAtLength @FINISH_LINE_ANGLE_POINT_OFFSET
+
+    # the vector is used to calculate the correct angle for the finish line
+    finishLineVector = Shared.Vector.create from: startPoint, to: anglePoint
 
     canvasContext = @renderCanvas.get(0).getContext('2d')
 
     scaledFinishLineWidth = @finishLineImage.width * @scaleFactor
     scaledFinishLineHeight = @finishLineImage.height * @scaleFactor
 
-    canvasContext.translate pointA.x * @scaleFactor, pointA.y * @scaleFactor
-    canvasContext.rotate vector.clockwiseAngle() * Math.PI / 180
-    canvasContext.translate -66, 0
+    canvasContext.translate startPoint.x * @scaleFactor, startPoint.y * @scaleFactor
+    canvasContext.rotate finishLineVector.clockwiseAngle() * Math.PI / 180
+    canvasContext.translate @FINISH_LINE_X_OFFSET, 0
     canvasContext.drawImage @finishLineImage, 0, 0, scaledFinishLineWidth, scaledFinishLineHeight
