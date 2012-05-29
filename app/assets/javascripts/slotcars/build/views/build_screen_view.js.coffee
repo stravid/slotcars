@@ -13,6 +13,8 @@ Build.BuildScreenView = Ember.View.extend
     @set 'editButton', Shared.Button.create()
     @set 'publishButton', Shared.Button.create()
 
+  didInsertElement: -> # Don´t use - it is overridden by Shared.Animatable
+
   onDrawButtonClicked: (event) ->
     event.preventDefault() if event?
     @stateManager.send 'clickedDrawButton'

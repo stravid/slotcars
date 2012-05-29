@@ -1,5 +1,5 @@
 Shared.Appendable = Ember.Mixin.create
-  
+
   view: Ember.required()
 
   append: ->
@@ -7,5 +7,4 @@ Shared.Appendable = Ember.Mixin.create
 
   destroy: ->
     @_super()
-    @view.remove()
     @view.destroy()

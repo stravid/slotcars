@@ -8,3 +8,4 @@ Shared.ScreenFactory = Shared.Factory.extend
   getInstanceOf: (typeId, createParamters={}) ->
     instance = @_super typeId, createParamters
     Shared.Appendable.apply instance
+    Shared.Animatable.apply instance

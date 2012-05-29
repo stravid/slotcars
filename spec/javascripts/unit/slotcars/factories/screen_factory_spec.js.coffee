@@ -16,11 +16,21 @@ describe 'screen factory', ->
 
       (expect registerTypeStub).toHaveBeenCalledWith id, testScreen
 
-    it 'should apply Appendable mixin to each instance', ->
-      id = 'TestScreen'
+  describe 'getting instance', ->
+
+    beforeEach ->
+      @id = 'TestScreen'
       testScreen = Ember.Object.extend view: null
-      @screenFactory.registerScreen id, testScreen
 
-      screen = @screenFactory.getInstanceOf id
+      @screenFactory = Shared.ScreenFactory.create()
+      @screenFactory.registerScreen @id, testScreen
 
-      (expect screen).toHaveTheFunctionalityOf Shared.Appendable
+    it 'should apply Appendable mixin on each instance', ->
+      screenInstance = @screenFactory.getInstanceOf @id
+
+      (expect screenInstance).toHaveTheFunctionalityOf Shared.Appendable
+
+    it 'should apply Animatable mixin on each instance', ->
+      screenInstance = @screenFactory.getInstanceOf @id
+
+      (expect screenInstance).toHaveTheFunctionalityOf Shared.Animatable

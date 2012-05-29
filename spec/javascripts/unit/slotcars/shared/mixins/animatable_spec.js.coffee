@@ -2,7 +2,7 @@ describe 'Shared.Animatable', ->
 
   beforeEach ->
     @viewStub = Ember.View.create()
-    screen = Ember.Object.create
+    screen =
       view: @viewStub
       append: ->
 
