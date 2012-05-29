@@ -12,6 +12,15 @@
   height: 768px;
 }
 
+.topbar {
+  background-image: image-url("shared/top-bar.jpg");
+  width: 1024px;
+  height: 106px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 #retry-button {
   width: 163px;
   height: 66px;

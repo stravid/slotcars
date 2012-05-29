@@ -1,5 +1,8 @@
-<a id="retry-button" class="override-button" {{action "onRestartClick"}}>Retry</a>
-<div id="countdown">{{gameController.currentCountdownValue}}</div>
+<div class="topbar">
+    <a id="home-button" class="override-button js-route" href="">Home</a>
+    <a id="retry-button" class="override-button" {{action "onRestartClick"}}>Retry</a>
+    <div id="countdown">{{gameController.currentCountdownValue}}</div>
+</div>
 
 {{#if gameController.isRaceFinished}}
     {{dynamicView overlayView}}
