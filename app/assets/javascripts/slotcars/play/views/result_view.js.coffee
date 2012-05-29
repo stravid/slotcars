@@ -11,6 +11,9 @@ Play.ResultView = Ember.View.extend
     @onLapTimesChange()
     @onRaceTimeChange()
 
+  onRestartClick: ->
+    @gameController.restartGame()
+
   onLapTimesChange: (->
     return unless @gameController?
     

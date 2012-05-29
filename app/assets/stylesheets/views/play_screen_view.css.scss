@@ -114,13 +114,13 @@
     background-image: image-url("views/play/race-time-highlight.png");
     background-repeat: no-repeat;
     background-position: top center;
-    height: 80px;
+    height: 70px;
     width: 100%;
     padding-top: 15px;
     text-align: center;
   }
   
-  span {
+  .nice {
     @include rotate(5deg);
     
     display: block;
@@ -129,6 +129,19 @@
     left: 430px;
     color: #193773;
     font-size: 25px;
+  }
+  
+  .retry-button, .new-track-button {
+    @include clipboard-button;
+    display: inline;
+  }
+  
+  .retry-button {
+    margin-left: 75px;
+  }
+  
+  .or {
+    font-size: 22px;
   }
   
   h3 {
@@ -140,7 +153,7 @@
   
   #highscore-table {
     width: 420px;
-    margin-top: 42px;
+    margin-top: 12px;
     margin-left: 50px;
   
     font-size: 26px;

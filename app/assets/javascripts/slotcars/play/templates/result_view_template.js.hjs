@@ -4,7 +4,11 @@
     <h2>Highscores</h2>
 
     <p class="race-time">{{raceTime}}</p>
-    <span>nice!</span>
+    <span class="nice">nice!</span>
+
+    <button class="retry-button" {{action "onRestartClick"}}>Try again</button>
+    <span class="or">or play</span>
+    <a class="new-track-button js-route" href="quickplay">other track</a>
 
     <h3>Highscores on this track:</h3>
 
