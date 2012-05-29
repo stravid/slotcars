@@ -1,3 +1,5 @@
+#= require configuration
+
 #= require vendor/raphael
 #= require embient/ember
 #= require embient/ember-routemanager
@@ -6,8 +8,6 @@
 
 #= require namespaces
 
-#= require configuration
-
 #= require_tree ../helpers
 #= require_tree ../slotcars
 
@@ -15,9 +15,14 @@ window.SlotcarsApplication = Ember.Application.extend
   _currentScreen: null
 
   ready: ->
+    (jQuery document).on 'touchMouseMove', (event) => @onTouchMouseMove(event)
+
     Shared.routeManager = Shared.RouteManager.create delegate: this
     Shared.routeManager.start()
     Shared.routeLocalLinks Shared.routeManager
+
+  onTouchMouseMove: (event) ->
+    event.originalEvent.preventDefault() # prevent scrolling on the iPad
 
   showScreen: (screenId, createParamters) ->
     @_destroyCurrentScreen()
