@@ -22,16 +22,20 @@
 }
 
 #retry-button {
-  width: 163px;
-  height: 66px;
-  background-image: image-url("buttons/retry.png");
+  width: 65px;
+  height: 63px;
+  background-image: image-url("views/play/retry-button.png");
   background-repeat: no-repeat;
   
   position: absolute;
-  top: $border-top-padding;
-  right: $border-padding;
+  top: 22px;
+  right: 22px;
 
   cursor: pointer;
+  
+  &:hover {
+    background-position: 0 -63px;
+  }
 }
 
 #clock {
@@ -41,8 +45,10 @@
   background-repeat: no-repeat;
   
   position: absolute;
-  top: $border-top-padding - 5px;
+  top: 10px;
   left: $center-x - 127px;
+  
+  z-index: 1000;
 }
 
 #clock-minutes, #clock-dot-one, #clock-seconds, #clock-dot-two, #clock-milliseconds {
