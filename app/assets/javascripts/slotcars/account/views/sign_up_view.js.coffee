@@ -6,9 +6,11 @@ Account.SignUpView = Ember.View.extend
 
   validationErrors: null
 
-  onCancelSignUpButtonClicked: -> (@get 'delegate').cancelSignUp()
+  submit: (event) ->
+    event.preventDefault()
+    (@get 'delegate').signUpUserWithCredentials @_getUserCredentials()
 
-  onSignUpButtonClicked: -> (@get 'delegate').signUpUserWithCredentials @_getUserCredentials()
+  onCancelSignUpButtonClicked: -> (@get 'delegate').cancelSignUp()
 
   showErrorMessagesForFailedSignUp: (errors) -> @set 'validationErrors', errors
 
