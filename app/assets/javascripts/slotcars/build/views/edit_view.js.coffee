@@ -1,7 +1,7 @@
 Build.EditView = Shared.TrackView.extend
 
   circles: null
-  excludedPathLayers: outerLine: true, medianStrip: true
+  excludedPathLayers: outerLine: true, slot: true
 
   drawTrack: (path) ->
     @_super path

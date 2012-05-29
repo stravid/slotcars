@@ -1,3 +1,6 @@
+#= require vendor/canvg/rgbcolor
+#= require vendor/canvg/canvg
+
 Shared.TrackView = Ember.View.extend
 
   track: null
@@ -5,12 +8,14 @@ Shared.TrackView = Ember.View.extend
   _paper: null
 
   # configure which path layers NOT to draw
-  # valid properties: 'dirt', 'outerLine', 'asphalt', 'medianStrip'
+  # valid properties: 'dirt', 'outerLine', 'asphalt', 'slot'
   excludedPathLayers: {}
 
   scaleFactor: 1
 
-  DASHED_LINE_WIDTH: 3
+  SLOT_WIDTH: 3
+  SLOT_EDGE_WIDTH: 8
+
   ASPHALT_WIDTH: 70
   BORDER_LINE_WIDTH: 75
   BORDER_ASPHALT_WIDTH: 81
@@ -18,16 +23,18 @@ Shared.TrackView = Ember.View.extend
   
   ASPHALT_COLOR: '#1E1E1E'
   LINE_COLOR: '#FFF'
+  SLOT_EDGE_COLOR: '#777'
+  SLOT_COLOR: '#000'
   DIRT_COLOR: '#A67B52'
-
-  didInsertElement: ->
-    @_paper = Raphael @$()[0], 1024 * @scaleFactor, 768 * @scaleFactor
-    @drawTrack @track.get 'raphaelPath'
 
   onTrackChange: ( ->
     return unless @_paper?
     @updateTrack @track.get 'raphaelPath'
   ).observes 'track.raphaelPath'
+
+  didInsertElement: ->
+    @_paper = Raphael @$()[0], 1024 * @scaleFactor, 768 * @scaleFactor
+    @drawTrack @track.get 'raphaelPath'
 
   updateTrack: (path) ->
     (element.attr 'path', path) for element in @_displayedRaphaelElements
@@ -47,8 +54,8 @@ Shared.TrackView = Ember.View.extend
     unless @excludedPathLayers.asphalt
       @_drawPath path, @ASPHALT_WIDTH * @scaleFactor, @ASPHALT_COLOR
 
-    unless @excludedPathLayers.medianStrip
-      @_drawDashedLine path
+    unless @excludedPathLayers.slot
+      @_drawSlot path
 
   _drawPath: (path, width, color) ->
     path = @_paper.path path
@@ -61,11 +68,10 @@ Shared.TrackView = Ember.View.extend
 
     path
 
-  _drawDashedLine: (path) ->
-    path = @_drawPath path, @DASHED_LINE_WIDTH * @scaleFactor, @LINE_COLOR
-    path.attr 'stroke-dasharray', '- '
-    path.attr 'stroke-linecap', 'square'
+  _drawSlot: (path) ->
+    slotEdge = @_drawPath path, @SLOT_EDGE_WIDTH * @scaleFactor, @SLOT_EDGE_COLOR
+    slot = @_drawPath path, @SLOT_WIDTH * @scaleFactor, @SLOT_COLOR
 
   destroy: ->
     @_super()
-    @_paper.clear()
+    @_paper.remove() if @_paper?
