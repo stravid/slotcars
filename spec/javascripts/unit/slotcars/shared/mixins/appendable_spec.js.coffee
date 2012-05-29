@@ -1,9 +1,8 @@
-describe 'Appendable', ->
+describe 'Shared.Appendable', ->
 
   beforeEach ->
     @viewMock =
       append: sinon.spy()
-      remove: sinon.spy()
       destroy: sinon.spy()
 
     @appendable = Ember.Object.extend(Shared.Appendable).create

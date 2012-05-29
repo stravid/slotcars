@@ -1,8 +1,8 @@
-#= require slotcars/shared/mixins/appendable
 #= require slotcars/factories/screen_factory
 
-Play.PlayScreen = Ember.Object.extend Shared.Appendable,
+Play.PlayScreen = Ember.Object.extend
 
+  view: null
   trackId: null
   track: null
   car: null
@@ -52,6 +52,6 @@ Play.PlayScreen = Ember.Object.extend Shared.Appendable,
     @_super()
     @_game.destroy() if @_game?
     @_playScreenNotificationsController.destroy() if @_playScreenNotificationsController?
-    @_playScreenNotificationsView.remove() if @_playScreenNotificationsView?
+    @_playScreenNotificationsView.destroy() if @_playScreenNotificationsView?
 
 Shared.ScreenFactory.getInstance().registerScreen 'PlayScreen', Play.PlayScreen

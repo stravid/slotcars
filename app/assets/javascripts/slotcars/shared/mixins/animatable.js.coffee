@@ -16,19 +16,6 @@ Shared.Animatable = Ember.Mixin.create
       callback: callback
     ).run()
 
-  # animateIn: ->
-  #   @view.$().hide()
-  #   @animate
-  #     duration: 500
-  #     , => @view.$().delay(500).fadeIn 500
-  #     , => console.log 'animateIn - finished'
-
-  # animateOut: ->
-  #   @animate
-  #     duration: 500
-  #     , => @view.$().fadeOut 500
-  #     , => console.log 'animateOut - finished'
-
   destroy: ->
     if @animateOut
       @animateOut()
