@@ -1,15 +1,14 @@
 <div id="result-overlay">
-  <div id="laptimes">
-    <p>Your lap times:</p>
-    <p>race time: {{raceTime}}</p>
+  <div id="result-content">
 
-    <ul>
-    {{#each lapTimes}}
-      <li>{{this}}</li>
-    {{/each}}
-    </ul>
-  </div>
-  <div id="highscores">
-    {{view Play.HighscoresView highscoresBinding="gameController.highscores"}}
+    <h2>Highscores</h2>
+
+    <p class="race-time">{{raceTime}}</p>
+
+    <h3>Highscores on this track:</h3>
+
+    <div id="highscores">
+      {{view Play.HighscoresView highscoresBinding="gameController.highscores"}}
+    </div>
   </div>
 </div>

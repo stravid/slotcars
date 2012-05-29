@@ -5,7 +5,7 @@ Shared.Track = DS.Model.extend Shared.Rasterizable,
   _raphaelPath: null
   raphaelPathBinding: '_raphaelPath.path'
 
-  numberOfLaps: 3
+  numberOfLaps: 1
 
   id: DS.attr 'number'
   title: DS.attr 'string'
