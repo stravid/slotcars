@@ -1,7 +1,6 @@
 Shared.CanvasRenderable = Ember.Mixin.create
 
   renderCanvas: null
-  backgroundImage: null
 
   didInsertElement: ->
     @_super()
@@ -26,6 +25,7 @@ Shared.CanvasRenderable = Ember.Mixin.create
     @didRenderTrack()
     @replacePaperWithCanvas()
 
+  # can be used by other mixins to hook in before the canvas is displayed
   didRenderTrack: ->
 
   replacePaperWithCanvas: ->
