@@ -55,6 +55,21 @@
       background-position: 0 -63px;
     }
   }
+  
+  #show-highscore{
+    width: 188px;
+    height: 63px;
+    background-image: image-url("views/play/highscores-button.png");
+    background-repeat: no-repeat;
+    
+    position: absolute;
+    top: 22px;
+    right: 100px;
+    
+    &:hover {
+      background-position: 0 -62px;
+    }
+  }
 }
 
 
