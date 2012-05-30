@@ -4,8 +4,11 @@ Shared.Animatable = Ember.Mixin.create
   view: Ember.required()
 
   append: ->
-    # overrides `didInsertElement` of the view to plug-in the animation
-    @view.didInsertElement = => @animateIn() if @animateIn
+    originalDidInsertElementMethod = @view.didInsertElement
+
+    @view.didInsertElement = =>
+      @animateIn() if @animateIn
+      originalDidInsertElementMethod() if originalDidInsertElementMethod
 
     @_super()
 
@@ -19,9 +22,10 @@ Shared.Animatable = Ember.Mixin.create
   destroy: ->
     if @animateOut
       @animateOut()
+      _super = @_super
       delay = (@animation.options.duration || 0) + (@animation.options.delay || 0)
       Ember.run.later (=>
-        @_super.apply(@)
+        _super.apply this
         @animation.destroy()
       ), delay
     else

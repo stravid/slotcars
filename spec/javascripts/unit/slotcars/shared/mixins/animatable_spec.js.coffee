@@ -22,6 +22,22 @@ describe 'Shared.Animatable', ->
 
       (expect @viewStub.didInsertElement).not.toEqual didInsertFuncBefore
 
+    it 'should call the view´s original didInsertElement method', ->
+      didInsertFuncBeforeStub = sinon.spy @viewStub, 'didInsertElement'
+
+      @animatable.append() # overrides 'didInsertElement' of the view
+      @viewStub.didInsertElement()
+
+      (expect didInsertFuncBeforeStub).toHaveBeenCalled()
+
+    it 'should call the animation function when the view is inserted into the DOM', ->
+      @animatable.animateIn = sinon.spy()
+
+      @animatable.append() # overrides 'didInsertElement' of the view
+      @viewStub.didInsertElement()
+
+      (expect @animatable.animateIn).toHaveBeenCalled()
+
   describe 'animating', ->
 
     beforeEach ->
