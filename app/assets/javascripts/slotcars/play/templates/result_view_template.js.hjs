@@ -8,7 +8,7 @@
 
     <button class="retry-button" {{action "onRestartClick"}}>Try again</button>
     <span class="or">or play</span>
-    <a class="new-track-button js-route" href="quickplay">other track</a>
+    <a class="new-track-button js-route" href="tracks">other track</a>
 
     <h3>Highscores on this track:</h3>
 
