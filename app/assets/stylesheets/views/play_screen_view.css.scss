@@ -188,16 +188,18 @@
 }
 
 #countdown {
-  color: white;
-  font-size: 270px;
   position: absolute;
-  top: 210px;
-  left: 300px;
-  font-weight: bold;
-  font-family: sans-serif;
-  width: 400px;
-  text-align: center;
-  text-shadow: 0 0 15px #eee;
+  top: 7px;
+  left: $center-x - 127px;
+  z-index: 1001;
+  width: 255px;
+  height: 92px;
+  background-image: image-url("views/play/traffic-light.png");
+  
+  &.first  { background-position: 0 0; }
+  &.second { background-position: 0 -91px; }
+  &.third  { background-position: 0 -182px; }
+  &.fourth { background-position: 0 -273px; }
 }
 
 #car {
