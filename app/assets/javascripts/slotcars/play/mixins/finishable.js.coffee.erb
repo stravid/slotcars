@@ -15,9 +15,10 @@ Play.Finishable = Ember.Mixin.create
     @loadFinishLineImage()
 
   loadFinishLineImage: ->
-    @set 'finishLineImage', new Image()
     @finishLineImage.onload = => @drawFinishLine()
     @finishLineImage.src = FINISH_LINE_DATA_URI
+
+  createFinishLineImage: -> @set 'finishLineImage', new Image()
 
   drawFinishLine: ->
     # take two points from the track with a small offset from the start
