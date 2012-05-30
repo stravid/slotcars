@@ -1,7 +1,7 @@
 Play.Countdownable = Ember.Mixin.create
 
   isCountdownVisible: false
-  currentCountdownValue: null
+  currentCountdownClass: null
 
   startCountdown: (countdownFinishedCallback) ->
     @resetCountdown()
@@ -17,7 +17,7 @@ Play.Countdownable = Ember.Mixin.create
     @setCountdownValue 'first'
     @showCountdown()
 
-  setCountdownValue: (value) -> @set 'currentCountdownValue', value
+  setCountdownValue: (value) -> @set 'currentCountdownClass', value
 
   finishCountdown: (finishCallback) ->
     finishCallback() if finishCallback?

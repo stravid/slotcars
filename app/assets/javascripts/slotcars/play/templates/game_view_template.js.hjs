@@ -3,7 +3,7 @@
     <a id="choose-track" class="override-button js-route" href="/tracks">Choose A Track</a>
     <a id="show-highscore" class="override-button" style="display: none" href="">Highscores</a>
     <a id="retry-button" class="override-button" {{action "onRestartClick"}}>Retry</a>
-    <div id="countdown" {{bindAttr class="gameController.currentCountdownValue"}}></div>
+    <div id="countdown" {{bindAttr class="gameController.currentCountdownClass"}}></div>
 </div>
 
 {{#if gameController.isRaceFinished}}

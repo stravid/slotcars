@@ -17,20 +17,20 @@ describe 'Play.Countdownable', ->
 
       (expect @countdownable.resetCountdown).toHaveBeenCalled()
 
-    it 'should set the countdown value to 2 after 1000 milliseconds', ->
+    it 'should set the countdown class to second after 1000 milliseconds', ->
       @countdownable.startCountdown()
 
       (expect Ember.run.later).toHaveBeenCalledWith @countdownable,
                                                     @countdownable.setCountdownValue,
-                                                    2,
+                                                    'second',
                                                     1000
 
-    it 'should set the countdown value to 1 after 2000 milliseconds', ->
+    it 'should set the countdown class to third after 2000 milliseconds', ->
       @countdownable.startCountdown()
 
       (expect Ember.run.later).toHaveBeenCalledWith @countdownable,
                                                     @countdownable.setCountdownValue,
-                                                    1,
+                                                    'third',
                                                     2000
 
     it 'should finish the countdown after 3000 milliseconds', ->
@@ -44,22 +44,22 @@ describe 'Play.Countdownable', ->
                                                     3000
 
 
-    it 'should hide the countdown after 3500 milliseconds', ->
+    it 'should hide the countdown after 4000 milliseconds', ->
       @countdownable.startCountdown()
 
       (expect Ember.run.later).toHaveBeenCalledWith @countdownable,
                                                     @countdownable.hideCountdown,
-                                                    3500
+                                                    4000
 
 
   describe 'resetting the countdown', ->
 
     beforeEach -> sinon.stub @countdownable, 'showCountdown'
 
-    it 'should set the countdown value to 3', ->
+    it 'should set the countdown class to first', ->
       @countdownable.resetCountdown()
 
-      (expect @countdownable.get 'currentCountdownValue').toBe 3
+      (expect @countdownable.get 'currentCountdownClass').toBe 'first'
 
     it 'should show the countdown', ->
       @countdownable.resetCountdown()
@@ -70,12 +70,12 @@ describe 'Play.Countdownable', ->
   describe 'setting the countdown value', ->
 
     it 'should set the current countdown value', ->
-      @countdownable.set 'currentCountdownValue', 0
+      @countdownable.set 'currentCountdownClass', 0
       testValue = 3
 
       @countdownable.setCountdownValue testValue
 
-      (expect @countdownable.get 'currentCountdownValue').toBe testValue
+      (expect @countdownable.get 'currentCountdownClass').toBe testValue
 
 
   describe 'finishing the countdown', ->
@@ -92,7 +92,7 @@ describe 'Play.Countdownable', ->
     it 'should set the current countdown value to go', ->
       @countdownable.finishCountdown()
 
-      (expect @countdownable.setCountdownValue).toHaveBeenCalledWith 'Go!'
+      (expect @countdownable.setCountdownValue).toHaveBeenCalledWith 'fourth'
 
 
   describe 'showing the countdown', ->
