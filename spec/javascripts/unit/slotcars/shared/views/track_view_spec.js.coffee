@@ -12,7 +12,7 @@ describe 'track view', ->
     @paperStub =
       path: @raphaelElementStub
       rect: @raphaelElementStub
-      clear: sinon.spy()
+      remove: sinon.spy()
 
     @raphaelStub = window.Raphael = sinon.stub().returns @paperStub
 
@@ -82,4 +82,4 @@ describe 'track view', ->
     it 'should clear the paper', ->
       @trackView.destroy()
 
-      (expect @paperStub.clear).toHaveBeenCalled()
+      (expect @paperStub.remove).toHaveBeenCalled()
