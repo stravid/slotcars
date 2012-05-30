@@ -3,7 +3,8 @@ Shared.Appendable = Ember.Mixin.create
   view: Ember.required()
 
   append: ->
-    @view.append()
+    @view.set 'classNames', ['screen']
+    @view.appendTo('#gras')
 
   destroy: ->
     @_super()

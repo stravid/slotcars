@@ -2,11 +2,14 @@ describe 'Shared.Appendable', ->
 
   beforeEach ->
     @viewMock =
-      append: sinon.spy()
+      set: sinon.spy()
+      appendTo: sinon.spy()
       destroy: sinon.spy()
 
-    @appendable = Ember.Object.extend(Shared.Appendable).create
+    screen = Ember.Object.create
       view: @viewMock
+
+    @appendable = Shared.Appendable.apply screen
 
   it 'should always require a view', ->
     # applies the Appendable mixin on an object - assumes an error when 'view' property is not set
@@ -15,11 +18,15 @@ describe 'Shared.Appendable', ->
 
   describe 'appending', ->
 
+    it 'should add the class `screen` to the view', ->
+      @appendable.append()
+
+      (expect @viewMock.set).toHaveBeenCalledWith 'classNames'
+
     it 'should append the view to the DOM', ->
       @appendable.append()
 
-      (expect @viewMock.append).toHaveBeenCalled()
-
+      (expect @viewMock.appendTo).toHaveBeenCalled()
 
   describe 'destroying', ->
 
