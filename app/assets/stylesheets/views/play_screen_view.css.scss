@@ -217,39 +217,31 @@
   &.fourth { background-position: 0 -273px; }
 }
 
-#car {
+#car, #ghost {
   position: absolute;
   top: 0;
   left: 0;
   width: 1px;
   height: 1px;
-
-  #car-graphic {
-    position: absolute;
-    top: -33px;
-    left: -20px;
-    width: 40px;
-    height: 66px;
-    background-image: image-url("car/lamborghini.png");
-    background-repeat: no-repeat;
-  }
 }
 
-#ghost {
+#car-graphic {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: 1px;
+  top: -33px;
+  left: -20px;
+  width: 40px;
+  height: 66px;
+  background-image: image-url("car/lamborghini.png");
+  background-repeat: no-repeat;
+}
 
-  #ghost-graphic {
-    position: absolute;
-    top: -33px;
-    left: -20px;
-    width: 40px;
-    height: 66px;
-    background-image: image-url("car/lamborghini.png");
-    background-repeat: no-repeat;
-    opacity: 0.5;
-  }
+#ghost-graphic {
+  position: absolute;
+  top: -33px;
+  left: -20px;
+  width: 40px;
+  height: 58px;
+  background-image: image-url("car/porsche.png");
+  background-repeat: no-repeat;
+  opacity: 0.5;
 }
