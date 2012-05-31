@@ -1,20 +1,21 @@
 <div id="login-form">
   <h2>Yeah, you're back!</h2>
+  <form>
+    {{#if hasErrors}}
+      <p class="error">Email or password are wrong.</p>
+    {{/if}}
 
-  {{#if hasErrors}}
-    <p class="error">Email or password are wrong.</p>
-  {{/if}}
+    <div class="input-field">
+        <label>Username:</label>
+        <div class="form username"><input id="login-field" type="text" /></div>
+    </div>
 
-  <div class="input-field">
-      <label>Username:</label>
-      <div class="form username"><input id="login-field" type="text" /></div>
-  </div>
-  
-  <div class="input-field">
-      <label>Password:</label>
-      <div class="form password"><input id="password-field" type="password" /></div>
-  </div>
-  
-  <button class="loginButton" {{action "onLoginButtonClicked"}}>Log in</button>
-  <button class="cancelButton" {{action "onCancelClicked"}}>Cancel</button>
+    <div class="input-field">
+        <label>Password:</label>
+        <div class="form password"><input id="password-field" type="password" /></div>
+    </div>
+
+    <button class="loginButton" type="submit">Log in</button>
+    <button class="cancelButton" {{action "onCancelClicked"}}>Cancel</button>
+  </form>
 </div>
