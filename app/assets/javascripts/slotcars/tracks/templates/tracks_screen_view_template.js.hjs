@@ -1,2 +1,5 @@
+<div class="topbar">
+  <a id="home-button" class="override-button js-route" href="">Home</a>
+  <a id="tracks-quickplay-button" class="override-button js-route" href="quickplay">Quickplay</a>
+</div>
 {{dynamicView contentView id="tracks-screen-content-view"}}
-<a id="home-button" class="override-button js-route" href="">Home</a>

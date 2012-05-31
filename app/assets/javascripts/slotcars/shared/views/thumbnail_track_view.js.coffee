@@ -3,5 +3,5 @@
 
 Shared.ThumbnailTrackView = Shared.TrackView.extend
 
-  scaleFactor: 0.38
+  scaleFactor: 0.25
   drawTrackOnDidInsertElement: true
