@@ -12,7 +12,7 @@ Play.Countdownable = Ember.Mixin.create
 
     @timers.push Ember.run.later this, @finishCountdown, countdownFinishedCallback, 3000
 
-    @timers.push Ember.run.later this, @hideCountdown, 3500
+    @timers.push Ember.run.later this, @hideCountdown, 4000
 
   resetCountdown: ->
     @cancelTimers()
