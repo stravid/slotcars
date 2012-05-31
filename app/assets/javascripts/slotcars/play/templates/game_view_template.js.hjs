@@ -8,4 +8,17 @@
 
 {{#if gameController.isRaceFinished}}
     {{dynamicView overlayView}}
-{{/if}} 
+{{/if}}
+
+{{#with gameController}}
+{{#unless isCountdownFinished}}
+  {{#if ghost}}
+    <div id="player-versus-ghost">
+      <div id="player-portrait" class="portrait">{{Shared.User.current.username}}</div>
+      <div id="versus-text">VS.</div>
+      <div id="ghost-portrait" class="portrait">{{ghost.user.username}}</div>
+      <div id="time-to-beat">Time to Beat: {{racetime ghost.time}}</div>
+    </div>
+  {{/if}}
+{{/unless}}
+{{/with}}

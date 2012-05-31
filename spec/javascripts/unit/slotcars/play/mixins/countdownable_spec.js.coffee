@@ -78,6 +78,13 @@ describe 'Play.Countdownable', ->
       @countdownable.resetCountdown()
 
       (expect @countdownable.cancelTimers).toHaveBeenCalled()
+      
+    it 'should set the countdown finished flag to false', ->
+      @countdownable.set 'isCountdownFinished', true
+      
+      @countdownable.resetCountdown()
+
+      (expect @countdownable.isCountdownFinished).toBe false
 
 
   describe 'setting the countdown value', ->
@@ -106,6 +113,13 @@ describe 'Play.Countdownable', ->
       @countdownable.finishCountdown()
 
       (expect @countdownable.setCountdownValue).toHaveBeenCalledWith 'fourth'
+      
+    it 'should set the countdown finished flag to true', ->
+      @countdownable.set 'isCountdownFinished', false
+      
+      @countdownable.finishCountdown()
+
+      (expect @countdownable.isCountdownFinished).toBe true
 
 
   describe 'showing the countdown', ->

@@ -106,7 +106,7 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
   initializeGhost: (ghost) ->
     Shared.ModelStore.load Shared.Ghost, ghost
 
-    @ghost = Shared.Ghost.find ghost.id
+    @set 'ghost', Shared.Ghost.find ghost.id
 
     @ghost.fire 'didLoad'
 
