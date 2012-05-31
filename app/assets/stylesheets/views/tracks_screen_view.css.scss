@@ -94,6 +94,22 @@
   }
 }
 
+#tracks-create-track-button {
+  width: 212px;
+  height: 64px;
+  
+  position: absolute;
+  top: 22px;
+  right: 200px;
+  
+  background-image: image-url("shared/buttons/create_track_button.png");
+  background-repeat: no-repeat;
+ 
+  &:hover {
+    background-position: 0 -64px;
+  }
+}
+
 .track-container {
   width: 256px;
   margin: 0 auto;
