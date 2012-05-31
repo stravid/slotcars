@@ -1,4 +1,5 @@
 #= require vendor/raphael
+#= require vendor/energize
 #= require embient/ember
 #= require embient/ember-routemanager
 #= require embient/ember-data
