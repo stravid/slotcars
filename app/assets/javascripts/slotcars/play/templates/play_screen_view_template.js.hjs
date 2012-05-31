@@ -1,3 +1,1 @@
 {{dynamicView contentView id="play-screen-content-view"}}
-
-<a id="home-button" class="override-button js-route" href="">Home</a>
