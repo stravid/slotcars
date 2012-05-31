@@ -4,7 +4,7 @@ Shared.Appendable = Ember.Mixin.create
 
   append: ->
     @view.set 'classNames', ['screen']
-    @view.appendTo('#gras')
+    @view.appendTo('#screen-container')
 
   destroy: ->
     @_super()
