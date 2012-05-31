@@ -2,8 +2,7 @@ Shared.FastTriggerable = Ember.Mixin.create
 
   touchTarget: null
 
-  touchStart: (event) ->
-    @touchTarget = event.target
+  touchStart: (event) -> @touchTarget = event.target
 
   touchEnd: (event) ->
     if event.target is @touchTarget
