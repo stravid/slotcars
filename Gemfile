@@ -27,7 +27,7 @@ group :development, :test do
   gem 'jasminerice'
 
   # automatically runs tests in phantomJS
-  gem 'guard-jasmine'
+  gem 'guard-jasmine', '1.2.0'
 
   # for notifications of auto-test results
   gem 'growl'

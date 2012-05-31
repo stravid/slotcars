@@ -11,11 +11,6 @@
   {{#if user.highscores.length}}
     <table id="highscore-table">
       <tbody>
-        <tr>
-          <th>Rank</th>
-          <th>Track</th>
-          <th>Time</th>
-        </tr>
 
         {{#each user.highscores}}
           <tr>
@@ -24,7 +19,7 @@
             <td>{{racetime time}}</td>
           </tr>
         {{/each}}
-
+        
       </tbody>
     </table>
 

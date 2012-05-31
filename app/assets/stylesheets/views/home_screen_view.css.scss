@@ -1,16 +1,63 @@
 /*
  *= require helpers/utilities
+ *= require shared/fonts
  */
+
+@import "helpers/mixins";
+@import "shared/clipboard_button";
+
+h1 {
+  overflow: hidden;
+  text-indent: -10000px;
+  display: block;
+  width: 326px;
+  height: 415px;
+  background-image: image-url("views/home/logo-chain.png");
+  background-repeat: no-repeat;
+  margin-left: 42px;
+}
 
 #home-navigation {
   position: absolute;
-  top: 200px;
-  left: 220px;
-
+  top: 225px;
+  left: 48px;
   list-style: none;
+  z-index: 100;
+}
 
-  li {
-    margin-bottom: 30px;
+#quickplay-button {
+  width: 264px;
+  height: 66px;
+  background-image: image-url("views/home/quick-play.png");
+  background-repeat: no-repeat;
+ 
+  &:hover {
+    background-position: 0 -67px;
+  }
+}
+
+
+#tracks-button {
+  width: 264px;
+  height: 76px;
+  margin-top: 10px;
+  background-image: image-url("views/home/choose-track.png");
+  background-repeat: no-repeat;
+  
+  &:hover {
+    background-position: 0 -74px;
+  }
+}
+
+#build-button {
+  width: 264px;
+  height: 68px;
+  margin-top: 5px;
+  background-image: image-url("views/home/create-track.png");
+  background-repeat: no-repeat;
+  
+  &:hover {
+    background-position: 0 -67px;
   }
 }
 
@@ -21,25 +68,15 @@
   background-repeat: no-repeat;
 }
 
-#quickplay-button {
-  width: 231px;
-  height: 66px;
-  background-image: image-url("buttons/quick-play.png");
+#clipboard {
+  position: absolute;
+  top: 132px;
+  left: 360px;
+  width: 711px;
+  height: 858px;
+  background-image: image-url("shared/clipboard.png");
   background-repeat: no-repeat;
-}
-
-#tracks-button {
-  width: 177px;
-  height: 66px;
-  background-image: image-url("buttons/tracks.png");
-  background-repeat: no-repeat;
-}
-
-#build-button {
-  width: 151px;
-  height: 69px;
-  background-image: image-url("buttons/build.png");
-  background-repeat: no-repeat;
+  font-family: "JustTheWayYouAre", sans-serif;
 }
 
 #top-curve {
@@ -50,70 +87,245 @@
 
 #bottom-curve {
   position: absolute;
-  bottom: 0;
+  bottom: -50px;
   left: 0;
 }
 
-#home-right-column {
-  width: 300px;
+/* --------------- */
+/* --- WIDGETS --- */
+/* --------------- */
 
-  position:absolute;
-  top: 205px;
-  left: 500px;
+@mixin widget-base {
+  @include rotate(-11deg);
+  
+  padding-left: 120px;
+  padding-top: 138px;
+  
+  font-weight: bold;
+  
+  width: 420px;
+  height: 350px;
+}
 
-  border: 1px solid white;
-  border-radius: 10px;
+@mixin widget-headline {
+  @include rotate(3deg);
+    
+  font-family: "JustTheWayYouAre", sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  color: #193773;
+}
 
-  background-color: rgba(252, 252, 252, 0.22);
+#menu-widget-view {
+  
+  @include widget-base;
+  
+  h2 {
+    @include widget-headline;
+  }
+  
+  div {
+    width: 220px;
+    padding: 28px 0;
+    font-size: 24px;
+    margin-top: 60px;
+    background-image: image-url("views/home/lines.png");
+    background-position: top right;
+    background-repeat: no-repeat;
+  }
+  
+  li {
+    list-style: none;
+  }
+  
+  button {
+    @include clipboard-button;
+    
+    position: absolute;
+    
+    &.loginButton {
+      top: 210px;
+      left: 350px;
+    }
+    
+    &.signUpButton {
+      top: 275px;
+      left: 350px;
+    }
+  }
+  
+  p {
+    font-size: 21px;
+    line-height: 31px;
+    font-weight: normal;
+    margin-top: 52px;
+  }
 }
 
 #login-widget-view {
+
+  @include widget-base;
+  
+  h2 {
+    @include widget-headline;
+  }
+  
+  label {
+    font-size: 26px;
+  }
+  
+  div.input-field {
+    margin-bottom: 30px;
+  }
+  
+  div.form {
+    width: 260px;
+    height: 34px;
+    display: inline-block;
+    border-bottom: 2px dashed black;
+    
+    input {
+      display: inline-block;
+      width: 100%;
+      background-color: transparent;
+      border: none;
+      font-family: inherit;
+      font-size: 25px;
+      position: relative;
+      top: -5px;
+      
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  
   button {
-    width: 100px;
-    font-weight: bold;
-  }
-
-  #login-form {
-    margin: 20px;
-  }
-
-  #not-yet-registered {
-    padding: 20px;
-    background: rgba(253, 255, 252, 0.36);
-    border-radius: 0 0 10px 10px;
+    @include clipboard-button;
   }
 }
 
 #signup-widget-view {
-  margin: 20px;
+  @include widget-base;
+  
+  h2 {
+    @include widget-headline;
+  }
+  
+  .explanation {
+    line-height: 33px;
+    font-size: 20px;
+    color: #1e1e1e;
+    width: 400px;
+    display: block;
+  }
+  
+  label {
+    font-family: inherit;
+    font-size: 25px;
+    display: inline-block;
+    padding-top: 5px;
+  }
+  
+  div {
+    display: inline-block;
+    width: 260px;
+    height: 34px;
+    border-bottom: 2px dashed black;
+    
+    &.email {
+      width: 308px;
+    }
+    
+    input {
+      display: inline-block;
+      width: 100%;
+      background-color: transparent;
+      border: none;
+      font-family: inherit;
+      font-size: 25px;
+      position: relative;
+      top: -5px;
+      
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  
+  button {
+    @include clipboard-button;
+    
+    float: right;
+    margin-left: 10px;
+  }
 }
+
 
 #profile-widget-view {
-  margin: 20px;
-  color: white;
-
+  
+  @include widget-base;
+  
+  padding-top: 120px;
+  
   h3 {
-    float: left;
-    margin: 0 0 1em 0;
+    @include widget-headline;
   }
-
+  
   h4 {
+    font-size: 30px;
+    font-weight: bold;
     clear: both;
   }
-
+  
   button {
-    margin-left: 10px;
-    position: relative;
-    top: -5px;
+    @include rotate(11deg);
+    
+    width: 148px;
+    height: 167px;
+    position: absolute;
+    top: 200px;
+    left: -350px;
+    z-index: 0;
+    cursor: pointer;
+    
+    background-image: image-url("views/home/logout.png");
+    background-repeat: no-repeat;
+    background-color: transparent;
+    
+    border: none;
+    text-indent: -10000px;
+    overflow: hidden;
+
+    &:hover {
+      background-position: 0 -174px
+    }
+  }
+  
+  #user-highscores {
+    width: 420px;
+    margin-top: 60px;
+  
+    font-size: 26px;
+    line-height: 31px;
+    
+    overflow: hidden;
+  
+    #highscore-table {
+      width: 100%;
+      
+      td:nth-child(1) {
+        min-width: 55px;
+      }
+      
+      td:nth-child(2) {
+        max-width: 200px;
+      }
+      
+      td:nth-child(3) {
+        text-align: right;
+      }
+    }
   }
 }
 
-#user-highscores {
-  margin-top: 10px;
-  height: 140px;
-  overflow-y: scroll;
-
-  #highscore-table {
-    with: 100%;
-  }
-}
