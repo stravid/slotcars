@@ -35,3 +35,8 @@ Play.Countdownable = Ember.Mixin.create
   showCountdown: -> @set 'isCountdownVisible', true
 
   hideCountdown: -> @set 'isCountdownVisible', false
+
+  destroy: ->
+    @cancelTimers()
+
+    @_super()

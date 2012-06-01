@@ -78,10 +78,10 @@ describe 'Play.Countdownable', ->
       @countdownable.resetCountdown()
 
       (expect @countdownable.cancelTimers).toHaveBeenCalled()
-      
+
     it 'should set the countdown finished flag to false', ->
       @countdownable.set 'isCountdownFinished', true
-      
+
       @countdownable.resetCountdown()
 
       (expect @countdownable.isCountdownFinished).toBe false
@@ -113,10 +113,10 @@ describe 'Play.Countdownable', ->
       @countdownable.finishCountdown()
 
       (expect @countdownable.setCountdownValue).toHaveBeenCalledWith 'fourth'
-      
+
     it 'should set the countdown finished flag to true', ->
       @countdownable.set 'isCountdownFinished', false
-      
+
       @countdownable.finishCountdown()
 
       (expect @countdownable.isCountdownFinished).toBe true
@@ -168,3 +168,11 @@ describe 'Play.Countdownable', ->
 
       (expect @countdownable.timers.length).toBe 0
 
+  describe 'destroying', ->
+
+    it 'should cancel all timers on destruction', ->
+      sinon.spy @countdownable, 'cancelTimers'
+
+      @countdownable.destroy()
+
+      (expect @countdownable.cancelTimers).toHaveBeenCalled()
