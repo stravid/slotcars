@@ -4,3 +4,9 @@
      -moz-transform: rotate($angle);
        -o-transform: rotate($angle);
 }
+
+@mixin shadow($x-offset, $y-offset, $blur, $radius, $color) {
+  -webkit-box-shadow: $x-offset $y-offset $blur $radius $color;
+     -moz-box-shadow: $x-offset $y-offset $blur $radius $color;
+          box-shadow: $x-offset $y-offset $blur $radius $color;
+}

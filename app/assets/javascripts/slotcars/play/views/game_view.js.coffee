@@ -17,7 +17,7 @@ Play.GameView = Ember.View.extend
 
   onCountdownVisibleChange: ( ->
     if @gameController.get 'isCountdownVisible'
-      (@$ '#countdown').removeClass 'squashed'
+      (@$ '#countdown').removeClass 'hidden'
     else 
-      (@$ '#countdown').addClass 'squashed'
+      (@$ '#countdown').addClass 'hidden'
   ).observes 'gameController.isCountdownVisible'
