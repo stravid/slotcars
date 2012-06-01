@@ -21,7 +21,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  
+
   @include shadow(0, 1px, 35px, 3px, black);
 
   #retry-button {
@@ -29,13 +29,13 @@
     height: 63px;
     background-image: image-url("views/play/retry-button.png");
     background-repeat: no-repeat;
-    
+
     position: absolute;
     top: 22px;
     right: 22px;
-  
+
     cursor: pointer;
-    
+
     &:hover {
       background-position: 0 -63px;
     }
@@ -46,26 +46,26 @@
     height: 63px;
     background-image: image-url("views/play/choose-track-button.png");
     background-repeat: no-repeat;
-    
+
     position: absolute;
     top: 22px;
     left: 100px;
-    
+
     &:hover {
       background-position: 0 -63px;
     }
   }
-  
+
   #show-highscore{
     width: 188px;
     height: 63px;
     background-image: image-url("views/play/highscores-button.png");
     background-repeat: no-repeat;
-    
+
     position: absolute;
     top: 22px;
     right: 100px;
-    
+
     &:hover {
       background-position: 0 -62px;
     }
@@ -78,11 +78,11 @@
   height: 86px;
   background-image: image-url("views/play/clock-background.png");
   background-repeat: no-repeat;
-  
+
   position: absolute;
   top: 10px;
   left: $center-x - 127px;
-  
+
   z-index: 1000;
 }
 
@@ -104,10 +104,10 @@
 }
 
 #result-overlay {
-  position: absolute; 
-  top: 128px; 
+  position: absolute;
+  top: 128px;
   left: 150px;
-  
+
   width: 711px;
   height: 858px;
 
@@ -115,23 +115,23 @@
   background-repeat: no-repeat;
 
   font-family: "JustTheWayYouAre", sans-serif;
-  font-size: 32px; 
+  font-size: 32px;
 
   color: black;
 }
 
 #result-content {
   @include rotate(-11deg);
-  
+
   width: 450px;
   height: 700px;
-  
+
   padding-top: 130px;
   padding-left: 100px;
-  
+
   h2 {
     @include rotate(3deg);
-    
+
     width: 100%;
     text-align: center;
     font-family: "JustTheWayYouAre", sans-serif;
@@ -139,7 +139,7 @@
     font-weight: bold;
     color: #193773;
   }
-  
+
   .race-time {
     margin: 40px 0 0 0;
     font-size: 42px;
@@ -152,10 +152,10 @@
     padding-top: 15px;
     text-align: center;
   }
-  
+
   .nice {
     @include rotate(5deg);
-    
+
     display: block;
     position: absolute;
     top: 235px;
@@ -163,39 +163,39 @@
     color: #193773;
     font-size: 25px;
   }
-  
+
   .retry-button, .new-track-button {
     @include clipboard-button;
     display: inline;
   }
-  
+
   .retry-button {
     margin-left: 75px;
   }
-  
+
   .or {
     font-size: 22px;
   }
-  
+
   h3 {
     font-family: "JustTheWayYouAre", sans-serif;
     font-size: 26px;
     color: black;
     margin-left: 20px;
   }
-  
+
   #highscore-table {
     width: 420px;
     margin-top: 12px;
     margin-left: 50px;
-  
+
     font-size: 26px;
     line-height: 32px;
-  
+
     td:nth-child(1) {
       min-width: 30px;
     }
-  
+
     td:nth-child(3) {
       text-align: right;
     }
@@ -210,27 +210,69 @@
   width: 255px;
   height: 92px;
   background-image: image-url("views/play/traffic-light.png");
-  
+
   &.first  { background-position: 0 0; }
   &.second { background-position: 0 -91px; }
   &.third  { background-position: 0 -182px; }
   &.fourth { background-position: 0 -273px; }
 }
 
-#car {
+#car, #ghost {
   position: absolute;
   top: 0;
   left: 0;
   width: 1px;
   height: 1px;
+}
 
-  #car-graphic {
-    position: absolute;
-    top: -40px;
-    left: -27px;
-    width: 55px;
-    height: 89px;
-    background-image: image-url("car/car-yellow.png");
-    background-repeat: no-repeat;
+#car-graphic {
+  position: absolute;
+  top: -40px;
+  left: -27px;
+  width: 55px;
+  height: 89px;
+  background-image: image-url("car/car-blue.png");
+  background-repeat: no-repeat;
+}
+
+#ghost-graphic {
+  position: absolute;
+  top: -40px;
+  left: -27px;
+  width: 55px;
+  height: 89px;
+  background-image: image-url("car/car-orange.png");
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+
+#player-versus-ghost {
+  position: absolute;
+  top: 120px;
+  width: 100%;
+  font-family: SansitaOneRegular;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  text-shadow: 0 0 30px black, 0 0 50px black;
+
+  span.name {
+    font-size: 25px;
+    margin: 0 10px 0 10px;
+  }
+
+  span#text-container {
+    position: relative;
+    top: -35px;
+    margin: 20px;
+  }
+
+  #player-portrait {
+    @include rotate(90deg);
+  }
+
+  #ghost-portrait {
+    @include rotate(-90deg);
+    opacity: 0.5;
   }
 }
