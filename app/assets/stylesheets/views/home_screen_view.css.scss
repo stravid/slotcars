@@ -303,16 +303,23 @@ h1 {
   }
   
   #user-highscores {
-    width: 420px;
+    width: 430px;
+    height: 250px;
+    
     margin-top: 60px;
   
     font-size: 26px;
     line-height: 31px;
-    
-    overflow: hidden;
+  
+    #highscore-scroller {
+      position:absolute; 
+      z-index:1;
+    	width:430px;
+    	height: 250px;
+    }
   
     #highscore-table {
-      width: 100%;
+      width: 410px;
       
       td:nth-child(1) {
         min-width: 55px;
@@ -328,4 +335,3 @@ h1 {
     }
   }
 }
-
