@@ -1,8 +1,8 @@
-#= require slotcars/shared/mixins/appendable
 #= require slotcars/factories/screen_factory
 
-Build.BuildScreen = Ember.Object.extend Shared.Appendable,
+Build.BuildScreen = Ember.Object.extend
 
+  view: null
   _builder: null
   _buildScreenStateManager: null
 

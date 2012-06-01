@@ -1,7 +1,8 @@
-#= require slotcars/shared/mixins/appendable
 #= require slotcars/factories/screen_factory
 
-Tracks.TracksScreen = Ember.Object.extend Shared.Appendable,
+Tracks.TracksScreen = Ember.Object.extend
+
+  view: null
 
   init: ->
     @view = Tracks.TracksScreenView.create()

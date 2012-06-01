@@ -34,8 +34,3 @@ Play.Game = Shared.BaseGame.extend
     @_baseGameViewContainer.set 'clockView', @_clockView
     @_baseGameViewContainer.set 'gameView', @_gameView
     @_baseGameViewContainer.set 'ghostView', @_ghostView
-
-  destroy: ->
-    @_super()
-    @_gameView.destroy()
-    @_clockView.destroy()
