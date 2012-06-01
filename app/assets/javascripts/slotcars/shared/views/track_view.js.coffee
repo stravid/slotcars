@@ -15,7 +15,7 @@ Shared.TrackView = Ember.View.extend
   BORDER_LINE_WIDTH: 75
   BORDER_ASPHALT_WIDTH: 81
   DIRT_WIDTH: 90
-  
+
   ASPHALT_COLOR: '#1E1E1E'
   LINE_COLOR: '#FFF'
   DIRT_COLOR: '#A67B52'
@@ -40,11 +40,11 @@ Shared.TrackView = Ember.View.extend
     unless @excludedPathLayers.dirt
       @_drawPath path, @DIRT_WIDTH * @scaleFactor, @DIRT_COLOR
 
-    unless @excludedPathLayers.outerLine
-      @_drawPath path, @BORDER_ASPHALT_WIDTH * @scaleFactor, @ASPHALT_COLOR
-      @_drawPath path, @BORDER_LINE_WIDTH * @scaleFactor, @LINE_COLOR
-
     unless @excludedPathLayers.asphalt
+      @_drawPath path, @BORDER_ASPHALT_WIDTH * @scaleFactor, @ASPHALT_COLOR
+
+    unless @excludedPathLayers.outerLine
+      @_drawPath path, @BORDER_LINE_WIDTH * @scaleFactor, @LINE_COLOR
       @_drawPath path, @ASPHALT_WIDTH * @scaleFactor, @ASPHALT_COLOR
 
     unless @excludedPathLayers.medianStrip
