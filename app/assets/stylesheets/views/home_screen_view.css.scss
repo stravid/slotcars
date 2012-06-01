@@ -30,7 +30,7 @@ h1 {
   height: 66px;
   background-image: image-url("views/home/quick-play.png");
   background-repeat: no-repeat;
- 
+
   &:hover {
     background-position: 0 -67px;
   }
@@ -43,7 +43,7 @@ h1 {
   margin-top: 10px;
   background-image: image-url("views/home/choose-track.png");
   background-repeat: no-repeat;
-  
+
   &:hover {
     background-position: 0 -74px;
   }
@@ -55,7 +55,7 @@ h1 {
   margin-top: 5px;
   background-image: image-url("views/home/create-track.png");
   background-repeat: no-repeat;
-  
+
   &:hover {
     background-position: 0 -67px;
   }
@@ -97,19 +97,19 @@ h1 {
 
 @mixin widget-base {
   @include rotate(-11deg);
-  
+
   padding-left: 120px;
   padding-top: 138px;
-  
+
   font-weight: bold;
-  
+
   width: 420px;
   height: 350px;
 }
 
 @mixin widget-headline {
   @include rotate(3deg);
-    
+
   font-family: "JustTheWayYouAre", sans-serif;
   font-size: 40px;
   font-weight: bold;
@@ -117,13 +117,13 @@ h1 {
 }
 
 #menu-widget-view {
-  
+
   @include widget-base;
-  
+
   h2 {
     @include widget-headline;
   }
-  
+
   div {
     width: 220px;
     padding: 28px 0;
@@ -133,27 +133,27 @@ h1 {
     background-position: top right;
     background-repeat: no-repeat;
   }
-  
+
   li {
     list-style: none;
   }
-  
+
   button {
     @include clipboard-button;
-    
+
     position: absolute;
-    
+
     &.loginButton {
       top: 210px;
       left: 350px;
     }
-    
+
     &.signUpButton {
       top: 275px;
       left: 350px;
     }
   }
-  
+
   p {
     font-size: 21px;
     line-height: 31px;
@@ -165,25 +165,25 @@ h1 {
 #login-widget-view {
 
   @include widget-base;
-  
+
   h2 {
     @include widget-headline;
   }
-  
+
   label {
     font-size: 26px;
   }
-  
+
   div.input-field {
     margin-bottom: 30px;
   }
-  
+
   div.form {
     width: 260px;
     height: 34px;
     display: inline-block;
     border-bottom: 2px dashed black;
-    
+
     input {
       display: inline-block;
       width: 100%;
@@ -193,13 +193,13 @@ h1 {
       font-size: 25px;
       position: relative;
       top: -5px;
-      
+
       &:focus {
         outline: none;
       }
     }
   }
-  
+
   button {
     @include clipboard-button;
   }
@@ -207,11 +207,11 @@ h1 {
 
 #signup-widget-view {
   @include widget-base;
-  
+
   h2 {
     @include widget-headline;
   }
-  
+
   .explanation {
     line-height: 33px;
     font-size: 20px;
@@ -219,24 +219,24 @@ h1 {
     width: 400px;
     display: block;
   }
-  
+
   label {
     font-family: inherit;
     font-size: 25px;
     display: inline-block;
     padding-top: 5px;
   }
-  
+
   div {
     display: inline-block;
     width: 260px;
     height: 34px;
     border-bottom: 2px dashed black;
-    
+
     &.email {
       width: 308px;
     }
-    
+
     input {
       display: inline-block;
       width: 100%;
@@ -246,16 +246,16 @@ h1 {
       font-size: 25px;
       position: relative;
       top: -5px;
-      
+
       &:focus {
         outline: none;
       }
     }
   }
-  
+
   button {
     @include clipboard-button;
-    
+
     float: right;
     margin-left: 10px;
   }
@@ -263,24 +263,24 @@ h1 {
 
 
 #profile-widget-view {
-  
+
   @include widget-base;
-  
+
   padding-top: 120px;
-  
+
   h3 {
     @include widget-headline;
   }
-  
+
   h4 {
     font-size: 30px;
     font-weight: bold;
     clear: both;
   }
-  
+
   button {
     @include rotate(11deg);
-    
+
     width: 148px;
     height: 167px;
     position: absolute;
@@ -288,11 +288,11 @@ h1 {
     left: -350px;
     z-index: 0;
     cursor: pointer;
-    
+
     background-image: image-url("views/home/logout.png");
     background-repeat: no-repeat;
     background-color: transparent;
-    
+
     border: none;
     text-indent: -10000px;
     overflow: hidden;
@@ -301,27 +301,32 @@ h1 {
       background-position: 0 -174px
     }
   }
-  
+
   #user-highscores {
     width: 420px;
     margin-top: 60px;
-  
+
     font-size: 26px;
     line-height: 31px;
-    
+
     overflow: hidden;
-  
+
+    a, a:link, a:visited, a:hover, a:active {
+      text-decoration: none;
+      color: black;
+    }
+
     #highscore-table {
       width: 100%;
-      
+
       td:nth-child(1) {
         min-width: 55px;
       }
-      
+
       td:nth-child(2) {
         max-width: 200px;
       }
-      
+
       td:nth-child(3) {
         text-align: right;
       }

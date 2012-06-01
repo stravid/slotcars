@@ -15,11 +15,11 @@
         {{#each user.highscores}}
           <tr>
             <td>{{ordinal_number rank}}</td>
-            <td>{{track_title}}</td>
+            <td><a href="play/{{unbound track_id}}" class="js-route">{{track_title}}</a></td>
             <td>{{racetime time}}</td>
           </tr>
         {{/each}}
-        
+
       </tbody>
     </table>
 
