@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120522130342) do
+ActiveRecord::Schema.define(:version => 20120528173433) do
 
   create_table "ghosts", :force => true do |t|
     t.integer  "user_id"
@@ -22,6 +22,9 @@ ActiveRecord::Schema.define(:version => 20120522130342) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "ghosts", ["track_id"], :name => "index_ghosts_on_track_id"
+  add_index "ghosts", ["user_id"], :name => "index_ghosts_on_user_id"
+
   create_table "runs", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -29,6 +32,9 @@ ActiveRecord::Schema.define(:version => 20120522130342) do
     t.integer  "track_id"
     t.integer  "time"
   end
+
+  add_index "runs", ["track_id"], :name => "index_runs_on_track_id"
+  add_index "runs", ["user_id"], :name => "index_runs_on_user_id"
 
   create_table "tracks", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -38,6 +44,8 @@ ActiveRecord::Schema.define(:version => 20120522130342) do
     t.integer  "user_id"
     t.string   "title"
   end
+
+  add_index "tracks", ["user_id"], :name => "index_tracks_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

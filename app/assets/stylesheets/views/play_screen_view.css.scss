@@ -6,24 +6,72 @@
  */
 
 @import "config";
+@import "helpers/mixins";
+@import "shared/clipboard_button";
 
 #play-screen-view {
   overflow: hidden;
   height: 768px;
 }
 
-#retry-button {
-  width: 163px;
-  height: 66px;
-  background-image: image-url("buttons/retry.png");
-  background-repeat: no-repeat;
-  
+.topbar {
+  background-image: image-url("shared/top-bar.jpg");
+  width: 1024px;
+  height: 106px;
   position: absolute;
-  top: $border-top-padding;
-  right: $border-padding;
+  top: 0;
+  left: 0;
+  
+  @include shadow(0, 1px, 35px, 3px, black);
 
-  cursor: pointer;
+  #retry-button {
+    width: 65px;
+    height: 63px;
+    background-image: image-url("views/play/retry-button.png");
+    background-repeat: no-repeat;
+    
+    position: absolute;
+    top: 22px;
+    right: 22px;
+  
+    cursor: pointer;
+    
+    &:hover {
+      background-position: 0 -63px;
+    }
+  }
+
+  #choose-track {
+    width: 236px;
+    height: 63px;
+    background-image: image-url("views/play/choose-track-button.png");
+    background-repeat: no-repeat;
+    
+    position: absolute;
+    top: 22px;
+    left: 100px;
+    
+    &:hover {
+      background-position: 0 -63px;
+    }
+  }
+  
+  #show-highscore{
+    width: 188px;
+    height: 63px;
+    background-image: image-url("views/play/highscores-button.png");
+    background-repeat: no-repeat;
+    
+    position: absolute;
+    top: 22px;
+    right: 100px;
+    
+    &:hover {
+      background-position: 0 -62px;
+    }
+  }
 }
+
 
 #clock {
   width: 255px;
@@ -32,8 +80,10 @@
   background-repeat: no-repeat;
   
   position: absolute;
-  top: $border-top-padding - 5px;
+  top: 10px;
   left: $center-x - 127px;
+  
+  z-index: 1000;
 }
 
 #clock-minutes, #clock-dot-one, #clock-seconds, #clock-dot-two, #clock-milliseconds {
@@ -55,81 +105,190 @@
 
 #result-overlay {
   position: absolute; 
-  top: 180px; 
-  left: 150px; 
-  color: white; 
-  font-size: 32px; 
-  font-family: sans-serif; 
-  background-color: rgba(0, 0, 0, 0.7); 
-  -webkit-box-shadow: 0 0 40px rgba(0, 0, 0, 0.7); 
-  width: 700px;
-  padding: 30px;
+  top: 128px; 
+  left: 150px;
   
-  ul {
-    list-style: none;
-  }
+  width: 711px;
+  height: 858px;
 
-  #laptimes, #highscores {
-    float: left;
-    width: 300px;
-    margin-right: 30px;
-  }
+  background-image: image-url("shared/clipboard.png");
+  background-repeat: no-repeat;
 
+  font-family: "JustTheWayYouAre", sans-serif;
+  font-size: 32px; 
+
+  color: black;
+}
+
+#result-content {
+  @include rotate(-11deg);
+  
+  width: 450px;
+  height: 700px;
+  
+  padding-top: 130px;
+  padding-left: 100px;
+  
+  h2 {
+    @include rotate(3deg);
+    
+    width: 100%;
+    text-align: center;
+    font-family: "JustTheWayYouAre", sans-serif;
+    font-size: 40px;
+    font-weight: bold;
+    color: #193773;
+  }
+  
+  .race-time {
+    margin: 40px 0 0 0;
+    font-size: 42px;
+    color: #2c4577;
+    background-image: image-url("views/play/race-time-highlight.png");
+    background-repeat: no-repeat;
+    background-position: top center;
+    height: 70px;
+    width: 100%;
+    padding-top: 15px;
+    text-align: center;
+  }
+  
+  .nice {
+    @include rotate(5deg);
+    
+    display: block;
+    position: absolute;
+    top: 235px;
+    left: 430px;
+    color: #193773;
+    font-size: 25px;
+  }
+  
+  .retry-button, .new-track-button {
+    @include clipboard-button;
+    display: inline;
+  }
+  
+  .retry-button {
+    margin-left: 75px;
+  }
+  
+  .or {
+    font-size: 22px;
+  }
+  
+  h3 {
+    font-family: "JustTheWayYouAre", sans-serif;
+    font-size: 26px;
+    color: black;
+    margin-left: 20px;
+  }
+  
   #highscore-table {
-    border-spacing: 0;
-
-    td, th {
-      padding: 5px;
+    width: 420px;
+    margin-top: 12px;
+    margin-left: 50px;
+  
+    font-size: 26px;
+    line-height: 32px;
+  
+    td:nth-child(1) {
+      min-width: 30px;
+    }
+  
+    td:nth-child(3) {
+      text-align: right;
     }
   }
 }
 
 #countdown {
-  color: white;
-  font-size: 270px;
   position: absolute;
-  top: 210px;
-  left: 300px;
-  font-weight: bold;
-  font-family: sans-serif;
-  width: 400px;
-  text-align: center;
-  text-shadow: 0 0 15px #eee;
+  top: 7px;
+  left: $center-x - 127px;
+  z-index: 1001;
+  width: 255px;
+  height: 92px;
+  background-image: image-url("views/play/traffic-light.png");
+  
+  &.first  { background-position: 0 0; }
+  &.second { background-position: 0 -91px; }
+  &.third  { background-position: 0 -182px; }
+  &.fourth { background-position: 0 -273px; }
 }
 
-#car {
+#car, #ghost {
   position: absolute;
   top: 0;
   left: 0;
   width: 1px;
   height: 1px;
+}
 
-  #car-graphic {
+#car-graphic {
+  position: absolute;
+  top: -33px;
+  left: -20px;
+  width: 40px;
+  height: 66px;
+  background-image: image-url("car/lamborghini.png");
+  background-repeat: no-repeat;
+}
+
+#ghost-graphic {
+  position: absolute;
+  top: -33px;
+  left: -20px;
+  width: 40px;
+  height: 58px;
+  background-image: image-url("car/porsche.png");
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+
+#player-versus-ghost {
+  position: absolute;
+  top: 105px;
+  width: 100%;
+  height: 140px;
+  background-color: RGBA(255,255,255,0.9);
+  
+  #player-portrait, #ghost-portrait, #versus-text, #time-to-beat {
     position: absolute;
-    top: -33px;
-    left: -20px;
-    width: 40px;
-    height: 66px;
-    background-image: image-url("car/lamborghini.png");
-    background-repeat: no-repeat;
+    text-align:center;
   }
-}
-
-#ghost {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 1px;
-  height: 1px;
-
-  #ghost-graphic {
-    position: absolute;
-    top: -33px;
-    left: -20px;
-    width: 40px;
-    height: 66px;
+  
+  .portrait {
+    width: 40%;
+    font-size: 50px;
+    padding-top: 25px;
+  }
+  
+  #player-portrait {
     background-image: image-url("car/lamborghini.png");
     background-repeat: no-repeat;
-    opacity: 0.5;
+    height: 70px;
+    background-position: 20px;
+  }
+  
+  #versus-text {
+    left: 40%;
+    width: 20%;
+    font-size: 80px;
+    top: 10px;
+  }
+  
+  #ghost-portrait {
+    left: 60%;
+    background-image: image-url("car/porsche.png");
+    background-repeat: no-repeat;
+    height: 70px;
+    background-position: 20px;
+  }
+  
+  #time-to-beat {
+    top:100px;
+    font-size: 30px;
+    width: 100%;
   }
 }

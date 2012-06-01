@@ -25,7 +25,7 @@ Slotcars::Application.routes.draw do
     resources :runs, :only => [:create]
     resources :ghosts, :only => [:create, :index]
 
-    resources :users, :only => [] do
+    resources :users, :only => [:show] do
       member do
         get 'highscores'
       end

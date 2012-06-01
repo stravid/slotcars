@@ -10,9 +10,8 @@ body {
   height: 768px;
   margin: 0 auto;
   overflow: hidden;
-  background-image: image-url("global/grass-squares.jpg");
-  background-repeat: no-repeat;
-  background-position: center center;
+  background-image: image-url("global/grass-pattern.jpg");
+  background-repeat: repeat;
   font-family: sans-serif;
   -webkit-box-shadow: 0 0 50px 0px #030303;
   -moz-box-shadow:    0 0 50px 0px #030303;
@@ -22,9 +21,8 @@ body {
 .panable {
   width: 3 * $screen-width;
   height: 3 * $screen-height;
-  background-image: image-url("global/grass-squares.jpg");
+  background-image: image-url("global/grass-pattern.jpg");
   background-repeat: repeat;
-  background-position: center center;
   padding: $screen-height $screen-width;
 }
 

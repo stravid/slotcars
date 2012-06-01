@@ -8,6 +8,8 @@ class Track < ActiveRecord::Base
   validates :rasterized, :presence => true
   validates :title, :presence => true
 
+  attr_accessible :raphael, :rasterized, :title, :user_id
+
   def self.sorted_by_date
     Track.order("created_at DESC")
   end
