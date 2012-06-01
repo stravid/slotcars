@@ -15,9 +15,3 @@ describe 'Play.ResultView (unit)', ->
     @gameControllerMock.set 'raceTime', 123
     
     (expect @resultView.onRaceTimeChange).toHaveBeenCalled()
-    
-  it 'should update the lap times when it changes in controller', ->
-    @resultView.onLapTimesChange = sinon.spy()
-    @gameControllerMock.set 'lapTimes', [12, 12]
-    
-    (expect @resultView.onLapTimesChange).toHaveBeenCalled()
