@@ -14,15 +14,20 @@ describe 'Play.GameController (unit)', ->
       getTotalLength: sinon.stub().returns 5
       loadHighscores: sinon.stub()
 
+    @ghostViewMock = mockEmberClass Play.GhostView,
+      hide: sinon.stub()
+
     @gameController = Play.GameController.create
       track: @trackMock
       car: @carMock
+      ghostView: @ghostViewMock
 
   afterEach ->
     @xhr.restore()
 
     @carMock.restore()
     @trackMock.restore()
+    @ghostViewMock.restore()
 
   describe '#update', ->
 
@@ -62,10 +67,30 @@ describe 'Play.GameController (unit)', ->
     beforeEach ->
       # base game controller starts the game loop in its #start method
       @gameController.gameLoopController = start: sinon.spy()
-
-    it 'should call the restart game function', ->
       sinon.stub @gameController, 'restartGame'
+
+    it 'should call the restart game function right away if the ghost is set', ->
+      @gameController.set 'ghost', {}
       @gameController.start()
+
+      (expect @gameController.restartGame).toHaveBeenCalled()
+
+    it 'should not call the restart game function if the ghost is not set', ->
+      @gameController.start()
+
+      (expect @gameController.restartGame).not.toHaveBeenCalled()
+
+    it 'should call the restart game function once the ghost is set', ->
+      @gameController.start()
+
+      @gameController.set 'ghost', {}
+
+      (expect @gameController.restartGame).toHaveBeenCalled()
+
+    it 'should call the restart game function if the ghost is not available', ->
+      @gameController.start()
+
+      @gameController.set 'isGhostAvailable', false
 
       (expect @gameController.restartGame).toHaveBeenCalled()
 
