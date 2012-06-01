@@ -16,6 +16,12 @@ Shared.User = DS.Model.extend
       dataType: 'json'
       success: (response) -> callback response
 
+  getTimeForTrackId: (trackId) ->
+    return null unless @highscores?
+
+    for highscore in @highscores
+      return highscore.time if highscore.track_id is trackId
+
 Shared.User.reopenClass
 
   current: null

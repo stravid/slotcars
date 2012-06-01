@@ -21,6 +21,10 @@ Play.Game = Shared.BaseGame.extend
     @_gameView = Play.GameView.create
       gameController: @_gameController
 
+    @_ghostView = Play.GhostView.create()
+    @_gameController.ghostView = @_ghostView
+
+
   _applyMixins: ->
     @_super()
     Play.Finishable.apply @_trackView
@@ -29,6 +33,7 @@ Play.Game = Shared.BaseGame.extend
     @_super()
     @_baseGameViewContainer.set 'clockView', @_clockView
     @_baseGameViewContainer.set 'gameView', @_gameView
+    @_baseGameViewContainer.set 'ghostView', @_ghostView
 
   destroy: ->
     @_super()
