@@ -120,11 +120,7 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
 
   checkForNewHighscore: ->
     time = @highscores.getTimeForUserId Shared.User.current.get 'id'
-
-    if time is @raceTime
-      @set 'isLastRunNewHighscore', true
-    else
-      @set 'isLastRunNewHighscore', false
+    @set 'isLastRunNewHighscore', time is @raceTime
 
   initializeGhost: (ghost) ->
     Shared.ModelStore.load Shared.Ghost, ghost
