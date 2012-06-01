@@ -31,6 +31,7 @@ Shared.BaseGame = Ember.Object.extend
   _applyMixins: ->
     Shared.Controllable.apply @_trackView
     Shared.Panable.apply @_trackView
+    Shared.CanvasRenderable.apply @_trackView
 
   _appendViews: ->
     @_baseGameViewContainer.set 'trackView', @_trackView

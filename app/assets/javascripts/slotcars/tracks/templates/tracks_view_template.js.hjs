@@ -1,8 +1,11 @@
-<div id="page-indicator">
-  Page {{currentPage}} of {{pageCount}}
+<div id="tracks-header">
+  <h2>Tracks</h2>
+  <span id="tracks-page-indicator">page {{currentPage}} of {{pageCount}}</span>
 </div>
 <div id="swiper">
   {{dynamicView dynamicViewPageA class="page"}}
   {{dynamicView dynamicViewPageB class="page"}}
   {{dynamicView dynamicViewPageC class="page"}}
 </div>
+
+<div id="tracks-info">swipe to explore more tracks</div>

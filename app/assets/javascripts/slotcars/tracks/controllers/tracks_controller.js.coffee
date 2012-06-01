@@ -8,7 +8,7 @@ Tracks.TracksController = Ember.Object.extend
   tracksPerPage: null
 
   init: ->
-    @tracksPerPage = 4
+    @tracksPerPage = 3
 
     @tracksView = Tracks.TracksView.create
       tracksController: this
@@ -20,7 +20,7 @@ Tracks.TracksController = Ember.Object.extend
 
     @set 'pageATracks', []
     @set 'pageBTracks', Shared.Track.find { offset: 0, limit: @tracksPerPage }
-    @set 'pageCTracks', Shared.Track.find { offset: 4, limit: @tracksPerPage }
+    @set 'pageCTracks', Shared.Track.find { offset: @tracksPerPage, limit: @tracksPerPage }
 
     @tracksScreenView.set 'contentView', @tracksView
 

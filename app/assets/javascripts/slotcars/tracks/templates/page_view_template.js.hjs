@@ -1,6 +1,7 @@
 {{#each tracks}}
   <div class="track" data-track-id="{{unbound id}}">
-    <h2 class="track-title">{{title}}</h2>
     {{view Shared.ThumbnailTrackView trackBinding="this" class="track-container" }}
+    <h3>{{title}}</h3>
+    <h4>{{username}}</h4>
   </div>
 {{/each}}
