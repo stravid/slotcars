@@ -12,6 +12,7 @@ Play.Finishable = Ember.Mixin.create
     
   didRenderTrack: ->
     @_super()
+    @createFinishLineImage()
     @loadFinishLineImage()
 
   loadFinishLineImage: ->

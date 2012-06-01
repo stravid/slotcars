@@ -10,12 +10,18 @@ describe 'Play.Finishable', ->
 
     beforeEach ->
       @finishable._super = sinon.spy()
+      sinon.stub @finishable, 'createFinishLineImage'
       sinon.stub @finishable, 'loadFinishLineImage'
 
     it 'should call super', ->
       @finishable.didRenderTrack()
 
       (expect @finishable._super).toHaveBeenCalled()
+      
+    it 'should create the headline image', ->
+      @finishable.didRenderTrack()
+      
+      (expect @finishable.createFinishLineImage).toHaveBeenCalled()
 
     it 'should start loading the finish line image', ->
       @finishable.didRenderTrack()
