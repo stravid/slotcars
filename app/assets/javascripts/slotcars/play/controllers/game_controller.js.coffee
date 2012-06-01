@@ -14,20 +14,34 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
   lapTimes: null
 
   ghost: null
+  personalBestRaceTime: 999999999
+  isGhostAvailable: null
 
   init: ->
     @_super()
     @set 'lapTimes', []
 
-    @initializeGhostForCurrentUserHighscore() if Shared.User.current?
+    @getPersonalBestRaceTimeOfCurrentUser() if Shared.User.current?
+    @loadGhost @personalBestRaceTime
 
-  initializeGhostForCurrentUserHighscore: ->
+  getPersonalBestRaceTimeOfCurrentUser: ->
     highscoreOnTrack = Shared.User.current.getTimeForTrackId @track.get 'id'
 
-    @loadGhost highscoreOnTrack if highscoreOnTrack?
+    @personalBestRaceTime = highscoreOnTrack if highscoreOnTrack?
 
   start: ->
     @_super()
+
+    if @ghost?
+      @restartGame()
+    else
+      @addObserver 'ghost', this, 'onFirstGhostLoaded'
+      @addObserver 'isGhostAvailable', this, 'onFirstGhostLoaded'
+
+  onFirstGhostLoaded: ->
+    @removeObserver 'ghost', this, 'onFirstGhostLoaded'
+    @removeObserver 'isGhostAvailable', this, 'onFirstGhostLoaded'
+
     @restartGame()
 
   finish: ->
@@ -38,11 +52,15 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
     @set 'isRaceRunning', false
     @isTouchMouseDown = false
 
+    @ghostView.hide()
+
+    @personalBestRaceTime = @raceTime if @raceTime < @personalBestRaceTime
+
     if Shared.User.current?
       @saveRaceTime()
     else
       @loadHighscores()
-      @loadGhost @raceTime if @isGhostDefeated()
+      @loadGhost @personalBestRaceTime
 
   saveRaceTime: ->
     run = Shared.Run.createRecord
@@ -64,7 +82,7 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
         track_id: @track.get 'id'
         time: time
       success: (response) => @initializeGhost response.ghost
-      error: -> # no ghost for this track
+      error: => @set 'isGhostAvailable', false
 
   saveGhost: ->
     if @isRecording
@@ -84,35 +102,34 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
       user: Shared.User.current
       time: @raceTime
 
-    ghost.on 'didCreate', => @loadGhost @raceTime
+    ghost.on 'didCreate', => @loadGhost @personalBestRaceTime
     ghost.save()
 
   onHighscoresLoaded: (highscores) ->
     @set 'highscores', Shared.Highscores.create runs: highscores
 
+    return unless Shared.User.current?
+
     if @isNewHighscore()
       @saveGhost()
     else
-      @loadGhost @raceTime if @isGhostDefeated()
+      @loadGhost @personalBestRaceTime
 
   isNewHighscore: ->
     time = @highscores.getTimeForUserId Shared.User.current.get 'id'
 
     time is @raceTime
 
-  isGhostDefeated: ->
-    @raceTime < @ghost?.get 'time'
-
   initializeGhost: (ghost) ->
     Shared.ModelStore.load Shared.Ghost, ghost
 
-    @ghost = Shared.Ghost.find ghost.id
-
-    @ghost.fire 'didLoad'
+    ghost = Shared.Ghost.find ghost.id
+    ghost.fire 'didLoad'
 
     @ghostView.set 'car', @car
-    @ghostView.set 'ghost', @ghost
-    @ghostView.show()
+    @ghostView.set 'ghost', ghost
+
+    @set 'ghost', ghost
 
   onCarCrossedFinishLine: (->
     car = @get 'car'
@@ -145,6 +162,7 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
 
     @car.reset()
     @ghost.reset() if @ghost?
+    @ghostView.show() if @ghost?
 
     @startCountdown => @startRace()
 
