@@ -9,6 +9,7 @@ Shared.Track = DS.Model.extend Shared.Rasterizable,
 
   id: DS.attr 'number'
   title: DS.attr 'string'
+  username: DS.attr 'string'
   raphael: DS.attr 'string'
   rasterized: DS.attr 'string'
 

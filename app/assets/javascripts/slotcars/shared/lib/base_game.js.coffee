@@ -31,6 +31,7 @@ Shared.BaseGame = Ember.Object.extend
   _applyMixins: ->
     Shared.Controllable.apply @_trackView
     Shared.Panable.apply @_trackView
+    Shared.CanvasRenderable.apply @_trackView
 
   _appendViews: ->
     @_baseGameViewContainer.set 'trackView', @_trackView
@@ -39,8 +40,7 @@ Shared.BaseGame = Ember.Object.extend
     @screenView.set 'contentView', @_baseGameViewContainer
 
   destroy: ->
-    @screenView.set 'contentView', null
-    @_carView.destroy()
-    @_trackView.destroy()
     @_baseGameViewContainer.destroy()
+    @screenView.set 'contentView', null
     @_gameController.destroy()
+    @_super()

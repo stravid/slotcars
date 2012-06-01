@@ -3,7 +3,7 @@ Build.EditView = Shared.TrackView.extend
   templateName: 'slotcars_build_templates_edit_view_template'
 
   circles: null
-  excludedPathLayers: outerLine: true, medianStrip: true
+  excludedPathLayers: outerLine: true, slot: true
 
   drawTrack: (path) ->
     @_super path

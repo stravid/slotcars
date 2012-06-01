@@ -1,6 +1,7 @@
 Play.Countdownable = Ember.Mixin.create
 
   isCountdownVisible: false
+  isCountdownFinished: false
   currentCountdownClass: null
   timers: []
 
@@ -17,6 +18,7 @@ Play.Countdownable = Ember.Mixin.create
   resetCountdown: ->
     @cancelTimers()
     @setCountdownValue 'first'
+    @set 'isCountdownFinished', false
     @showCountdown()
 
   cancelTimers: ->
@@ -28,7 +30,13 @@ Play.Countdownable = Ember.Mixin.create
   finishCountdown: (finishCallback) ->
     finishCallback() if finishCallback?
     @setCountdownValue 'fourth'
+    @set 'isCountdownFinished', true
 
   showCountdown: -> @set 'isCountdownVisible', true
 
   hideCountdown: -> @set 'isCountdownVisible', false
+
+  destroy: ->
+    @cancelTimers()
+
+    @_super()

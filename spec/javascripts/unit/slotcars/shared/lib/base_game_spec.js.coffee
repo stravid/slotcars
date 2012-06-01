@@ -81,23 +81,19 @@ describe 'Shared.BaseGame', ->
 
     beforeEach ->
       @BaseGameControllerMock.destroy = sinon.spy()
-      @CarViewMock.destroy = sinon.spy()
-      @TrackViewMock.destroy = sinon.spy()
       @BaseGameViewContainerMock.destroy = sinon.spy()
 
+    it 'should unset the content view on build screen view', ->
       @baseGame.destroy()
 
-    it 'should unset the content view on build screen view', ->
       (expect @screenViewMock.set).toHaveBeenCalledWith 'contentView', null
 
-    it 'should tell the car view to destroy itself', ->
-      (expect @CarViewMock.destroy).toHaveBeenCalled()
-
-    it 'should tell the track view to destroy itself', ->
-      (expect @TrackViewMock.destroy).toHaveBeenCalled()
-
     it 'should tell the view container to destroy itself', ->
+      @baseGame.destroy()
+
       (expect @BaseGameViewContainerMock.destroy).toHaveBeenCalled()
 
     it 'should call destroy on the game controller', ->
+      @baseGame.destroy()
+
       (expect @BaseGameControllerMock.destroy).toHaveBeenCalled()

@@ -144,7 +144,11 @@
     text-align: center;
   }
 
+<<<<<<< HEAD
   .nice {
+=======
+  .race-feedback {
+>>>>>>> development
     @include rotate(5deg);
 
     display: block;
@@ -153,6 +157,10 @@
     left: 430px;
     color: #193773;
     font-size: 25px;
+
+    &.highscore {
+      font-weight: bold;
+    }
   }
 
   .retry-button, .new-track-button {
@@ -208,20 +216,65 @@
   &.fourth { background-position: 0 -273px; }
 }
 
-#car {
+#car, #ghost {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: $screen-height / 2;
+  left: $screen-width / 2;
   width: 1px;
   height: 1px;
+}
 
-  #car-graphic {
-    position: absolute;
-    top: -33px;
-    left: -20px;
-    width: 40px;
-    height: 66px;
-    background-image: image-url("car/lamborghini.png");
-    background-repeat: no-repeat;
+#car-graphic {
+  position: absolute;
+  top: -40px;
+  left: -27px;
+  width: 55px;
+  height: 89px;
+  background-image: image-url("car/car-orange.png");
+  background-repeat: no-repeat;
+}
+
+#ghost-graphic {
+  position: absolute;
+  top: -40px;
+  left: -27px;
+  width: 55px;
+  height: 89px;
+  background-image: image-url("car/car-blue.png");
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+
+#player-versus-ghost {
+  position: absolute;
+  top: 120px;
+  width: 100%;
+  font-family: SansitaOneRegular;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  text-shadow: 0 0 30px black, 0 0 50px black;
+
+  span.name {
+    font-size: 25px;
+    margin: 0 10px 0 10px;
   }
+<<<<<<< HEAD
+=======
+
+  span#text-container {
+    position: relative;
+    top: -35px;
+    margin: 20px;
+  }
+
+  #player-portrait {
+    @include rotate(90deg);
+  }
+
+  #ghost-portrait {
+    @include rotate(-90deg);
+    opacity: 0.5;
+  }
+>>>>>>> development
 }

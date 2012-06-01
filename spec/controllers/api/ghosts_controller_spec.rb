@@ -2,10 +2,11 @@ require 'spec_helper'
 
 describe Api::GhostsController do
 
+  let(:track) { FactoryGirl.create :track }
+
   describe '#create' do
 
     let(:user) { FactoryGirl.create :user }
-    let(:track) { FactoryGirl.create :track }
 
     it 'should return a bad request error code when params hash does not contain a `ghost` key' do
       sign_in user
@@ -83,5 +84,34 @@ describe Api::GhostsController do
       response.should be_bad_request
     end
 
+  end
+
+  describe '#index' do
+
+    it 'should return the next best ghost' do
+      ghost_a = Ghost.create! :time => 1, :track_id => track.id, :positions => 'yeah'
+      ghost_b = Ghost.create! :time => 2, :track_id => track.id, :positions => 'yeah'
+      ghost_c = Ghost.create! :time => 3, :track_id => track.id, :positions => 'yeah'
+
+      get :index, :track_id => track.id, :time => 2
+
+      serializer = GhostSerializer.new ghost_a, :root => 'ghost'
+      serialized_ghost = serializer.as_json
+
+      response.body.should == serialized_ghost.to_json
+    end
+
+    it 'should return your ghost if it is the best' do
+      ghost_a = Ghost.create! :time => 1, :track_id => track.id, :positions => 'yeah'
+      ghost_b = Ghost.create! :time => 2, :track_id => track.id, :positions => 'yeah'
+      ghost_c = Ghost.create! :time => 3, :track_id => track.id, :positions => 'yeah'
+
+      get :index, :track_id => track.id, :time => 1
+
+      serializer = GhostSerializer.new ghost_a, :root => 'ghost'
+      serialized_ghost = serializer.as_json
+
+      response.body.should == serialized_ghost.to_json
+    end
   end
 end

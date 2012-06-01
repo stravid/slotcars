@@ -6,13 +6,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="apple-touch-icon-precomposed" href="<%= image_path "app-icon-precomposed.png" %>" />
   <link rel="icon" type="image/png" href="<%= image_path "favicon.png" %>">
-  
+
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1, minimum-scale=1" />
-  
+
   <%= stylesheet_link_tag    "slotcars", :media => "all" %>
   <%= javascript_include_tag "slotcars" %>
   <%= csrf_meta_tags %>
-  
+
   <script src="http://js.pusher.com/1.11/pusher.min.js"></script>
 
   <% if current_user %>
@@ -28,8 +28,8 @@
 
 </head>
 <body>
-
-<%= yield %>
-
+  <div id="screen-container">
+    <%= yield %>
+  </div>
 </body>
 </html>

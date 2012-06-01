@@ -16,6 +16,9 @@ beforeEach ->
     toExtend: (expectedClass) ->
       expectedClass.detect @actual
 
+    toHaveTheFunctionalityOf: (expectedClass) ->
+      expectedClass.detect @actual
+
     toObserve: (expectedBindingPath) ->
       @env.equals_ @actual.__ember_observes__[0], expectedBindingPath
 

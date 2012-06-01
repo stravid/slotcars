@@ -1,11 +1,12 @@
 @import "config";
 @import "helpers/mixins";
 
-html {
+body {
   background: url("global/background-noise.jpg") repeat;
+  overflow: hidden;
 }
 
-body {
+#screen-container {
   position: relative;
   width: 1024px;
   height: 768px;
@@ -17,6 +18,13 @@ body {
   -webkit-box-shadow: 0 0 50px 0px #030303;
   -moz-box-shadow:    0 0 50px 0px #030303;
   box-shadow:         0 0 50px 0px #030303;
+}
+
+.screen {
+  position: relative;
+  -webkit-backface-visibility: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 .panable {

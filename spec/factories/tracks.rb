@@ -3,6 +3,8 @@ FactoryGirl.define do
     raphael     { FactoryGirl.generate :valid_raphael_path }
     rasterized  'rasterizedPath'
     title 'Just Another Awesome One'
+    
+    user # create a user for each track
   end
 
   sequence :valid_raphael_path do |n|

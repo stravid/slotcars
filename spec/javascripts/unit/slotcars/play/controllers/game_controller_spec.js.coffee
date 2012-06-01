@@ -1,6 +1,8 @@
 describe 'Play.GameController (unit)', ->
 
   beforeEach ->
+    Shared.User.current = null
+
     @xhr = sinon.useFakeXMLHttpRequest()
 
     @carMock = mockEmberClass Shared.Car,
@@ -12,15 +14,20 @@ describe 'Play.GameController (unit)', ->
       getTotalLength: sinon.stub().returns 5
       loadHighscores: sinon.stub()
 
+    @ghostViewMock = mockEmberClass Play.GhostView,
+      hide: sinon.stub()
+
     @gameController = Play.GameController.create
       track: @trackMock
       car: @carMock
+      ghostView: @ghostViewMock
 
   afterEach ->
     @xhr.restore()
 
     @carMock.restore()
     @trackMock.restore()
+    @ghostViewMock.restore()
 
   describe '#update', ->
 
@@ -60,10 +67,30 @@ describe 'Play.GameController (unit)', ->
     beforeEach ->
       # base game controller starts the game loop in its #start method
       @gameController.gameLoopController = start: sinon.spy()
-
-    it 'should call the restart game function', ->
       sinon.stub @gameController, 'restartGame'
+
+    it 'should call the restart game function right away if the ghost is set', ->
+      @gameController.set 'ghost', {}
       @gameController.start()
+
+      (expect @gameController.restartGame).toHaveBeenCalled()
+
+    it 'should not call the restart game function if the ghost is not set', ->
+      @gameController.start()
+
+      (expect @gameController.restartGame).not.toHaveBeenCalled()
+
+    it 'should call the restart game function once the ghost is set', ->
+      @gameController.start()
+
+      @gameController.set 'ghost', {}
+
+      (expect @gameController.restartGame).toHaveBeenCalled()
+
+    it 'should call the restart game function if the ghost is not available', ->
+      @gameController.start()
+
+      @gameController.set 'isGhostAvailable', false
 
       (expect @gameController.restartGame).toHaveBeenCalled()
 
@@ -91,10 +118,10 @@ describe 'Play.GameController (unit)', ->
       @gameController.finish()
 
       (expect @gameController.isTouchMouseDown).toBe false
-      
+
     it 'should set a flag that race is over', ->
       @gameController.finish()
-      
+
       (expect @gameController.get 'isRaceFinished').toBe true
 
     it 'should call saveRaceTime if Shared.User.current is present', ->
@@ -149,16 +176,16 @@ describe 'Play.GameController (unit)', ->
       @gameController.restartGame()
 
       (expect @gameController.get 'isRaceRunning').toBe false
-      
+
     it 'should unset the flag wether the race is finished', ->
       @gameController.restartGame()
-      
+
       (expect @gameController.get 'isRaceFinished').toBe false
-      
+
     it 'should reset lap times when race is reset', ->
       @gameController.lapTimes.push(123)
       @gameController.restartGame()
-       
+
       (expect @gameController.lapTimes).toEqual []
 
     it 'should start countdown and provide start race method as callback', ->
@@ -191,7 +218,7 @@ describe 'Play.GameController (unit)', ->
       @carMock.set 'currentLap', 2
 
       (expect @gameController.lapTimes.length).toBe 1
-      
+
     it 'should save the difference of total minus the previous laps', ->
       @gameController.set 'raceTime', 1000
       @gameController.set 'lapTimes', [200, 300]
@@ -237,7 +264,7 @@ describe 'Play.GameController (unit)', ->
         time: time
         user: Shared.User.current
 
-  describe '#isNewHighscore', ->
+  describe '#checkForNewHighscore', ->
 
     beforeEach ->
       @highscoreTime = 9
@@ -246,47 +273,44 @@ describe 'Play.GameController (unit)', ->
 
       @gameController.onHighscoresLoaded()
 
-      Shared.User.current = 
-        get: ->
+      Shared.User.current = get: ->
 
     afterEach ->
       @highscoresMock.restore()
-
       Shared.User.current = null
 
-    it 'should return true if the highscore is better', ->
+    it 'should flag last run as new highscore the time is better', ->
+      @gameController.set 'isLastRunNewHighscore', false
       @gameController.raceTime = @highscoreTime
-      (expect @gameController.isNewHighscore()).toBe true
+      
+      @gameController.checkForNewHighscore()
+      
+      (expect @gameController.get 'isLastRunNewHighscore').toBe true
 
     it 'should return false if the highscore did not improve', ->
+      @gameController.set 'isLastRunNewHighscore', true
       @gameController.raceTime = 10
-      (expect @gameController.isNewHighscore()).toBe false
+      
+      @gameController.checkForNewHighscore()
+      
+      (expect @gameController.get 'isLastRunNewHighscore').toBe false
 
-  describe '#saveGhost', ->
+  describe '#createGhost', ->
 
-    beforeEach ->
-      sinon.spy Shared.Ghost, 'createRecord'
+    beforeEach -> sinon.spy Shared.Ghost, 'createRecord'
 
-    afterEach ->
-      Shared.Ghost.createRecord.restore()
+    afterEach -> Shared.Ghost.createRecord.restore()
 
-    it 'should create a new Ghost record if it is a new highscore', ->
+    it 'should create a new Ghost record', ->
       time = 100
       recordedPositions = [{ x: 1 }, { x: 2 }]
       @gameController.set 'raceTime', time
       @gameController.set 'recordedPositions', recordedPositions
 
-      @gameController.isNewHighscore = sinon.stub().returns true
-
-      @gameController.saveGhost()
+      @gameController.createGhost()
 
       (expect Shared.Ghost.createRecord).toHaveBeenCalledWithAnObjectLike
         track: @trackMock
         time: time
         user: Shared.User.current
         positions: recordedPositions
-
-    it 'should not create a new Ghost if it is not a new highscore', ->
-      @gameController.isNewHighscore = sinon.stub().returns false
-
-      (expect Shared.Ghost.createRecord).not.toHaveBeenCalled()

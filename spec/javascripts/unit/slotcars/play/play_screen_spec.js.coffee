@@ -4,9 +4,7 @@ describe 'play screen', ->
     @trackInstance = Shared.Track._create isLoaded: true
     sinon.stub(Shared.Track, 'find').returns @trackInstance
 
-    @playScreenViewMock = mockEmberClass Play.PlayScreenView,
-      append: sinon.spy()
-      remove: sinon.spy()
+    @playScreenViewMock = mockEmberClass Play.PlayScreenView, append: sinon.spy()
     @playScreenStateManagerMock = mockEmberClass Play.PlayScreenStateManager, send: sinon.spy()
     @GameMock = mockEmberClass Play.Game,
       start: sinon.spy()
@@ -134,7 +132,7 @@ describe 'play screen', ->
       @playScreen = Play.PlayScreen.create trackId: 1
       @gameStub = destroy: sinon.spy()
       @playScreenNotificationsControllerStub = destroy: sinon.spy()
-      @playScreenNotificationsViewStub = remove: sinon.spy()
+      @playScreenNotificationsViewStub = destroy: sinon.spy()
 
     it 'should tell the game to destroy itself', ->
       @playScreen.set '_game', @gameStub
@@ -158,13 +156,13 @@ describe 'play screen', ->
 
       (expect @playScreenNotificationsControllerStub.destroy).not.toHaveBeenCalled()
 
-    it 'should tell the play screen notifications view to remove itself', ->
+    it 'should tell the play screen notifications view to destroy itself', ->
       @playScreen.set '_playScreenNotificationsView', @playScreenNotificationsViewStub
       @playScreen.destroy()
 
-      (expect @playScreenNotificationsViewStub.remove).toHaveBeenCalled()
+      (expect @playScreenNotificationsViewStub.destroy).toHaveBeenCalled()
 
-    it 'should only remove the play screen notifications view if it is present', ->
+    it 'should only destroy the play screen notifications view if it is present', ->
       @playScreen.destroy()
 
-      (expect @playScreenNotificationsViewStub.remove).not.toHaveBeenCalled()
+      (expect @playScreenNotificationsViewStub.destroy).not.toHaveBeenCalled()

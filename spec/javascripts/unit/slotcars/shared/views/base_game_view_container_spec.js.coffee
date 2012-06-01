@@ -31,3 +31,20 @@ describe 'Shared.BaseGameViewContainer', ->
       @baseGameViewContainer.set 'gameView', @testContentView
 
       Ember.run.next => (expect @baseGameViewContainer.$()).toContain '#' + @testContentViewId
+
+  describe 'destroying', ->
+
+    beforeEach ->
+      @viewStub =
+        destroy: sinon.spy()
+
+      @baseGameViewContainer = Shared.BaseGameViewContainer.create
+        trackView: @viewStub
+        carView: @viewStub
+        clockView: @viewStub
+        gameView: @viewStub
+
+    it 'should call destroy on all dynamic views', ->
+      @baseGameViewContainer.destroy()
+
+      (expect @viewStub.destroy).toHaveBeenCalledFourTimes()
