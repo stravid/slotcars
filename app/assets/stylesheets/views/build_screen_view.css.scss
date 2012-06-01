@@ -1,128 +1,197 @@
 /*
- *= require helpers/utilities 
+ *= require helpers/utilities
  *= require shared/home_button
  */
 
 @import "config";
+@import "helpers/mixins";
+@import "shared/clipboard_button";
 
-#build-screen-view {
-  overflow: hidden;
-}
-
-#clear-track-button, #test-track-button {
+.button-label {
   position: absolute;
-  bottom: $border-padding;
-  cursor: pointer;
+  display: inline-block;
+  left: 0;
+  top: 64px;
+  width: 100%;
+  color: #eee;
+  font-size: 14px;
+  font-family: "JustTheWayYouAre", sans-serif;
+  letter-spacing: 1px;
 }
 
-#clear-track-button {
-  width: 163px;
-  height: 66px;
-  background-image: image-url("buttons/clear.png");
-  background-repeat: no-repeat;
-  
-  right: $border-padding;
- 
+#home-button {
+  text-decoration: none;
+  text-align: center;
 }
 
-#test-track-button {
-  width: 146px;
-  height: 66px;
-  background-image: image-url("buttons/test.png");
-  background-repeat: no-repeat;
-
-  left: $border-padding;
-}
-
-#rasterizing-notification {
+#rasterization-notification {
   position: absolute;
-  left: 300px;
-  top: 250px;
-  padding: 60px;
-  background: rgba(0,0,0,0.7);
-  -webkit-box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.7);
-  -moz-box-shadow:    0px 0px 11px rgba(0, 0, 0, 0.7);
-  box-shadow:         0px 0px 11px rgba(0, 0, 0, 0.7);
+  left: $center-x - 300px;
+  top: $center-y - 50px;
+  width: 560px;
+  padding: 10px 20px;
+  background: rgba(0,0,0,0.8);
+  text-align: center;
+
+  @include border-radius(18px);
 
   p {
-    text-align: center;
-    font-family: sans-serif;
     color: white;
-    font-size: 30px;
-    text-shadow: 0 0 15px #EEE;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: "JustTheWayYouAre", sans-serif;
   }
 }
 
-#publication-dialog {
+#draw-info {
   position: absolute;
-  left: 300px;
-  top: 250px;
-  padding: 50px;
-  width: 300px;
-  background: rgba(0,0,0,0.7);
-  -webkit-box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.7);
-  -moz-box-shadow:    0px 0px 11px rgba(0, 0, 0, 0.7);
-  box-shadow:         0px 0px 11px rgba(0, 0, 0, 0.7);
+  left: $center-x - 250px;
+  top: $center-y - 50px;
+  width: 500px;
+  font-size: 30px;
+  color: #ddd;
   text-align: center;
+  font-family: "JustTheWayYouAre", sans-serif;
+}
 
-  p {
-    margin-bottom: 40px;
-    font-family: sans-serif;
-    color: white;
+#build-screen-view {
+  #clipboard {
+    top: 195px;
+    left: 385px;
+    color: #111;
+  }
+}
+
+#authorization-view-buttons {
+  position: relative;
+  top: -46px;
+  left: 20px;
+  padding-left: 138px;
+  width: 210px;
+
+  @include rotate(-11deg);
+
+  button {
+    @include clipboard-button;
+    float: left;
+
+    &.authorization-cancel-button {
+      margin-left: 12px;
+    }
+  }
+
+  &:after {
+    clear: both;
+    content: '.';
+    display: block;
+    visibility: hidden;
+    height: 1px;
+    line-height: 1px;
+  }
+}
+
+#publication-view {
+  @include widget-base;
+  font-size: 20px;
+
+  h2 {
+    @include widget-headline;
+  }
+
+  label {
+    font-size: 26px;
+  }
+
+  p.explanation {
     font-size: 20px;
-    text-shadow: 0 0 15px #EEE;
+    color: #1e1e1e;
+    display: block;
+    margin: 37px 0 25px;
+    line-height: 33px;
+  }
+
+  div.input-field {
+    margin-bottom: 18px;
+  }
+
+  div.form {
+    width: 272px;
+    height: 34px;
+    display: inline-block;
+    border-bottom: 2px dashed black;
+
+    input {
+      display: inline-block;
+      width: 100%;
+      background-color: transparent;
+      border: none;
+      font-family: inherit;
+      font-size: 25px;
+      position: relative;
+      top: -5px;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+  button {
+    @include clipboard-button;
+    float: right;
+    margin-left: 10px;
   }
 }
 
 #toolbar {
-  position: absolute;
-  top: 32px;
-  left: 350px;
-  width: 324px;
   text-align: center;
+  margin-top: 22px;
 
   button {
+    position: relative;
     display: inline-block;
-    background: transparent;
     border: none;
-    width: 67px;
-    height: 67px;
-    margin: 0 5px;
-    background-image: image-url("buttons/build-toolbar.png");
+    width: 64px;
+    height: 64px;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
     background-repeat: no-repeat;
-    background-position: left top;
+    background-position: center -64px;
     cursor: pointer;
+    text-align: center;
+
+    .button-label {
+      top: 60px;
+    }
 
     &[disabled="disabled"] {
-      background-position-y: -140px;
+      background-position-y: -128px;
       cursor: default;
     }
     &.active {
-      background-position-y: -70px;
+      background-position-y: 0;
       cursor: default;
     }
   }
 
-  #draw-button { background-position-x: 0; }
-  #edit-button { background-position-x: -70px; }
-  #testdrive-button { background-position-x: -140px; }
-  #publish-button { background-position-x: -210px; }
-}
+  .dashed-line {
+    display: inline-block;
+    height: 64px;
+    width: 53px;
+    margin: 0 -5px;
+    background: image-url("views/build/dashed-line.png") center 30px no-repeat;
+  }
 
-#authorization-dialog {
-  position: absolute;
-  left: 200px;
-  top: 150px;
-  padding: 10px;
-  width: 500px;
-  background: rgba(0,0,0,0.7);
-  -webkit-box-shadow: 0px 0px 11px rgba(0, 0, 0, 0.7);
-  -moz-box-shadow:    0px 0px 11px rgba(0, 0, 0, 0.7);
-  box-shadow:         0px 0px 11px rgba(0, 0, 0, 0.7);
-
-  p {
-    font-family: sans-serif;
-    color: white;
-    font-size: 20px;
+  #draw-button {
+    background-image: image-url("views/build/draw-button.png");
+  }
+  #edit-button {
+    background-image: image-url("views/build/edit-button.png");
+  }
+  #testdrive-button {
+    background-image: image-url("views/build/test-button.png");
+  }
+  #publish-button {
+    background-image: image-url("views/build/publish-button.png");
   }
 }
