@@ -40,8 +40,7 @@ Shared.BaseGame = Ember.Object.extend
     @screenView.set 'contentView', @_baseGameViewContainer
 
   destroy: ->
-    @screenView.set 'contentView', null
-    @_carView.destroy()
-    @_trackView.destroy()
     @_baseGameViewContainer.destroy()
+    @screenView.set 'contentView', null
     @_gameController.destroy()
+    @_super()

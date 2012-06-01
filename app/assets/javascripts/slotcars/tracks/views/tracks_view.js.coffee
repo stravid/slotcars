@@ -69,7 +69,7 @@ Tracks.TracksView = Ember.View.extend
     (@$ '#swiper').off 'touchMouseMove'
     (@$ '#swiper').off 'touchMouseUp'
 
-    @onSwipeEnd @lastSwipePosition - @swipeStartPosition
+    @onSwipeEnd @lastSwipePosition - @swipeStartPosition if @lastSwipePosition?
 
   onSwipeEnd: (delta) ->
     return if @currentPage is 1 && delta > 0

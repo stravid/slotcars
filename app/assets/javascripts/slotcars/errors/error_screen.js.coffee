@@ -1,7 +1,6 @@
-#= require slotcars/shared/mixins/appendable
 #= require slotcars/factories/screen_factory
 
-Errors.ErrorScreen = Ember.Object.extend Shared.Appendable,
+Errors.ErrorScreen = Ember.Object.extend
 
   init: -> @view = Errors.ErrorScreenView.create()
 

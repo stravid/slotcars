@@ -51,21 +51,3 @@ describe 'Play.Game', ->
 
     it 'should append clock view to base game view container', ->
       (expect @BaseGameViewContainerMock.set).toHaveBeenCalledWith 'clockView', @ClockViewMock
-
-  describe 'destroying the game', ->
-
-    beforeEach ->
-      @ClockViewMock.destroy = sinon.spy()
-      @GameViewMock.destroy = sinon.spy()
-      @GameControllerMock.destroy = sinon.spy()
-      @TrackViewMock.destroy = sinon.spy()
-
-    it 'should call destroy on the clock view', ->
-      @game.destroy()
-
-      (expect @ClockViewMock.destroy).toHaveBeenCalled()
-
-    it 'should call destroy on the game view', ->
-      @game.destroy()
-
-      (expect @GameViewMock.destroy).toHaveBeenCalled()

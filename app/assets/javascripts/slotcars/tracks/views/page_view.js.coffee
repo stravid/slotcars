@@ -16,6 +16,8 @@ Tracks.PageView = Ember.View.extend
 
   disableTransitions: -> @$().css '-webkit-transition', ''
 
-  enableTransitions: -> @$().css '-webkit-transition', '-webkit-transform 0.2s ease-in-out'
+  enableTransitions: ->
+    @$().css '-webkit-backface-visibility', 'hidden'
+    @$().css '-webkit-transition', '-webkit-transform 0.2s ease-in-out'
 
   moveToOrigin: -> @moveTo 0
