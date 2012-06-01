@@ -144,11 +144,7 @@
     text-align: center;
   }
 
-<<<<<<< HEAD
-  .nice {
-=======
   .race-feedback {
->>>>>>> development
     @include rotate(5deg);
 
     display: block;
@@ -247,7 +243,8 @@
 
 #player-versus-ghost {
   position: absolute;
-  top: 120px;
+  top: $topbar-height + 15px;
+  left: 0;
   width: 100%;
   font-family: SansitaOneRegular;
   text-align: center;
@@ -259,8 +256,6 @@
     font-size: 25px;
     margin: 0 10px 0 10px;
   }
-<<<<<<< HEAD
-=======
 
   span#text-container {
     position: relative;
@@ -276,5 +271,4 @@
     @include rotate(-90deg);
     opacity: 0.5;
   }
->>>>>>> development
 }
