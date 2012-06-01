@@ -1,21 +1,22 @@
-<div id="login-form">
-  <h2>Yeah, you're back!</h2>
-  <form>
-    {{#if hasErrors}}
-      <p class="error">Email or password are wrong.</p>
-    {{/if}}
+<h2>{{texts.headline}}</h2>
+<p class="explanation">{{texts.description}}</p>
+<form>
+  {{#if hasErrors}}
+    <p class="error">Email or password are wrong.</p>
+  {{/if}}
 
-    <div class="input-field">
-        <label>Username:</label>
-        <div class="form username"><input id="login-field" type="text" /></div>
-    </div>
+  <div class="input-field">
+      <label>Username:</label>
+      <div class="form username">{{view Ember.TextField valueBinding="login"}}</div>
+  </div>
 
-    <div class="input-field">
-        <label>Password:</label>
-        <div class="form password"><input id="password-field" type="password" /></div>
-    </div>
+  <div class="input-field">
+      <label>Password:</label>
+      <div class="form password">{{view Ember.TextField type="password" valueBinding="password"}}</div>
+  </div>
 
-    <button class="loginButton" type="submit">Log in</button>
-    <button class="cancelButton" {{action "onCancelClicked"}}>Cancel</button>
-  </form>
-</div>
+  <div class="form-buttons">
+    <button type="submit">Log in</button>
+    {{#if showCancelButton}}<button {{action "onCancelClicked"}}>Cancel</button>{{/if}}
+  </div>
+</form>
