@@ -6,8 +6,10 @@ Account.LoginView = Ember.View.extend
 
   hasErrors: false
 
-  onLoginButtonClicked: -> (@get 'delegate').loginUserWithCredentials @_getUserCredentials()
-  
+  submit: (event) ->
+    event.preventDefault()
+    (@get 'delegate').loginUserWithCredentials @_getUserCredentials()
+
   onCancelClicked: -> (@get 'delegate').switchToMenu()
 
   _getUserCredentials: ->
