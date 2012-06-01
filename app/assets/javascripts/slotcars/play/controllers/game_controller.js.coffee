@@ -5,6 +5,7 @@
 Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
 
   isRaceFinished: false
+  isLastRunNewHighscore: false
 
   startTime: null
   endTime: null
@@ -49,7 +50,8 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
       callback() if callback?
 
   saveGhost: ->
-    return unless @isNewHighscore()
+    @checkForNewHighscore()
+    return unless @get 'isLastRunNewHighscore'
 
     ghost = Shared.Ghost.createRecord
       positions: @recordedPositions
@@ -62,10 +64,13 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
   onHighscoresLoaded: (highscores) ->
     @set 'highscores', Shared.Highscores.create runs: highscores
 
-  isNewHighscore: ->
+  checkForNewHighscore: ->
     time = @highscores.getTimeForUserId Shared.User.current.get 'id'
 
-    time is @raceTime
+    if time is @raceTime
+      @set 'isLastRunNewHighscore', true
+    else
+      @set 'isLastRunNewHighscore', false
 
   onCarCrossedFinishLine: (->
     car = @get 'car'
