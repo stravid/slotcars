@@ -6,7 +6,7 @@ Build.RasterizationView = Shared.TrackView.extend
   templateName: 'slotcars_build_templates_rasterization_view_template'
   track: null
 
-  excludedPathLayers: outerLine: true, medianStrip: true
+  excludedPathLayers: outerLine: true, slot: true
   _displayedOverlayPaths: []
 
   drawTrack: (path) ->
@@ -25,4 +25,4 @@ Build.RasterizationView = Shared.TrackView.extend
     @_displayedOverlayPaths.push @_drawPath rasterizedPath, @BORDER_ASPHALT_WIDTH, @ASPHALT_COLOR
     @_displayedOverlayPaths.push @_drawPath rasterizedPath, @BORDER_LINE_WIDTH, @LINE_COLOR
     @_displayedOverlayPaths.push @_drawPath rasterizedPath, @ASPHALT_WIDTH, @ASPHALT_COLOR
-    @_displayedOverlayPaths.push @_drawDashedLine rasterizedPath
+    @_displayedOverlayPaths.push @_drawSlot rasterizedPath

@@ -23,7 +23,7 @@ Play.Game = Shared.BaseGame.extend
 
   _applyMixins: ->
     @_super()
-    Shared.Finishable.apply @_trackView
+    Play.Finishable.apply @_trackView
 
   _appendViews: ->
     @_super()
