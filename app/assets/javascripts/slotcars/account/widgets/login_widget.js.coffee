@@ -14,6 +14,6 @@ Account.LoginWidget = Ember.Object.extend Shared.Widget, Ember.Evented,
 
   showErrorMessageForFailedSignIn: -> @view.set 'hasErrors', true
 
-  switchToSignUp: -> @fire 'signUpClicked'
+  switchToMenu: -> @fire 'menuClicked'
 
 Shared.WidgetFactory.getInstance().registerWidget 'LoginWidget', Account.LoginWidget

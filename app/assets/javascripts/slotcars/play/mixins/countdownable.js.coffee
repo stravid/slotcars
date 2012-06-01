@@ -1,27 +1,33 @@
 Play.Countdownable = Ember.Mixin.create
 
   isCountdownVisible: false
-  currentCountdownValue: null
+  currentCountdownClass: null
+  timers: []
 
   startCountdown: (countdownFinishedCallback) ->
     @resetCountdown()
 
-    Ember.run.later this, @setCountdownValue, 2, 1000
-    Ember.run.later this, @setCountdownValue, 1, 2000
+    @timers.push Ember.run.later this, @setCountdownValue, 'second', 1000
+    @timers.push Ember.run.later this, @setCountdownValue, 'third', 2000
 
-    Ember.run.later this, @finishCountdown, countdownFinishedCallback, 3000
+    @timers.push Ember.run.later this, @finishCountdown, countdownFinishedCallback, 3000
 
-    Ember.run.later this, @hideCountdown, 3500
+    @timers.push Ember.run.later this, @hideCountdown, 4000
 
   resetCountdown: ->
-    @setCountdownValue 3
+    @cancelTimers()
+    @setCountdownValue 'first'
     @showCountdown()
 
-  setCountdownValue: (value) -> @set 'currentCountdownValue', value
+  cancelTimers: ->
+    Ember.run.cancel timer for timer in @timers
+    @timers = []
+
+  setCountdownValue: (value) -> @set 'currentCountdownClass', value
 
   finishCountdown: (finishCallback) ->
     finishCallback() if finishCallback?
-    @setCountdownValue 'Go!'
+    @setCountdownValue 'fourth'
 
   showCountdown: -> @set 'isCountdownVisible', true
 

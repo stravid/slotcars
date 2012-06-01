@@ -6,7 +6,7 @@ PAPER_WRAPPER_ID = '#draw-view-paper'
 Build.DrawView = Shared.TrackView.extend
 
   track: null
-  
+
   templateName: 'slotcars_build_templates_draw_view_template'
   elementId: 'build-draw-view'
   drawController: null
@@ -37,14 +37,17 @@ Build.DrawView = Shared.TrackView.extend
     @$(PAPER_WRAPPER_ID).off 'touchMouseDown'
     @$(PAPER_WRAPPER_ID).off 'touchMouseUp'
 
-  _onTouchMouseDown: ->
+  _onTouchMouseDown: (event) ->
+    event.stopPropagation()
     @$(PAPER_WRAPPER_ID).on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
 
   _onTouchMouseMove: (event) ->
+    event.stopPropagation()
     event.originalEvent.preventDefault() if event.originalEvent?
     offset = @$().offset()
     @drawController.onTouchMouseMove x: event.pageX - offset.left, y: event.pageY - offset.top
 
-  _onTouchMouseUp: ->
+  _onTouchMouseUp: (event) ->
+    event.stopPropagation()
     @$(PAPER_WRAPPER_ID).off 'touchMouseMove'
     @drawController.onTouchMouseUp()
