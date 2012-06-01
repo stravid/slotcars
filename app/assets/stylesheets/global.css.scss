@@ -46,8 +46,8 @@ body {
 
 .topbar {
   background-image: image-url("shared/top-bar.jpg");
-  width: 1024px;
-  height: 106px;
+  width: $screen-width;
+  height: $topbar-height;
   position: absolute;
   top: 0;
   left: 0;

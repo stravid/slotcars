@@ -54,6 +54,17 @@
   font-family: "JustTheWayYouAre", sans-serif;
 }
 
+#edit-info {
+  position: absolute;
+  left: $center-x - 300px;
+  top: $topbar-height + 15px;
+  width: 600px;
+  font-size: 18px;
+  color: #ddd;
+  text-align: center;
+  font-family: "JustTheWayYouAre", sans-serif;
+}
+
 #build-screen-view {
   #clipboard {
     top: 195px;
