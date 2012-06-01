@@ -6,7 +6,7 @@ PAPER_WRAPPER_ID = '#draw-view-paper'
 Build.DrawView = Shared.TrackView.extend
 
   track: null
-  
+
   templateName: 'slotcars_build_templates_draw_view_template'
   elementId: 'build-draw-view'
   drawController: null
@@ -38,6 +38,7 @@ Build.DrawView = Shared.TrackView.extend
     @$(PAPER_WRAPPER_ID).off 'touchMouseUp'
 
   _onTouchMouseDown: ->
+    @$('#draw-info').animate opacity: 0
     @$(PAPER_WRAPPER_ID).on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
 
   _onTouchMouseMove: (event) ->

@@ -4,6 +4,7 @@ Build.Publisher = Ember.Object.extend
   buildScreenView: null
   track: null
   publicationView: null
+  authorizationView: null
 
   init: ->
     if Shared.User.current?
@@ -21,6 +22,7 @@ Build.Publisher = Ember.Object.extend
   setupAuthorizationView: ->
     @authorizationView = Build.AuthorizationView.create
       stateManager: @stateManager
+      track: @track
       delegate: this
 
     @buildScreenView.set 'contentView', @authorizationView
@@ -33,7 +35,7 @@ Build.Publisher = Ember.Object.extend
     @setTitleOnTrackToPublish()
     @track.save => Shared.routeManager.set 'location', "play/#{@track.get 'id'}"
 
-  setTitleOnTrackToPublish: -> @track.setTitle @publicationView.getTrackTitleFromPublicationForm()
+  setTitleOnTrackToPublish: -> @track.setTitle @publicationView.get 'trackTitle'
 
   destroy: ->
     @_super()

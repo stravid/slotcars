@@ -1,6 +1,14 @@
-<div id="publication-dialog">
-  <input type="text" id="track-title-input" placeholder="Enter Track Title..." />
-  <p>To publish your track and make it accessible to all players hit 'publish'. If you think your track is not yet ready hit 'cancel'.</p>
-  <button class="default-button" {{action "onCancelButtonClicked"}}>Cancel</button>
-  <button class="default-button" {{action "onPublishButtonClicked"}}>Publish</button>
+<div id="clipboard">
+  <div id="publication-view">
+    <h2>{{texts.headline}}</h2>
+    <p class="explanation">
+      It´s time to publish your track and make it accessible to all players. This is your last chance to refine that track.
+    </p>
+    <div class="input-field">
+      <label>Track title:</label>
+      <div class="form">{{view Ember.TextField valueBinding="trackTitle"}}</div>
+    </div>
+    <button {{action "onPublishButtonClicked"}}>Publish</button>
+    <button {{action "onCancelButtonClicked"}}>Cancel</button>
+  </div>
 </div>
