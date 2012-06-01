@@ -1,9 +1,7 @@
-<div id="authorization-dialog">
-<p>
-  Hello, it seems you are not logged in. Please login or register to publish your awesome new track!
-  <button class="default-button" {{action "onCancelButtonClicked"}}>Cancel</button>
-</p>
-<p>
+<div id="clipboard">
   {{dynamicView content}}
-</p>
+  <div id="authorization-view-buttons">
+    {{#if showSignUpButton}}<button {{action "onSignUpButtonClicked"}}>Sign up</button>{{/if}}
+    <button class="authorization-cancel-button" {{action "onCancelButtonClicked"}}>Cancel</button>
+  </div>
 </div>
