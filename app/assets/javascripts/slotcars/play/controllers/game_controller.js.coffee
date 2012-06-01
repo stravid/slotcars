@@ -5,6 +5,7 @@
 Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
 
   isRaceFinished: false
+  isLastRunNewHighscore: false
 
   startTime: null
   endTime: null
@@ -109,16 +110,17 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
     @set 'highscores', Shared.Highscores.create runs: highscores
 
     return unless Shared.User.current?
-
-    if @isNewHighscore()
+    
+    @checkForNewHighscore()
+    
+    if @isLastRunNewHighscore
       @saveGhost()
     else
       @loadGhost @personalBestRaceTime
 
-  isNewHighscore: ->
+  checkForNewHighscore: ->
     time = @highscores.getTimeForUserId Shared.User.current.get 'id'
-
-    time is @raceTime
+    @set 'isLastRunNewHighscore', time is @raceTime
 
   initializeGhost: (ghost) ->
     Shared.ModelStore.load Shared.Ghost, ghost
