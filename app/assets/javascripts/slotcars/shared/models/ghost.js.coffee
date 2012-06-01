@@ -32,3 +32,7 @@ Shared.Ghost = DS.Model.extend
       @set 'rotation', positions[@currentPositionIndex].rotation
 
       @currentPositionIndex++ while positions[@currentPositionIndex].time < millisecondsSinceStart and @currentPositionIndex < positions.length - 1
+
+  belongsToCurrentUser: (->
+    Shared.User.current is @get 'user'
+  ).property 'user', 'Shared.User.current'

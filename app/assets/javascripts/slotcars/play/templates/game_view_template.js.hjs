@@ -16,7 +16,11 @@
     <div id="player-versus-ghost">
       <div id="player-portrait" class="portrait">You</div>
       <div id="versus-text">VS.</div>
-      <div id="ghost-portrait" class="portrait">{{ghost.user.username}}</div>
+      {{#if ghost.belongsToCurrentUser}}
+        <div id="ghost-portrait" class="portrait">Yourself</div>
+      {{else}}
+        <div id="ghost-portrait" class="portrait">{{ghost.user.username}}</div>
+      {{/if}}
       <div id="time-to-beat">Time to Beat: {{racetime ghost.time}}</div>
     </div>
   {{/if}}
