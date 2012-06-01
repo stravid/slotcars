@@ -77,10 +77,16 @@
   position: relative;
   top: -46px;
   left: 20px;
+  width: 100px;
   padding-left: 138px;
-  width: 210px;
+  padding-right: 110px;
 
   @include rotate(-11deg);
+
+  &.wide {
+    width: 210px;
+    padding-right: 0px;
+  }
 
   button {
     @include clipboard-button;

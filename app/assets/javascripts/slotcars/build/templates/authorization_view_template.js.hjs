@@ -1,6 +1,6 @@
 <div id="clipboard">
   {{dynamicView content}}
-  <div id="authorization-view-buttons">
+  <div id="authorization-view-buttons" {{bindAttr class="showSignUpButton:wide"}}>
     {{#if showSignUpButton}}<button {{action "onSignUpButtonClicked"}}>Sign up</button>{{/if}}
     <button class="authorization-cancel-button" {{action "onCancelButtonClicked"}}>Cancel</button>
   </div>
