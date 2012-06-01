@@ -5,13 +5,10 @@ Play.CarView = Ember.View.extend
 
   car: null
 
-  didInsertElement: ->
-    (jQuery '#car').css 'top', SCREEN_HEIGHT / 2
-    (jQuery '#car').css 'left', SCREEN_WIDTH / 2
-    @update()
+  didInsertElement: -> @update()
 
   update: (->
     rotation = @car.rotation
-    
+
     (jQuery '#car').css '-webkit-transform', "rotateZ(#{rotation}deg)"
   ).observes 'car.rotation'

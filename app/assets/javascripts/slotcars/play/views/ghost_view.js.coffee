@@ -6,11 +6,7 @@ Play.GhostView = Ember.View.extend
   templateName: 'slotcars_play_templates_ghost_view_template'
   tagName: ''
 
-  didInsertElement: ->
-    (jQuery '#ghost').css 'top', SCREEN_HEIGHT / 2
-    (jQuery '#ghost').css 'left', SCREEN_WIDTH / 2
-
-    @hide()
+  didInsertElement: -> @hide()
 
   hide: -> (jQuery '#ghost').hide()
 

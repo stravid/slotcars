@@ -219,8 +219,8 @@
 
 #car, #ghost {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: $screen-height / 2;
+  left: $screen-width / 2;
   width: 1px;
   height: 1px;
 }
@@ -231,7 +231,7 @@
   left: -27px;
   width: 55px;
   height: 89px;
-  background-image: image-url("car/car-blue.png");
+  background-image: image-url("car/car-yellow.png");
   background-repeat: no-repeat;
 }
 
@@ -241,7 +241,7 @@
   left: -27px;
   width: 55px;
   height: 89px;
-  background-image: image-url("car/car-orange.png");
+  background-image: image-url("car/car-blue.png");
   background-repeat: no-repeat;
   opacity: 0.5;
 }
