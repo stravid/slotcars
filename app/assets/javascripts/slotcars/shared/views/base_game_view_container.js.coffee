@@ -4,5 +4,6 @@ Shared.BaseGameViewContainer = Ember.View.extend
 
   trackView: null
   carView: null
+  ghostView: null
   clockView: null
   gameView: null
