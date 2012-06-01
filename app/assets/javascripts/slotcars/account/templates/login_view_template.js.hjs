@@ -1,18 +1,21 @@
 <div id="login-form">
-  <h2>Login or Sign Up</h2>
+  <h2>Yeah, you're back!</h2>
+  <form>
+    {{#if hasErrors}}
+      <p class="error">Email or password are wrong.</p>
+    {{/if}}
 
-  {{#if hasErrors}}
-    <p class="error">Email or password are wrong.</p>
-  {{/if}}
+    <div class="input-field">
+        <label>Username:</label>
+        <div class="form username"><input id="login-field" type="text" /></div>
+    </div>
 
-  <input id="login-field" type="text" placeholder="Username or Email" />
-  <input id="password-field" type="password" placeholder="Password" />
-  <button {{action "onLoginButtonClicked"}}>Log in</button>
-</div>
+    <div class="input-field">
+        <label>Password:</label>
+        <div class="form password"><input id="password-field" type="password" /></div>
+    </div>
 
-<div id="not-yet-registered">
-  <h3>Not Yet Registered?</h3>
-  <p>Create your Slotcars account and start building your own tracks and save your highscores!</p>
-
-  <button {{action "onSignUpButtonClicked"}}>Sign Up</button>
+    <button class="loginButton" type="submit">Log in</button>
+    <button class="cancelButton" {{action "onCancelClicked"}}>Cancel</button>
+  </form>
 </div>
