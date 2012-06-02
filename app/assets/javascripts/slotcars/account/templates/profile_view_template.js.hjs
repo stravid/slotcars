@@ -9,6 +9,7 @@
 
 <div id="user-highscores">
   {{#if user.highscores.length}}
+  <div id="highscore-scroller">
     <table id="highscore-table">
       <tbody>
 
@@ -22,7 +23,7 @@
         
       </tbody>
     </table>
-
+  </div>
   {{else}}
    <p>You haven't finished any race yet!</p>
   {{/if}}
