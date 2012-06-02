@@ -19,7 +19,7 @@ Build.PublicationView = Shared.TrackView.extend
     event.preventDefault() if event?
     @stateManager.send 'clickedCancelButton'
 
-  onPublishButtonClicked: (event) ->
+  submit: (event) ->
     event.preventDefault() if event?
     @stateManager.send 'clickedPublishButton'
 

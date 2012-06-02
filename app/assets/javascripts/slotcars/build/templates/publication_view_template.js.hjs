@@ -2,13 +2,17 @@
   <div id="publication-view">
     <h2>{{texts.headline}}</h2>
     <p class="explanation">
-      It´s time to publish your track and make it accessible to all players. This is your last chance to refine that track.
+      Now it´s time to publish your track and make it accessible to all players. This is your last chance to refine that track.
     </p>
-    <div class="input-field">
-      <label>Track title:</label>
-      <div class="form">{{view Ember.TextField valueBinding="trackTitle"}}</div>
-    </div>
-    <button {{action "onPublishButtonClicked"}}>Publish</button>
-    <button {{action "onCancelButtonClicked"}}>Cancel</button>
+    <form>
+      <div class="input-field">
+        <label>Track title:</label>
+        <div class="form">{{view Ember.TextField valueBinding="trackTitle"}}</div>
+      </div>
+      <div class="form-buttons">
+        <button type="submit"><div>Publish</div></button>
+        <button {{action "onCancelButtonClicked"}}>Cancel</button>
+      </div>
+    </form>
   </div>
 </div>
