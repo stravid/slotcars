@@ -4,11 +4,11 @@ Shared.Animatable = Ember.Mixin.create
   view: Ember.required()
 
   append: ->
-    originalDidInsertElementMethod = @view.didInsertElement
+    @originalDidInsertElementMethod = @view.didInsertElement
 
     @view.didInsertElement = =>
-      @animateIn() if @animateIn
-      originalDidInsertElementMethod() if originalDidInsertElementMethod
+      @animateIn() if @animateIn?
+      @originalDidInsertElementMethod() if @originalDidInsertElementMethod?
 
     @_super()
 

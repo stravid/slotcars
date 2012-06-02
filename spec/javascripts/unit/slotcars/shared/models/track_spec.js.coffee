@@ -17,8 +17,7 @@ describe 'Shared.Track', ->
       expectedPathValue = 'test'
 
       @raphaelPathMock.set 'path', expectedPathValue
-
-      Ember.run.end()
+      Ember.run.sync()
 
       (expect @track.get 'raphaelPath').toEqual expectedPathValue
 

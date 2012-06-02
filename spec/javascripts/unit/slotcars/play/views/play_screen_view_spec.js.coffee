@@ -7,13 +7,11 @@ describe 'play screen view', ->
     playScreenView = Play.PlayScreenView.create()
     container = jQuery '<div>'
 
-    playScreenView.appendTo container
+    Ember.run => playScreenView.appendTo container
 
     testContentViewId = 'test-content-view'
     testContentView = Ember.View.create elementId: testContentViewId
 
-    playScreenView.set 'contentView', testContentView
-
-    Ember.run.end()
+    Ember.run => playScreenView.set 'contentView', testContentView
 
     (expect playScreenView.$()).toContain '#' + testContentViewId

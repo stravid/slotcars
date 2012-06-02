@@ -5,15 +5,14 @@ Account.LoginView = Ember.View.extend
   templateName: 'slotcars_account_templates_login_view_template'
 
   hasErrors: false
+  showCancelButton: true
+
+  # form field properties
+  login: ''
+  password: ''
 
   submit: (event) ->
     event.preventDefault()
-    (@get 'delegate').loginUserWithCredentials @_getUserCredentials()
+    (@get 'delegate').loginUserWithCredentials { login: @login, password: @password }
 
   onCancelClicked: -> (@get 'delegate').switchToMenu()
-
-  _getUserCredentials: ->
-    {
-      login: @$('#login-field').val()
-      password: @$('#password-field').val()
-    }

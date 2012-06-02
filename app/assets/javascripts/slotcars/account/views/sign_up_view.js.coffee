@@ -5,18 +5,17 @@ Account.SignUpView = Ember.View.extend
   templateName: 'slotcars_account_templates_sign_up_view_template'
 
   validationErrors: null
+  showCancelButton: true
+
+  # form field properties
+  username: ''
+  email: ''
+  password: ''
 
   submit: (event) ->
     event.preventDefault()
-    (@get 'delegate').signUpUserWithCredentials @_getUserCredentials()
+    (@get 'delegate').signUpUserWithCredentials { username: @username, email: @email, password: @password }
 
   onCancelSignUpButtonClicked: -> (@get 'delegate').cancelSignUp()
 
   showErrorMessagesForFailedSignUp: (errors) -> @set 'validationErrors', errors
-
-  _getUserCredentials: ->
-    {
-      username: @$('#username-field').val()
-      email: @$('#email-field').val()
-      password: @$('#password-field').val()
-    }
