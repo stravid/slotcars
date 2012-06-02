@@ -1,4 +1,4 @@
-FINISH_LINE_DATA_URI = '<%= asset_data_uri 'views/play/finish-line.jpg' %>'
+FINISH_LINE_DATA_URI = '<%= asset_data_uri 'views/play/finish-line.png' %>'
 
 Play.Finishable = Ember.Mixin.create
 
@@ -8,7 +8,11 @@ Play.Finishable = Ember.Mixin.create
   FINISH_LINE_START_POINT_OFFSET: 20
   FINISH_LINE_ANGLE_POINT_OFFSET: 23
 
-  FINISH_LINE_X_OFFSET: -66
+  FINISH_LINE_X_OFFSET: -35
+  FINISH_LINE_Y_OFFSET: -10
+  
+  FINISH_LINE_WIDTH: 70
+  FINISH_LINE_HEIGHT: 20
     
   didRenderTrack: ->
     @_super()
@@ -32,10 +36,10 @@ Play.Finishable = Ember.Mixin.create
 
     canvasContext = @renderCanvas.get(0).getContext('2d')
 
-    scaledFinishLineWidth = @finishLineImage.width * @scaleFactor
-    scaledFinishLineHeight = @finishLineImage.height * @scaleFactor
+    scaledFinishLineWidth = @FINISH_LINE_WIDTH * @scaleFactor
+    scaledFinishLineHeight = @FINISH_LINE_HEIGHT * @scaleFactor
 
     canvasContext.translate startPoint.x * @scaleFactor, startPoint.y * @scaleFactor
     canvasContext.rotate finishLineVector.clockwiseAngle() * Math.PI / 180
-    canvasContext.translate @FINISH_LINE_X_OFFSET, 0
+    canvasContext.translate @FINISH_LINE_X_OFFSET * @scaleFactor, @FINISH_LINE_Y_OFFSET * @scaleFactor
     canvasContext.drawImage @finishLineImage, 0, 0, scaledFinishLineWidth, scaledFinishLineHeight
