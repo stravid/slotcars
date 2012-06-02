@@ -103,18 +103,19 @@
   }
 
   &:after {
-    clear: both;
-    content: '.';
-    display: block;
     visibility: hidden;
-    height: 1px;
-    line-height: 1px;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
   }
 }
 
 #publication-view {
   @include widget-base;
   font-size: 20px;
+  height: 100%;
 
   h2 {
     @include widget-headline;
@@ -157,6 +158,16 @@
       }
     }
   }
+
+  .form-buttons:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+
   button {
     @include clipboard-button;
     float: right;
