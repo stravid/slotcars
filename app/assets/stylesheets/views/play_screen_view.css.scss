@@ -187,6 +187,11 @@
     font-size: 26px;
     line-height: 32px;
 
+    tr.highlight {
+      color: #089202;
+      font-weight: bold;
+    }
+
     td:nth-child(1) {
       min-width: 30px;
     }
