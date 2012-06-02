@@ -15,7 +15,11 @@
         {{#each user.highscores}}
           <tr>
             <td>{{ordinal_number rank}}</td>
-            <td><div class="track-title">{{ellipsis track_title "25"}}</div></td>
+            <td>
+              <div class="track-title">
+                {{truncate_with_ellipsis track_title "25"}}
+              </div>
+            </td>
             <td>{{racetime time}}</td>
           </tr>
         {{/each}}
