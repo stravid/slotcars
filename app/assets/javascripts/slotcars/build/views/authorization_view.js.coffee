@@ -27,7 +27,7 @@ Build.AuthorizationView = Shared.TrackView.extend Shared.Container,
     loginWidget.addToContainerAtLocation this, 'content'
     loginWidget.on 'signInSuccessful', this, 'onSuccessfulSignIn'
 
-    @set 'showSignUpButton', true
+    @set 'showSignUpButton', false
 
     (@view.get 'content').set 'showCancelButton', false
     (@view.get 'content').set 'texts',
