@@ -6,12 +6,14 @@ Build.PublicationView = Shared.TrackView.extend
   track: null
   stateManager: null
 
-  trackTitle: null
   texts: {}
 
+  # form field property
+  trackTitle: ''
+
   didInsertElement: ->
-    @_super()
     @_setHeadline()
+    @_super()
 
   onCancelButtonClicked: (event) ->
     event.preventDefault() if event?

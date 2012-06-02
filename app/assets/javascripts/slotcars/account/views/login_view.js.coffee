@@ -7,8 +7,9 @@ Account.LoginView = Ember.View.extend
   hasErrors: false
   showCancelButton: true
 
-  login: null
-  password: null
+  # form field properties
+  login: ''
+  password: ''
 
   submit: (event) ->
     event.preventDefault()

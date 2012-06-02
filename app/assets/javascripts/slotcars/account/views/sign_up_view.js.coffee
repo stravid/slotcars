@@ -7,6 +7,11 @@ Account.SignUpView = Ember.View.extend
   validationErrors: null
   showCancelButton: true
 
+  # form field properties
+  username: ''
+  email: ''
+  password: ''
+
   submit: (event) ->
     event.preventDefault()
     (@get 'delegate').signUpUserWithCredentials { username: @username, email: @email, password: @password }
