@@ -5,25 +5,10 @@ Play.ResultView = Ember.View.extend
   gameController: null
   
   raceTime: 0
-  lapTimes: []
   
-  didInsertElement: ->
-    @onLapTimesChange()
-    @onRaceTimeChange()
+  didInsertElement: -> @onRaceTimeChange()
 
   onRestartClick: -> @gameController.restartGame()
-
-  onLapTimesChange: (->
-    return unless @gameController?
-    
-    times = []
-    milliSeconds = @gameController.get 'lapTimes'
-    
-    for time, i in milliSeconds
-      times[i] = "lap #{i + 1}: #{Shared.racetimeString time}"
-      
-    @set 'lapTimes', times
-  ).observes 'gameController.lapTimes'
   
   onRaceTimeChange: (->
     return unless @gameController?
