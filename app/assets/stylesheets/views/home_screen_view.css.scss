@@ -313,13 +313,20 @@ h1 {
   
     #highscore-table {
       width: 100%;
+      font-size: 21px;
       
       td:nth-child(1) {
-        min-width: 55px;
+        min-width: 45px;
       }
       
       td:nth-child(2) {
-        max-width: 200px;
+        max-width: 240px;
+        
+        .track-title {
+          height: 30px;
+          overflow: hidden;
+        }
+        word-break: break-word;
       }
       
       td:nth-child(3) {
