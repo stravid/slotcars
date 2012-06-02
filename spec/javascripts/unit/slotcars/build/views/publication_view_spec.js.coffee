@@ -24,6 +24,6 @@ describe 'Build.PublicationView', ->
   describe 'clicking on publish button', ->
 
     it 'should inform state manager about publish button being clicked', ->
-      @publicationView.onPublishButtonClicked()
+      @publicationView.submit()
 
       (expect @buildScreenStateManagerMock.send).toHaveBeenCalledWith 'clickedPublishButton'
