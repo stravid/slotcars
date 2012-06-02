@@ -2,7 +2,7 @@
 <table id="highscore-table">
   <tbody>
     {{#each highscores.displayedRuns}}
-      <tr>
+      <tr {{bindAttr data-user-id="user_id"}}>
         <td>{{rank}}</td>
         <td>{{username}}</td>
         <td>{{racetime time}}</td>
