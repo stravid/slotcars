@@ -1,4 +1,5 @@
 @import "config";
+@import "helpers/mixins";
 
 body {
   background: url("global/background-noise.jpg") repeat;
@@ -49,4 +50,15 @@ body {
 
   &:hover { text-decoration: none; }
   &:active, &:focus { background-color: #cacaca; }
+}
+
+.topbar {
+  background-image: image-url("shared/top-bar.jpg");
+  width: $screen-width;
+  height: $topbar-height;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  @include shadow(0, 1px, 35px, 3px, black);
 }

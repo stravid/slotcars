@@ -1,1 +1,6 @@
+<div id="draw-info">
+  <p>Use your finger to draw a track!</p>
+  <img src="assets/views/build/finger.png" alt="Use your finger to draw a track!" />
+</div>
+
 <div id="draw-view-paper"></div>

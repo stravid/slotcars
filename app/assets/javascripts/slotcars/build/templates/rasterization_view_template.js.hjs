@@ -1,5 +1,3 @@
-{{#if track.isRasterizing}}
-  <div id="rasterizing-notification">
-    <p>Preparing your track &hellip;</p>
-  </div>
-{{/if}}
+<div id="rasterization-notification">
+  <p>Your track will be ready in a few moments&hellip;</p>
+</div>

@@ -1,5 +1,7 @@
 Build.EditView = Shared.TrackView.extend
 
+  templateName: 'slotcars_build_templates_edit_view_template'
+
   circles: null
   excludedPathLayers: outerLine: true, slot: true
 
@@ -14,8 +16,8 @@ Build.EditView = Shared.TrackView.extend
 
     for point, i in @pathPoints
       circle = @_paper.circle point.x, point.y, 34
-      circle.attr stroke: '#000000', 'stroke-width': 3
-      circle.attr 'fill', '#00d0f5'
+      circle.attr stroke: '#385A6A', 'stroke-width': 2
+      circle.attr 'fill', '#6CACCA'
       circle.data 'index', i
       @circles.push circle
 

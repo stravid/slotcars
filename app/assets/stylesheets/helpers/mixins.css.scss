@@ -10,3 +10,36 @@
      -moz-box-shadow: $x-offset $y-offset $blur $radius $color;
           box-shadow: $x-offset $y-offset $blur $radius $color;
 }
+
+@mixin transform-origin($x, $y) {
+  -webkit-transform-origin: $x $y;
+     -moz-transform-origin: $x $y;
+          transform-origin: $x $y;
+}
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+          border-radius: $radius;
+}
+
+@mixin widget-base {
+  @include rotate(-11deg);
+  @include transform-origin(210px, 244px);
+
+  padding-left: 120px;
+  padding-top: 138px;
+
+  font-weight: bold;
+
+  width: 420px;
+}
+
+@mixin widget-headline {
+  @include rotate(3deg);
+
+  font-family: "JustTheWayYouAre", sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  color: #193773;
+}

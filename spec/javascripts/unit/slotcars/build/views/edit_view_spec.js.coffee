@@ -65,8 +65,7 @@ describe 'Build.EditView', ->
   describe 'updating path points', ->
 
     beforeEach ->
-      @editView.appendTo '<div>'
-      Ember.run.end()
+      Ember.run => @editView.appendTo jQuery '<div>'
 
       @fakePathPoint = x: 1, y: 1
       @indexOfDragHandle = 0

@@ -15,15 +15,6 @@
 }
 
 .topbar {
-  background-image: image-url("shared/top-bar.jpg");
-  width: 1024px;
-  height: 106px;
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  @include shadow(0, 1px, 35px, 3px, black);
-
   #retry-button {
     width: 65px;
     height: 63px;
@@ -162,7 +153,7 @@
     left: 430px;
     color: #193773;
     font-size: 25px;
-    
+
     &.highscore {
       font-weight: bold;
     }
@@ -252,7 +243,8 @@
 
 #player-versus-ghost {
   position: absolute;
-  top: 120px;
+  top: $topbar-height + 15px;
+  left: 0;
   width: 100%;
   font-family: SansitaOneRegular;
   text-align: center;
