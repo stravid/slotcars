@@ -40,10 +40,8 @@ describe 'Build.DrawView', ->
         track: @track
 
       @drawView = Build.DrawView.create drawController: @drawController, track: @track
-      @drawView.appendTo '<div>'
-      
-      Ember.run.end()
-      
+      Ember.run => @drawView.appendTo jQuery '<div>'
+
     afterEach -> @track.restore()
 
     it 'should create raphael paper', ->
@@ -83,9 +81,7 @@ describe 'Build.DrawView', ->
       @drawView = Build.DrawView.create drawController: @drawControllerMock, track: @track
 
       # append it into DOM to test real jQuery events
-      @drawView.appendTo '<div>'
-
-      Ember.run.end()
+      Ember.run => @drawView.appendTo jQuery '<div>'
 
     afterEach -> @drawControllerMock.restore()
 

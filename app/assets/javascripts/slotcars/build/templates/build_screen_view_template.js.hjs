@@ -1,10 +1,27 @@
 {{dynamicView contentView id="build-screen-content-view"}}
 
-<div id="toolbar">
-  <button id="draw-button" {{action "onDrawButtonClicked"}} {{bindAttr class=":override-button drawButton.active" disabled="drawButton.disabled"}}>Draw</button>
-  <button id="edit-button" {{action "onEditButtonClicked"}} {{bindAttr class=":override-button editButton.active" disabled="editButton.disabled"}}>Edit</button>
-  <button id="testdrive-button" {{action "onTestdriveButtonClicked"}} {{bindAttr class=":override-button testdriveButton.active" disabled="testdriveButton.disabled"}}>Testdrive</button>
-  <button id="publish-button" {{action "onPublishButtonClicked"}} {{bindAttr class=":override-button publishButton.active" disabled="publishButton.disabled"}}>Publish</button>
-</div>
+<div class="topbar">
+  <a id="home-button" class="js-route" href=""><span class="button-label">home</span></a>
 
-<a id="home-button" class="override-button js-route" href="">Home</a>
+  <div id="toolbar">
+    <button id="draw-button" {{action "onDrawButtonClicked"}} {{bindAttr class="drawButton.active" disabled="drawButton.disabled"}}>
+      {{#if drawButton.active}}
+      <span class="button-label">draw</span>
+      {{else}}
+      <span class="button-label">redraw</span>
+      {{/if}}
+    </button>
+    <div class="dashed-line"></div>
+    <button id="edit-button" {{action "onEditButtonClicked"}} {{bindAttr class="editButton.active" disabled="editButton.disabled"}}>
+      <span class="button-label">edit</span>
+    </button>
+    <div class="dashed-line"></div>
+    <button id="testdrive-button" {{action "onTestdriveButtonClicked"}} {{bindAttr class="testdriveButton.active" disabled="testdriveButton.disabled"}}>
+      <span class="button-label">testdrive</span>
+    </button>
+    <div class="dashed-line"></div>
+    <button id="publish-button" {{action "onPublishButtonClicked"}} {{bindAttr class="publishButton.active" disabled="publishButton.disabled"}}>
+      <span class="button-label">publish</span>
+    </button>
+  </div>
+</div>
