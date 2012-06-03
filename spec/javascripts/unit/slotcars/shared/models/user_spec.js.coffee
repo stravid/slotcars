@@ -3,29 +3,36 @@ describe 'Shared.User', ->
   describe 'signup user with credentials', ->
 
     beforeEach ->
-      sinon.stub Shared.User, 'createRecord'
-      sinon.stub Shared.ModelStore, 'commit'
+      @transactionStub =
+        createRecord: sinon.stub()
+        commit: sinon.stub()
+
+      sinon.stub(Shared.ModelStore, 'transaction').returns @transactionStub
 
     afterEach ->
-      Shared.User.createRecord.restore()
-      Shared.ModelStore.commit.restore()
+      Shared.ModelStore.transaction.restore()
+
+    it 'should create a new transaction', ->
+      Shared.User.signUp()
+
+      (expect Shared.ModelStore.transaction).toHaveBeenCalled()
 
     it 'should create a new user record with credentials', ->
       credentials = {}
 
       Shared.User.signUp credentials
 
-      (expect Shared.User.createRecord).toHaveBeenCalledWith credentials
+      (expect @transactionStub.createRecord).toHaveBeenCalledWith Shared.User, credentials
 
-    it 'should tell model store to commit record', ->
+    it 'should commit the created transaction', ->
       Shared.User.signUp()
 
-      (expect Shared.ModelStore.commit).toHaveBeenCalledOnce()
+      (expect @transactionStub.commit).toHaveBeenCalledOnce()
 
     it 'should return created user model', ->
       createdUser = {}
 
-      Shared.User.createRecord.returns createdUser
+      @transactionStub.createRecord.returns createdUser
 
       returnedUser = Shared.User.signUp()
 
