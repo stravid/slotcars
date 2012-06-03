@@ -28,7 +28,7 @@
   </div>
 
   <div class="form-buttons">
-    <button class="ok" {{action "onSignUpButtonClicked"}}>Create Account</button>
+    <button class="ok" type="submit">Create Account</button>
     {{#if showCancelButton}}<button class="cancel" {{action "onCancelSignUpButtonClicked"}}>Cancel</button>{{/if}}
   </div>
 </form>
