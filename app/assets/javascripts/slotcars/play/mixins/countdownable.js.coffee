@@ -6,7 +6,7 @@ Play.Countdownable = Ember.Mixin.create
   timers: []
 
   startCountdown: (countdownFinishedCallback) ->
-    @resetCountdown()
+    Ember.run => @resetCountdown()
 
     @timers.push Ember.run.later this, @setCountdownValue, 'second', 1000
     @timers.push Ember.run.later this, @setCountdownValue, 'third', 2000
