@@ -79,6 +79,8 @@ Tracks.TracksView = Ember.View.extend
     else
       @movePagesToOrigin()
 
+    @lastSwipePosition = null
+
   swipe: (direction) ->
     if direction > 0 and @currentPage > 1
       @swipeToTheRight()
