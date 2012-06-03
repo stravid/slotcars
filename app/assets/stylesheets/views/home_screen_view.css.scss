@@ -319,6 +319,15 @@ h1 {
     #highscore-table {
       width: 100%;
 
+      a:link, a:visited {
+        color: #0B70BE;
+        
+        &:hover {
+          cursor: pointer;
+          color: #0E2D6F;
+        }
+      }
+
       td:nth-child(1) {
         min-width: 55px;
       }
