@@ -1,5 +1,5 @@
 Shared.Highscores = Ember.Object.extend
-  
+
   runs: null
   userId: null
   numberOfEntriesToDisplay: null
@@ -10,6 +10,7 @@ Shared.Highscores = Ember.Object.extend
     @_super()
 
     @numberOfEntriesToDisplay or= 5
+    @set 'userId', Shared.User.current.get 'id' if Shared.User.current?
 
     [startIndex, endIndex] = @_calculateIndices()
     @set 'displayedRuns', (@get 'runs')[startIndex..endIndex]
