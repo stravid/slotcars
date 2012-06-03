@@ -98,6 +98,27 @@ h1 {
 /* --- WIDGETS --- */
 /* --------------- */
 
+@mixin widget-base {
+  @include rotate(-11deg);
+
+  padding-left: 120px;
+  padding-top: 138px;
+
+  font-weight: bold;
+
+  width: 420px;
+  height: 350px;
+}
+
+@mixin widget-headline {
+  @include rotate(3deg);
+
+  font-family: "JustTheWayYouAre", sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  color: #193773;
+}
+
 #menu-widget-view {
 
   @include widget-base;
@@ -317,10 +338,6 @@ h1 {
     }
   }
 
-  h4 {
-    margin-top: 50px;
-  }
-
   #user-highscores {
     width: 430px;
     height: 250px;
@@ -328,7 +345,20 @@ h1 {
     margin-top: 60px;
 
     font-size: 26px;
-    line-height: 32px;
+
+    overflow: hidden;
+
+    a, a:link, a:visited, a:hover, a:active {
+      text-decoration: none;
+      color: #79151D;
+
+      &:hover {
+        cursor: pointer;
+        color: #0E2D6F;
+      }
+    }
+
+    line-height: 31px;
 
     #highscore-scroller {
       position: absolute;
