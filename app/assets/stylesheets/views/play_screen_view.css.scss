@@ -15,15 +15,6 @@
 }
 
 .topbar {
-  background-image: image-url("shared/top-bar.jpg");
-  width: 1024px;
-  height: 106px;
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  @include shadow(0, 1px, 35px, 3px, black);
-
   #retry-button {
     width: 65px;
     height: 63px;
@@ -153,7 +144,7 @@
     text-align: center;
   }
 
-  .nice {
+  .race-feedback {
     @include rotate(5deg);
 
     display: block;
@@ -162,6 +153,10 @@
     left: 430px;
     color: #193773;
     font-size: 25px;
+
+    &.highscore {
+      font-weight: bold;
+    }
   }
 
   .retry-button, .new-track-button {
@@ -192,6 +187,11 @@
     font-size: 26px;
     line-height: 32px;
 
+    tr.highlight {
+      color: #089202;
+      font-weight: bold;
+    }
+
     td:nth-child(1) {
       min-width: 30px;
     }
@@ -210,6 +210,9 @@
   width: 255px;
   height: 92px;
   background-image: image-url("views/play/traffic-light.png");
+  display: none;
+
+  &.visible { display: block; }
 
   &.first  { background-position: 0 0; }
   &.second { background-position: 0 -91px; }
@@ -248,8 +251,10 @@
 
 #player-versus-ghost {
   position: absolute;
-  top: 120px;
-  width: 100%;
+  top: $topbar-height;
+  left: 0;
+  height: 70px;
+  width: $screen-width;
   font-family: SansitaOneRegular;
   text-align: center;
   font-size: 20px;
@@ -261,10 +266,17 @@
     margin: 0 10px 0 10px;
   }
 
-  span#text-container {
-    position: relative;
-    top: -35px;
-    margin: 20px;
+  #text-container {
+    display: inline-block;
+    margin: 0 20px;
+    vertical-align: middle;
+  }
+
+  img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 55px;
+    height: 89px;
   }
 
   #player-portrait {

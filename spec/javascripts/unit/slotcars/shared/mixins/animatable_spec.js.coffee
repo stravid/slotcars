@@ -5,6 +5,7 @@ describe 'Shared.Animatable', ->
     screen =
       view: @viewStub
       append: ->
+      set: ->
 
     @animatable = Shared.Animatable.apply screen
 

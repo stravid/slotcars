@@ -5,15 +5,12 @@ describe 'track screen view', ->
 
   it 'should use a dynamic view in its template that can be set', ->
     tracksScreenView = Tracks.TracksScreenView.create()
-    container = jQuery '<div>'
 
-    tracksScreenView.appendTo container
+    Ember.run => tracksScreenView.appendTo jQuery '<div>'
 
     testContentViewId = 'test-content-view'
     testContentView = Ember.View.create elementId: testContentViewId
 
-    tracksScreenView.set 'contentView', testContentView
-
-    Ember.run.end()
+    Ember.run => tracksScreenView.set 'contentView', testContentView
 
     (expect tracksScreenView.$()).toContain '#' + testContentViewId

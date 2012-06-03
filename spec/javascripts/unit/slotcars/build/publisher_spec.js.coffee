@@ -19,7 +19,7 @@ describe 'Build.Publisher', ->
     (expect Build.Publisher).toExtend Ember.Object
 
   describe 'no current user present', ->
-    
+
     beforeEach ->
       @publisher = Build.Publisher.create
         stateManager: @buildScreenStateManagerMock
@@ -29,6 +29,7 @@ describe 'Build.Publisher', ->
     it 'should create a authorization view', ->
       (expect @AuthorizationViewMock.create).toHaveBeenCalledWithAnObjectLike
         stateManager: @buildScreenStateManagerMock
+        track: @trackMock
         delegate: @publisher
 
     it 'should append the authorization view to the build screen view', ->
@@ -86,11 +87,10 @@ describe 'Build.Publisher', ->
 
       beforeEach ->
         @trackMock.setTitle = sinon.spy()
-        @PublicationViewMock.getTrackTitleFromPublicationForm = sinon.stub()
 
       it 'should get the track title from publication view and set it on track', ->
         testTrackTitle = "muh"
-        @PublicationViewMock.getTrackTitleFromPublicationForm.returns testTrackTitle
+        @PublicationViewMock.trackTitle = testTrackTitle
 
         @publisher.setTitleOnTrackToPublish()
 

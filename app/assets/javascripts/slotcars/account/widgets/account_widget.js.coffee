@@ -26,12 +26,19 @@ Account.AccountWidget = Ember.Object.extend Shared.Widget, Shared.Container,
     loginWidget.on 'menuClicked', this, 'showMenuWidget'
     loginWidget.on 'signInSuccessful', this, 'showProfileWidget'
 
+    (@view.get 'content').set 'texts', headline: 'Yeah, you\'re back!'
+
   showSignUpWidget: ->
     @_removeCurrentContentWidget()
     signUpWidget = Shared.WidgetFactory.getInstance().getInstanceOf 'SignUpWidget'
     signUpWidget.addToContainerAtLocation this, 'content'
     signUpWidget.on 'userSignedUpSuccessfully', this, 'showProfileWidget'
     signUpWidget.on 'signUpCancelled', this, 'showMenuWidget'
+
+    (@view.get 'content').set 'texts',
+      headline: 'Welcome Racer'
+      description: 'Once you signed up, you will be able to build your own tracks
+        and save your highscores! You just need to log in the next time you come back.'
 
   showProfileWidget: ->
     @_removeCurrentContentWidget()

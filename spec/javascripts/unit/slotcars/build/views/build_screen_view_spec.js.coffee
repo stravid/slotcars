@@ -15,9 +15,8 @@ describe 'build screen view', ->
 
   it 'should use a dynamic view in its template that can be set', ->
     buildScreenView = Build.BuildScreenView.create()
-    container = jQuery '<div>'
 
-    Ember.run => buildScreenView.appendTo container
+    Ember.run => buildScreenView.appendTo jQuery '<div>'
 
     testContentViewId = 'test-content-view'
     testContentView = Ember.View.create elementId: testContentViewId

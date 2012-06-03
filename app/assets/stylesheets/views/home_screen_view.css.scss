@@ -77,18 +77,21 @@ h1 {
   background-image: image-url("shared/clipboard.png");
   background-repeat: no-repeat;
   font-family: "JustTheWayYouAre", sans-serif;
+  z-index: 99;
 }
 
 #top-curve {
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 0;
 }
 
 #bottom-curve {
   position: absolute;
   bottom: -50px;
   left: 0;
+  z-index: 0;
 }
 
 /* --------------- */
@@ -168,6 +171,15 @@ h1 {
 
   h2 {
     @include widget-headline;
+    margin-bottom: 33px;
+  }
+
+  .explanation {
+    line-height: 33px;
+    font-size: 20px;
+    color: #1e1e1e;
+    display: block;
+    margin: 34px 0 28px;
   }
 
   label {
@@ -175,11 +187,11 @@ h1 {
   }
 
   div.input-field {
-    margin-bottom: 30px;
+    margin-top: 28px;
   }
 
   div.form {
-    width: 260px;
+    width: 284px;
     height: 34px;
     display: inline-block;
     border-bottom: 2px dashed black;
@@ -200,8 +212,22 @@ h1 {
     }
   }
 
+  .form-buttons {
+    margin-top: 18px;
+    &:after {
+      content: '.';
+      height: 1px;
+      line-height: 1px;
+      visibility: hidden;
+      display: block;
+      clear: both;
+    }
+  }
+
   button {
     @include clipboard-button;
+    float: right;
+    margin-left: 10px;
   }
 }
 
@@ -216,8 +242,8 @@ h1 {
     line-height: 33px;
     font-size: 20px;
     color: #1e1e1e;
-    width: 400px;
     display: block;
+    margin: 37px 0 25px;
   }
 
   label {
@@ -227,14 +253,18 @@ h1 {
     padding-top: 5px;
   }
 
-  div {
+  div.input-field {
+    margin-top: 9px;
+  }
+
+  div.form {
     display: inline-block;
-    width: 260px;
+    width: 284px;
     height: 34px;
     border-bottom: 2px dashed black;
 
     &.email {
-      width: 308px;
+      width: 332px;
     }
 
     input {
@@ -253,9 +283,16 @@ h1 {
     }
   }
 
+  .form-buttons:after {
+    clear: both;
+    content: '.';
+    height: 1px;
+    line-height: 1px;
+    visibility: hidden;
+    display: block;
+  }
   button {
     @include clipboard-button;
-
     float: right;
     margin-left: 10px;
   }
@@ -286,7 +323,6 @@ h1 {
     position: absolute;
     top: 200px;
     left: -350px;
-    z-index: 0;
     cursor: pointer;
 
     background-image: image-url("views/home/logout.png");
@@ -303,11 +339,12 @@ h1 {
   }
 
   #user-highscores {
-    width: 420px;
+    width: 430px;
+    height: 250px;
+
     margin-top: 60px;
 
     font-size: 26px;
-    line-height: 31px;
 
     overflow: hidden;
 
@@ -316,8 +353,18 @@ h1 {
       color: black;
     }
 
+    line-height: 31px;
+
+    #highscore-scroller {
+      position: absolute;
+      z-index: 1;
+    	width: 430px;
+    	height: 256px;
+    }
+
     #highscore-table {
-      width: 100%;
+      width: 410px;
+      font-size: 21px;
 
       a:link, a:visited {
         color: #0B70BE;
@@ -329,11 +376,17 @@ h1 {
       }
 
       td:nth-child(1) {
-        min-width: 55px;
+        min-width: 45px;
       }
 
       td:nth-child(2) {
-        max-width: 200px;
+        max-width: 240px;
+
+        .track-title {
+          height: 32px;
+          overflow: hidden;
+        }
+        word-break: break-word;
       }
 
       td:nth-child(3) {
@@ -342,4 +395,3 @@ h1 {
     }
   }
 }
-

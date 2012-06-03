@@ -264,56 +264,53 @@ describe 'Play.GameController (unit)', ->
         time: time
         user: Shared.User.current
 
-  describe '#isNewHighscore', ->
+  describe '#checkForNewHighscore', ->
 
     beforeEach ->
       @highscoreTime = 9
       @highscoresMock = mockEmberClass Shared.Highscores,
         getTimeForUserId: sinon.stub().returns @highscoreTime
 
-      Shared.User.current =
-        get: ->
-
       @gameController.onHighscoresLoaded()
+
+      Shared.User.current = get: ->
 
     afterEach ->
       @highscoresMock.restore()
-
       Shared.User.current = null
 
-    it 'should return true if the highscore is better', ->
+    it 'should flag last run as new highscore the time is better', ->
+      @gameController.set 'isLastRunNewHighscore', false
       @gameController.raceTime = @highscoreTime
-      (expect @gameController.isNewHighscore()).toBe true
+      
+      @gameController.checkForNewHighscore()
+      
+      (expect @gameController.get 'isLastRunNewHighscore').toBe true
 
     it 'should return false if the highscore did not improve', ->
+      @gameController.set 'isLastRunNewHighscore', true
       @gameController.raceTime = 10
-      (expect @gameController.isNewHighscore()).toBe false
+      
+      @gameController.checkForNewHighscore()
+      
+      (expect @gameController.get 'isLastRunNewHighscore').toBe false
 
-  describe '#saveGhost', ->
+  describe '#createGhost', ->
 
-    beforeEach ->
-      sinon.spy Shared.Ghost, 'createRecord'
+    beforeEach -> sinon.spy Shared.Ghost, 'createRecord'
 
-    afterEach ->
-      Shared.Ghost.createRecord.restore()
+    afterEach -> Shared.Ghost.createRecord.restore()
 
-    it 'should create a new Ghost record if it is a new highscore', ->
+    it 'should create a new Ghost record', ->
       time = 100
       recordedPositions = [{ x: 1 }, { x: 2 }]
       @gameController.set 'raceTime', time
       @gameController.set 'recordedPositions', recordedPositions
 
-      @gameController.isNewHighscore = sinon.stub().returns true
-
-      @gameController.saveGhost()
+      @gameController.createGhost()
 
       (expect Shared.Ghost.createRecord).toHaveBeenCalledWithAnObjectLike
         track: @trackMock
         time: time
         user: Shared.User.current
         positions: recordedPositions
-
-    it 'should not create a new Ghost if it is not a new highscore', ->
-      @gameController.isNewHighscore = sinon.stub().returns false
-
-      (expect Shared.Ghost.createRecord).not.toHaveBeenCalled()

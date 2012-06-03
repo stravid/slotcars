@@ -3,14 +3,20 @@ BEGIN_EVENT = 'touchMouseDown'
 END_EVENT = 'touchMouseUp'
 MOVE_EVENT = 'touchMouseMove'
 
+LEFT_MOUSE_BUTTON = 1
+
 jQueryDocument = jQuery document
 
 onMouseDown = (event) ->
+  return unless event.which is LEFT_MOUSE_BUTTON
+  
   jQueryDocument.on 'mousemove', onMouseMove
-
+  
   (jQuery event.target).trigger (createEvent BEGIN_EVENT, event.pageX, event.pageY, event)
   
 onMouseUp = (event) ->
+  return unless event.which is LEFT_MOUSE_BUTTON
+  
   jQueryDocument.off 'mousemove', onMouseMove
 
   (jQuery event.target).trigger (createEvent END_EVENT, null, null, event)

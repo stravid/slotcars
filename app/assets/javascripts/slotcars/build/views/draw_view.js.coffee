@@ -39,6 +39,7 @@ Build.DrawView = Shared.TrackView.extend
 
   _onTouchMouseDown: (event) ->
     event.stopPropagation()
+    @$('#draw-info').animate opacity: 0
     @$(PAPER_WRAPPER_ID).on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
 
   _onTouchMouseMove: (event) ->

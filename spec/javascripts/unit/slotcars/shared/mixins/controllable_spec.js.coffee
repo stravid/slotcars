@@ -24,8 +24,7 @@ describe 'controllable', ->
     beforeEach ->
       @gameControllerMock.onTouchMouseDown = sinon.spy()
       @gameControllerMock.onTouchMouseUp = sinon.spy()
-      @controllable.appendTo jQuery '<div>'
-      Ember.run.end()
+      Ember.run => @controllable.appendTo jQuery '<div>'
 
     describe 'setting up touch listeners', ->
 

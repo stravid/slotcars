@@ -1,33 +1,34 @@
-<h2>Welcome Racer</h2>
+<h2>{{texts.headline}}</h2>
 
-<p class="explanation">
-    Once you signed up, you will be able to build your own tracks
-    and save your highscores! You just need to log in the next time
-    you come back.
-</p>
+<p class="explanation">{{texts.description}}</p>
 
 <form>
-  <label>Username:</label>
-  <div class="username"><input id="username-field" type="text" /></div>
-  <p class="error">
-  {{#each validationErrors.username}}Username {{this}}{{/each}}&nbsp;
-  </p>
-  <br/>
+  <div class="input-field">
+    <label>Username:</label>
+    <div class="form username">{{view Ember.TextField valueBinding="username"}}</div>
+    <p class="error">
+    {{#each validationErrors.username}}Username {{this}}{{/each}}&nbsp;
+    </p>
+  </div>
 
-  <label>E-Mail:</label>
-  <div class="email"><input id="email-field" type="email" /></div>
-  <p class="error">
-  {{#each validationErrors.email}}Email {{this}}{{/each}}&nbsp;
-  </p>
-  <br/>
+  <div class="input-field">
+    <label>E-Mail:</label>
+    <div class="form email">{{view Ember.TextField type="email" valueBinding="email"}}</div>
+    <p class="error">
+    {{#each validationErrors.email}}Email {{this}}{{/each}}&nbsp;
+    </p>
+  </div>
 
-  <label>Password:</label>
-  <div class="password"><input id="password-field" type="password" /></div>
-  <p class="error">
-  {{#each validationErrors.password}}Password {{this}}{{/each}}&nbsp;
-  </p>
-  <br/>
+  <div class="input-field">
+    <label>Password:</label>
+    <div class="form password">{{view Ember.TextField type="password" valueBinding="password"}}</div>
+    <p class="error">
+    {{#each validationErrors.password}}Password {{this}}{{/each}}&nbsp;
+    </p>
+  </div>
 
-  <button class="ok" {{action "onSignUpButtonClicked"}}>Create Account</button>
-  <button class="cancel" {{action "onCancelSignUpButtonClicked"}}>Cancel</button>
+  <div class="form-buttons">
+    <button class="ok" type="submit">Create Account</button>
+    {{#if showCancelButton}}<button class="cancel" {{action "onCancelSignUpButtonClicked"}}>Cancel</button>{{/if}}
+  </div>
 </form>

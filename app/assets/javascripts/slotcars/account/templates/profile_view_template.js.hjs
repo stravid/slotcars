@@ -9,20 +9,27 @@
 
 <div id="user-highscores">
   {{#if user.highscores.length}}
+  <div id="highscore-scroller">
     <table id="highscore-table">
       <tbody>
 
         {{#each user.highscores}}
           <tr>
             <td>{{ordinal_number rank}}</td>
-            <td><a href="play/{{unbound track_id}}" class="js-route">{{track_title}}</a></td>
+            <td>
+              <div class="track-title">
+                <a href="play/{{unbound track_id}}" class="js-route">
+                  {{truncate_with_ellipsis track_title "25"}}
+                </a>
+              </div>
+            </td>
             <td>{{racetime time}}</td>
           </tr>
         {{/each}}
 
       </tbody>
     </table>
-
+  </div>
   {{else}}
    <p>You haven't finished any race yet!</p>
   {{/if}}

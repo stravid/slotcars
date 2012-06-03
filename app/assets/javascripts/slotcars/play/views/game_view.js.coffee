@@ -14,10 +14,3 @@ Play.GameView = Ember.View.extend
         gameController: @get 'gameController'
 
   ).observes 'gameController.isRaceFinished'
-
-  onCountdownVisibleChange: ( ->
-    if @gameController.get 'isCountdownVisible'
-      (@$ '#countdown').removeClass 'hidden'
-    else 
-      (@$ '#countdown').addClass 'hidden'
-  ).observes 'gameController.isCountdownVisible'

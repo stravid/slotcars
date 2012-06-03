@@ -1,5 +1,7 @@
 describe 'event_normalize',  ->
 
+  LEFT_MOUSE_BUTTON = 1
+
   beforeEach ->
     @onEventSpy = sinon.spy()
 
@@ -11,7 +13,7 @@ describe 'event_normalize',  ->
     it 'should trigger touchMouseDown event on document when mousedown', ->
       value = 13
 
-      event = jQuery.Event 'mousedown', { pageX: value, pageY: 0 }
+      event = jQuery.Event 'mousedown', { which: LEFT_MOUSE_BUTTON, pageX: value, pageY: 0 }
 
       (jQuery document).on 'touchMouseDown', @onEventSpy
       (jQuery document).trigger event
@@ -26,7 +28,7 @@ describe 'event_normalize',  ->
 
     it 'should trigger touchMouseUp event on document when mouseup', ->
       (jQuery document).on 'touchMouseUp', @onEventSpy
-      (jQuery document).trigger 'mouseup'
+      (jQuery document).trigger jQuery.Event 'mouseup', { which: LEFT_MOUSE_BUTTON }
 
       (expect @onEventSpy).toHaveBeenCalled()
 
@@ -45,7 +47,7 @@ describe 'event_normalize',  ->
       moveEvent = jQuery.Event 'mousemove', { pageX: value, pageY: 0 }
 
       (jQuery document).on 'touchMouseMove', @onEventSpy
-      (jQuery document).trigger 'mousedown'
+      (jQuery document).trigger jQuery.Event 'mousedown', { which: LEFT_MOUSE_BUTTON }
       (jQuery document).trigger moveEvent
 
       (expect @onEventSpy).toHaveBeenCalled()
