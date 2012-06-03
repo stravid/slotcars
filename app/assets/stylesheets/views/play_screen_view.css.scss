@@ -210,6 +210,9 @@
   width: 255px;
   height: 92px;
   background-image: image-url("views/play/traffic-light.png");
+  display: none;
+
+  &.visible { display: block; }
 
   &.first  { background-position: 0 0; }
   &.second { background-position: 0 -91px; }
