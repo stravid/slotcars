@@ -27,8 +27,9 @@ Shared.User.reopenClass
   current: null
 
   signUp: (credentials) ->
-    userToSignUp = Shared.User.createRecord credentials
-    Shared.ModelStore.commit()
+    transaction = Shared.ModelStore.transaction()
+    userToSignUp = transaction.createRecord Shared.User, credentials
+    transaction.commit()
 
     return userToSignUp
 

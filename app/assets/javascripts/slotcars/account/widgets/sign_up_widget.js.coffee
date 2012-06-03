@@ -4,10 +4,13 @@
 
 Account.SignUpWidget = Ember.Object.extend Shared.Widget, Ember.Evented,
 
-  init: -> @set 'view', Account.SignUpView.create delegate: this
   userToSignUp: null
 
-  cancelSignUp: -> @fire 'signUpCancelled'
+  init: -> @set 'view', Account.SignUpView.create delegate: this
+
+  cancelSignUp: ->
+    @userToSignUp.deleteRecord() if @userToSignUp?
+    @fire 'signUpCancelled'
 
   signUpUserWithCredentials: (credentials) -> @set 'userToSignUp', Shared.User.signUp credentials
 
