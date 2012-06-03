@@ -350,7 +350,12 @@ h1 {
 
     a, a:link, a:visited, a:hover, a:active {
       text-decoration: none;
-      color: black;
+      color: #79151D;
+
+      &:hover {
+        cursor: pointer;
+        color: #0E2D6F;
+      }
     }
 
     line-height: 31px;
@@ -365,15 +370,6 @@ h1 {
     #highscore-table {
       width: 410px;
       font-size: 21px;
-
-      a:link, a:visited {
-        color: #0B70BE;
-        
-        &:hover {
-          cursor: pointer;
-          color: #0E2D6F;
-        }
-      }
 
       td:nth-child(1) {
         min-width: 45px;
