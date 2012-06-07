@@ -11,7 +11,7 @@ Play.GameLoopController = Ember.Object.extend
   _run: ->
     return if @stopLoop
 
-    window.requestFrame => @_run()
+    window.requestAnimationFrame => @_run()
     @renderCallback()
 
   destroy: ->

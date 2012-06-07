@@ -1,13 +1,13 @@
 describe 'Play.GameLoopController (unit)', ->
 
   beforeEach ->
-    @requestFrameBackup = window.requestFrame
-    @requestFrameStub = window.requestFrame = sinon.spy()
+    @requestAnimationFrameBackup = window.requestAnimationFrame
+    @requestAnimationFrameStub = window.requestAnimationFrame = sinon.spy()
 
     @gameLoop = Play.GameLoopController.create()
 
   afterEach ->
-    window.requestFrame = @requestFrameBackup
+    window.requestAnimationFrame = @requestAnimationFrameBackup
 
   describe '#start', ->
 
@@ -26,14 +26,14 @@ describe 'Play.GameLoopController (unit)', ->
     it 'should use requestFrame for running the loop', ->
       @gameLoop.start ->
 
-      (expect @requestFrameStub).toHaveBeenCalled()
+      (expect @requestAnimationFrameStub).toHaveBeenCalled()
 
     it 'should call renderCallback for each requested frame', ->
       renderCallbackSpy = sinon.spy()
       maxTestFrameCount = 3
       frameCount = 0
 
-      requestFrameStub = window.requestFrame = (loopCallback) ->
+      requestAnimationFrameStub = window.requestAnimationFrame = (loopCallback) ->
         frameCount++
 
         if frameCount < maxTestFrameCount
