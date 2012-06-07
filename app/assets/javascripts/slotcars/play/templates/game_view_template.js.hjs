@@ -1,6 +1,6 @@
 <div class="topbar">
   <a id="home-button" class="override-button js-route" href="">Home</a>
-  <a id="choose-track" class="override-button js-route" href="/tracks">Choose A Track</a>
+  <a id="choose-track" class="override-button js-route" href="tracks">Choose A Track</a>
   <a id="show-highscore" class="override-button" style="display: none" href="">Highscores</a>
   <a id="retry-button" class="override-button" {{action "onRestartClick"}}>Retry</a>
   <div id="countdown" {{bindAttr class="gameController.isCountdownVisible:visible gameController.currentCountdownClass"}}></div>
