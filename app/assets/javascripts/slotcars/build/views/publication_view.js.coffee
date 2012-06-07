@@ -12,6 +12,7 @@ Build.PublicationView = Shared.TrackView.extend
   trackTitle: ''
 
   didInsertElement: ->
+    $('input:first').focus()
     @_setHeadline()
     @_super()
 

@@ -11,6 +11,8 @@ Account.LoginView = Ember.View.extend
   login: ''
   password: ''
 
+  didInsertElement: -> $('input:first').focus()
+
   submit: (event) ->
     event.preventDefault()
     (@get 'delegate').loginUserWithCredentials { login: @login, password: @password }
