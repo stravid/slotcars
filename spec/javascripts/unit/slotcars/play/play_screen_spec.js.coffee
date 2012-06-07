@@ -4,7 +4,7 @@ describe 'play screen', ->
     @trackInstance = Shared.Track._create isLoaded: true
     sinon.stub(Shared.Track, 'find').returns @trackInstance
 
-    @playScreenViewMock = mockEmberClass Play.PlayScreenView, append: sinon.spy()
+    @playScreenViewMock = mockEmberClass Play.PlayScreenView, append: sinon.spy(), $: sinon.spy()
     @playScreenStateManagerMock = mockEmberClass Play.PlayScreenStateManager, send: sinon.spy()
     @GameMock = mockEmberClass Play.Game,
       start: sinon.spy()
@@ -14,7 +14,7 @@ describe 'play screen', ->
       on: sinon.stub()
 
     @playScreenNotificationsViewMock = mockEmberClass Play.PlayScreenNotificationsView,
-      append: sinon.stub()
+      appendTo: sinon.stub()
 
   afterEach ->
     Shared.Track.find.restore()
@@ -113,7 +113,7 @@ describe 'play screen', ->
         controller: @playScreenNotificationsControllerMock
 
     it 'should append the play screen notifications view', ->
-      (expect @playScreenNotificationsViewMock.append).toHaveBeenCalled()
+      (expect @playScreenNotificationsViewMock.appendTo).toHaveBeenCalled()
 
   describe 'playing', ->
 
