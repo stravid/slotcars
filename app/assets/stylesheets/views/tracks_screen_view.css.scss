@@ -1,3 +1,5 @@
+@import "helpers/mixins";
+
 #tracks-screen-view {
   .topbar {
     position: relative;
@@ -127,6 +129,7 @@
 
 .page {
   width: 100%;
+  @include backface-visibility(hidden);
 
   & > .ember-view {
     width: 100%

@@ -22,9 +22,9 @@ body {
 
 .screen {
   position: relative;
-  -webkit-backface-visibility: hidden;
   width: 100%;
   height: 100%;
+  @include backface-visibility(hidden);
 }
 
 .panable {
@@ -33,6 +33,7 @@ body {
   background-image: image-url("global/grass-pattern.jpg");
   background-repeat: repeat;
   padding: $screen-height $screen-width;
+  @include backface-visibility(hidden);
 }
 
 .default-button {

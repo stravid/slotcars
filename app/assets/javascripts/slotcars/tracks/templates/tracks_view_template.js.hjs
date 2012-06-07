@@ -3,9 +3,9 @@
   <span id="tracks-page-indicator">page {{currentPage}} of {{pageCount}}</span>
 </div>
 <div id="swiper">
-  {{dynamicView dynamicViewPageA class="page"}}
-  {{dynamicView dynamicViewPageB class="page"}}
-  {{dynamicView dynamicViewPageC class="page"}}
+  {{dynamicView dynamicViewPageA}}
+  {{dynamicView dynamicViewPageB}}
+  {{dynamicView dynamicViewPageC}}
 </div>
 
 <div id="tracks-info">swipe to explore more tracks</div>
