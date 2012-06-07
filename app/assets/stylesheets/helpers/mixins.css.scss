@@ -3,6 +3,7 @@
   -webkit-transform: rotate($angle);
      -moz-transform: rotate($angle);
        -o-transform: rotate($angle);
+          transform: rotate($angle);
 }
 
 @mixin shadow($x-offset, $y-offset, $blur, $radius, $color) {
@@ -21,6 +22,12 @@
   -webkit-border-radius: $radius;
      -moz-border-radius: $radius;
           border-radius: $radius;
+}
+
+@mixin backface-visibility($value) {
+  -webkit-backface-visibility: $value;
+     -moz-backface-visibility: $value;
+          backface-visibility: $value;
 }
 
 @mixin widget-base {
