@@ -94,31 +94,6 @@ h1 {
   z-index: 0;
 }
 
-/* --------------- */
-/* --- WIDGETS --- */
-/* --------------- */
-
-@mixin widget-base {
-  @include rotate(-11deg);
-
-  padding-left: 120px;
-  padding-top: 138px;
-
-  font-weight: bold;
-
-  width: 420px;
-  height: 350px;
-}
-
-@mixin widget-headline {
-  @include rotate(3deg);
-
-  font-family: "JustTheWayYouAre", sans-serif;
-  font-size: 40px;
-  font-weight: bold;
-  color: #193773;
-}
-
 #menu-widget-view {
 
   @include widget-base;
