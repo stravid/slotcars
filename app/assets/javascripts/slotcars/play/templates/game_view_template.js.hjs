@@ -14,7 +14,7 @@
 {{#unless isCountdownFinished}}
   {{#if ghost}}
     <div id="player-versus-ghost">
-      <img id="player-portrait" src="/assets/car/car-orange.png"/>
+      <img id="player-portrait" src="/assets/car/car-orange.png" height="89" width="55" />
       <p id="text-container">
         <span class="name">You</span>
         vs
@@ -24,7 +24,7 @@
           <span class="name">{{ghost.user.username}}</span>
         {{/if}}
       </p>
-      <img id="ghost-portrait" src="/assets/car/car-blue.png"/>
+      <img id="ghost-portrait" src="/assets/car/car-blue.png" height="89" width="55" />
     </div>
   {{/if}}
 {{/unless}}
