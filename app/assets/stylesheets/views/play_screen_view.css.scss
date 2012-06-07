@@ -47,7 +47,7 @@
     }
   }
 
-  #show-highscore{
+  #show-highscore {
     width: 188px;
     height: 63px;
     background-image: image-url("views/play/highscores-button.png");
@@ -114,7 +114,7 @@
 #result-content {
   @include rotate(-11deg);
 
-  width: 450px;
+  width: 500px;
   height: 700px;
 
   padding-top: 130px;
@@ -149,8 +149,8 @@
 
     display: block;
     position: absolute;
-    top: 235px;
-    left: 430px;
+    top: 228px;
+    left: 450px;
     color: #193773;
     font-size: 25px;
 
@@ -176,7 +176,7 @@
     font-family: "JustTheWayYouAre", sans-serif;
     font-size: 26px;
     color: black;
-    margin-left: 20px;
+    margin-left: 50px;
   }
 
   #highscore-table {
@@ -268,7 +268,7 @@
 
   #text-container {
     display: inline-block;
-    margin: 0 20px;
+    margin: 0 30px;
     vertical-align: middle;
   }
 

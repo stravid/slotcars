@@ -3,13 +3,13 @@
 
 body {
   background: url("global/background-noise.jpg") repeat;
-  overflow: hidden;
+/*  overflow: hidden; */
 }
 
 #screen-container {
   position: relative;
-  width: 1024px;
-  height: 768px;
+  width: $screen-width;
+  height: $screen-height;
   margin: 0 auto;
   overflow: hidden;
   background-image: image-url("global/grass-pattern.jpg");
