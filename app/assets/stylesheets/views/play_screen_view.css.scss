@@ -27,9 +27,7 @@
 
     cursor: pointer;
 
-    &:hover {
-      background-position: 0 -63px;
-    }
+    &:hover, &:focus { background-position: 0 -63px; }
   }
 
   #choose-track {
@@ -42,9 +40,7 @@
     top: 22px;
     left: 100px;
 
-    &:hover {
-      background-position: 0 -63px;
-    }
+    &:hover, &:focus { background-position: 0 -63px; }
   }
 
   #show-highscore {
@@ -57,9 +53,7 @@
     top: 22px;
     right: 100px;
 
-    &:hover {
-      background-position: 0 -62px;
-    }
+    &:hover, &:focus { background-position: 0 -62px; }
   }
 }
 

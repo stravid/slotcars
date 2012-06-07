@@ -6,6 +6,8 @@ body {
 /*  overflow: hidden; */
 }
 
+a, button { outline: none; }
+
 #screen-container {
   position: relative;
   width: $screen-width;

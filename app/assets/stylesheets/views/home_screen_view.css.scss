@@ -31,11 +31,8 @@ h1 {
   background-image: image-url("views/home/quick-play.png");
   background-repeat: no-repeat;
 
-  &:hover {
-    background-position: 0 -67px;
-  }
+  &:hover, &:focus { background-position: 0 -67px; }
 }
-
 
 #tracks-button {
   width: 264px;
@@ -44,9 +41,7 @@ h1 {
   background-image: image-url("views/home/choose-track.png");
   background-repeat: no-repeat;
 
-  &:hover {
-    background-position: 0 -74px;
-  }
+  &:hover, &:focus { background-position: 0 -74px; }
 }
 
 #build-button {
@@ -56,16 +51,7 @@ h1 {
   background-image: image-url("views/home/create-track.png");
   background-repeat: no-repeat;
 
-  &:hover {
-    background-position: 0 -67px;
-  }
-}
-
-#register-button {
-  width: 206px;
-  height: 66px;
-  background-image: image-url("buttons/register.png");
-  background-repeat: no-repeat;
+  &:hover, &:focus { background-position: 0 -67px; }
 }
 
 #clipboard {
@@ -285,6 +271,7 @@ h1 {
   }
 
   h4 {
+    padding-top: 10px;
     font-size: 30px;
     font-weight: bold;
     clear: both;
@@ -308,9 +295,7 @@ h1 {
     text-indent: -10000px;
     overflow: hidden;
 
-    &:hover {
-      background-position: 0 -174px
-    }
+    &:hover, &:focus { background-position: 0 -174px }
   }
 
   #user-highscores {
@@ -323,11 +308,11 @@ h1 {
 
     overflow: hidden;
 
-    a, a:link, a:visited, a:hover, a:active {
+    a, a:link, a:visited, a:active {
       text-decoration: none;
       color: #79151D;
 
-      &:hover {
+      &:hover, &:focus {
         cursor: pointer;
         color: #0E2D6F;
       }
