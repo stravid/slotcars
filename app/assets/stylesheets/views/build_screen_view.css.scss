@@ -97,19 +97,10 @@
     @include clipboard-button;
     float: left;
 
-    &.authorization-cancel-button {
-      margin-left: 12px;
-    }
+    &.authorization-cancel-button { margin-left: 12px; }
   }
 
-  &:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-  }
+  @include clear-float;
 }
 
 #publication-view {
@@ -117,13 +108,8 @@
   font-size: 20px;
   height: 100%;
 
-  h2 {
-    @include widget-headline;
-  }
-
-  label {
-    font-size: 26px;
-  }
+  h2 { @include widget-headline; }
+  label { font-size: 26px; }
 
   p.explanation {
     font-size: 20px;
@@ -133,9 +119,7 @@
     line-height: 33px;
   }
 
-  div.input-field {
-    margin-bottom: 18px;
-  }
+  div.input-field { margin-bottom: 18px; }
 
   div.form {
     width: 272px;
@@ -159,14 +143,7 @@
     }
   }
 
-  .form-buttons:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-  }
+  .form-buttons { @include clear-float; }
 
   button {
     @include clipboard-button;
@@ -176,42 +153,42 @@
 }
 
 #toolbar {
+  position: relative;
   text-align: center;
-  margin-top: 22px;
+  margin: 20px auto 0;
+  width: 415px;
 
   button {
     position: relative;
-    display: inline-block;
+    display: block;
     border: none;
     width: 64px;
     height: 64px;
-    margin: 0;
     padding: 0;
     background-color: transparent;
     background-repeat: no-repeat;
     background-position: center -64px;
     cursor: pointer;
     text-align: center;
+    float: left;
 
-    .button-label {
-      top: 60px;
-    }
+    .button-label { top: 60px; }
 
     &[disabled="disabled"] {
-      background-position-y: -128px;
+      background-position: 0 -128px;
       cursor: default;
     }
     &.active {
-      background-position-y: 0;
+      background-position: 0 0;
       cursor: default;
     }
   }
 
   .dashed-line {
-    display: inline-block;
+    display: block;
+    float: left;
     height: 64px;
     width: 53px;
-    margin: 0 -5px;
     background: image-url("views/build/dashed-line.png") center 30px no-repeat;
   }
 

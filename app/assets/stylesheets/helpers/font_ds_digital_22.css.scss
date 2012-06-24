@@ -28,16 +28,16 @@ $letter-22-kerning: 1px;
 /*
  * Defines what letter is shown.
  */
-.ds-digital-22.letter-slash { background-position-y: -$letter-22-height * 10; }
-.ds-digital-22.letter-0   { background-position-y: -$letter-22-height * 9;  }
-.ds-digital-22.letter-1   { background-position-y: -$letter-22-height * 8;  }
-.ds-digital-22.letter-2   { background-position-y: -$letter-22-height * 7;  }
-.ds-digital-22.letter-3   { background-position-y: -$letter-22-height * 6;  }
-.ds-digital-22.letter-4   { background-position-y: -$letter-22-height * 5;  }
-.ds-digital-22.letter-5   { background-position-y: -$letter-22-height * 4;  }
-.ds-digital-22.letter-6   { background-position-y: -$letter-22-height * 3;  }
-.ds-digital-22.letter-7   { background-position-y: -$letter-22-height * 2;  }
-.ds-digital-22.letter-8   { background-position-y: -$letter-22-height * 1;  }
-.ds-digital-22.letter-9   { background-position-y: -$letter-22-height * 0;  }
+.ds-digital-22.letter-slash { background-position: 0 $letter-22-height * -10; }
+.ds-digital-22.letter-0     { background-position: 0 $letter-22-height * -9;  }
+.ds-digital-22.letter-1     { background-position: 0 $letter-22-height * -8;  }
+.ds-digital-22.letter-2     { background-position: 0 $letter-22-height * -7;  }
+.ds-digital-22.letter-3     { background-position: 0 $letter-22-height * -6;  }
+.ds-digital-22.letter-4     { background-position: 0 $letter-22-height * -5;  }
+.ds-digital-22.letter-5     { background-position: 0 $letter-22-height * -4;  }
+.ds-digital-22.letter-6     { background-position: 0 $letter-22-height * -3;  }
+.ds-digital-22.letter-7     { background-position: 0 $letter-22-height * -2;  }
+.ds-digital-22.letter-8     { background-position: 0 $letter-22-height * -1;  }
+.ds-digital-22.letter-9     { background-position: 0 $letter-22-height * 0;  }
 
 

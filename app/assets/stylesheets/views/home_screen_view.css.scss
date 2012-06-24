@@ -214,14 +214,7 @@ h1 {
 
   .form-buttons {
     margin-top: 18px;
-    &:after {
-      content: '.';
-      height: 1px;
-      line-height: 1px;
-      visibility: hidden;
-      display: block;
-      clear: both;
-    }
+    @include clear-float;
   }
 
   button {
@@ -283,14 +276,8 @@ h1 {
     }
   }
 
-  .form-buttons:after {
-    clear: both;
-    content: '.';
-    height: 1px;
-    line-height: 1px;
-    visibility: hidden;
-    display: block;
-  }
+  .form-buttons { @include clear-float; }
+
   button {
     @include clipboard-button;
     float: right;
