@@ -28,6 +28,9 @@
   -webkit-backface-visibility: $value;
      -moz-backface-visibility: $value;
           backface-visibility: $value;
+          -webkit-perspective: 1000;
+             -moz-perspective: 1000;
+                  perspective: 1000;
 }
 
 @mixin widget-base {
@@ -49,4 +52,15 @@
   font-size: 40px;
   font-weight: bold;
   color: #193773;
+}
+
+@mixin clear-float {
+  &:after {
+    clear: both;
+    content: '.';
+    height: 1px;
+    line-height: 1px;
+    visibility: hidden;
+    display: block;
+  }
 }
