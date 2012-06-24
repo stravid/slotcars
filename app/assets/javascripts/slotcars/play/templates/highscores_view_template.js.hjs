@@ -1,4 +1,3 @@
-
 <table id="highscore-table">
   <tbody>
     {{#each highscores.displayedRuns}}

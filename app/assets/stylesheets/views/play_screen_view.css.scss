@@ -27,9 +27,7 @@
 
     cursor: pointer;
 
-    &:hover {
-      background-position: 0 -63px;
-    }
+    &:hover, &:focus { background-position: 0 -63px; }
   }
 
   #choose-track {
@@ -42,12 +40,10 @@
     top: 22px;
     left: 100px;
 
-    &:hover {
-      background-position: 0 -63px;
-    }
+    &:hover, &:focus { background-position: 0 -63px; }
   }
 
-  #show-highscore{
+  #show-highscore {
     width: 188px;
     height: 63px;
     background-image: image-url("views/play/highscores-button.png");
@@ -57,9 +53,7 @@
     top: 22px;
     right: 100px;
 
-    &:hover {
-      background-position: 0 -62px;
-    }
+    &:hover, &:focus { background-position: 0 -62px; }
   }
 }
 
@@ -114,7 +108,7 @@
 #result-content {
   @include rotate(-11deg);
 
-  width: 450px;
+  width: 500px;
   height: 700px;
 
   padding-top: 130px;
@@ -132,7 +126,7 @@
   }
 
   .race-time {
-    margin: 40px 0 0 0;
+    margin: 30px 0 0 0;
     font-size: 42px;
     color: #2c4577;
     background-image: image-url("views/play/race-time-highlight.png");
@@ -149,8 +143,8 @@
 
     display: block;
     position: absolute;
-    top: 235px;
-    left: 430px;
+    top: 228px;
+    left: 450px;
     color: #193773;
     font-size: 25px;
 
@@ -176,12 +170,12 @@
     font-family: "JustTheWayYouAre", sans-serif;
     font-size: 26px;
     color: black;
-    margin-left: 20px;
+    margin-left: 50px;
   }
 
   #highscore-table {
     width: 420px;
-    margin-top: 12px;
+    margin-top: 34px;
     margin-left: 50px;
 
     font-size: 26px;
@@ -268,7 +262,7 @@
 
   #text-container {
     display: inline-block;
-    margin: 0 20px;
+    margin: 0 30px;
     vertical-align: middle;
   }
 

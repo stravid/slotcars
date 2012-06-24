@@ -41,7 +41,7 @@ Play.PlayScreen = Ember.Object.extend
     @_playScreenNotificationsView = Play.PlayScreenNotificationsView.create
       controller: @get '_playScreenNotificationsController'
 
-    @_playScreenNotificationsView.append()
+    @_playScreenNotificationsView.appendTo(@view.$())
 
     @_playScreenStateManager.send 'initialized'
 

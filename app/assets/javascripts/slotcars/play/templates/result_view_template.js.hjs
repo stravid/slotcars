@@ -13,7 +13,7 @@
     <span class="or">or play</span>
     <a class="new-track-button js-route" href="tracks">other track</a>
 
-    <h3>Highscores on this track:</h3>
+    <h3>Highscores on this track :</h3>
 
     <div id="highscores">
       {{view Play.HighscoresView highscoresBinding="gameController.highscores"}}

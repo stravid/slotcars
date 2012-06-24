@@ -1,6 +1,6 @@
 <div class="topbar">
   <a id="home-button" class="override-button js-route" href="">Home</a>
-  <a id="choose-track" class="override-button js-route" href="/tracks">Choose A Track</a>
+  <a id="choose-track" class="override-button js-route" href="tracks">Choose A Track</a>
   <a id="show-highscore" class="override-button" style="display: none" href="">Highscores</a>
   <a id="retry-button" class="override-button" {{action "onRestartClick"}}>Retry</a>
   <div id="countdown" {{bindAttr class="gameController.isCountdownVisible:visible gameController.currentCountdownClass"}}></div>
@@ -14,7 +14,7 @@
 {{#unless isCountdownFinished}}
   {{#if ghost}}
     <div id="player-versus-ghost">
-      <img id="player-portrait" src="/assets/car/car-orange.png"/>
+      <img id="player-portrait" src="/assets/car/car-orange.png" height="89" width="55" />
       <p id="text-container">
         <span class="name">You</span>
         vs
@@ -24,7 +24,7 @@
           <span class="name">{{ghost.user.username}}</span>
         {{/if}}
       </p>
-      <img id="ghost-portrait" src="/assets/car/car-blue.png"/>
+      <img id="ghost-portrait" src="/assets/car/car-blue.png" height="89" width="55" />
     </div>
   {{/if}}
 {{/unless}}

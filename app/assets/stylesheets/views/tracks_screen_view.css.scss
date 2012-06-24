@@ -90,9 +90,7 @@
   background-image: image-url("shared/buttons/quickplay.png");
   background-repeat: no-repeat;
 
-  &:hover {
-    background-position: 0 -63.5px;
-  }
+  &:hover, &:focus { background-position: 0 -63.5px; }
 }
 
 #tracks-create-track-button {
@@ -106,9 +104,7 @@
   background-image: image-url("shared/buttons/create_track_button.png");
   background-repeat: no-repeat;
 
-  &:hover {
-    background-position: 0 -64px;
-  }
+  &:hover, &:focus { background-position: 0 -64px; }
 }
 
 .track-container {

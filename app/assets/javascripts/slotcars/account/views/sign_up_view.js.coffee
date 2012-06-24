@@ -12,6 +12,8 @@ Account.SignUpView = Ember.View.extend
   email: ''
   password: ''
 
+  didInsertElement: -> $('input:first').focus()
+
   submit: (event) ->
     event.preventDefault()
     (@get 'delegate').signUpUserWithCredentials { username: @username, email: @email, password: @password }

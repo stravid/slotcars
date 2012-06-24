@@ -9,8 +9,6 @@
   background-repeat: no-repeat;
   top: 22px;
   left: 22px;
-  
-  &:hover {
-    background-position: 0 -63px;
-  }
+
+  &:hover, &:focus { background-position: 0 -63px; }
 }
