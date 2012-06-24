@@ -4,15 +4,17 @@ Play.GhostView = Ember.View.extend
   car: null
 
   templateName: 'slotcars_play_templates_ghost_view_template'
-  tagName: ''
+  elementId: 'ghost'
 
   didInsertElement: -> @hide()
 
-  hide: -> (jQuery '#ghost').hide()
+  hide: -> @$().hide()
 
   show: ->
-    (jQuery '#ghost').show()
-    (jQuery '#ghost').css '-webkit-transform', "rotateZ(#{@car.rotation}deg)"
+    @$().show()
+    @$().css '-webkit-transform', "rotateZ(#{@car.rotation}deg)"
+    @$().css '-moz-transform', "rotateZ(#{@car.rotation}deg)"
+    @$().css '-o-transform', "rotate(#{@car.rotation}deg)"
 
   update: (->
     rotation = @ghost.rotation
@@ -22,5 +24,7 @@ Play.GhostView = Ember.View.extend
       x: (position.x - @car.position.x) * 2
       y: (position.y - @car.position.y) * 2
 
-    (jQuery '#ghost').css '-webkit-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
+    @$().css '-webkit-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
+    @$().css '-moz-transform', "translate3d(#{drawPosition.x}px,#{drawPosition.y}px,0)rotateZ(#{rotation}deg)"
+    @$().css '-o-transform', "translate(#{drawPosition.x}px,#{drawPosition.y}px)rotate(#{rotation}deg)"
   ).observes 'ghost.position'
