@@ -9,8 +9,8 @@
   background-color: rgba(255, 255, 255, 0.7);
   border: none;
   cursor: pointer;
-  
-  &:hover {
+
+  &:hover, &:focus {
     color: #193773;
     text-decoration: none;
   }

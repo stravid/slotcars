@@ -3,21 +3,21 @@
 
 body {
   background: url("global/background-noise.jpg") repeat;
-  overflow: hidden;
+/*  overflow: hidden; */
 }
+
+a, button { outline: none; }
 
 #screen-container {
   position: relative;
-  width: 1024px;
-  height: 768px;
+  width: $screen-width;
+  height: $screen-height;
   margin: 0 auto;
   overflow: hidden;
   background-image: image-url("global/grass-pattern.jpg");
   background-repeat: repeat;
   font-family: sans-serif;
-  -webkit-box-shadow: 0 0 50px 0px #030303;
-  -moz-box-shadow:    0 0 50px 0px #030303;
-  box-shadow:         0 0 50px 0px #030303;
+  @include shadow(0, 0, 50px, 0px, #030303);
 }
 
 .screen {
