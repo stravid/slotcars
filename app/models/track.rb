@@ -10,6 +10,8 @@ class Track < ActiveRecord::Base
 
   attr_accessible :raphael, :rasterized, :title, :user_id
 
+  after_create :after_create_callback
+
   def self.sorted_by_date
     Track.order("created_at DESC")
   end
@@ -25,4 +27,7 @@ class Track < ActiveRecord::Base
     self.order('RANDOM()').first
   end
 
+  def after_create_callback
+    StatisticsTracker.track_created
+  end
 end

@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
 
   attr_accessor :login
 
+  after_create :after_create_callback
+
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     login = conditions.delete(:login)
@@ -48,5 +50,9 @@ class User < ActiveRecord::Base
     user_runs = runs_grouped_by_track
     user_highscores = highscores_for_runs user_runs
     sort_highscores_by_rank user_highscores
+  end
+
+  def after_create_callback
+    StatisticsTracker.user_created
   end
 end
