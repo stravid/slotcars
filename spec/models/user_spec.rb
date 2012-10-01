@@ -144,4 +144,12 @@ describe User do
     end
 
   end
+
+  describe 'after create callback' do
+    it 'should call StatisticsTracker.user_created' do
+      StatisticsTracker.should_receive :user_created
+
+      FactoryGirl.create :user
+    end
+  end
 end

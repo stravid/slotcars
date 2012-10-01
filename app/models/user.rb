@@ -16,6 +16,8 @@ class User < ActiveRecord::Base
 
   attr_accessor :login
 
+  after_create { StatisticsTracker.user_created }
+
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     login = conditions.delete(:login)
