@@ -56,18 +56,11 @@ describe Track do
     end
   end
 
-  describe '#after_create_callback' do
+  describe 'after create callback' do
     it 'should call StatisticsTracker.track_created' do
       StatisticsTracker.should_receive :track_created
 
       FactoryGirl.create :track
-    end
-
-    it 'should be called after creation' do
-      track = FactoryGirl.build :track
-
-      track.should_receive :after_create_callback
-      track.save
     end
   end
 end

@@ -145,18 +145,11 @@ describe User do
 
   end
 
-  describe '#after_create_callback' do
+  describe 'after create callback' do
     it 'should call StatisticsTracker.user_created' do
       StatisticsTracker.should_receive :user_created
 
       FactoryGirl.create :user
-    end
-
-    it 'should be called after creation' do
-      user = FactoryGirl.build :user
-
-      user.should_receive :after_create_callback
-      user.save
     end
   end
 end

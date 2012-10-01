@@ -6,9 +6,5 @@ class Ghost < ActiveRecord::Base
 
   attr_accessible :time, :track_id, :positions, :user_id
 
-  after_create :after_create_callback
-
-  def after_create_callback
-    StatisticsTracker.ghost_created
-  end
+  after_create { StatisticsTracker.ghost_created }
 end
