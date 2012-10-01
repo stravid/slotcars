@@ -10,6 +10,8 @@ gem 'newrelic_rpm'
 
 gem 'pusher'
 
+gem 'stathat'
+
 # better serialization of models
 gem "active_model_serializers", :git => "git://github.com/josevalim/active_model_serializers.git"
 
