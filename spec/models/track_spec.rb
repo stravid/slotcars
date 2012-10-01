@@ -7,7 +7,7 @@ describe Track do
   it { should belong_to :user }
   it { should have_many :runs }
   it { should have_many :ghosts }
-  
+
   describe 'validation of raphael' do
     valid_raphael_path = FactoryGirl.generate :valid_raphael_path
     it { should allow_value(valid_raphael_path).for(:raphael) }
@@ -53,6 +53,21 @@ describe Track do
       track = Track.random
 
       tracks.should include(track)
+    end
+  end
+
+  describe '#after_create_callback' do
+    it 'should call StatisticsTracker.track_created' do
+      StatisticsTracker.should_receive :track_created
+
+      FactoryGirl.create :track
+    end
+
+    it 'should be called after creation' do
+      track = FactoryGirl.build :track
+
+      track.should_receive :after_create_callback
+      track.save
     end
   end
 end
