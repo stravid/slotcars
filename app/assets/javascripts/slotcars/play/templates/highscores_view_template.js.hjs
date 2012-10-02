@@ -1,6 +1,6 @@
 <table id="highscore-table">
   <tbody>
-    {{#each highscores.displayedRuns}}
+    {{#each view.highscores.displayedRuns}}
       <tr {{bindAttr data-user-id="user_id"}}>
         <td>{{rank}}</td>
         <td>{{username}}</td>

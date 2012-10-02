@@ -110,9 +110,9 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
     @set 'highscores', Shared.Highscores.create runs: highscores
 
     return unless Shared.User.current?
-    
+
     @checkForNewHighscore()
-    
+
     if @isLastRunNewHighscore
       @saveGhost()
     else
