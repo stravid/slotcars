@@ -8,18 +8,18 @@ Account.ProfileView = Ember.View.extend
 
   user: null
   logoutFailed: false
-  
+
   iScroller: null
   isInsertingScroller: false
 
   onLogoutButtonClicked: -> (@get 'delegate').signOutCurrentUser()
-  
+
   didInsertElement: -> @initializeHighscoreScroller()
-  
+
   initializeHighscoreScroller: ->
     targetElement = @$('#highscore-scroller')
-    
-    if targetElement.length > 0
+
+    if targetElement?.length > 0
       @set 'iScroller', new iScroll 'highscore-scroller', hideScrollbar: false
     else
       Ember.run.later (=> @initializeHighscoreScroller()), 50

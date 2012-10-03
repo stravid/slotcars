@@ -3,14 +3,14 @@
   <a id="choose-track" class="override-button js-route" href="tracks">Choose A Track</a>
   <a id="show-highscore" class="override-button" style="display: none" href="">Highscores</a>
   <a id="retry-button" class="override-button" {{action "onRestartClick"}}>Retry</a>
-  <div id="countdown" {{bindAttr class="gameController.isCountdownVisible:visible gameController.currentCountdownClass"}}></div>
+  <div id="countdown" {{bindAttr class="view.gameController.isCountdownVisible:visible view.gameController.currentCountdownClass"}}></div>
 </div>
 
-{{#if gameController.isRaceFinished}}
+{{#if view.gameController.isRaceFinished}}
     {{dynamicView overlayView}}
 {{/if}}
 
-{{#with gameController}}
+{{#with view.gameController}}
 {{#unless isCountdownFinished}}
   {{#if ghost}}
     <div id="player-versus-ghost">

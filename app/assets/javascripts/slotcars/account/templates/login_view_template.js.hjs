@@ -1,22 +1,22 @@
-<h2>{{texts.headline}}</h2>
-<p class="explanation">{{texts.description}}</p>
+<h2>{{view.texts.headline}}</h2>
+<p class="explanation">{{view.texts.description}}</p>
 <form>
-  {{#if hasErrors}}
+  {{#if view.hasErrors}}
     <p class="error">Email or password are wrong.</p>
   {{/if}}
 
   <div class="input-field">
       <label>Username:</label>
-      <div class="form username">{{view Ember.TextField valueBinding="login"}}</div>
+      <div class="form username">{{view Ember.TextField valueBinding="view.login"}}</div>
   </div>
 
   <div class="input-field">
       <label>Password:</label>
-      <div class="form password">{{view Ember.TextField type="password" valueBinding="password"}}</div>
+      <div class="form password">{{view Ember.TextField type="password" valueBinding="view.password"}}</div>
   </div>
 
   <div class="form-buttons">
     <button type="submit">Log in</button>
-    {{#if showCancelButton}}<button {{action "onCancelClicked"}}>Cancel</button>{{/if}}
+    {{#if view.showCancelButton}}<button {{action "onCancelClicked"}}>Cancel</button>{{/if}}
   </div>
 </form>

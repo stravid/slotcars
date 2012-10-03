@@ -14,8 +14,8 @@ Shared.Controllable = Ember.Mixin.create
     (jQuery document).on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
 
   destroy: ->
-    @_super()
     @_removeTouchListeners()
+    @_super()
 
   _removeTouchListeners: ->
     @$().off 'touchMouseDown'

@@ -9,6 +9,7 @@ Shared.Panable = Ember.Mixin.create
       x: position.x * @scaleFactor + SCREEN_WIDTH / 2
       y: position.y * @scaleFactor + SCREEN_HEIGHT / 2
 
-    @$().css '-webkit-backface-visibility', 'hidden'
-    @$().css '-webkit-transform', "translate3d(#{-drawPosition.x}px,#{-drawPosition.y}px,0)"
+    if @$()?
+      @$().css '-webkit-backface-visibility', 'hidden'
+      @$().css '-webkit-transform', "translate3d(#{-drawPosition.x}px,#{-drawPosition.y}px,0)"
   ).observes 'car.position'

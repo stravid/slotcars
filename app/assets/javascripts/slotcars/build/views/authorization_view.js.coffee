@@ -3,6 +3,7 @@
 Build.AuthorizationView = Shared.TrackView.extend Shared.Container,
 
   templateName: 'slotcars_build_templates_authorization_view_template'
+  content: null
 
   track: null
   stateManager: null

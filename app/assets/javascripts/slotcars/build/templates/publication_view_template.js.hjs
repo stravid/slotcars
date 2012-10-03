@@ -1,13 +1,13 @@
 <div id="clipboard">
   <div id="publication-view">
-    <h2>{{texts.headline}}</h2>
+    <h2>{{view.texts.headline}}</h2>
     <p class="explanation">
       Now it´s time to publish your track and make it accessible to all players. This is your last chance to refine that track.
     </p>
     <form>
       <div class="input-field">
         <label>Track title:</label>
-        <div class="form">{{view Ember.TextField valueBinding="trackTitle"}}</div>
+        <div class="form">{{view Ember.TextField valueBinding="view.trackTitle"}}</div>
       </div>
       <div class="form-buttons">
         <button type="submit"><div>Publish</div></button>

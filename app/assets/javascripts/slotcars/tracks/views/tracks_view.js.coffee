@@ -40,9 +40,9 @@ Tracks.TracksView = Ember.View.extend
       tracksController: @tracksController
       tracksBinding: 'tracksController.pageCTracks'
 
-    @set 'dynamicViewPageA', @pageViewA
-    @set 'dynamicViewPageB', @pageViewB
-    @set 'dynamicViewPageC', @pageViewC
+    @pageViewA.appendTo '#swiper'
+    @pageViewB.appendTo '#swiper'
+    @pageViewC.appendTo '#swiper'
 
     @pages = [ @pageViewA, @pageViewB, @pageViewC ]
 

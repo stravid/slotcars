@@ -1,7 +1,7 @@
 describe 'slotcars application screen management', ->
 
   beforeEach ->
-    @RouteManagerMock = mockEmberClass Shared.RouteManager, start: sinon.spy()
+    @RouteManagerMock = mockEmberClass Shared.RouteManager, start: sinon.stub()
 
   afterEach ->
     @RouteManagerMock.restore()
@@ -14,7 +14,7 @@ describe 'slotcars application screen management', ->
 
       (sinon.stub Shared.ScreenFactory, 'getInstance').returns @screenFactoryMock
 
-      @slotcarsApplication = SlotcarsApplication.create()
+      Ember.run => @slotcarsApplication = SlotcarsApplication.create()
 
     afterEach ->
       @slotcarsApplication.destroy()
@@ -29,10 +29,10 @@ describe 'slotcars application screen management', ->
       (expect @screenMock.append).toHaveBeenCalled()
 
     it 'should call the destroy method on the old screen when the screens get switched', ->
-      @firstScreenMock = 
-        append: sinon.spy(), 
+      @firstScreenMock =
+        append: sinon.spy(),
         destroy: sinon.spy()
-      
+
       (@screenFactoryMock.getInstanceOf.withArgs 'FirstScreen').returns @firstScreenMock
 
       @slotcarsApplication.showScreen 'FirstScreen'
@@ -44,7 +44,7 @@ describe 'slotcars application screen management', ->
   describe 'integration with the route manager', ->
 
     beforeEach ->
-      @slotcarsApplication = SlotcarsApplication.create()
+      Ember.run => @slotcarsApplication = SlotcarsApplication.create()
 
     afterEach ->
       @slotcarsApplication.destroy()
