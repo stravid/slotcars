@@ -30,9 +30,11 @@ describe 'track view', ->
 
   describe 'appendeding view to DOM', ->
 
-    it 'should create raphael paper', ->
-      @trackView.didInsertElement()
+    beforeEach ->
+      @trackView.appendTo '<div>'
+      Ember.run.end()
 
+    it 'should create raphael paper', ->
       (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], 1024 * @trackView.scaleFactor, 768 * @trackView.scaleFactor
 
     it 'should draw the track', ->
@@ -57,7 +59,9 @@ describe 'track view', ->
       @raphaelPath = "M0,0R1,0z"
       sinon.stub(@trackMock, 'get').withArgs('raphaelPath').returns @raphaelPath
 
-      @trackView.didInsertElement() # paper gets created + track is drawn
+      # paper gets created + track is drawn
+      @trackView.appendTo '<div>'
+      Ember.run.end()
 
     it 'should update when raphael path changes on track', ->
       sinon.spy @trackView, 'updateTrack'
@@ -77,7 +81,9 @@ describe 'track view', ->
       @raphaelPath = "M0,0R1,0z"
       sinon.stub(@trackMock, 'get').withArgs('raphaelPath').returns @raphaelPath
 
-      @trackView.didInsertElement() # paper gets created + track is drawn
+      # paper gets created + track is drawn
+      @trackView.appendTo '<div>'
+      Ember.run.end()
 
     it 'should clear the paper', ->
       @trackView.destroy()

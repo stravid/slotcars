@@ -179,5 +179,5 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
       @set 'raceTime', @endTime - @startTime
 
   destroy: ->
-    @_super()
     @set 'isRaceRunning', false
+    @_super()
