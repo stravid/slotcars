@@ -3,7 +3,7 @@
 #= require vendor/raphael
 #= require vendor/handlebars
 #= require vendor/jquery.animate-enhanced
-#= require embient/ember.min
+#= require embient/ember
 #= require embient/ember-routemanager
 #= require embient/ember-data
 #= require embient/ember-layout
