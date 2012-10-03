@@ -1,3 +1,5 @@
+require 'statistics_tracker'
+
 class Ghost < ActiveRecord::Base
   belongs_to :user
   belongs_to :track

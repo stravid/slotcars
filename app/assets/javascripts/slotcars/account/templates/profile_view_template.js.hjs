@@ -1,6 +1,6 @@
-<h3>Hello, {{user.username}}</h3>
+<h3>Hello, {{view.user.username}}</h3>
 
-{{#if logoutFailed}}
+{{#if view.logoutFailed}}
   <p class="error">There was a problem with your logout, please try again!</p>
 {{/if}}
 <button {{action "onLogoutButtonClicked"}}>Log out</button>
@@ -8,12 +8,12 @@
 <h4>Your Highscores:</h4>
 
 <div id="user-highscores">
-  {{#if user.highscores.length}}
+  {{#if view.user.highscores.length}}
   <div id="highscore-scroller">
     <table id="highscore-table">
       <tbody>
 
-        {{#each user.highscores}}
+        {{#each view.user.highscores}}
           <tr>
             <td>{{ordinal_number rank}}</td>
             <td>

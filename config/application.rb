@@ -73,5 +73,7 @@ module Slotcars
     # force the applicatin not to access the database or load models
     # when precompiling the assets
     config.assets.initialize_on_precompile = false
+
+    config.handlebars.templates_path_separator = '_'
   end
 end

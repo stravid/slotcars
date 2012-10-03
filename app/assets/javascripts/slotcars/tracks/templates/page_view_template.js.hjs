@@ -1,4 +1,4 @@
-{{#each tracks}}
+{{#each view.tracks}}
   <div class="track" data-track-id="{{unbound id}}">
     {{view Shared.ThumbnailTrackView trackBinding="this" class="track-container" }}
     <h3>{{title}}</h3>

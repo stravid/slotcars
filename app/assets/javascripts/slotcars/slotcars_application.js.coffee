@@ -1,6 +1,7 @@
 #= require configuration
 
 #= require vendor/raphael
+#= require vendor/handlebars
 #= require vendor/jquery.animate-enhanced
 #= require embient/ember
 #= require embient/ember-routemanager

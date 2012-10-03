@@ -24,10 +24,13 @@ describe 'Shared.Animatable', ->
       (expect @viewStub.didInsertElement).not.toEqual didInsertFuncBefore
 
     it 'should call the view´s original didInsertElement method', ->
-      didInsertFuncBeforeStub = sinon.spy @viewStub, 'didInsertElement'
+      didInsertFuncBeforeStub = sinon.stub @viewStub, 'didInsertElement'
 
       @animatable.append() # overrides 'didInsertElement' of the view
-      @viewStub.didInsertElement()
+
+      # calls didInsertElement()
+      @viewStub.appendTo '<div>'
+      Ember.run.end()
 
       (expect didInsertFuncBeforeStub).toHaveBeenCalled()
 

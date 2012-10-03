@@ -1,34 +1,34 @@
-<h2>{{texts.headline}}</h2>
+<h2>{{view.texts.headline}}</h2>
 
-<p class="explanation">{{texts.description}}</p>
+<p class="explanation">{{view.texts.description}}</p>
 
 <form>
   <div class="input-field">
     <label>Username:</label>
-    <div class="form username">{{view Ember.TextField valueBinding="username"}}</div>
+    <div class="form username">{{view Ember.TextField valueBinding="view.username"}}</div>
     <p class="error">
-    {{#each validationErrors.username}}Username {{this}}{{/each}}&nbsp;
+    {{#each view.validationErrors.username}}Username {{this}}{{/each}}&nbsp;
     </p>
   </div>
 
   <div class="input-field">
     <label>E-Mail:</label>
-    <div class="form email">{{view Ember.TextField type="email" valueBinding="email"}}</div>
+    <div class="form email">{{view Ember.TextField type="email" valueBinding="view.email"}}</div>
     <p class="error">
-    {{#each validationErrors.email}}Email {{this}}{{/each}}&nbsp;
+    {{#each view.validationErrors.email}}Email {{this}}{{/each}}&nbsp;
     </p>
   </div>
 
   <div class="input-field">
     <label>Password:</label>
-    <div class="form password">{{view Ember.TextField type="password" valueBinding="password"}}</div>
+    <div class="form password">{{view Ember.TextField type="password" valueBinding="view.password"}}</div>
     <p class="error">
-    {{#each validationErrors.password}}Password {{this}}{{/each}}&nbsp;
+    {{#each view.validationErrors.password}}Password {{this}}{{/each}}&nbsp;
     </p>
   </div>
 
   <div class="form-buttons">
     <button class="ok" type="submit">Create Account</button>
-    {{#if showCancelButton}}<button class="cancel" {{action "onCancelSignUpButtonClicked"}}>Cancel</button>{{/if}}
+    {{#if view.showCancelButton}}<button class="cancel" {{action "onCancelSignUpButtonClicked"}}>Cancel</button>{{/if}}
   </div>
 </form>

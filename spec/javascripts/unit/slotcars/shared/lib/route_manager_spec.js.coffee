@@ -4,7 +4,7 @@ describe 'routing', ->
     @slotcarsApplicationStub = showScreen: sinon.spy()
     @routeManager = Shared.RouteManager.create delegate: @slotcarsApplicationStub
 
-  afterEach -> @routeManager.set 'location', 'jasmine'
+  afterEach -> @routeManager.destroy()
 
   it 'should use html5 push state', ->
     (expect @routeManager.get 'wantsHistory').toBe true

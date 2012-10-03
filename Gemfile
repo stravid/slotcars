@@ -22,7 +22,8 @@ group :assets do
 end
 
 gem 'jquery-rails'
-gem 'embient', '0.1.0'
+gem 'embient', :git => 'https://github.com/stravid/embient.git'
+gem 'ember-rails', '0.4.0'
 
 group :development, :test do
   # jasmine testing + coffeescript support

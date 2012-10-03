@@ -1,3 +1,5 @@
+require 'statistics_tracker'
+
 class Track < ActiveRecord::Base
   has_many :runs
   has_many :ghosts
