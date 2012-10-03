@@ -60,7 +60,7 @@ describe 'Build.DrawView', ->
         track: @track
 
       @drawView = Build.DrawView.create drawController: @drawController, track: @track
-      @drawView.didInsertElement()
+      Ember.run => @drawView.appendTo jQuery '<div>'
 
     afterEach -> @track.restore()
 
