@@ -21,8 +21,9 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails', '2.0.2' # limit to jQuery 1.7.2
-gem 'embient', '0.1.0'
+gem 'jquery-rails'
+gem 'embient', :git => 'https://github.com/stravid/embient.git'
+gem 'ember-rails', '0.4.0'
 
 group :development, :test do
   # jasmine testing + coffeescript support

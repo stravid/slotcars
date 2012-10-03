@@ -186,7 +186,7 @@ describe 'build screen state manager', ->
     describe 'finished rasterization', ->
 
       beforeEach ->
-        @targetState = 'RandomState'
+        @targetState = 'Publishing'
         @buildScreenStateManager.targetState = @targetState
 
       it 'should leave the state towards the state manager´s target state', ->
@@ -223,7 +223,7 @@ describe 'build screen state manager', ->
     describe 'canceling publication', ->
 
       beforeEach ->
-        @fallbackState = 'RandomState'
+        @fallbackState = 'Testing'
         @buildScreenStateManager.publishingFallbackState = @fallbackState
 
       it 'should fall back to the previous state', ->

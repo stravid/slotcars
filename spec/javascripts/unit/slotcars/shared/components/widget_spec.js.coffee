@@ -5,7 +5,6 @@ describe 'Shared.Widget', ->
     # Ember.required() just works/fires when the mixin is applied after creation
     (expect => Shared.Widget.apply Ember.Object.create()).toThrow()
 
-
   describe 'adding widget to container', ->
 
     beforeEach ->
@@ -13,7 +12,6 @@ describe 'Shared.Widget', ->
       @viewMock = {}
 
       @widget = Ember.Object.extend(Shared.Widget).create view: @viewMock
-
 
     it 'should tell given container to add its view', ->
       location = 'testLocation'
