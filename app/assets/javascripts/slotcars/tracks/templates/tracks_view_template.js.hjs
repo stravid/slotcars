@@ -2,7 +2,6 @@
   <h2>Tracks</h2>
   <span id="tracks-page-indicator">page {{view.currentPage}} of {{view.pageCount}}</span>
 </div>
-<div id="swiper">
-</div>
+<div id="swiper"></div>
 
 <div id="tracks-info">swipe to explore more tracks</div>
