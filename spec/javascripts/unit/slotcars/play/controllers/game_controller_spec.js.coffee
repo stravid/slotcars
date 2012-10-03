@@ -242,6 +242,7 @@ describe 'Play.GameController (unit)', ->
 
     it 'should set the flag that race is running to false', ->
       sinon.spy @gameController, 'set'
+
       @gameController.destroy()
 
       (expect @gameController.set).toHaveBeenCalledWith 'isRaceRunning', false
@@ -282,17 +283,17 @@ describe 'Play.GameController (unit)', ->
     it 'should flag last run as new highscore the time is better', ->
       @gameController.set 'isLastRunNewHighscore', false
       @gameController.raceTime = @highscoreTime
-      
+
       @gameController.checkForNewHighscore()
-      
+
       (expect @gameController.get 'isLastRunNewHighscore').toBe true
 
     it 'should return false if the highscore did not improve', ->
       @gameController.set 'isLastRunNewHighscore', true
       @gameController.raceTime = 10
-      
+
       @gameController.checkForNewHighscore()
-      
+
       (expect @gameController.get 'isLastRunNewHighscore').toBe false
 
   describe '#createGhost', ->
