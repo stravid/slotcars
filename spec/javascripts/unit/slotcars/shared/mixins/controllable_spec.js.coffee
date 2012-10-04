@@ -1,7 +1,11 @@
 describe 'controllable', ->
 
   beforeEach ->
-    @gameControllerMock = mockEmberClass Shared.BaseGameController
+    @gameControllerMock = mockEmberClass Shared.BaseGameController,
+      onTouchMouseDown: sinon.spy()
+      onTouchMouseUp: sinon.spy()
+      onKeyDown: sinon.spy()
+      onKeyUp: sinon.spy()
 
     @controllable = Ember.View.extend(Shared.Controllable).create
       gameController: @gameControllerMock
@@ -9,55 +13,94 @@ describe 'controllable', ->
   afterEach ->
     @gameControllerMock.restore()
 
-  describe 'calling to set up touch listeners after inserted into DOM', ->
+  describe '#didInsertElement', ->
+    beforeEach ->
+      sinon.stub @controllable, 'setupTouchListeners'
+      sinon.stub @controllable, 'setupKeyListeners'
 
-    beforeEach -> sinon.stub @controllable, 'setupTouchListeners'
-
-    it 'should setup touch listeners on didInsertElement', ->
       @controllable.didInsertElement()
 
+    it 'calls #setupTouchListeners', ->
       (expect @controllable.setupTouchListeners).toHaveBeenCalled()
 
+    it 'calls #setupKeyListeners', ->
+      (expect @controllable.setupKeyListeners).toHaveBeenCalled()
 
-  describe 'setup and remove touch listeners', ->
-
+  describe '#destroy', ->
     beforeEach ->
-      @gameControllerMock.onTouchMouseDown = sinon.spy()
-      @gameControllerMock.onTouchMouseUp = sinon.spy()
+      sinon.stub @controllable, 'removeTouchListeners'
+      sinon.stub @controllable, 'removeKeyListeners'
+
+      @controllable.destroy()
+
+    it 'calls #removeTouchListeners', ->
+      (expect @controllable.removeTouchListeners).toHaveBeenCalled()
+
+    it 'calls #removeKeyListeners', ->
+      (expect @controllable.removeKeyListeners).toHaveBeenCalled()
+
+  describe '#setupTouchListeners', ->
+    beforeEach ->
       Ember.run => @controllable.appendTo jQuery '<div>'
 
-    describe 'setting up touch listeners', ->
+      @controllable.setupTouchListeners()
 
-      it 'should setup onTouchMouseDown listener on element and tell game controller about events', ->
-        @controllable.setupTouchListeners()
+    it 'binds gameController#onTouchMouseDown to the elements touchMouseDown event', ->
+      (jQuery @controllable.$()).trigger 'touchMouseDown'
 
-        (jQuery @controllable.$()).trigger 'touchMouseDown'
+      (expect @gameControllerMock.onTouchMouseDown).toHaveBeenCalled()
 
-        (expect @gameControllerMock.onTouchMouseDown).toHaveBeenCalled()
+    it 'binds gameController#onTouchMouseUp to the documents touchMouseDown event', ->
+      (jQuery document).trigger 'touchMouseUp'
 
-      it 'should setup onTouchMouseUp listener on document and tell game controller about events', ->
-        @controllable.setupTouchListeners()
+      (expect @gameControllerMock.onTouchMouseUp).toHaveBeenCalled()
 
-        (jQuery document).trigger 'touchMouseUp'
+  describe '#setupKeyListeners', ->
+    beforeEach ->
+      Ember.run => @controllable.appendTo jQuery '<div>'
 
-        (expect @gameControllerMock.onTouchMouseUp).toHaveBeenCalled()
+      @controllable.setupKeyListeners()
 
+    it 'binds gameController#onKeyDown to the documents keydown event', ->
+      (jQuery document).trigger 'keydown'
 
-    describe 'removing touch listeners on destroy', ->
+      (expect @gameControllerMock.onKeyDown).toHaveBeenCalled()
 
-      beforeEach ->
-        @controllable.setupTouchListeners()
+    it 'binds gameController#onKeyUp to the documents keyup event', ->
+      (jQuery document).trigger 'keyup'
 
-      it 'should remove the touch listeners from element', ->
-        @controllable.destroy()
+      (expect @gameControllerMock.onKeyUp).toHaveBeenCalled()
 
-        (jQuery @controllable.$()).trigger 'touchMouseDown'
+  describe '#removeTouchListeners', ->
+    beforeEach ->
+      Ember.run => @controllable.appendTo jQuery '<div>'
 
-        (expect @gameControllerMock.onTouchMouseDown).not.toHaveBeenCalled()
+      @controllable.setupTouchListeners()
+      @controllable.removeTouchListeners()
 
-      it 'should remove the touch listeners from document', ->
-        @controllable.destroy()
+    it 'unbinds the touchMouseDown event', ->
+      (jQuery @controllable.$()).trigger 'touchMouseDown'
 
-        (jQuery document).trigger 'touchMouseUp'
+      (expect @gameControllerMock.onTouchMouseDown).not.toHaveBeenCalled()
 
-        (expect @gameControllerMock.onTouchMouseUp).not.toHaveBeenCalled()
+    it 'unbinds the touchMouseDown event', ->
+      (jQuery document).trigger 'touchMouseUp'
+
+      (expect @gameControllerMock.onTouchMouseUp).not.toHaveBeenCalled()
+
+  describe '#removeKeyListeners', ->
+    beforeEach ->
+      Ember.run => @controllable.appendTo jQuery '<div>'
+
+      @controllable.setupKeyListeners()
+      @controllable.removeKeyListeners()
+
+    it 'unbinds the keydown event', ->
+      (jQuery document).trigger 'keydown'
+
+      (expect @gameControllerMock.onKeyDown).not.toHaveBeenCalled()
+
+    it 'unbinds the keyup event', ->
+      (jQuery document).trigger 'keyup'
+
+      (expect @gameControllerMock.onKeyUp).not.toHaveBeenCalled()
