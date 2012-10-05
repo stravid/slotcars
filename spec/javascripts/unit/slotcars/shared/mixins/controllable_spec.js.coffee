@@ -50,7 +50,7 @@ describe 'controllable', ->
 
       (expect @gameControllerMock.onTouchMouseDown).toHaveBeenCalled()
 
-    it 'binds gameController#onTouchMouseUp to the documents touchMouseDown event', ->
+    it 'binds gameController#onTouchMouseUp to the documents touchMouseUp event', ->
       (jQuery document).trigger 'touchMouseUp'
 
       (expect @gameControllerMock.onTouchMouseUp).toHaveBeenCalled()
@@ -83,7 +83,7 @@ describe 'controllable', ->
 
       (expect @gameControllerMock.onTouchMouseDown).not.toHaveBeenCalled()
 
-    it 'unbinds the touchMouseDown event', ->
+    it 'unbinds the touchMouseUp event', ->
       (jQuery document).trigger 'touchMouseUp'
 
       (expect @gameControllerMock.onTouchMouseUp).not.toHaveBeenCalled()
