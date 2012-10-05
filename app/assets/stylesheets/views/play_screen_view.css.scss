@@ -9,11 +9,6 @@
 @import "helpers/mixins";
 @import "shared/clipboard_button";
 
-#play-screen-view {
-  overflow: hidden;
-  height: 768px;
-}
-
 .topbar {
   #retry-button {
     width: 65px;
