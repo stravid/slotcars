@@ -34,7 +34,7 @@ describe 'base game controller', ->
       car: @carMock
 
     (expect @GameLoopControllerMock.create).toHaveBeenCalledOnce()
-    
+
     @GameLoopControllerMock.restore()
 
   describe '#onTouchMouseDown', ->
@@ -90,3 +90,35 @@ describe 'base game controller', ->
       @baseGameController.destroy()
 
       (expect @gameLoopControllerStub.destroy).toHaveBeenCalled()
+
+  describe '#onKeyDown', ->
+    beforeEach ->
+      @correctEvent = keyCode: 32
+      @incorrectEvent = keyCode: 42
+      @baseGameController.isTouchMouseDown = false
+
+    it 'sets isTouchMouseDown to true when the keyCode matches the spacebar', ->
+      @baseGameController.onKeyDown @correctEvent
+
+      (expect @baseGameController.isTouchMouseDown).toBe true
+
+    it 'ignores the event when the keyCode does not match the spacebar', ->
+      @baseGameController.onKeyDown @incorrectEvent
+
+      (expect @baseGameController.isTouchMouseDown).toBe false
+
+  describe '#onKeyUp', ->
+    beforeEach ->
+      @correctEvent = keyCode: 32
+      @incorrectEvent = keyCode: 42
+      @baseGameController.isTouchMouseDown = true
+
+    it 'sets isTouchMouseDown to false when the keyCode matches the spacebar', ->
+      @baseGameController.onKeyUp @correctEvent
+
+      (expect @baseGameController.isTouchMouseDown).toBe false
+
+    it 'ignores the event when the keyCode does not match the spacebar', ->
+      @baseGameController.onKeyUp @incorrectEvent
+
+      (expect @baseGameController.isTouchMouseDown).toBe true
