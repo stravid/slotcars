@@ -23,6 +23,14 @@ Shared.BaseGameController = Ember.Object.extend
     event.originalEvent.preventDefault()
     @isTouchMouseDown = false
 
+  onKeyDown: (event) ->
+    if event.keyCode is 32
+      @isTouchMouseDown = true
+
+  onKeyUp: (event) ->
+    if event.keyCode is 32
+      @isTouchMouseDown = false
+
   start: -> @gameLoopController.start => @update()
 
   update: ->

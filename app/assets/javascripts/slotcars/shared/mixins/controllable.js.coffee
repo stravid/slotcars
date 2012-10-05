@@ -7,16 +7,28 @@ Shared.Controllable = Ember.Mixin.create
 
   didInsertElement: ->
     @_super()
+
     @setupTouchListeners()
+    @setupKeyListeners()
+
+  destroy: ->
+    @removeTouchListeners()
+    @removeKeyListeners()
+
+    @_super()
 
   setupTouchListeners: ->
     @$().on 'touchMouseDown', (event) => @gameController.onTouchMouseDown event
     (jQuery document).on 'touchMouseUp', (event) => @gameController.onTouchMouseUp event
 
-  destroy: ->
-    @_removeTouchListeners()
-    @_super()
+  setupKeyListeners: ->
+    (jQuery document).on 'keydown', (event) => @gameController.onKeyDown event
+    (jQuery document).on 'keyup', (event) => @gameController.onKeyUp event
 
-  _removeTouchListeners: ->
+  removeTouchListeners: ->
     @$().off 'touchMouseDown'
     (jQuery document).off 'touchMouseUp'
+
+  removeKeyListeners: ->
+    (jQuery document).off 'keydown'
+    (jQuery document).off 'keyup'
