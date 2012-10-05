@@ -35,7 +35,7 @@ describe 'track view', ->
       Ember.run.end()
 
     it 'should create raphael paper', ->
-      (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], 1024 * @trackView.scaleFactor, 768 * @trackView.scaleFactor
+      (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], SCREEN_WIDTH * @trackView.scaleFactor, SCREEN_HEIGHT * @trackView.scaleFactor
 
     it 'should draw the track', ->
       raphaelPath = "M0,0R1,0z"

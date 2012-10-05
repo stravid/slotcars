@@ -45,7 +45,7 @@ describe 'Build.DrawView', ->
     afterEach -> @track.restore()
 
     it 'should create raphael paper', ->
-      (expect @raphaelStub).toHaveBeenCalledWith @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)[0], 1024, 768
+      (expect @raphaelStub).toHaveBeenCalledWith @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)[0], SCREEN_WIDTH, SCREEN_HEIGHT
 
     it 'should draw the track', ->
       (expect @paperStub.path).toHaveBeenCalledWith @originalTestPath
