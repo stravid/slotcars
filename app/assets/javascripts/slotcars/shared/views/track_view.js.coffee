@@ -33,7 +33,7 @@ Shared.TrackView = Ember.View.extend
   ).observes 'track.raphaelPath'
 
   didInsertElement: ->
-    @_paper = Raphael @$()[0], 1024 * @scaleFactor, 768 * @scaleFactor
+    @_paper = Raphael @$()[0], SCREEN_WIDTH * @scaleFactor, SCREEN_HEIGHT * @scaleFactor
     @drawTrack @track.get 'raphaelPath'
 
   updateTrack: (path) ->
