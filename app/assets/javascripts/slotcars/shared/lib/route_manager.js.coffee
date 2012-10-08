@@ -10,12 +10,16 @@ Shared.RouteManager = Ember.RouteManager.extend
 
   Quickplay: Ember.State.create
     route: 'quickplay'
-    enter: (manager) -> manager.delegate.showScreen 'PlayScreen'
+    enter: (manager) -> Ember.run.later ( => manager.delegate.showScreen 'PlayScreen' ), 500
+    quickplay: (manager) ->
+      manager.delegate.destroyCurrentScreen()
+      Ember.run.later ( => manager.delegate.showScreen 'PlayScreen' ), 500
 
   Play: Ember.State.create
     route: 'play/:id'
-    enter: (manager) -> 
+    enter: (manager) ->
       manager.delegate.showScreen 'PlayScreen', trackId: (parseInt manager.getPath 'params.id')
+    quickplay: (manager) -> manager.transitionTo 'Quickplay'
 
   Tracks: Ember.State.create
     route: 'tracks'
