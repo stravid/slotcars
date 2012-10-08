@@ -1,8 +1,10 @@
 describe 'route manager', ->
 
   beforeEach ->
-    @slotcarsApplicationStub = showScreen: sinon.spy()
     sinon.stub Ember.run, 'later'
+    @slotcarsApplicationStub =
+      showScreen: sinon.spy()
+      destroyCurrentScreen: sinon.spy()
     @routeManager = Shared.RouteManager.create delegate: @slotcarsApplicationStub
 
   afterEach ->
@@ -70,3 +72,18 @@ describe 'route manager', ->
 
     (expect @routeManager.transitionTo).toHaveBeenCalledWith 'Quickplay'
 
+describe 'route state', ->
+
+  describe 'leaving the state', ->
+    beforeEach ->
+      @routeState = Shared.RouteState.create()
+      @slotcarsApplicationStub = destroyCurrentScreen: sinon.spy()
+      @RouteManagerMock = mockEmberClass Shared.RouteManager,
+        delegate: @slotcarsApplicationStub
+
+    afterEach -> @RouteManagerMock.restore()
+
+    it 'should call destroy the current screen', ->
+      @routeState.exit @RouteManagerMock
+
+      (expect @slotcarsApplicationStub.destroyCurrentScreen).toHaveBeenCalled()
