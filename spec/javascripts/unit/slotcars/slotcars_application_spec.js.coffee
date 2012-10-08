@@ -28,18 +28,6 @@ describe 'slotcars application screen management', ->
       (expect @screenFactoryMock.getInstanceOf).toHaveBeenCalledWith 'ExampleScreen', createParameters
       (expect @screenMock.append).toHaveBeenCalled()
 
-    it 'should call the destroy method on the old screen when the screens get switched', ->
-      @firstScreenMock =
-        append: sinon.spy(),
-        destroy: sinon.spy()
-
-      (@screenFactoryMock.getInstanceOf.withArgs 'FirstScreen').returns @firstScreenMock
-
-      @slotcarsApplication.showScreen 'FirstScreen'
-      @slotcarsApplication.showScreen 'SecondScreen'
-
-      (expect @firstScreenMock.destroy).toHaveBeenCalled()
-
 
   describe 'integration with the route manager', ->
 

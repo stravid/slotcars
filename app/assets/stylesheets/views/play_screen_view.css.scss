@@ -38,6 +38,21 @@
     &:hover, &:focus { background-position: 0 -63px; }
   }
 
+  #quickplay-button {
+    width: 163px;
+    height: 64px;
+
+    position: absolute;
+    top: 22px;
+    right: 100px;
+
+    background-image: image-url("shared/buttons/quickplay.png");
+    background-repeat: no-repeat;
+    cursor: pointer;
+
+    &:hover, &:focus { background-position: 0 -63.5px; }
+  }
+
   #show-highscore {
     width: 188px;
     height: 63px;
