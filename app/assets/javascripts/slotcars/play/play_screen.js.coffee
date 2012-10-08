@@ -24,10 +24,12 @@ Play.PlayScreen = Ember.Object.extend
 
     @car = Shared.Car.create track: @track
 
-    if @track.get 'isLoaded'
-      @_playScreenStateManager.send 'loaded'
-    else
-      @track.on 'didLoad', => @_playScreenStateManager.send 'loaded'
+    if @track.get 'isLoaded' then @_onTrackLoaded()
+    else @track.on 'didLoad', => @_onTrackLoaded()
+
+  _onTrackLoaded: ->
+    @_playScreenStateManager.send 'loaded'
+    Shared.routeManager.updateLocation 'play/' + @track.get 'id'
 
   initialize: ->
     @_game = Play.Game.create
@@ -49,9 +51,11 @@ Play.PlayScreen = Ember.Object.extend
     @_game.start()
 
   destroy: ->
-    @_super()
+    @car.destroy()
+    @_playScreenStateManager.destroy()
     @_game.destroy() if @_game?
     @_playScreenNotificationsController.destroy() if @_playScreenNotificationsController?
     @_playScreenNotificationsView.destroy() if @_playScreenNotificationsView?
+    @_super()
 
 Shared.ScreenFactory.getInstance().registerScreen 'PlayScreen', Play.PlayScreen
