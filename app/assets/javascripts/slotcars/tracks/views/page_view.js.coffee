@@ -8,6 +8,7 @@ Tracks.PageView = Ember.View.extend
   didInsertElement: ->
     @moveToOrigin()
     @$().css 'position', 'absolute'
+    @$().css 'width', '100%'
 
   moveTo: (offset) -> @$().css '-webkit-transform', "translate3d(#{@origin + offset}px,0,0)"
 
