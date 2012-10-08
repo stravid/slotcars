@@ -26,12 +26,12 @@ describe 'controllable', ->
     it 'calls #setupKeyListeners', ->
       (expect @controllable.setupKeyListeners).toHaveBeenCalled()
 
-  describe '#destroy', ->
+  describe '#willDestroyElement', ->
     beforeEach ->
       sinon.stub @controllable, 'removeTouchListeners'
       sinon.stub @controllable, 'removeKeyListeners'
 
-      @controllable.destroy()
+      @controllable.willDestroyElement()
 
     it 'calls #removeTouchListeners', ->
       (expect @controllable.removeTouchListeners).toHaveBeenCalled()
