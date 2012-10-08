@@ -1,3 +1,5 @@
+@import "config";
+
 #tracks-screen-view {
   .topbar {
     position: relative;
@@ -5,7 +7,7 @@
 }
 
 #tracks-screen-content-view {
-  width: 1024px;
+  width: $screen-width;
   height: 662px;
 
   #tracks-view {
@@ -15,7 +17,7 @@
 
   #tracks-header {
     margin-top: 80px;
-    width: 1024px;
+    width: $screen-width;
     text-align: center;
     color: rgba(255, 255, 255, 0.8);
     font-size: 20px;

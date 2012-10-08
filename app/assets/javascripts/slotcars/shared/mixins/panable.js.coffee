@@ -3,11 +3,17 @@ Shared.Panable = Ember.Mixin.create
   car: Ember.required()
   classNames: ['panable']
 
+  didInsertElement: ->
+    @$().css 'width', SCREEN_WIDTH * @scaleFactor
+    @$().css 'height', SCREEN_HEIGHT * @scaleFactor
+
+    @_super()
+
   onCarPositionChange: ( ->
     position = @car.position
     drawPosition =
-      x: position.x * @scaleFactor + SCREEN_WIDTH / 2
-      y: position.y * @scaleFactor + SCREEN_HEIGHT / 2
+      x: position.x * @scaleFactor
+      y: position.y * @scaleFactor
 
     if @$()?
       @$().css '-webkit-backface-visibility', 'hidden'

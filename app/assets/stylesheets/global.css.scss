@@ -28,11 +28,9 @@ a, button { outline: none; }
 }
 
 .panable {
-  width: 3 * $screen-width;
-  height: 3 * $screen-height;
   background-image: image-url("global/grass-pattern.jpg");
   background-repeat: repeat;
-  padding: $screen-height $screen-width;
+  padding: ($screen-height / 2) ($screen-width / 2);
 }
 
 .default-button {
