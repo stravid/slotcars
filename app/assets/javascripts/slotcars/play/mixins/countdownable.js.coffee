@@ -38,5 +38,4 @@ Play.Countdownable = Ember.Mixin.create
 
   destroy: ->
     @cancelTimers()
-
     @_super()

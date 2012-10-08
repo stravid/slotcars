@@ -42,5 +42,5 @@ Shared.BaseGameController = Ember.Object.extend
       @car.drive false # disable control when race is not running
 
   destroy: ->
-    @_super()
     @gameLoopController.destroy()
+    @_super()

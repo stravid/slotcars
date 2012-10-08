@@ -16,3 +16,4 @@ Play.GameLoopController = Ember.Object.extend
 
   destroy: ->
     @stopLoop = true
+    @_super()

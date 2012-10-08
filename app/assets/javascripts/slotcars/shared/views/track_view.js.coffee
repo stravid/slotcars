@@ -73,5 +73,5 @@ Shared.TrackView = Ember.View.extend
     slot = @_drawPath path, @SLOT_WIDTH * @scaleFactor, @SLOT_COLOR
 
   destroy: ->
-    @_super()
     @_paper.remove() if @_paper?
+    @_super()

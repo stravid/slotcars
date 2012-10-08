@@ -38,7 +38,7 @@ Build.Publisher = Ember.Object.extend
   setTitleOnTrackToPublish: -> @track.setTitle @publicationView.get 'trackTitle'
 
   destroy: ->
-    @_super()
     @buildScreenView.set 'contentView', null
     @publicationView.destroy() if @publicationView?
     @authorizationView.destroy() if @authorizationView?
+    @_super()

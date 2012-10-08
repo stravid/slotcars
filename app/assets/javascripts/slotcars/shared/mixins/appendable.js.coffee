@@ -4,10 +4,10 @@ Shared.Appendable = Ember.Mixin.create
 
   append: ->
     @view.set 'classNames', ['screen']
-    @view.appendTo('#screen-container')
+    @view.appendTo '#screen-container'
 
     Shared.FastTriggerable.apply @view
 
   destroy: ->
-    @_super()
     @view.destroy()
+    @_super()

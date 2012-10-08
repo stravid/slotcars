@@ -1,5 +1,5 @@
 Build.Rasterizer = Ember.Object.extend
-  
+
   stateManager: null
   track: null
   isRasterizing: false
@@ -23,6 +23,6 @@ Build.Rasterizer = Ember.Object.extend
     @stateManager.send 'finishedRasterization'
 
   destroy: ->
-    @_super()
     @buildScreenView.set 'contentView', null
     @rasterizationView.destroy()
+    @_super()
