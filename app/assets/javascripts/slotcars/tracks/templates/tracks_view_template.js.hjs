@@ -4,4 +4,12 @@
 </div>
 <div id="swiper"></div>
 
-<div id="tracks-info">swipe to explore more tracks</div>
+<div id="tracks-info">
+<button {{action "onPreviousButtonClicked"}} {{bindAttr disabled="view.isFirstPage"}}>
+  previous
+</button>
+swipe to explore more tracks
+<button {{action "onNextButtonClicked"}} {{bindAttr disabled="view.isLastPage"}}>
+  next
+</button>
+</div>

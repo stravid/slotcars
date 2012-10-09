@@ -18,9 +18,17 @@ Tracks.TracksView = Ember.View.extend
   width: null
   pageCount: null
 
+  isFirstPage: true
+  isLastPage: false
+
   onTrackCountChange: ( ->
     @set 'pageCount', Math.ceil @trackCount / @tracksPerPage
   ).observes 'trackCount'
+
+  onCurrentPageChange: ( ->
+    @set 'isFirstPage', @currentPage is 1
+    @set 'isLastPage', @currentPage is @pageCount
+  ).observes 'currentPage'
 
   didInsertElement: ->
     @width = (@$ '#swiper').width()
@@ -70,6 +78,10 @@ Tracks.TracksView = Ember.View.extend
     (@$ '#swiper').off 'touchMouseUp'
 
     @onSwipeEnd @lastSwipePosition - @swipeStartPosition if @lastSwipePosition?
+
+  onNextButtonClicked: -> @swipe -1
+
+  onPreviousButtonClicked: -> @swipe 1
 
   onSwipeEnd: (delta) ->
     return if @currentPage is 1 && delta > 0
