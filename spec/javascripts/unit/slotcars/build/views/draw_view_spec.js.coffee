@@ -1,7 +1,5 @@
 describe 'Build.DrawView', ->
 
-  DRAW_VIEW_PAPER_WRAPPER_ID = '#draw-view-paper'
-
   it 'should extend TrackView', ->
     (expect Build.DrawView).toExtend Shared.TrackView
 
@@ -17,7 +15,6 @@ describe 'Build.DrawView', ->
       clear: sinon.spy()
 
     @raphaelStub = window.Raphael = sinon.stub().returns @paperStub
-
 
   afterEach ->
     window.Raphael = @raphaelBackup
@@ -45,7 +42,7 @@ describe 'Build.DrawView', ->
     afterEach -> @track.restore()
 
     it 'should create raphael paper', ->
-      (expect @raphaelStub).toHaveBeenCalledWith @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)[0], SCREEN_WIDTH, SCREEN_HEIGHT
+      (expect @raphaelStub).toHaveBeenCalledWith @drawView.$()[0], (SCREEN_WIDTH + 2 * @drawView.paperOffset), (SCREEN_HEIGHT + 2 * @drawView.paperOffset)
 
     it 'should draw the track', ->
       (expect @paperStub.path).toHaveBeenCalledWith @originalTestPath
@@ -91,25 +88,25 @@ describe 'Build.DrawView', ->
         @drawControllerMock.onTouchMouseMove = sinon.spy()
 
       it 'should not bind mouse move before mouse down happened', ->
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseMove'
+        (jQuery @drawView.$()).trigger 'touchMouseMove'
 
         (expect @drawControllerMock.onTouchMouseMove).not.toHaveBeenCalled()
 
 
       it 'should bind mouse move on mouse down', ->
-        @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID).trigger 'touchMouseDown'
-        @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID).trigger 'touchMouseMove'
+        @drawView.$().trigger 'touchMouseDown'
+        @drawView.$().trigger 'touchMouseMove'
 
         (expect @drawControllerMock.onTouchMouseMove).toHaveBeenCalled()
 
       it 'should notifiy draw controller of move events', ->
-        @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID).trigger 'touchMouseDown'
+        @drawView.$().trigger 'touchMouseDown'
 
         # manually create touch mouse move event
         testPosition = x: 3, y: 4
         touchMouseMoveEvent = jQuery.Event 'touchMouseMove', pageX: testPosition.x, pageY: testPosition.y
 
-        @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID).trigger touchMouseMoveEvent
+        @drawView.$().trigger touchMouseMoveEvent
 
         (expect @drawControllerMock.onTouchMouseMove).toHaveBeenCalledWithAnObjectLike testPosition
 
@@ -120,22 +117,22 @@ describe 'Build.DrawView', ->
         @drawControllerMock.onTouchMouseUp = sinon.spy()
 
       it 'should setup mouse up listeners and tell controller about events', ->
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseUp'
+        (jQuery @drawView.$()).trigger 'touchMouseUp'
 
         (expect @drawControllerMock.onTouchMouseUp).toHaveBeenCalled()
 
       it 'should unbind the mouse up event when removed', ->
         @drawView.willDestroyElement()
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseUp'
+        (jQuery @drawView.$()).trigger 'touchMouseUp'
 
         (expect @drawControllerMock.onTouchMouseUp).not.toHaveBeenCalled()
 
       it 'should unbind the mouse move event', ->
         @drawControllerMock.onTouchMouseMove = sinon.spy()
 
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseDown'
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseUp'
+        (jQuery @drawView.$()).trigger 'touchMouseDown'
+        (jQuery @drawView.$()).trigger 'touchMouseUp'
 
-        (jQuery @drawView.$(DRAW_VIEW_PAPER_WRAPPER_ID)).trigger 'touchMouseMove'
+        (jQuery @drawView.$()).trigger 'touchMouseMove'
 
         (expect @drawControllerMock.onTouchMouseMove).not.toHaveBeenCalled()
