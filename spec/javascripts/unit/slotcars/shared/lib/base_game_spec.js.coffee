@@ -9,6 +9,9 @@ describe 'Shared.BaseGame', ->
     @TrackViewMock = mockEmberClass Shared.TrackView,
       gameController: {}
       car: @carMock
+      scaledOffset: 0 # required
+      paperOffset: 0  # required
+      scaleFactor: 1  # required
 
     @CarViewMock = mockEmberClass Play.CarView
     @BaseGameViewContainerMock = mockEmberClass Shared.BaseGameViewContainer, set: sinon.spy()

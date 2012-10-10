@@ -14,6 +14,9 @@ describe 'Play.Game', ->
       gameController: {}
       track: @trackMock
       car: @carMock
+      scaledOffset: 0 # required
+      paperOffset: 0  # required
+      scaleFactor: 1  # required
 
     @CarViewMock = mockEmberClass Play.CarView
     @GameViewMock = mockEmberClass Play.GameView
