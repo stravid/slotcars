@@ -30,8 +30,10 @@ a, button { outline: none; }
 .panable {
   background-image: image-url("global/grass-pattern.jpg");
   background-repeat: repeat;
-  padding: ($screen-height / 2) ($screen-width / 2);
+  padding: $screen-height $screen-width;
 }
+
+.track-view { position: relative; }
 
 .default-button {
   display: inline-block;
