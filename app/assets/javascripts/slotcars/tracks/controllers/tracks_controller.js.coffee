@@ -5,11 +5,9 @@ Tracks.TracksController = Ember.Object.extend
   pageATracks: null
   pageBTracks: null
   pageCTracks: null
-  tracksPerPage: null
+  tracksPerPage: 3
 
   init: ->
-    @tracksPerPage = 3
-
     @tracksView = Tracks.TracksView.create
       tracksController: this
       swipeTreshhold: 100
@@ -33,3 +31,6 @@ Tracks.TracksController = Ember.Object.extend
   reloadPageCTracks: (offset) ->
     (@set 'pageCTracks', Shared.Track.find { offset: offset, limit: @tracksPerPage }) if offset >= 0
 
+  destroy: ->
+    @tracksView.destroy()
+    @_super()
