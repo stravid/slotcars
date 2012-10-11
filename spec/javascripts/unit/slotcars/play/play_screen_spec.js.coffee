@@ -4,6 +4,9 @@ describe 'play screen', ->
     @trackInstance = Shared.Track._create isLoaded: true
     sinon.stub(Shared.Track, 'find').returns @trackInstance
 
+    Shared.routeManager = mockEmberClass Shared.RouteManager, updateLocation: sinon.spy()
+
+    @carMock = mockEmberClass Shared.Car
     @playScreenViewMock = mockEmberClass Play.PlayScreenView, append: sinon.spy(), $: sinon.spy()
     @playScreenStateManagerMock = mockEmberClass Play.PlayScreenStateManager, send: sinon.spy()
     @GameMock = mockEmberClass Play.Game,
@@ -18,6 +21,8 @@ describe 'play screen', ->
 
   afterEach ->
     Shared.Track.find.restore()
+    Shared.routeManager.restore()
+    @carMock.restore()
     @playScreenViewMock.restore()
     @playScreenNotificationsControllerMock.restore()
     @playScreenNotificationsViewMock.restore()
@@ -70,25 +75,39 @@ describe 'play screen', ->
       it 'should create a car', ->
         @playScreen.load()
 
-        (expect @playScreen.car).toBeInstanceOf Shared.Car
+        (expect @carMock.create).toHaveBeenCalled()
 
-    it 'should send loaded to the play screen state manager immediatley if track is already loaded', ->
-      @playScreen = Play.PlayScreen.create trackId: 1
-      # 'isLoaded' is 'true' on the track instance by default - see top of the page
+    describe 'when track is already loaded', ->
+      beforeEach ->
+        @playScreen = Play.PlayScreen.create trackId: 1
+        # 'isLoaded' is 'true' on the track instance by default - see top of the page
 
-      @playScreen.load()
+      it 'should send loaded to the play screen state manager immediatley', ->
+        @playScreen.load()
 
-      (expect @playScreenStateManagerMock.send).toHaveBeenCalledWith 'loaded'
+        (expect @playScreenStateManagerMock.send).toHaveBeenCalledWith 'loaded'
 
-    it 'should send loaded to the play screen state manager after the track is loaded', ->
-      @playScreen = Play.PlayScreen.create trackId: 1
-      @trackInstance.set 'isLoaded', false
+      it 'should update the location', ->
+        @playScreen.load()
 
-      @playScreen.load()
-      @trackInstance.fire 'didLoad' # simulates that the track has been loaded
+        (expect Shared.routeManager.updateLocation).toHaveBeenCalled()
 
-      (expect @playScreenStateManagerMock.send).toHaveBeenCalledWith 'loaded'
+    describe 'when track not yet loaded', ->
+      beforeEach ->
+        @playScreen = Play.PlayScreen.create trackId: 1
+        @trackInstance.set 'isLoaded', false
 
+      it 'should send loaded to the play screen state manager after the track is loaded', ->
+        @playScreen.load()
+        @trackInstance.fire 'didLoad' # simulates that the track has been loaded
+
+        (expect @playScreenStateManagerMock.send).toHaveBeenCalledWith 'loaded'
+
+      it 'should update the location after the track is loaded', ->
+        @playScreen.load()
+        @trackInstance.fire 'didLoad' # simulates that the track has been loaded
+
+        (expect Shared.routeManager.updateLocation).toHaveBeenCalled()
 
   describe 'initializing', ->
 
@@ -129,40 +148,55 @@ describe 'play screen', ->
   describe 'destroying', ->
 
     beforeEach ->
-      @playScreen = Play.PlayScreen.create trackId: 1
-      @gameStub = destroy: sinon.spy()
-      @playScreenNotificationsControllerStub = destroy: sinon.spy()
-      @playScreenNotificationsViewStub = destroy: sinon.spy()
+      @carMock.destroy = sinon.spy()
+      @GameMock.destroy = sinon.spy()
+      @playScreenNotificationsControllerMock.destroy = sinon.spy()
+      @playScreenNotificationsViewMock.destroy = sinon.spy()
+      @playScreenStateManagerMock.destroy = sinon.spy()
 
-    it 'should tell the game to destroy itself', ->
-      @playScreen.set '_game', @gameStub
+      @playScreen = Play.PlayScreen.create trackId: 1
+      @playScreen.car = @carMock
+      @playScreen._playScreenStateManager = @playScreenStateManagerMock
+
+    it 'should destroy the play screen state manager', ->
       @playScreen.destroy()
 
-      (expect @gameStub.destroy).toHaveBeenCalled()
+      (expect @playScreenStateManagerMock.destroy).toHaveBeenCalled()
+
+    it 'should destroy the car', ->
+      @playScreen.destroy()
+
+      (expect @carMock.destroy).toHaveBeenCalled()
+
+    it 'should tell the game to destroy itself', ->
+      @playScreen.set '_game', @GameMock
+      @playScreen.destroy()
+
+      (expect @GameMock.destroy).toHaveBeenCalled()
 
     it 'should only destroy the game if it is present', ->
       @playScreen.destroy()
 
-      (expect @gameStub.destroy).not.toHaveBeenCalled()
+      (expect @GameMock.destroy).not.toHaveBeenCalled()
 
     it 'should tell the play screen notifications controller to destroy itself', ->
-      @playScreen.set '_playScreenNotificationsController', @playScreenNotificationsControllerStub
+      @playScreen.set '_playScreenNotificationsController', @playScreenNotificationsControllerMock
       @playScreen.destroy()
 
-      (expect @playScreenNotificationsControllerStub.destroy).toHaveBeenCalled()
+      (expect @playScreenNotificationsControllerMock.destroy).toHaveBeenCalled()
 
     it 'should only destroy the play screen notifications controller if it is present', ->
       @playScreen.destroy()
 
-      (expect @playScreenNotificationsControllerStub.destroy).not.toHaveBeenCalled()
+      (expect @playScreenNotificationsControllerMock.destroy).not.toHaveBeenCalled()
 
     it 'should tell the play screen notifications view to destroy itself', ->
-      @playScreen.set '_playScreenNotificationsView', @playScreenNotificationsViewStub
+      @playScreen.set '_playScreenNotificationsView', @playScreenNotificationsViewMock
       @playScreen.destroy()
 
-      (expect @playScreenNotificationsViewStub.destroy).toHaveBeenCalled()
+      (expect @playScreenNotificationsViewMock.destroy).toHaveBeenCalled()
 
     it 'should only destroy the play screen notifications view if it is present', ->
       @playScreen.destroy()
 
-      (expect @playScreenNotificationsViewStub.destroy).not.toHaveBeenCalled()
+      (expect @playScreenNotificationsViewMock.destroy).not.toHaveBeenCalled()

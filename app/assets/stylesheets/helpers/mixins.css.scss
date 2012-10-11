@@ -43,3 +43,16 @@
   font-weight: bold;
   color: #193773;
 }
+
+@mixin clearfix {
+  zoom:1;
+  &:before, &:after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+  &:after { clear: both; }
+}
+

@@ -1,21 +1,47 @@
+@import "config";
+@import "helpers/mixins";
+
 #tracks-screen-view {
   .topbar {
     position: relative;
   }
+
+  #tracks-create-track-button {
+    width: 212px;
+    height: 64px;
+
+    position: absolute;
+    top: 22px;
+    right: 200px;
+
+    background-image: image-url("shared/buttons/create_track_button.png");
+    background-repeat: no-repeat;
+
+    &:hover, &:focus { background-position: 0 -64px; }
+  }
+
+  #tracks-quickplay-button {
+    width: 163px;
+    height: 64px;
+
+    position: absolute;
+    top: 22px;
+    right: 22px;
+
+    background-image: image-url("shared/buttons/quickplay.png");
+    background-repeat: no-repeat;
+
+    &:hover, &:focus { background-position: 0 -63.5px; }
+  }
 }
 
 #tracks-screen-content-view {
-  width: 1024px;
+  width: $screen-width;
   height: 662px;
-
-  #tracks-view {
-    width: 100%;
-    height: 100%;
-  }
 
   #tracks-header {
     margin-top: 80px;
-    width: 1024px;
+    width: $screen-width;
     text-align: center;
     color: rgba(255, 255, 255, 0.8);
     font-size: 20px;
@@ -42,89 +68,78 @@
 
     text-align: center;
     font-family: "JustTheWayYouAre", sans-serif;
-    color: RGBA(255,255,255,0.3);
+    color: rgba(255,255,255,0.4);
     font-size: 20px;
 
-    background-image: image-url("views/tracks/tracks_info_arrow.png");
+    background-image: image-url("views/tracks/tracks-info-arrow.png");
     background-repeat: no-repeat;
     background-position: bottom center;
   }
-}
-
-.track {
-  float: left;
-  width: 33%;
-  position: relative;
 
   h3 {
-    width: 285px;
-    text-align: center;
     font-family: "JustTheWayYouAre", sans-serif;
     color: white;
     font-size: 24px;
     text-shadow: 0px 0px 10px #333;
-    word-wrap:break-word;
-    margin: 20px 20px 0 20px;
-    line-height: 1.3;
   }
 
   h4 {
-    width: 285px;
-    text-align: center;
     font-family: "JustTheWayYouAre", sans-serif;
     color: #ccc;
     font-size: 20px;
-    word-wrap:break-word;
-    margin: 20px 20px 0 20px;
   }
-}
 
-#tracks-quickplay-button {
-  width: 163px;
-  height: 64px;
+  .loading {
+    .spinner { height: 50px; }
 
-  position: absolute;
-  top: 22px;
-  right: 22px;
+    font-family: "JustTheWayYouAre", sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0px 0px 10px #333;
+    line-height: 64px;
 
-  background-image: image-url("shared/buttons/quickplay.png");
-  background-repeat: no-repeat;
+    width: 240px;
+    margin: 120px auto;
+    text-align: center;
+    opacity: .4;
+  }
 
-  &:hover, &:focus { background-position: 0 -63.5px; }
-}
+  .track {
+    float: left;
+    width: 33%;
+    position: relative;
+    @include clearfix;
 
-#tracks-create-track-button {
-  width: 212px;
-  height: 64px;
+    .track-container {
+      width: 256px;
+      margin: 0 auto;
+    }
 
-  position: absolute;
-  top: 22px;
-  right: 200px;
+    h3 {
+      width: 285px;
+      text-align: center;
+      word-wrap:break-word;
+      margin: 20px 20px 0 20px;
+      line-height: 1.3;
+    }
 
-  background-image: image-url("shared/buttons/create_track_button.png");
-  background-repeat: no-repeat;
+    h4 {
+      width: 285px;
+      text-align: center;
+      word-wrap:break-word;
+      margin: 20px 20px 0 20px;
+    }
+  }
 
-  &:hover, &:focus { background-position: 0 -64px; }
-}
+  #swiper {
+    position: absolute;
+    top: 300px;
+    left: 25px;
+    width: 976px;
+    height: 500px;
+    overflow: hidden;
 
-.track-container {
-  width: 256px;
-  margin: 0 auto;
-}
-
-#swiper {
-  position: absolute;
-  top: 300px;
-  left: 25px;
-  width: 976px;
-  height: 600px;
-  overflow: hidden;
-}
-
-.page {
-  width: 100%;
-
-  & > .ember-view {
-    width: 100%
+    .page { width: 100%; }
   }
 }

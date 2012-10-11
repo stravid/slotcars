@@ -7,10 +7,3 @@ Shared.BaseGameViewContainer = Ember.View.extend
   ghostView: null
   clockView: null
   gameView: null
-
-  destroy: ->
-    @trackView.destroy() if @trackView
-    @carView.destroy() if @carView
-    @clockView.destroy() if @clockView
-    @gameView.destroy() if @gameView
-    @_super()

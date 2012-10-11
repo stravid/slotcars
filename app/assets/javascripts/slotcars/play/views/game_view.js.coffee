@@ -5,8 +5,9 @@ Play.GameView = Ember.View.extend
   gameController: null
   overlayView: null
 
-  onRestartClick: ->
-    @gameController.restartGame()
+  onRestartClick: -> @gameController.restartGame()
+
+  onQuickplayClick: -> Shared.routeManager.send 'quickplay'
 
   onRaceStatusChange: ( ->
     if @gameController.get 'isRaceFinished'

@@ -1,10 +1,15 @@
-describe 'routing', ->
+describe 'route manager', ->
 
   beforeEach ->
-    @slotcarsApplicationStub = showScreen: sinon.spy()
+    sinon.stub Ember.run, 'later'
+    @slotcarsApplicationStub =
+      showScreen: sinon.spy()
+      destroyCurrentScreen: sinon.spy()
     @routeManager = Shared.RouteManager.create delegate: @slotcarsApplicationStub
 
-  afterEach -> @routeManager.destroy()
+  afterEach ->
+    Ember.run.later.restore()
+    @routeManager.destroy()
 
   it 'should use html5 push state', ->
     (expect @routeManager.get 'wantsHistory').toBe true
@@ -18,8 +23,9 @@ describe 'routing', ->
 
     (expect @slotcarsApplicationStub.showScreen).toHaveBeenCalledWith 'BuildScreen'
 
-  it 'should show the play screen', ->
+  it 'should show the play screen on /quickplay', ->
     @routeManager.set 'location', 'quickplay'
+    Ember.run.later.args[0][0].call() # calls the callback immediately - sadly, useFakeTimers doesn´t work
 
     (expect @slotcarsApplicationStub.showScreen).toHaveBeenCalledWith 'PlayScreen'
 
@@ -47,3 +53,37 @@ describe 'routing', ->
     @routeManager.set 'location', 'some/randomLocation'
 
     (expect @slotcarsApplicationStub.showScreen).toHaveBeenCalledWith 'ErrorScreen'
+
+  it 'should reload the play screen when receiving message in Quickplay state', ->
+    @routeManager.transitionTo 'Quickplay'
+    sinon.spy @routeManager, 'transitionTo'
+
+    @routeManager.send 'quickplay'
+    Ember.run.later.args[0][0].call() # calls the callback immediately - sadly, useFakeTimers doesn´t work
+
+    (expect @slotcarsApplicationStub.destroyCurrentScreen).toHaveBeenCalled()
+    (expect @slotcarsApplicationStub.showScreen).toHaveBeenCalledWith 'PlayScreen'
+
+  it 'should go to Quickplay when receiving message in Play state', ->
+    @routeManager.transitionTo 'Play'
+    sinon.spy @routeManager, 'transitionTo'
+
+    @routeManager.send 'quickplay'
+
+    (expect @routeManager.transitionTo).toHaveBeenCalledWith 'Quickplay'
+
+describe 'route state', ->
+
+  describe 'leaving the state', ->
+    beforeEach ->
+      @routeState = Shared.RouteState.create()
+      @slotcarsApplicationStub = destroyCurrentScreen: sinon.spy()
+      @RouteManagerMock = mockEmberClass Shared.RouteManager,
+        delegate: @slotcarsApplicationStub
+
+    afterEach -> @RouteManagerMock.restore()
+
+    it 'should call destroy the current screen', ->
+      @routeState.exit @RouteManagerMock
+
+      (expect @slotcarsApplicationStub.destroyCurrentScreen).toHaveBeenCalled()

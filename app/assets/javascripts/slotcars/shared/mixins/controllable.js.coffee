@@ -7,14 +7,12 @@ Shared.Controllable = Ember.Mixin.create
 
   didInsertElement: ->
     @_super()
-
     @setupTouchListeners()
     @setupKeyListeners()
 
-  destroy: ->
+  willDestroyElement: ->
     @removeTouchListeners()
     @removeKeyListeners()
-
     @_super()
 
   setupTouchListeners: ->

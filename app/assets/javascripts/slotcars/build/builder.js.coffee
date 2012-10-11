@@ -17,7 +17,7 @@ Build.Builder = Ember.Object.extend
     @buildScreenView.set 'contentView', @_drawView
 
   destroy: ->
-    @_super()
     @buildScreenView.set 'contentView', null
     @drawController.destroy()
     @_drawView.destroy()
+    @_super()

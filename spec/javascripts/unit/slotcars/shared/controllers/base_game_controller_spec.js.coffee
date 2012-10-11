@@ -93,7 +93,9 @@ describe 'base game controller', ->
 
   describe '#onKeyDown', ->
     beforeEach ->
-      @correctEvent = keyCode: 32
+      @correctEvent =
+        keyCode: 32
+        preventDefault: sinon.spy()
       @incorrectEvent = keyCode: 42
       @baseGameController.isTouchMouseDown = false
 
@@ -107,9 +109,16 @@ describe 'base game controller', ->
 
       (expect @baseGameController.isTouchMouseDown).toBe false
 
+    it 'prevents scrolling with the spacebar', ->
+      @baseGameController.onKeyDown @correctEvent
+
+      (expect @correctEvent.preventDefault).toHaveBeenCalled()
+
   describe '#onKeyUp', ->
     beforeEach ->
-      @correctEvent = keyCode: 32
+      @correctEvent =
+        keyCode: 32
+        preventDefault: sinon.spy()
       @incorrectEvent = keyCode: 42
       @baseGameController.isTouchMouseDown = true
 
@@ -122,3 +131,8 @@ describe 'base game controller', ->
       @baseGameController.onKeyUp @incorrectEvent
 
       (expect @baseGameController.isTouchMouseDown).toBe true
+
+    it 'prevents scrolling with the spacebar', ->
+      @baseGameController.onKeyDown @correctEvent
+
+      (expect @correctEvent.preventDefault).toHaveBeenCalled()
