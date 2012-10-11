@@ -2,6 +2,8 @@
 
 #= require vendor/raphael
 #= require vendor/handlebars
+#= require vendor/spin
+#= require vendor/jquery.spin
 #= require vendor/jquery.animate-enhanced
 #= require embient/ember
 #= require embient/ember-routemanager
