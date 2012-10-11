@@ -1,8 +1,7 @@
-describe 'track view', ->
+describe 'TrackView', ->
 
   beforeEach ->
     @raphaelBackup = window.Raphael
-
     @paperElementAttrSpy = sinon.spy()
 
     @raphaelElementStub = sinon.stub().returns
@@ -15,7 +14,6 @@ describe 'track view', ->
       remove: sinon.spy()
 
     @raphaelStub = window.Raphael = sinon.stub().returns @paperStub
-
     @trackMock = mockEmberClass Shared.Track
 
     @trackView = Shared.TrackView.create
@@ -28,14 +26,22 @@ describe 'track view', ->
   it 'should be a subclass of ember view', ->
     (expect Shared.TrackView).toExtend Ember.View
 
-  describe 'appendeding view to DOM', ->
+  it 'should calculate the scaled offset on creation', ->
+    trackView = Shared.TrackView.create
+      paperOffset: 20
+      scaleFactor: 1.5
+      scaledOffset: 0
+
+    (expect trackView.scaledOffset).toEqual 30
+
+  describe 'appendding view to DOM', ->
 
     beforeEach ->
       @trackView.appendTo '<div>'
       Ember.run.end()
 
     it 'should create raphael paper', ->
-      (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], SCREEN_WIDTH * @trackView.scaleFactor, SCREEN_HEIGHT * @trackView.scaleFactor
+      (expect @raphaelStub).toHaveBeenCalledWith @trackView.$()[0], (SCREEN_WIDTH + 2 * @trackView.paperOffset) * @trackView.scaleFactor, (SCREEN_HEIGHT + 2 * @trackView.paperOffset) * @trackView.scaleFactor
 
     it 'should draw the track', ->
       raphaelPath = "M0,0R1,0z"
@@ -45,13 +51,6 @@ describe 'track view', ->
       @trackView.didInsertElement()
 
       (expect @trackView.drawTrack).toHaveBeenCalledWith raphaelPath
-
-  describe 'drawing the track', ->
-
-    it 'should not ignore drawing if not inserted in DOM', ->
-      trackView = Shared.TrackView.create()
-
-      (expect trackView.drawTrack).not.toThrow()
 
   describe 'updating the track', ->
 
@@ -85,7 +84,7 @@ describe 'track view', ->
       @trackView.appendTo '<div>'
       Ember.run.end()
 
-    it 'should clear the paper', ->
+    it 'should remove the paper', ->
       @trackView.destroy()
 
       (expect @paperStub.remove).toHaveBeenCalled()

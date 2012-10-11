@@ -1,7 +1,4 @@
-
 #= require slotcars/shared/views/track_view
-
-PAPER_WRAPPER_ID = '#draw-view-paper'
 
 Build.DrawView = Shared.TrackView.extend
 
@@ -11,17 +8,12 @@ Build.DrawView = Shared.TrackView.extend
   elementId: 'build-draw-view'
   drawController: null
 
-  _rasterizedTrackPath: null
-
   didInsertElement: ->
-    @_paper = Raphael @$(PAPER_WRAPPER_ID)[0], 1024, 768
+    @_super()
+    @$().on 'touchMouseDown', (event) => @_onTouchMouseDown(event)
+    @$().on 'touchMouseUp', (event) => @_onTouchMouseUp(event)
 
-    @$(PAPER_WRAPPER_ID).on 'touchMouseDown', (event) => @_onTouchMouseDown(event)
-    @$(PAPER_WRAPPER_ID).on 'touchMouseUp', (event) => @_onTouchMouseUp(event)
-
-    @drawTrack @track.get 'raphaelPath'
-
-  # overrides TrackView.drawTrack for specialized drawing in builder
+  # overrides TrackView.drawTrack for specialized rendering in draw mode
   drawTrack: (path) ->
     return unless @_paper?
     @_paper.clear()
@@ -34,13 +26,13 @@ Build.DrawView = Shared.TrackView.extend
     @_super path
 
   willDestroyElement: ->
-    @$(PAPER_WRAPPER_ID).off 'touchMouseDown'
-    @$(PAPER_WRAPPER_ID).off 'touchMouseUp'
+    @$().off 'touchMouseDown'
+    @$().off 'touchMouseUp'
 
   _onTouchMouseDown: (event) ->
     event.stopPropagation()
     @$('#draw-info').animate opacity: 0
-    @$(PAPER_WRAPPER_ID).on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
+    @$().on 'touchMouseMove', (event) => @_onTouchMouseMove(event)
 
   _onTouchMouseMove: (event) ->
     event.stopPropagation()
@@ -50,5 +42,5 @@ Build.DrawView = Shared.TrackView.extend
 
   _onTouchMouseUp: (event) ->
     event.stopPropagation()
-    @$(PAPER_WRAPPER_ID).off 'touchMouseMove'
+    @$().off 'touchMouseMove'
     @drawController.onTouchMouseUp()
