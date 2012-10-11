@@ -2,7 +2,7 @@
 #= require slotcars/shared/views/track_view
 
 Build.RasterizationView = Shared.TrackView.extend
-  
+
   templateName: 'slotcars_build_templates_rasterization_view_template'
   track: null
 
@@ -11,7 +11,6 @@ Build.RasterizationView = Shared.TrackView.extend
 
   drawTrack: (path) ->
     @_super path
-
     @_drawTrackOverlay (@get 'track').get 'rasterizedPath'
 
   onRasterizedPathChanged: (->

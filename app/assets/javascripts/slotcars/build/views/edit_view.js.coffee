@@ -4,10 +4,12 @@ Build.EditView = Shared.TrackView.extend
 
   circles: null
   excludedPathLayers: outerLine: true, slot: true
+  boundaries:
+    minimum: x: 0, y: 100
+    maximum: x: SCREEN_WIDTH, y: SCREEN_HEIGHT
 
   drawTrack: (path) ->
     @_super path
-
     @pathPoints = @track.getPathPoints() unless @pathPoints?
     @_drawEditingHandles()
 
@@ -23,6 +25,7 @@ Build.EditView = Shared.TrackView.extend
 
     @circles.data 'viewContext', this
     @circles.drag @_onEditHandleMove, @_onEditHandleDragStart, @_onEditHandleDragEnd
+    @circles.transform "t#{@scaledOffset},#{@scaledOffset}"
 
   _onEditHandleDragEnd: (x, y, event) ->
     @animate { r: 34, opacity: 1 }, 300, 'bounce'
@@ -32,14 +35,22 @@ Build.EditView = Shared.TrackView.extend
     @animate { r: 49, opacity: .7 }, 300, '<'
 
   _onEditHandleMove: (deltaX, deltaY, x, y, event) ->
-    X = (@attr 'cx') + (deltaX - @deltaX)
-    Y = (@attr 'cy') + (deltaY - @deltaY)
-    @attr cx: X, cy: Y
+    x = (@attr 'cx') + (deltaX - @deltaX)
+    y = (@attr 'cy') + (deltaY - @deltaY)
 
-    @deltaX = deltaX
-    @deltaY = deltaY
+    boundaries = (@data 'viewContext').boundaries
 
-    (@data 'viewContext').updatePathPoint (@data 'index'), { x: X, y: Y }
+    if      x < boundaries.minimum.x then x = boundaries.minimum.x
+    else if x > boundaries.maximum.x then x = boundaries.maximum.x
+    else  @deltaX = deltaX
+
+    if      y < boundaries.minimum.y then y = boundaries.minimum.y
+    else if y > boundaries.maximum.y then y = boundaries.maximum.y
+    else    @deltaY = deltaY
+
+    @attr cx: x, cy: y
+
+    (@data 'viewContext').updatePathPoint (@data 'index'), { x: x, y: y }
 
   updatePathPoint: (index, newPoint) ->
     @pathPoints[index] = newPoint

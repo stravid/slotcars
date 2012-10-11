@@ -1,9 +1,11 @@
-
 describe 'Shared.CanvasRenderable', ->
 
-  beforeEach ->
-    @canvasRenderable = (Ember.Object.extend Shared.CanvasRenderable).create()
+  it 'should always require scaledOffset', ->
+    # Ember.required() just works/fires when the mixin is applied after creation
+    (expect => Play.CanvasRenderable.apply Ember.Object.create()).toThrow()
 
+  beforeEach ->
+    @canvasRenderable = Shared.CanvasRenderable.apply Ember.Object.create scaledOffset: 0
 
   describe 'hooking into track view rendering process', ->
 
@@ -21,7 +23,6 @@ describe 'Shared.CanvasRenderable', ->
 
       (expect @canvasRenderable._super).toHaveBeenCalled()
 
-
   describe 'rendering as canvas', ->
 
     beforeEach ->
@@ -37,7 +38,6 @@ describe 'Shared.CanvasRenderable', ->
       @canvasRenderable.renderAsCanvas()
 
       (expect @canvasRenderable.renderTrack).toHaveBeenCalled()
-
 
   describe 'creating render canvas', ->
 
