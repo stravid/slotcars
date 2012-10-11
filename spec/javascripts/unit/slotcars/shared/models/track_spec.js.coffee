@@ -284,6 +284,36 @@ describe 'Shared.Track', ->
 
         (expect record.get 'id').toEqual 42
 
+  describe 'count', ->
+
+    beforeEach ->
+      @xhr = sinon.useFakeXMLHttpRequest()
+      @requests = []
+
+      @xhr.onCreate = (xhr) => @requests.push xhr
+
+    afterEach ->
+      @xhr.restore()
+
+    it 'should request the number of tracks from the server', ->
+      Shared.Track.count()
+
+      (expect @requests[0].url).toBe '/api/tracks/count'
+      (expect @requests[0].method).toBe 'GET'
+
+    describe 'when request succeeds', ->
+
+      beforeEach ->
+        @response = 1
+
+      it 'should call the passed callback', ->
+        callback = sinon.spy()
+
+        Shared.Track.count callback
+        @requests[0].respond 200, { "Content-Type": "text/plain" }, @response.toString()
+
+        (expect callback).toHaveBeenCalledWith @response
+
 
   describe 'setting title of track', ->
 
