@@ -5,8 +5,8 @@ Build.EditView = Shared.TrackView.extend
   circles: null
   excludedPathLayers: outerLine: true, slot: true
   boundaries:
-    min: x: 0, y: 100
-    max: x: SCREEN_WIDTH, y: SCREEN_HEIGHT
+    minimum: x: 0, y: 100
+    maximum: x: SCREEN_WIDTH, y: SCREEN_HEIGHT
 
   drawTrack: (path) ->
     @_super path
@@ -35,22 +35,22 @@ Build.EditView = Shared.TrackView.extend
     @animate { r: 49, opacity: .7 }, 300, '<'
 
   _onEditHandleMove: (deltaX, deltaY, x, y, event) ->
-    X = (@attr 'cx') + (deltaX - @deltaX)
-    Y = (@attr 'cy') + (deltaY - @deltaY)
+    x = (@attr 'cx') + (deltaX - @deltaX)
+    y = (@attr 'cy') + (deltaY - @deltaY)
 
     boundaries = (@data 'viewContext').boundaries
 
-    if      X < boundaries.min.x then X = boundaries.min.x
-    else if X > boundaries.max.x then X = boundaries.max.x
+    if      x < boundaries.minimum.x then x = boundaries.minimum.x
+    else if x > boundaries.maximum.x then x = boundaries.maximum.x
     else  @deltaX = deltaX
 
-    if      Y < boundaries.min.y then Y = boundaries.min.y
-    else if Y > boundaries.max.y then Y = boundaries.max.y
+    if      y < boundaries.minimum.y then y = boundaries.minimum.y
+    else if y > boundaries.maximum.y then y = boundaries.maximum.y
     else    @deltaY = deltaY
 
-    @attr cx: X, cy: Y
+    @attr cx: x, cy: y
 
-    (@data 'viewContext').updatePathPoint (@data 'index'), { x: X, y: Y }
+    (@data 'viewContext').updatePathPoint (@data 'index'), { x: x, y: y }
 
   updatePathPoint: (index, newPoint) ->
     @pathPoints[index] = newPoint
