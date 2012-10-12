@@ -65,8 +65,8 @@ Build.BuildScreen = Ember.Object.extend
   teardownPublishing: -> @_publisher.destroy()
 
   destroy: ->
-    @_super()
     @_buildScreenStateManager.destroy()
     @track.deleteRecord() if @track? and @track.get 'isDirty'
+    @_super()
 
 Shared.ScreenFactory.getInstance().registerScreen 'BuildScreen', Build.BuildScreen

@@ -6,7 +6,7 @@ describe 'Play.GameView (unit)', ->
 
     @gameView = Play.GameView.create
       gameController: @gameControllerMock
-        
+
   afterEach ->
     @resultViewMock.restore()
     @gameControllerMock.restore()
@@ -16,9 +16,19 @@ describe 'Play.GameView (unit)', ->
 
   it 'should restart game when button was clicked', ->
     @gameControllerMock.restartGame = sinon.spy()
+
     @gameView.onRestartClick()
-    
+
     (expect @gameControllerMock.restartGame).toHaveBeenCalled()
+
+  it 'should send a message to the route manager when quickplay button was clicked', ->
+    Shared.routeManager = mockEmberClass Shared.RouteManager, send: sinon.spy()
+
+    @gameView.onQuickplayClick()
+
+    (expect Shared.routeManager.send).toHaveBeenCalledWith 'quickplay'
+
+    Shared.routeManager.restore()
 
   describe 'when race finishes', ->
 

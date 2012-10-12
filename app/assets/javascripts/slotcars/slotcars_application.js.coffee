@@ -2,6 +2,8 @@
 
 #= require vendor/raphael
 #= require vendor/handlebars
+#= require vendor/spin
+#= require vendor/jquery.spin
 #= require vendor/jquery.animate-enhanced
 #= require embient/ember
 #= require embient/ember-routemanager
@@ -27,8 +29,7 @@ window.SlotcarsApplication = Ember.Application.extend
     event.originalEvent.preventDefault() # prevent scrolling on the iPad
 
   showScreen: (screenId, createParamters) ->
-    @_destroyCurrentScreen()
     @_currentScreen = Shared.ScreenFactory.getInstance().getInstanceOf screenId, createParamters
     @_currentScreen.append()
 
-  _destroyCurrentScreen: -> @_currentScreen.destroy() if @_currentScreen
+  destroyCurrentScreen: -> @_currentScreen.destroy() if @_currentScreen?

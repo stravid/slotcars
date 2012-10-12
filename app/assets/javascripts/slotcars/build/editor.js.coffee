@@ -10,6 +10,6 @@ Build.Editor = Ember.Object.extend
     @buildScreenView.set 'contentView', @_editView
 
   destroy: ->
-    @_super()
     @buildScreenView.set 'contentView', null
     @_editView.destroy()
+    @_super()
