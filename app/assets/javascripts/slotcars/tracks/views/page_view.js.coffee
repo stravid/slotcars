@@ -1,7 +1,7 @@
 Tracks.PageView = Ember.View.extend
 
   templateName: 'slotcars_tracks_templates_page_view_template'
-
+  classNames: [ 'page' ]
   origin: null
   tracksController: null
 
@@ -9,6 +9,7 @@ Tracks.PageView = Ember.View.extend
     @moveToOrigin()
     @$().css 'position', 'absolute'
     @$().css 'width', '100%'
+    @$('.spinner').spin radius: 13
 
   moveTo: (offset) -> @$().css '-webkit-transform', "translate3d(#{@origin + offset}px,0,0)"
 

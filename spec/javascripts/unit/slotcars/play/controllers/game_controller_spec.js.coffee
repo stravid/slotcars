@@ -182,11 +182,17 @@ describe 'Play.GameController (unit)', ->
 
       (expect @gameController.get 'isRaceFinished').toBe false
 
-    it 'should reset lap times when race is reset', ->
+    it 'should reset lap times', ->
       @gameController.lapTimes.push(123)
       @gameController.restartGame()
 
       (expect @gameController.lapTimes).toEqual []
+
+    it 'should reset the highscores', ->
+      @gameController.highscores = {}
+      @gameController.restartGame()
+
+      (expect @gameController.get 'highscores').toBe null
 
     it 'should start countdown and provide start race method as callback', ->
       @gameController.restartGame()
