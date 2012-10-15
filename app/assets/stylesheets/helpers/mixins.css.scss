@@ -23,11 +23,11 @@
           border-radius: $radius;
 }
 
-@mixin linear-gradient($all) {
-  background:    -moz-linear-gradient($all);
-  background: -webkit-linear-gradient($all);
-  background:      -o-linear-gradient($all);
-  background:     -ms-linear-gradient($all);
+@mixin linear-gradient($one, $two, $three, $four, $five) {
+  background:    -moz-linear-gradient($one, $two, $three, $four, $five);
+  background: -webkit-linear-gradient($one, $two, $three, $four, $five);
+  background:      -o-linear-gradient($one, $two, $three, $four, $five);
+  background:     -ms-linear-gradient($one, $two, $three, $four, $five);
 }
 
 @mixin widget-base {

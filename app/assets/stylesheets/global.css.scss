@@ -51,7 +51,7 @@ strong { font-weight: bold; }
   color: #111;
 
   background-color: white;
-  @include linear-gradient("top, #ffffff 0%, #ffffff 50%, #ebebeb 51%, #fafafa 100%");
+  @include linear-gradient(top, #ffffff 0%, #ffffff 50%, #ebebeb 51%, #fafafa 100%);
 
   &:hover {
     text-decoration: none;
