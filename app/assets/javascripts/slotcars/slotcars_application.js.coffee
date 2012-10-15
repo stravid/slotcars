@@ -33,3 +33,5 @@ window.SlotcarsApplication = Ember.Application.extend
     @_currentScreen.append()
 
   destroyCurrentScreen: -> @_currentScreen.destroy() if @_currentScreen?
+
+  isBrowserSupported: -> (jQuery.browser.chrome or jQuery.browser.safari) and jQuery.browser.webkit

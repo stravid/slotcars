@@ -157,11 +157,11 @@ Play.GameController = Shared.BaseGameController.extend Play.Countdownable,
     @ghost.drive @raceTime if @ghost?
 
   restartGame: ->
+    @set 'highscores', null
     @set 'isRaceRunning', false
     @set 'isRaceFinished', false
     @set 'raceTime', 0
     @set 'lapTimes', []
-    @set 'highscores', null
 
     @car.reset()
     @ghost.reset() if @ghost?

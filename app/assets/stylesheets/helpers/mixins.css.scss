@@ -23,6 +23,13 @@
           border-radius: $radius;
 }
 
+@mixin linear-gradient($one, $two, $three, $four, $five) {
+  background:    -moz-linear-gradient($one, $two, $three, $four, $five);
+  background: -webkit-linear-gradient($one, $two, $three, $four, $five);
+  background:      -o-linear-gradient($one, $two, $three, $four, $five);
+  background:     -ms-linear-gradient($one, $two, $three, $four, $five);
+}
+
 @mixin widget-base {
   @include rotate(-11deg);
   @include transform-origin(210px, 244px);
