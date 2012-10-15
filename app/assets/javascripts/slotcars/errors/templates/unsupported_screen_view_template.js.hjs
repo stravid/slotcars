@@ -2,7 +2,7 @@
 
 <div id="error-overlay">
   <p><strong>Hi racer &hellip;</strong></p>
-  <p>We are pleased that you want to play our game <strong>'slotcars'</strong>. Sadly, it currently just works in Google Chrome and Safari. Please switch to one of those to get involved and increase your racing experience to compete with your friends!</p>
+  <p>We are pleased that you want to play our game <strong>'slotcars'</strong>. Sadly, it currently just works in Google Chrome and Safari. Please switch to one of those to get involved and compete with your friends!</p>
 </div>
 
 <img id="top-curve" src="assets/views/home/top-curve.png">
