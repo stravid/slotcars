@@ -1,4 +1,4 @@
-describe 'Shared.Panalbe', ->
+describe 'Shared.Panable', ->
 
   beforeEach ->
     @car = Shared.Car.create

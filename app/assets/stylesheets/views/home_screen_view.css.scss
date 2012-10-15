@@ -6,64 +6,66 @@
 @import "helpers/mixins";
 @import "shared/clipboard_button";
 
-h1 {
-  overflow: hidden;
-  text-indent: -10000px;
-  display: block;
-  width: 326px;
-  height: 415px;
-  background-image: image-url("views/home/logo-chain.png");
-  background-repeat: no-repeat;
-  margin-left: 42px;
-}
+#home-screen-view {
+  h1 {
+    overflow: hidden;
+    text-indent: -10000px;
+    display: block;
+    width: 326px;
+    height: 415px;
+    background-image: image-url("views/home/logo-chain.png");
+    background-repeat: no-repeat;
+    margin-left: 42px;
+  }
 
-#home-navigation {
-  position: absolute;
-  top: 225px;
-  left: 48px;
-  list-style: none;
-  z-index: 100;
-}
+  #home-navigation {
+    position: absolute;
+    top: 225px;
+    left: 48px;
+    list-style: none;
+    z-index: 100;
+  }
 
-#quickplay-button {
-  width: 264px;
-  height: 66px;
-  background-image: image-url("views/home/quick-play.png");
-  background-repeat: no-repeat;
+  #quickplay-button {
+    width: 264px;
+    height: 66px;
+    background-image: image-url("views/home/quick-play.png");
+    background-repeat: no-repeat;
 
-  &:hover, &:focus { background-position: 0 -67px; }
-}
+    &:hover, &:focus { background-position: 0 -67px; }
+  }
 
-#tracks-button {
-  width: 264px;
-  height: 76px;
-  margin-top: 10px;
-  background-image: image-url("views/home/choose-track.png");
-  background-repeat: no-repeat;
+  #tracks-button {
+    width: 264px;
+    height: 76px;
+    margin-top: 10px;
+    background-image: image-url("views/home/choose-track.png");
+    background-repeat: no-repeat;
 
-  &:hover, &:focus { background-position: 0 -74px; }
-}
+    &:hover, &:focus { background-position: 0 -74px; }
+  }
 
-#build-button {
-  width: 264px;
-  height: 68px;
-  margin-top: 5px;
-  background-image: image-url("views/home/create-track.png");
-  background-repeat: no-repeat;
+  #build-button {
+    width: 264px;
+    height: 68px;
+    margin-top: 5px;
+    background-image: image-url("views/home/create-track.png");
+    background-repeat: no-repeat;
 
-  &:hover, &:focus { background-position: 0 -67px; }
-}
+    &:hover, &:focus { background-position: 0 -67px; }
+  }
 
-#clipboard {
-  position: absolute;
-  top: 132px;
-  left: 360px;
-  width: 711px;
-  height: 858px;
-  background-image: image-url("shared/clipboard.png");
-  background-repeat: no-repeat;
-  font-family: "JustTheWayYouAre", sans-serif;
-  z-index: 99;
+  #clipboard {
+    position: absolute;
+    top: 132px;
+    left: 360px;
+    width: 711px;
+    height: 858px;
+    background-image: image-url("shared/clipboard.png");
+    background-repeat: no-repeat;
+    font-family: "JustTheWayYouAre", sans-serif;
+    z-index: 99;
+  }
 }
 
 #top-curve {

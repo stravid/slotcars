@@ -1,12 +1,10 @@
 @import "config";
 @import "helpers/mixins";
 
-body {
-  background: url("global/background-noise.jpg") repeat;
-/*  overflow: hidden; */
-}
+body { background: url("global/background-noise.jpg") repeat; }
 
 a, button { outline: none; }
+strong { font-weight: bold; }
 
 #screen-container {
   position: relative;
@@ -15,6 +13,7 @@ a, button { outline: none; }
   margin: 0 auto;
   overflow: hidden;
   background-image: image-url("global/grass-pattern.jpg");
+  background-position: center top;
   background-repeat: repeat;
   font-family: sans-serif;
   @include shadow(0, 0, 50px, 0px, #030303);
@@ -37,18 +36,27 @@ a, button { outline: none; }
 
 .default-button {
   display: inline-block;
+  font-family: "SansitaOneRegular";
+  font-size: 24px;
   text-align: center;
-  font-weight: bold;
-  font-size: 13px;
-  border: 1px solid #666;
-  border-radius: 18px;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.7);
+
+  border: 6px solid #861111;
+  @include border-radius(15px);
+  @include shadow(0, 0, 5px, 0, rgba(0, 0, 0, 0.7));
+
   padding: 8px 18px;
   margin: 5px 7px;
-  background-color: white;
-  color: #333;
   text-decoration: none;
+  color: #111;
 
-  &:hover { text-decoration: none; }
+  background-color: white;
+  @include linear-gradient("top, #ffffff 0%, #ffffff 50%, #ebebeb 51%, #fafafa 100%");
+
+  &:hover {
+    text-decoration: none;
+    color: #aa1313;
+  }
   &:active, &:focus { background-color: #cacaca; }
 }
 
