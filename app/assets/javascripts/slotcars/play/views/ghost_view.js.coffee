@@ -6,13 +6,16 @@ Play.GhostView = Ember.View.extend
   templateName: 'slotcars_play_templates_ghost_view_template'
   tagName: ''
 
-  didInsertElement: -> @hide()
+  didInsertElement: ->
+    @_super()
+    @hide()
 
-  hide: -> (jQuery '#ghost').hide()
+  hide: -> @$('#ghost').hide()
 
   show: ->
-    (jQuery '#ghost').show()
-    (jQuery '#ghost').css '-webkit-transform', "rotateZ(#{@car.rotation}deg)"
+    @$('#ghost').show()
+    @$('#ghost').css '-webkit-backface-visibility', 'hidden'
+    @$('#ghost').css '-webkit-transform', "rotateZ(#{@car.rotation}deg)"
 
   update: (->
     rotation = @ghost.rotation
