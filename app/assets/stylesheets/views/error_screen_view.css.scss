@@ -1,14 +1,40 @@
-#error-overlay {
-  position: absolute; 
-  top: 180px; 
-  left: 150px; 
-  color: white; 
-  font-size: 32px; 
-  font-family: sans-serif; 
-  background-color: rgba(0, 0, 0, 0.7); 
-  -webkit-box-shadow: 0 0 40px rgba(0, 0, 0, 0.7); 
-  width: 700px;
-  padding: 30px;
+@import "config";
+@import "helpers/mixins";
 
-  .buttons { text-align: center; }
+#error-screen-view, #unsupported-screen-view {
+  h1 {
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    padding: 0 15px;
+
+    font-family: "SansitaOneRegular";
+    font-size: 110px;
+    text-shadow: 0 2px 2px #666, 0 -2px 2px #000;
+    color: #181818;
+
+    opacity: 0.3;
+  }
+
+  #error-overlay {
+    position: absolute;
+    top: 200px;
+    left: ($screen-width - 760) / 2;
+    width: 700px;
+    padding: 30px;
+    background-color: rgba(0, 0, 0, 0.7);
+
+    @include shadow(0, 0, 40px, 0, rgba(0, 0, 0, 0.7));
+    @include border-radius(18px);
+
+    p {
+      color: white;
+      font-size: 25px;
+      font-family: "JustTheWayYouAre", sans-serif;
+      text-align: center;
+      line-height: 1.4em;
+    }
+
+    .buttons { text-align: center; }
+  }
 }

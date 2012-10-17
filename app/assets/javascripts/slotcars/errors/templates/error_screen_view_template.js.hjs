@@ -1,8 +1,14 @@
+<h1>slotcars</h1>
+
 <div id="error-overlay">
-  <p>Oooops &hellip; Looks like something went wrong here. To continue take one of the opportunities given below.</p>
+  <p><strong>Oooops &hellip;</strong></p>
+  <p>Looks like something went wrong here. To continue, choose one of the options below.</p>
   <div class="buttons">
-    <a class="default-button" href="/">go home!</a>
-    <a class="default-button" href="tracks">choose a track</a>  
-    <a class="default-button" href="quickplay">do a quickplay</a>  
+    <a class="default-button js-route" href="">Home</a>
+    <a class="default-button js-route" href="tracks">Choose a track</a>
+    <a class="default-button js-route" href="quickplay">Quickplay</a>
   </div>
 </div>
+
+<img id="top-curve" src="assets/views/home/top-curve.png">
+<img id="bottom-curve" src="assets/views/home/bottom-curve.png">

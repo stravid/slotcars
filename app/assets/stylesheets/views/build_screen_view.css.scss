@@ -76,6 +76,11 @@
     left: 385px;
     color: #111;
   }
+  .track-view svg {
+    position: absolute !important;
+    top: -150px;  /* adjust to 'paperOffset' in TrackView */
+    left: -150px; /* adjust to 'paperOffset' in TrackView */
+  }
 }
 
 #authorization-view-buttons {

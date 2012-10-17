@@ -1,6 +1,22 @@
 
 describe 'Play.Finishable', ->
 
+  it 'should always require scaleFactor', ->
+    # Ember.required() just works/fires when the mixin is applied after creation
+    (expect => Play.Finishable.apply Ember.Object.create paperOffset: 0, renderCanvas: {}, track: {}).toThrow()
+
+  it 'should always require paperOffset', ->
+    # Ember.required() just works/fires when the mixin is applied after creation
+    (expect => Play.Finishable.apply Ember.Object.create scaleFactor: 0, renderCanvas: {}, track: {}).toThrow()
+
+  it 'should always require a track', ->
+    # Ember.required() just works/fires when the mixin is applied after creation
+    (expect => Play.Finishable.apply Ember.Object.create scaleFactor: 0, paperOffset: 0, renderCanvas: {}).toThrow()
+
+  it 'should always require a canvas object', ->
+    # Ember.required() just works/fires when the mixin is applied after creation
+    (expect => Play.Finishable.apply Ember.Object.create scaleFactor: 0, paperOffset: 0, track: {}).toThrow()
+
   beforeEach ->
     @trackMock = {}
     @finishable = Ember.Object.extend(Play.Finishable).create
@@ -17,10 +33,10 @@ describe 'Play.Finishable', ->
       @finishable.didRenderTrack()
 
       (expect @finishable._super).toHaveBeenCalled()
-      
+
     it 'should create the headline image', ->
       @finishable.didRenderTrack()
-      
+
       (expect @finishable.createFinishLineImage).toHaveBeenCalled()
 
     it 'should start loading the finish line image', ->

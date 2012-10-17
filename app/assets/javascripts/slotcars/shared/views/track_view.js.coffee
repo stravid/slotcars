@@ -4,6 +4,7 @@
 Shared.TrackView = Ember.View.extend
 
   track: null
+  classNames: [ 'track-view' ]
   _displayedRaphaelElements: []
   _paper: null
 
@@ -12,6 +13,8 @@ Shared.TrackView = Ember.View.extend
   excludedPathLayers: {}
 
   scaleFactor: 1
+  paperOffset: 150 # remember to change 'top' and 'left' of '.track-view svg' in stylesheet
+  scaledOffset: null
 
   SLOT_WIDTH: 3
   SLOT_EDGE_WIDTH: 8
@@ -32,8 +35,17 @@ Shared.TrackView = Ember.View.extend
     @updateTrack @track.get 'raphaelPath'
   ).observes 'track.raphaelPath'
 
+  init: ->
+    @_super()
+    @scaledOffset = @paperOffset * @scaleFactor
+
   didInsertElement: ->
-    @_paper = Raphael @$()[0], SCREEN_WIDTH * @scaleFactor, SCREEN_HEIGHT * @scaleFactor
+    @_super()
+    @_paper = Raphael @$()[0], (SCREEN_WIDTH + 2 * @paperOffset) * @scaleFactor, (SCREEN_HEIGHT + 2 * @paperOffset) * @scaleFactor
+
+    @$().css width: SCREEN_WIDTH * @scaleFactor, height: SCREEN_HEIGHT * @scaleFactor
+    @$('svg').css top: - @scaledOffset, left: - @scaledOffset
+
     @drawTrack @track.get 'raphaelPath'
 
   updateTrack: (path) ->
@@ -62,7 +74,7 @@ Shared.TrackView = Ember.View.extend
     path.attr 'stroke', color
     path.attr 'stroke-width', width
 
-    path.transform "s#{@scaleFactor},#{@scaleFactor},0,0"
+    path.transform "t#{@scaledOffset},#{@scaledOffset}s#{@scaleFactor},#{@scaleFactor},0,0"
 
     @_displayedRaphaelElements.push path
 
