@@ -1,15 +1,19 @@
 <div id="tracks-header">
   <h2>Tracks</h2>
-  <span id="tracks-page-indicator">page {{view.currentPage}} of {{view.pageCount}}</span>
+  <div id="tracks-info">swipe or use arrow keys to explore more tracks</div>
 </div>
+
 <div id="swiper"></div>
 
-<div id="tracks-info">
-<button {{action "onPreviousButtonClicked"}} {{bindAttr disabled="view.isFirstPage"}}>
-  previous
-</button>
-swipe to explore more tracks
-<button {{action "onNextButtonClicked"}} {{bindAttr disabled="view.isLastPage"}}>
-  next
-</button>
+<div id="pagination">
+  <button class="default-button quadratic" {{action "onPreviousButtonClicked"}} {{bindAttr disabled="view.isFirstPage"}}>
+    <div class="arrow arrow-left"></div>
+  </button>
+  <p id="tracks-page-indicator">
+    page &nbsp;<strong>{{view.currentPage}}</strong> &nbsp;of&nbsp; <strong>{{view.pageCount}}</strong>
+  </p>
+  <button class="default-button quadratic" {{action "onNextButtonClicked"}} {{bindAttr disabled="view.isLastPage"}}>
+    <div class="arrow arrow-right"></div>
+  </button>
 </div>
+
