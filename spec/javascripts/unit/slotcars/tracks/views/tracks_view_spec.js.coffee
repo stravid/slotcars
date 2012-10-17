@@ -43,3 +43,45 @@ describe 'TracksView', ->
       @tracksView.onPreviousButtonClicked()
 
       (expect @tracksView.swipe).toHaveBeenCalledWith 1
+
+  describe '#onKeyDown', ->
+    beforeEach ->
+      Ember.run => @tracksView.appendTo jQuery '<div>'
+      sinon.spy @tracksView, 'onKeyDown'
+
+    it 'should have bound the key down event listener', ->
+      (jQuery document).trigger 'keydown'
+
+      (expect @tracksView.onKeyDown).toHaveBeenCalled()
+
+    describe 'when key is left arrow key', ->
+      beforeEach ->
+        @keyEvent = keyCode: 37 # key code for left arrow
+        sinon.stub @tracksView, 'onPreviousButtonClicked'
+
+      it 'should call the action for the previous button', ->
+        @tracksView.onKeyDown @keyEvent
+
+        (expect @tracksView.onPreviousButtonClicked).toHaveBeenCalled()
+
+    describe 'when key is right arrow key', ->
+      beforeEach ->
+        @keyEvent = keyCode: 39 # key code for right arrow
+        sinon.stub @tracksView, 'onNextButtonClicked'
+
+      it 'should call the action for the next button', ->
+        @tracksView.onKeyDown @keyEvent
+
+        (expect @tracksView.onNextButtonClicked).toHaveBeenCalled()
+
+  describe '#willDestroy', ->
+    beforeEach ->
+      Ember.run => @tracksView.appendTo jQuery '<div>'
+
+    it 'should unbind the keydown event listener', ->
+      sinon.spy @tracksView, 'onKeyDown'
+      @tracksView.willDestroy()
+
+      (jQuery document).trigger 'keydown'
+
+      (expect @tracksView.onKeyDown).not.toHaveBeenCalled()

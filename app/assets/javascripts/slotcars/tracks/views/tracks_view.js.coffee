@@ -55,6 +55,11 @@ Tracks.TracksView = Ember.View.extend
     @pages = [ @pageViewA, @pageViewB, @pageViewC ]
 
     (@$ '#swiper').on 'touchMouseDown', (event) => @onTouchMouseDown event
+    (jQuery document).on 'keydown', (event) => @onKeyDown event
+
+  willDestroy: ->
+    (jQuery document).off 'keydown'
+    @_super()
 
   onTouchMouseDown: (event) ->
     @bindTrackSelectionHandler()
@@ -78,6 +83,10 @@ Tracks.TracksView = Ember.View.extend
     (@$ '#swiper').off 'touchMouseUp'
 
     @onSwipeEnd @lastSwipePosition - @swipeStartPosition if @lastSwipePosition?
+
+  onKeyDown: (event) ->
+    if event.keyCode == 37 then @onPreviousButtonClicked()
+    else if event.keyCode == 39 then @onNextButtonClicked()
 
   onNextButtonClicked: -> @swipe -1
 
