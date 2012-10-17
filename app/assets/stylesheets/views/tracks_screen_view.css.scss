@@ -52,18 +52,10 @@
       text-shadow: 0 0 10px #000;
       margin-bottom: 10px;
     }
-
-    #tracks-page-indicator {
-      font-family: "SansitaOneRegular";
-      font-size: 20px;
-      text-shadow: 0 0 10px #000;
-    }
   }
 
   #tracks-info {
-    position: absolute;
-    width: 100%;
-    top: 700px;
+    margin-top: 20px;
     padding-bottom: 20px;
 
     text-align: center;
@@ -133,13 +125,42 @@
   }
 
   #swiper {
-    position: absolute;
-    top: 300px;
-    left: 25px;
+    position: relative;
+    margin: 50px auto 20px;
     width: 976px;
-    height: 500px;
+    height: 320px;
     overflow: hidden;
 
     .page { width: 100%; }
+  }
+
+  #pagination {
+    width: 100%;
+    text-align: center;
+    color: #ddd;
+
+    .arrow {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      background-image: image-url("views/tracks/pagination-arrows.png");
+      &.arrow-left { background-position: 0 0; }
+      &.arrow-right { background-position: 24px 0; }
+    }
+
+    .default-button {
+      &:hover .arrow, &:focus .arrow, &:active .arrow { background-position-y: 24px; }
+      &:hover:disabled .arrow, &:focus:disabled .arrow, &:active:disabled .arrow { background-position-y: 0; }
+    }
+
+    #tracks-page-indicator {
+      display: inline-block;
+      margin: 0 15px;
+      font-family: "SansitaOneRegular";
+      font-size: 20px;
+      text-shadow: 0 0 10px #000;
+
+      strong { color: #fff; }
+    }
   }
 }
