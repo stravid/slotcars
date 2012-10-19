@@ -58,7 +58,7 @@ Tracks.TracksView = Ember.View.extend
     (jQuery document).on 'keydown', (event) => @onKeyDown event
 
   willDestroy: ->
-    (jQuery document).off 'keydown'
+    (jQuery document).off 'keydown', @onKeyDown
     @_super()
 
   onTouchMouseDown: (event) ->

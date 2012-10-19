@@ -28,5 +28,5 @@ Shared.Controllable = Ember.Mixin.create
     (jQuery document).off 'touchMouseUp'
 
   removeKeyListeners: ->
-    (jQuery document).off 'keydown'
-    (jQuery document).off 'keyup'
+    (jQuery document).off 'keydown', @gameController.onKeyDown
+    (jQuery document).off 'keyup', @gameController.onKeyUp
