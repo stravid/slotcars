@@ -107,3 +107,9 @@ Shared.Track.reopenClass
         randomTrack = Shared.ModelStore.find Shared.Track, trackData.id
 
     randomTrack
+
+  count: (callback = null) ->
+    jQuery.ajax "/api/tracks/count",
+      type: "GET"
+      dataType: 'json'
+      success: (response) -> callback response if callback?

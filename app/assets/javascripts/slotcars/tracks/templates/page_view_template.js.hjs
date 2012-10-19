@@ -1,3 +1,8 @@
+<div {{bindAttr class=":loading view.tracks.isLoaded:hidden"}}>
+  <div class="spinner"></div>
+  <p>loading …</p>
+</div>
+
 {{#each view.tracks}}
   <div class="track" data-track-id="{{unbound id}}">
     {{view Shared.ThumbnailTrackView trackBinding="this" class="track-container" }}

@@ -16,6 +16,10 @@
     <h3>Highscores on this track :</h3>
 
     <div id="highscores">
+      <div {{bindAttr class=":loading view.gameController.highscores:hidden"}}>
+        <div class="spinner"></div>
+        <p>loading …</p>
+      </div>
       {{view Play.HighscoresView highscoresBinding="view.gameController.highscores"}}
     </div>
   </div>

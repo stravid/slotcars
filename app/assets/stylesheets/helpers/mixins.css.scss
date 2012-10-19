@@ -23,6 +23,13 @@
           border-radius: $radius;
 }
 
+@mixin linear-gradient($one, $two, $three, $four, $five) {
+  background:    -moz-linear-gradient($one, $two, $three, $four, $five);
+  background: -webkit-linear-gradient($one, $two, $three, $four, $five);
+  background:      -o-linear-gradient($one, $two, $three, $four, $five);
+  background:     -ms-linear-gradient($one, $two, $three, $four, $five);
+}
+
 @mixin widget-base {
   @include rotate(-11deg);
   @include transform-origin(210px, 244px);
@@ -43,3 +50,16 @@
   font-weight: bold;
   color: #193773;
 }
+
+@mixin clearfix {
+  zoom:1;
+  &:before, &:after {
+    content: '';
+    display: block;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+  &:after { clear: both; }
+}
+

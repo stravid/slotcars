@@ -76,6 +76,11 @@
     left: 385px;
     color: #111;
   }
+  .track-view svg {
+    position: absolute !important;
+    top: -150px;  /* adjust to 'paperOffset' in TrackView */
+    left: -150px; /* adjust to 'paperOffset' in TrackView */
+  }
 }
 
 #authorization-view-buttons {
@@ -102,14 +107,7 @@
     }
   }
 
-  &:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-  }
+  @include clearfix;
 }
 
 #publication-view {
@@ -159,14 +157,7 @@
     }
   }
 
-  .form-buttons:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-  }
+  .form-buttons { @include clearfix; }
 
   button {
     @include clipboard-button;

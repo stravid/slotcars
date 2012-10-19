@@ -24,3 +24,4 @@ Play.PlayScreenNotificationsController = Ember.Object.extend Ember.Evented,
 
   destroy: ->
     (@get 'pusher').disconnect()
+    @_super()
