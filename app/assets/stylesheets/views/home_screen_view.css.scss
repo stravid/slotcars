@@ -54,18 +54,18 @@
 
     &:hover, &:focus { background-position: 0 -67px; }
   }
+}
 
-  #clipboard {
-    position: absolute;
-    top: 132px;
-    left: 360px;
-    width: 711px;
-    height: 858px;
-    background-image: image-url("shared/clipboard.png");
-    background-repeat: no-repeat;
-    font-family: "JustTheWayYouAre", sans-serif;
-    z-index: 99;
-  }
+#clipboard {
+  position: absolute;
+  top: 132px;
+  left: 360px;
+  width: 711px;
+  height: 858px;
+  background-image: image-url("shared/clipboard.png");
+  background-repeat: no-repeat;
+  font-family: "JustTheWayYouAre", sans-serif;
+  z-index: 99;
 }
 
 #top-curve {
