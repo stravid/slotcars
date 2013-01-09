@@ -1,11 +1,4 @@
 GIT
-  remote: git://github.com/josevalim/active_model_serializers.git
-  revision: bea38dd73a5129be97a491c6d06287ea7060c7e3
-  specs:
-    active_model_serializers (0.5.2)
-      activemodel (>= 3.0)
-
-GIT
   remote: https://github.com/stravid/embient.git
   revision: 65303984f0c31671491a48bde89c6b242061f8a6
   specs:
@@ -29,6 +22,8 @@ GEM
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.2.1)
+    active_model_serializers (0.6.0)
+      activemodel (>= 3.0)
     activemodel (3.2.11)
       activesupport (= 3.2.11)
       builder (~> 3.0.0)
@@ -183,7 +178,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_model_serializers!
+  active_model_serializers
   airbrake
   coffee-rails (~> 3.2.1)
   devise

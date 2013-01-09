@@ -14,7 +14,7 @@ gem 'pusher'
 gem 'stathat'
 
 # better serialization of models
-gem "active_model_serializers", :git => "git://github.com/josevalim/active_model_serializers.git"
+gem "active_model_serializers"
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
