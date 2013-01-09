@@ -43,8 +43,6 @@
 }
 
 @mixin widget-headline {
-  @include rotate(3deg);
-
   font-family: "JustTheWayYouAre", sans-serif;
   font-size: 40px;
   font-weight: bold;

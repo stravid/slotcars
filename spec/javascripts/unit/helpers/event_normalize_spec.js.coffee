@@ -2,11 +2,13 @@ describe 'event_normalize',  ->
 
   LEFT_MOUSE_BUTTON = 1
 
-  beforeEach ->
-    @onEventSpy = sinon.spy()
+  beforeEach -> @onEventSpy = sinon.spy()
 
   afterEach ->
     @onEventSpy = null
+    (jQuery document).off 'touchMouseUp'
+    (jQuery document).off 'touchMouseDown'
+    (jQuery document).off 'touchMouseMove'
 
   describe 'mouse event normalization', ->
 
@@ -24,23 +26,17 @@ describe 'event_normalize',  ->
       receiveEvent = @onEventSpy.args[0][0]
       (expect receiveEvent.pageX).toBe value
 
-      (jQuery document).off 'touchMouseDown', @onEventSpy
-
     it 'should trigger touchMouseUp event on document when mouseup', ->
       (jQuery document).on 'touchMouseUp', @onEventSpy
       (jQuery document).trigger jQuery.Event 'mouseup', { which: LEFT_MOUSE_BUTTON }
 
       (expect @onEventSpy).toHaveBeenCalled()
 
-      (jQuery document).off 'touchMouseUp', @onEventSpy
-
     it 'shoud not trigger touchMouseMove event on document when mousemove', ->
       (jQuery document).on 'touchMouseMove', @onEventSpy
       (jQuery document).trigger 'mousemove'
 
       (expect @onEventSpy).not.toHaveBeenCalled()
-
-      (jQuery document).off 'touchMouseMove', @onEventSpy
 
     it 'should trigger touchMouseMove event on document when a mousedown and mousemove happen', ->
       value = 42
@@ -56,16 +52,14 @@ describe 'event_normalize',  ->
       receiveEvent = @onEventSpy.args[0][0]
       (expect receiveEvent.pageX).toBe value
 
-      (jQuery document).off 'touchMouseMove', @onEventSpy
-
 
   describe 'touch event normalization', ->
-    
+
     it 'should trigger touchMouseDown event on document when touchstart', ->
       value = 10
 
-      event = jQuery.Event 'touchstart', 
-        originalEvent: 
+      event = jQuery.Event 'touchstart',
+        originalEvent:
           touches: [ { pageX: value, pageY: 0 } ]
 
       (jQuery document).on 'touchMouseDown', @onEventSpy
@@ -73,8 +67,6 @@ describe 'event_normalize',  ->
 
       (expect @onEventSpy).toHaveBeenCalled();
       (expect @onEventSpy.args[0][0]).toBeDefined()
-
-      (jQuery document).off 'touchMouseDown', @onEventSpy
 
       receiveEvent = @onEventSpy.args[0][0]
 
@@ -85,8 +77,6 @@ describe 'event_normalize',  ->
       (jQuery document).trigger 'touchend'
 
       (expect @onEventSpy).toHaveBeenCalled()
-
-      (jQuery document).off 'touchMouseUp', @onEventSpy
 
     it 'should trigger touchMouseMove event on document when touchmove', ->
       value = 42
@@ -104,5 +94,3 @@ describe 'event_normalize',  ->
       receiveEvent = @onEventSpy.args[0][0]
 
       (expect receiveEvent.pageX).toBe value
-
-      (jQuery document).off 'touchMouseMove', @onEventSpy

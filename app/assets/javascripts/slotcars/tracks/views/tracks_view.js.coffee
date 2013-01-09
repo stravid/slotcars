@@ -55,10 +55,10 @@ Tracks.TracksView = Ember.View.extend
     @pages = [ @pageViewA, @pageViewB, @pageViewC ]
 
     (@$ '#swiper').on 'touchMouseDown', (event) => @onTouchMouseDown event
-    (jQuery document).on 'keydown', (event) => @onKeyDown event
+    (jQuery document).on 'keydown.swipable', (event) => @onKeyDown event
 
   willDestroy: ->
-    (jQuery document).off 'keydown'
+    (jQuery document).off 'keydown.swipable'
     @_super()
 
   onTouchMouseDown: (event) ->
